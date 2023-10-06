@@ -65,3 +65,4 @@ Asset/
 Common/include/
 Importer/include/
 dependencies/
+.vs/
