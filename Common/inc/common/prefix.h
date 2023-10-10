@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #define dll_export      __declspec(dllexport)
 #define dll_import      __declspec(dllimport)
 
@@ -21,25 +21,25 @@ static const unsigned MaxExtension = 256;    /* max. length of extension compone
 
 typedef void* RHandle;
 
-#if defined(DEBUG) | defined(_DEBUG)
-
-#include <crtdbg.h>
-#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
-#define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
-
-#if defined(DEBUG_ENABLE_VLD)
-
-#include <vld.h>
-
-#if defined(_WIN64)
-#pragma comment(lib, "C:\\Program Files (x86)\\Visual Leak Detector\\lib\\Win64\\vld.lib")
-#elif
-#pragma comment(lib, "C:\\Program Files (x86)\\Visual Leak Detector\\lib\\Win32\\vld.lib")
-#endif
-
-#endif
-
-#endif
+//#if defined(DEBUG) | defined(_DEBUG)
+//
+//#include <crtdbg.h>
+//#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#define malloc(s) _malloc_dbg(s, _NORMAL_BLOCK, __FILE__, __LINE__)
+//
+//#if defined(DEBUG_ENABLE_VLD)
+//
+//#include <vld.h>
+//
+//#if defined(_WIN64)
+//#pragma comment(lib, "C:\\Program Files (x86)\\Visual Leak Detector\\lib\\Win64\\vld.lib")
+//#elif
+//#pragma comment(lib, "C:\\Program Files (x86)\\Visual Leak Detector\\lib\\Win32\\vld.lib")
+//#endif
+//
+//#endif
+//
+//#endif
 
 #if !defined(foreach)
 #define foreach(iteratorName, ContainerType, container)                                         \

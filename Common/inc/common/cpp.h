@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 /*
  * bits/stdc++.h
  */
@@ -21,6 +21,10 @@
 #include <cstring>
 #include <ctime>
 #include <cstdio>
+
+#define NOMINMAX
+#include <windows.h>
+#define TO_STRING(x) #x
 
 #if __cplusplus >= 201103L
 #include <ccomplex>

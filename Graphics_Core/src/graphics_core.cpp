@@ -5,5 +5,7 @@ namespace graphics
 {
 	Graphics_Core::Graphics_Core()
 	{
+
+
 	}
 }
