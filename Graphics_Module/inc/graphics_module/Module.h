@@ -1,43 +1,25 @@
 ﻿#pragma once
 
-#include <common/common.h>
-#include <graphics_module/RenderSystem.h>
+#include <graphics_module\graphics_module_dllexport.h>
 
-namespace graphics
+#ifdef __cplusplus
+extern "C"
 {
-	enum class SystemType
-	{
-		DirectX11,
-		DirectX12,
-	};
+#endif
 
-	struct RenderSystemDesc
-	{
-		SystemType _systemType = SystemType::DirectX11;
+	GRAPHICS_DLL_DECLSPEC int RenderSystem_BuildID();
 
-	};
+	GRAPHICS_DLL_DECLSPEC int RenderSystem_RendererID();
 
-	extern "C"
-	{
-		GRAPHICS_DLL_DECLSPEC RenderSystem* CreateRenderSystem(RenderSystemDesc& desc);
-		GRAPHICS_DLL_DECLSPEC void ReleaseRenderSystem(RenderSystem* renderSystem);
-	}
+	GRAPHICS_DLL_DECLSPEC const char* RenderSystem_Name();
 
-	/*class Module
-	{
-	public:
-		Module(RenderSystemDesc& desc);
-		~Module();
+	GRAPHICS_DLL_DECLSPEC void* RenderSystem_Alloc(const void* renderSystemDesc, int renderSystemDescSize);
 
-		std::string GetModuleFilename(const char* moduleName);
+	GRAPHICS_DLL_DECLSPEC void RenderSystem_Free(void* renderSystem);
 
-		void LoadDLL();
-		void* LoadProcedure(const char* procedureName);
-	private:
-		RenderSystemDesc m_Desc;
+	using RenderSystemAlloc = void*(*)(const void*, int);
+	using RenderSystemFree = void*(*)(void*);
 
-		CreateModule m_ModuleCreate;
-		ReleaseModule m_ModuleRelease;
-		HINSTANCE m_GraphicsModule;
-	};*/
-}
+#ifdef __cplusplus
+} // /extern "C"
+#endif

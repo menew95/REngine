@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <common/common.h>
 #include <common/singleton.h>
@@ -31,7 +31,8 @@ namespace rengine
 		class Time* m_GameTime;
 		class Input* m_Input;*/
 
-		class Window* m_window;
+		class Window* m_pWindow = nullptr;
+		class GraphicsSystem* m_pGraphicsSystem = nullptr;
 
 		double m_dTickTime = 0;
 		double m_TickCnt = 0;

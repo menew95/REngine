@@ -2,6 +2,7 @@
 
 #include "graphics_core\GraphicsEngine.h"
 #include "graphics_core\graphics_core_dllexport.h"
+#include "graphics_core\GraphicsEngineFlags.h"
 
 namespace graphics
 {
@@ -12,7 +13,7 @@ namespace graphics
 
 		GRAPHICS_API bool UpdateApplication();
 
-		using ApplicationConstructor = GraphicsEngine * (*)();
-		using ApplicationDestructor = void (*)(GraphicsEngine*);
+		using GraphicsConstructor = GraphicsEngine * (*)();
+		using GraphicsDestructor = void (*)(GraphicsEngine*);
 	}
 }

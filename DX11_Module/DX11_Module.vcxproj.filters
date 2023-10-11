@@ -134,5 +134,8 @@
     <ClCompile Include="src\dx11_module_pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\dx11_module\DX11Module.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

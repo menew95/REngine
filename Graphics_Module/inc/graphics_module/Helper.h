@@ -258,7 +258,7 @@ namespace graphics
         return reinterpret_cast<T*>(reinterpret_cast<TByteAligned*>(ptr) + offset);
     }
 
-    GRAPHICS_DLL_DECLSPEC std::string ReadFileString(const char* filename);
+    /*GRAPHICS_DLL_DECLSPEC std::string ReadFileString(const char* filename);
 
     GRAPHICS_DLL_DECLSPEC std::vector<char> ReadFileBuffer(const char* filename);
 
@@ -266,5 +266,5 @@ namespace graphics
     GRAPHICS_DLL_DECLSPEC std::string ToUTF8String(const wchar_t* utf16);
 
     GRAPHICS_DLL_DECLSPEC std::wstring ToUTF16String(const std::string& utf8);
-    GRAPHICS_DLL_DECLSPEC std::wstring ToUTF16String(const char* utf8);
+    GRAPHICS_DLL_DECLSPEC std::wstring ToUTF16String(const char* utf8);*/
 }

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#if defined(_MSC_VER) && defined(GRAPHICS_EXPORT)
+#if defined(_MSC_VER) && defined(GRAPHICS_MODULE_EXPORT)
 #ifndef GRAPHICS_DLL_DECLSPEC
 #define GRAPHICS_DLL_DECLSPEC __declspec(dllexport)
 //#define GRAPHICS_DLL_DECLSPEC 

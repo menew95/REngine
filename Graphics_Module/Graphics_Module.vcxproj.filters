@@ -160,9 +160,6 @@
     <ClCompile Include="src\graphics_module\BufferUtils.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics_module\Module.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics_module\RenderSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

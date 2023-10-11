@@ -1,4 +1,4 @@
-#include <common/common.h>
+﻿#include <common/common.h>
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
@@ -69,13 +69,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 #ifdef x64
 	auto _engineModule = LoadLibrary(_T("REngine_x64_Debug.dll"));
 #else
-	auto _engineModule = LoadLibrary(_T("REngine_WIN32_Debug.dll"));
+	auto _engineModule = LoadLibrary(_T("REngine_x86_Debug.dll"));
 #endif // x64
 #else
 #ifdef x64
 	auto _engineModule = LoadLibrary(_T("REngine_x64_Release.dll"));
 #else
-	auto _engineModule = LoadLibrary(_T("REngine_WIN32_Release.dll"));
+	auto _engineModule = LoadLibrary(_T("REngine_x86_Release.dll"));
 #endif // x64
 #endif
 

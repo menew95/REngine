@@ -11,12 +11,11 @@ namespace graphics
 
 	GRAPHICS_API void ReleaseGraphicsEngine(GraphicsEngine* engine)
 	{
-		engine.Relese();
-
+		engine->Release();
 	}
 
 	GRAPHICS_API bool UpdateApplication()
 	{
-		return ;
+		return false;
 	}
 }

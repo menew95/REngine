@@ -1,5 +1,6 @@
-#include <rengine/application/application.h>
+﻿#include <rengine/application/application.h>
 #include <rengine/core/window.h>
+#include <rengine/System/GraphicsSystem.h>
 
 #include <log/log.h>
 
@@ -34,9 +35,13 @@ namespace rengine
 
 		bool _hr = S_FALSE;
 
-		m_window = Window::GetInstance();
+		m_pWindow = Window::GetInstance();
 		
-		_hr = m_window->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
+		_hr = m_pWindow->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
+
+		m_pGraphicsSystem = GraphicsSystem::GetInstance();
+
+		m_pGraphicsSystem->Initialize();
 
 		return _hr == S_OK;
 	}

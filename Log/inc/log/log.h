@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <memory>
 #include <spdlog/logger.h>
@@ -28,8 +28,8 @@ public:
 	inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 	inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
 
-	// log levelÀº Áß¿äµµ ¿À¸§Â÷¼øÀ¸·Î {trace, debug, info, warn, err, critical} ÀÔ´Ï´Ù.
-	// (¿À¸¥ÂÊ¿¡ ÀÖ´Â °ÍÀÏ¼ö·Ï Ä¡¸íÀûÀ¸·Î Áß¿äÇÑ ·Î±×¶ó´Â °ÍÀ» ³ªÅ¸³À´Ï´Ù.)
+	// log levelì€ ì¤‘ìš”ë„ ì˜¤ë¦„ì°¨ìˆœìœ¼ë¡œ {trace, debug, info, warn, err, critical} ì…ë‹ˆë‹¤.
+	// (ì˜¤ë¥¸ìª½ì— ìˆëŠ” ê²ƒì¼ìˆ˜ë¡ ì¹˜ëª…ì ìœ¼ë¡œ ì¤‘ìš”í•œ ë¡œê·¸ë¼ëŠ” ê²ƒì„ ë‚˜íƒ€ëƒ…ë‹ˆë‹¤.)
 
 	/* Core */
 

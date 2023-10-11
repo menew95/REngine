@@ -86,7 +86,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
@@ -181,12 +181,14 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
   <ItemGroup>
     <ClInclude Include="inc\rengine\core\object\object.h" />
     <ClInclude Include="inc\rengine\core\window.h" />
+    <ClInclude Include="inc\rengine\System\GraphicsSystem.h" />
     <ClInclude Include="inc\rengine_api.h" />
     <ClInclude Include="inc\rengine_module.h" />
     <ClInclude Include="inc\rengine_dllexport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\application\application.cpp" />
+    <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine_api.cpp" />
     <ClInclude Include="inc\rengine\application\application.h" />
     <ClCompile Include="src\rengine\core\object\object.cpp" />

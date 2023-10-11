@@ -72,28 +72,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)DX11_Module\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)DX11_Module\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Graphics_Module\inc;$(SolutionDir)DX11_Module\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)DX11_Module\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
@@ -146,6 +146,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>graphics_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,6 +182,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
   <ItemGroup>
     <ClInclude Include="inc\graphics_core\GraphicsEngine.h" />
     <ClInclude Include="inc\graphics_core\GraphicsEngineAPI.h" />
+    <ClInclude Include="inc\graphics_core\GraphicsEngineFlags.h" />
     <ClInclude Include="inc\graphics_core\graphics_core_dllexport.h" />
     <ClInclude Include="inc\graphics_dllexport.h" />
     <ClInclude Include="inc\graphics_core.h" />
