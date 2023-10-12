@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include <common/common.h>
+
 namespace graphics
 {
 	enum class Module
@@ -10,5 +12,9 @@ namespace graphics
 	struct GraphicsEngineDesc
 	{
 		Module _module;
+
+		void* _handle;
+		
+		Extent2D _extent;
 	};
 }
