@@ -51,7 +51,7 @@ namespace graphics
 					break;
 			}
 
-			HR(m_Underlying->Present(0, 0), "SwapChain present failed");
+			HR(m_Underlying->Present(1, 0), "SwapChain present failed");
 		}
 
 		bool DX11SwapChain::SwitchFullscreen(bool enable)

@@ -45,6 +45,8 @@ namespace graphics
 		**/
 		void Excute();
 
+		void Present();
+
 	private:
 		
 		/**

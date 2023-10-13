@@ -72,28 +72,28 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>

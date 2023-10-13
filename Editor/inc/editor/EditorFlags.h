@@ -16,5 +16,6 @@ namespace editor
 
         void* _device;
         void* _deviceContext;
+        void* _renderTarget;
     };
 }

@@ -1,6 +1,7 @@
 ﻿#include <rengine/application/application.h>
 #include <rengine/core/window.h>
 #include <rengine/System/GraphicsSystem.h>
+#include <rengine/System/EditorSystem.h>
 
 #include <log/log.h>
 
@@ -18,6 +19,12 @@ namespace rengine
 
 	bool Application::Update()
 	{
+		m_pGraphicsSystem->Render();
+
+		m_pEditorSystem->Render();
+
+		m_pGraphicsSystem->Present();
+
 		return false;
 	}
 
@@ -42,6 +49,10 @@ namespace rengine
 		m_pGraphicsSystem = GraphicsSystem::GetInstance();
 
 		m_pGraphicsSystem->Initialize();
+
+		m_pEditorSystem = EditorSystem::GetInstance();
+
+		m_pEditorSystem->Initialize(m_pWindow->GetWindowInfo()._hWnd, m_pGraphicsSystem->GetDevice(), m_pGraphicsSystem->GetContext());
 
 		return _hr == S_OK;
 	}

@@ -1,7 +1,7 @@
-﻿#include "rengine\System\GraphicsSystem.h"
+﻿#include <rengine\System\GraphicsSystem.h>
+#include <rengine\core\window.h>
 
 #include <graphics_core\GraphicsEngineAPI.h>
-
 using namespace graphics;
 
 namespace rengine
@@ -34,11 +34,34 @@ namespace rengine
 
 		assert(_graphicsDestructor != NULL);
 
-		auto* _application = _graphicsConstructor();
+		m_pGraphicsEngine = _graphicsConstructor();
 
 		GraphicsEngineDesc _desc;
 		_desc._module = Module::DirectX11;
+		_desc._hwnd = Window::GetInstance()->GetWindowInfo()._hWnd;
+		_desc._extent._height = Window::GetInstance()->GetWindowInfo()._height;
+		_desc._extent._width = Window::GetInstance()->GetWindowInfo()._width;
 
-		_application->Init(_desc);
+		m_pGraphicsEngine->Init(_desc);
+	}
+
+	void* GraphicsSystem::GetDevice()
+	{
+		return m_pGraphicsEngine->GetDevice();
+	}
+
+	void* GraphicsSystem::GetContext()
+	{
+		return m_pGraphicsEngine->GetContext();
+	}
+
+	void GraphicsSystem::Render()
+	{
+		m_pGraphicsEngine->Excute();
+	}
+
+	void GraphicsSystem::Present()
+	{
+		m_pGraphicsEngine->Present();
 	}
 }

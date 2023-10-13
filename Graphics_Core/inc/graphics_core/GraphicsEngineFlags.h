@@ -13,7 +13,7 @@ namespace graphics
 	{
 		Module _module;
 
-		void* _handle;
+		void* _hwnd;
 		
 		Extent2D _extent;
 	};

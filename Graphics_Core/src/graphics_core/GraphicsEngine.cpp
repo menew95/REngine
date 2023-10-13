@@ -30,6 +30,18 @@ namespace graphics
 	}
 	void GraphicsEngine::Excute()
 	{
+		AttachmentClear _clear{math::Color::Black, 0};
+
+		m_pCommandBuffer->SetViewport({0, 0, 1280, 720, 0, 1});
+
+		m_pCommandBuffer->SetRenderTarget(*m_pSwapChain, 1, &_clear);
+
+		//m_pCommandBuffer->ClearState();
+
+	}
+
+	void GraphicsEngine::Present()
+	{
 		m_pSwapChain->Present();
 	}
 
@@ -83,8 +95,8 @@ namespace graphics
 	{
 		SwapChainDesc _swapChainDesc;
 		_swapChainDesc._fullScreen = false;
-		_swapChainDesc._resolution = { 1280, 720 };
-		_swapChainDesc._windowDesc._hwnd = desc._handle;
+		_swapChainDesc._resolution = desc._extent;
+		_swapChainDesc._windowDesc._hwnd = desc._hwnd;
 
 		m_pSwapChain = m_pRenderSystem->CreateSwapChain(TEXT("MainSwapChain"), _swapChainDesc);
 

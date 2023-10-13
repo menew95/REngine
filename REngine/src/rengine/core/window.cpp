@@ -1,4 +1,6 @@
-#include <rengine/core/window.h>
+﻿#include <rengine/core/window.h>
+
+#include <rengine\System\EditorSystem.h>
 
 namespace rengine
 {
@@ -87,15 +89,18 @@ namespace rengine
 
 	LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		if (EditorSystem::GetInstance()->WndProc(hWnd, message, wParam, lParam))
+			return true;
+
 		switch (message)
 		{
-		case WM_PAINT:
-		{
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(hWnd, &ps);
-			EndPaint(hWnd, &ps);
-			break;
-		}
+		//case WM_PAINT:
+		//{
+		//	PAINTSTRUCT ps;
+		//	HDC hdc = BeginPaint(hWnd, &ps);
+		//	EndPaint(hWnd, &ps);
+		//	break;
+		//}
 		case WM_MOUSEMOVE:
 		{
 			RECT clidentRC;

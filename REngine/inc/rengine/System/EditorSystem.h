@@ -8,7 +8,13 @@
 **/
 #pragma once
 
-#include <common/singleton.h>
+#include <common\common.h>
+#include <common\singleton.h>
+
+namespace editor
+{
+    class Editor;
+}
 
 namespace rengine
 {
@@ -20,6 +26,10 @@ namespace rengine
 
         void Initialize(void* hwnd, void* device, void* context);
 
+        void Render();
+
+        bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
     private:
         
         /**
@@ -27,5 +37,6 @@ namespace rengine
         **/
         void LoadModule();
 
+        class editor::Editor* m_pEditor = nullptr;
     };
 }

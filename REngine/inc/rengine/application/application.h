@@ -33,6 +33,7 @@ namespace rengine
 
 		class Window* m_pWindow = nullptr;
 		class GraphicsSystem* m_pGraphicsSystem = nullptr;
+		class EditorSystem* m_pEditorSystem = nullptr;
 
 		double m_dTickTime = 0;
 		double m_TickCnt = 0;

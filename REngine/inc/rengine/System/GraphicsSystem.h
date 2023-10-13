@@ -17,11 +17,32 @@ namespace rengine
 
 	public:
 
-
+		/**
+		    @brief Graphics Module 초기화
+		**/
 		void Initialize();
 
+		/**
+		    @brief  Module로부터 생성한 Device를 반환
+		    @retval  - Device pointer
+		**/
+		void* GetDevice();
+
+		/**
+		    @brief  Module로부터 생성한 Context를 반환
+		    @retval  - Context pointer
+		**/
+		void* GetContext();
+
+		/**
+		    @brief Graphics Render
+		**/
+		void Render();
+
+		void Present();
+
 	private:
-		std::shared_ptr<graphics::GraphicsEngine*> m_pGraphicsEngine;
+		graphics::GraphicsEngine* m_pGraphicsEngine = nullptr;
 
 	};
 }
