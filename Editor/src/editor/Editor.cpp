@@ -1,9 +1,9 @@
-﻿#include "Editor_pch.h"
+﻿#include <Editor_pch.h>
 
 #include <editor/Editor.h>
 
-#include <ImGui/imgui_impl_win32.h>
-#include <ImGui/imgui_impl_dx11.h>
+#include <editor\GUI\HierarchyView.h>
+#include <editor\GUI\InspectorView.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -18,10 +18,16 @@ namespace editor
 		m_pContext = desc._deviceContext;
 
 		InitImGui();
+
+		_test1 = new HierarchyView();
+		_test2 = new InspectorView();
 	}
 
 	void Editor::Release()
 	{
+		delete _test1;
+		delete _test2;
+
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
@@ -76,6 +82,12 @@ namespace editor
 				show_another_window = false;
 			ImGui::End();
 		}
+
+		_test1->Begin();
+
+		_test1->Render();
+
+		_test1->End();
 	}
 
 	void Editor::End()
@@ -120,6 +132,7 @@ namespace editor
 		ImGui_ImplWin32_Init(m_hwnd);
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_pDevice), reinterpret_cast<ID3D11DeviceContext*>(m_pContext));
 	}
+
 	void Editor::InitResource()
 	{
 		

@@ -1,10 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <common\common.h>
 
+#include <rengine/rengine_dllexport.h>
+
 namespace rengine
 {
-	class Object
+	class RENGINE_API Object
 	{
 	public:
 		Object(); 
@@ -31,7 +33,7 @@ namespace rengine
 		inline void SetUUID(uuid uuid) { m_uuid = uuid; }
 		
 		inline tstring GetName() { return m_objectName; }
-		inline tstring SetName(tstring val) { m_objectName = val; }
+		inline void SetName(tstring val) { m_objectName = val; }
 	
 		inline tstring GetType() { return m_typeName; }
 	};

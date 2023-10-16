@@ -179,23 +179,26 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\rengine\core\component\Component.h" />
+    <ClInclude Include="inc\rengine\core\object\GameObject.h" />
+    <ClInclude Include="inc\rengine\core\scene\scene.h" />
     <ClInclude Include="inc\rengine\System\EditorSystem.h" />
     <ClInclude Include="inc\rengine\core\object\object.h" />
     <ClInclude Include="inc\rengine\core\window.h" />
     <ClInclude Include="inc\rengine\System\GraphicsSystem.h" />
     <ClInclude Include="inc\rengine_api.h" />
-    <ClInclude Include="inc\rengine_module.h" />
-    <ClInclude Include="inc\rengine_dllexport.h" />
+    <ClInclude Include="inc\rengine\rengine_dllexport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\application\application.cpp" />
+    <ClCompile Include="src\rengine\core\component\Component.cpp" />
+    <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine_api.cpp" />
     <ClInclude Include="inc\rengine\application\application.h" />
     <ClCompile Include="src\rengine\core\object\object.cpp" />
     <ClCompile Include="src\rengine\core\window.cpp" />
-    <ClCompile Include="src\rengine_module.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
@@ -210,6 +213,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     <ProjectReference Include="..\Log\Log.vcxproj">
       <Project>{86fad86b-3691-4047-b71e-331eeb6fdb0f}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\rengine\core\object\GameObject.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

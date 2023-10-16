@@ -149,6 +149,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Editor_pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -186,6 +187,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     <ClInclude Include="inc\editor\EditorAPI.h" />
     <ClInclude Include="inc\editor\GUI\Document.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
+    <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
     <ClInclude Include="inc\ImGui\imconfig.h" />
     <ClInclude Include="inc\ImGui\imgui.h" />
@@ -204,6 +206,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     <ClInclude Include="inc\editor\Editor.h" />
     <ClInclude Include="inc\editor\EditorFlags.h" />
     <ClInclude Include="inc\editor\Editor_dllexport.h" />
+    <ClInclude Include="inc\editor\GUI\InspectorView.h" />
     <ClInclude Include="src\Editor_pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -264,8 +267,11 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\editor\GUI\HierarchyView.cpp" />
+    <ClCompile Include="src\editor\GUI\InspectorView.cpp" />
     <ClCompile Include="src\editor\Editor.cpp" />
     <ClCompile Include="src\editor\EditorAPI.cpp" />
+    <ClCompile Include="src\editor\GUI\View.cpp" />
     <ClCompile Include="src\Editor_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

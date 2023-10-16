@@ -28,7 +28,7 @@ extern "C"
     {
         g_DX11RenderSystem = std::make_shared<graphics::DX11::DX11RenderSystem>();
 
-        return reinterpret_cast<void*>(g_DX11RenderSystem.get());
+        return reinterpret_cast<void*>(g_DX11RenderSystem.get());;
     }
 
     GRAPHICS_DLL_DECLSPEC void RenderSystem_Free(void* renderSystem)

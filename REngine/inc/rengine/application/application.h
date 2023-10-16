@@ -2,7 +2,8 @@
 
 #include <common/common.h>
 #include <common/singleton.h>
-#include <rengine_dllexport.h>
+
+#include <rengine/rengine_dllexport.h>
 
 namespace rengine
 {

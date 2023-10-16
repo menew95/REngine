@@ -16,6 +16,8 @@
 
 namespace editor
 {
+    class View;
+    
     class EDITOR_API Editor
     {
     public:
@@ -46,5 +48,8 @@ namespace editor
 
         void* m_pDevice;
         void* m_pContext;
+
+        View* _test1;
+        View* _test2;
     };
 }
