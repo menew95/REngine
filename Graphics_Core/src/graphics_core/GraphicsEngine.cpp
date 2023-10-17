@@ -1,4 +1,5 @@
 ﻿#include <common/common.h>
+#include <common/Module.h>
 
 #include <graphics_core/GraphicsEngine.h>
 
@@ -6,6 +7,8 @@
 #include <graphics_module/RenderSystem.h>
 
 #include <errhandlingapi.h>
+
+std::unique_ptr<Module> m_pGraphicsModule;
 
 namespace graphics
 {
@@ -18,7 +21,10 @@ namespace graphics
 
 	void GraphicsEngine::Release()
 	{
-
+		if (m_pGraphicsModule != nullptr)
+		{
+			m_pGraphicsModule.reset();
+		}
 	}
 	void* GraphicsEngine::GetDevice()
 	{
@@ -47,42 +53,20 @@ namespace graphics
 
 	void GraphicsEngine::LoadModule(const GraphicsEngineDesc& desc)
 	{
-		tstring _module;
-
 		switch (desc._module)
 		{
-		case Module::DirectX11:
+		case API::DirectX11:
 		{
-#ifdef _DEBUG
-#ifdef x64
-			_module = _T("DX11_Module_x64_Debug.dll");
-#else
-			_module = _T("DX11_Module_x86_Debug.dll");
-#endif // x64
-#else
-#ifdef x64
-			_module = _T("DX11_Module_x64_Release.dll");
-#else
-			_module = _T("DX11_Module_x86_Release.dll");
-#endif // x64
-#endif
+			m_pGraphicsModule = Module::Load(Module::GetModuleFilename("DX11_Module").c_str());
 			break;
 		}
 		default:
 			break;
 		}
 
-		auto _engineModule = LoadLibrary(_module.c_str());
+		auto _renderSystemAlloc = (RenderSystemAlloc)m_pGraphicsModule->LoadProcedure("RenderSystem_Alloc");
 
-		assert(_engineModule != NULL);
-
-		auto _renderSystemAlloc = (RenderSystemAlloc)GetProcAddress(_engineModule, "RenderSystem_Alloc");
-
-		assert(_renderSystemAlloc != NULL);
-
-		auto _renderSystemFree = (RenderSystemFree)GetProcAddress(_engineModule, "RenderSystem_Free");
-
-		assert(_renderSystemFree != NULL);
+		auto _renderSystemFree = (RenderSystemFree)m_pGraphicsModule->LoadProcedure("RenderSystem_Free");
 
 		RenderSystemDesc _renderSystemDesc;
 		{

@@ -23,7 +23,7 @@ namespace rengine
     DECLARE_SINGLETON_CLASS(EditorSystem)
 
     public:
-
+        
         void Initialize(void* hwnd, void* device, void* context);
 
         void Render();

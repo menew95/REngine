@@ -43,6 +43,5 @@ namespace rengine
 
 	private:
 		graphics::GraphicsEngine* m_pGraphicsEngine = nullptr;
-
 	};
 }

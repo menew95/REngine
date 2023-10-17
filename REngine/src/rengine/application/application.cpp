@@ -7,7 +7,7 @@
 
 namespace rengine
 {
-	DEFINE_SINGLETON_CLASS(Application, {},
+	DEFINE_SINGLETON_CLASS(Application, {}, {},
 		{
 			/*if (m_IsCmdOn)
 			{

@@ -4,14 +4,14 @@
 
 namespace graphics
 {
-	enum class Module
+	enum class API
 	{
 		DirectX11 = 1,
 	};
 
 	struct GraphicsEngineDesc
 	{
-		Module _module;
+		API _module;
 
 		void* _hwnd;
 		

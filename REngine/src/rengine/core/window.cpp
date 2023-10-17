@@ -4,7 +4,7 @@
 
 namespace rengine
 {
-	DEFINE_SINGLETON_CLASS(Window, {},
+	DEFINE_SINGLETON_CLASS(Window, {}, {},
 		{
 			/*if (m_IsCmdOn)
 			{

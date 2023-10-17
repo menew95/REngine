@@ -1,4 +1,4 @@
-#include <rengine_api.h>
+﻿#include <rengine_api.h>
 
 namespace rengine
 {
@@ -12,7 +12,7 @@ namespace rengine
 
 	RENGINE_API void DeleteApplication(Application* application)
 	{
-		
+		application->Quit();
 	}
 
 }

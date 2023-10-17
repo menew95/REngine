@@ -1,14 +1,27 @@
-﻿#include <rengine/System/EditorSystem.h>
+﻿#include <common\Module.h>
+
+#include <rengine/System/EditorSystem.h>
 
 #include <editor/EditorAPI.h>
+
+std::unique_ptr<Module> g_pEditorModule;
 
 namespace rengine
 {
 	DEFINE_SINGLETON_CLASS(EditorSystem, 
 	{
+
 	}, 
 	{
-	})
+
+	},
+	{
+		if (g_pEditorModule != nullptr)
+		{
+			g_pEditorModule.reset();
+		}
+	}
+	)
 
 	void EditorSystem::Initialize(void* hwnd, void* device, void* context)
 	{
@@ -39,30 +52,11 @@ namespace rengine
 
 	void EditorSystem::LoadModule()
 	{
+		g_pEditorModule = Module::Load(Module::GetModuleFilename("Editor").c_str());
 
-#ifdef _DEBUG
-#ifdef x64
-		auto _editorModule = LoadLibrary(_T("Editor_x64_Debug.dll"));
-#else
-		auto _editorModule = LoadLibrary(_T("Editor_x86_Debug.dll"));
-#endif // x64
-#else
-#ifdef x64
-		auto _editorModule = LoadLibrary(_T("Editore_x64_Release.dll"));
-#else
-		auto _editorModule = LoadLibrary(_T("Editor_x86_Release.dll"));
-#endif // x64
-#endif
+		auto _editorConstructor = (EditorConstructor)g_pEditorModule->LoadProcedure("CreateEditor");
 
-		assert(_editorModule != NULL);
-
-		auto _editorConstructor = (EditorConstructor)GetProcAddress(_editorModule, "CreateEditor");
-
-		assert(_editorConstructor != NULL);
-
-		auto _editorDestructor = (EditorDestructor)GetProcAddress(_editorModule, "ReleaseEditor");
-
-		assert(_editorDestructor != NULL);
+		auto _editorDestructor = (EditorDestructor)g_pEditorModule->LoadProcedure("ReleaseEditor");
 
 		m_pEditor = _editorConstructor();
 

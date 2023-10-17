@@ -1,4 +1,6 @@
 ﻿#include <common/common.h>
+#include <common/Module.h>
+
 #include <Windows.h>
 #include <fcntl.h>
 #include <io.h>
@@ -64,30 +66,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+	auto _rengineModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
 
-#ifdef _DEBUG
-#ifdef x64
-	auto _engineModule = LoadLibrary(_T("REngine_x64_Debug.dll"));
-#else
-	auto _engineModule = LoadLibrary(_T("REngine_x86_Debug.dll"));
-#endif // x64
-#else
-#ifdef x64
-	auto _engineModule = LoadLibrary(_T("REngine_x64_Release.dll"));
-#else
-	auto _engineModule = LoadLibrary(_T("REngine_x86_Release.dll"));
-#endif // x64
-#endif
+	auto _applicationConstructor = (rengine::ApplicationConstructor)_rengineModule->LoadProcedure("CreateApplication");
 
-	assert(_engineModule != NULL);
-
-	auto _applicationConstructor = (rengine::ApplicationConstructor)GetProcAddress(_engineModule, "CreateApplication");
-
-	assert(_applicationConstructor != NULL);
-
-	auto _applicationDestructor = (rengine::ApplicationDestructor)GetProcAddress(_engineModule, "DeleteApplication");
-
-	assert(_applicationDestructor != NULL);
+	auto _applicationDestructor = (rengine::ApplicationDestructor)_rengineModule->LoadProcedure("DeleteApplication");
 
 	auto* _application = _applicationConstructor();
 
@@ -122,7 +105,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	_applicationDestructor(_application);
 
-	FreeLibrary(_engineModule);
+	_rengineModule.reset();
 
 
 	return 0;

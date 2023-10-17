@@ -75,24 +75,28 @@
     <IncludePath>$(ProjectDir)inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
     <IncludePath>$(ProjectDir)inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -126,7 +130,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>x64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -140,7 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>x64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -154,6 +158,7 @@
     <ClInclude Include="inc\common\common.h" />
     <ClInclude Include="inc\common\cpp.h" />
     <ClInclude Include="inc\common\math.h" />
+    <ClInclude Include="inc\common\Module.h" />
     <ClInclude Include="inc\common\prefix.h" />
     <ClInclude Include="inc\common\singleton.h" />
     <ClInclude Include="inc\common\string_helper.h" />
@@ -166,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\common\math.cpp" />
+    <ClCompile Include="src\common\Module.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
