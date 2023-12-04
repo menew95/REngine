@@ -54,7 +54,7 @@ namespace rengine
     private:
         std::vector<std::shared_ptr<Component>>  m_Components;
         
-        std::weak_ptr<Transform> m_pTransform;
+        std::shared_ptr<Transform> m_pTransform;
         
         std::shared_ptr<Scene> m_pScene;
 

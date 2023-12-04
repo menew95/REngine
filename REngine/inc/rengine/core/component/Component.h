@@ -21,23 +21,25 @@ namespace rengine
     class RENGINE_API Component : public Object
     {
     public:
-        Component(std::weak_ptr<GameObject>& gameObj);
+        Component(std::shared_ptr<GameObject>& gameObj);
 
-        Component(std::weak_ptr<GameObject>& gameObj, uuid uuid);
+        Component(std::shared_ptr<GameObject>& gameObj, uuid uuid);
 
-        Component(std::weak_ptr<GameObject>& gameObj, uuid uuid, tstring name);
+        Component(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
 
         Component(const Component& component) = default;
 
         Component(Component&& component) = default;
+
+        virtual ~Component();
 
         inline auto GetGameObject() { return m_pGameObject; }
 
         inline auto GetTransform() { return m_pTransform; }
 
     private:
-        std::weak_ptr<GameObject> m_pGameObject;
+        std::shared_ptr<GameObject> m_pGameObject;
         
-        std::weak_ptr<Transform> m_pTransform;
+        std::shared_ptr<Transform> m_pTransform;
     };
 }

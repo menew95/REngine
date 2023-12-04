@@ -2,21 +2,25 @@
 
 namespace rengine
 {
-	Component::Component(std::weak_ptr<GameObject>& gameObj)
+	Component::Component(std::shared_ptr<GameObject>& gameObj)
 	: Object()
 	, m_pGameObject(gameObj)
 	{
 	}
 
-	Component::Component(std::weak_ptr<GameObject>& gameObj, uuid uuid)
+	Component::Component(std::shared_ptr<GameObject>& gameObj, uuid uuid)
 	: Object(uuid)
 	, m_pGameObject(gameObj)
 	{
 	}
 
-	Component::Component(std::weak_ptr<GameObject>& gameObj, uuid uuid, tstring name)
+	Component::Component(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name)
 	: Object(uuid, name)
 	, m_pGameObject(gameObj)
+	{
+	}
+
+	Component::~Component()
 	{
 	}
 }

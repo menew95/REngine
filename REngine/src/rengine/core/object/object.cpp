@@ -1,10 +1,12 @@
-#include <rengine/core/object/object.h>
+﻿#include <rengine/core/object/object.h>
 
 namespace rengine
 {
 	Object::Object()
 	{
+
 	}
+
 	Object::Object(uuid uuid)
 	: m_uuid(uuid)
 	{

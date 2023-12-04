@@ -179,8 +179,17 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\rengine\core\component\Camera.h" />
     <ClInclude Include="inc\rengine\core\component\Component.h" />
+    <ClInclude Include="inc\rengine\core\component\MeshFilter.h" />
+    <ClInclude Include="inc\rengine\core\component\MeshRenderer.h" />
+    <ClInclude Include="inc\rengine\core\component\Renderer.h" />
+    <ClInclude Include="inc\rengine\core\component\Transform.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
+    <ClInclude Include="inc\rengine\core\resource\material.h" />
+    <ClInclude Include="inc\rengine\core\resource\mesh.h" />
+    <ClInclude Include="inc\rengine\core\resource\resource.h" />
+    <ClInclude Include="inc\rengine\core\resource\texture.h" />
     <ClInclude Include="inc\rengine\core\scene\scene.h" />
     <ClInclude Include="inc\rengine\System\EditorSystem.h" />
     <ClInclude Include="inc\rengine\core\object\object.h" />
@@ -192,6 +201,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
   <ItemGroup>
     <ClCompile Include="src\rengine\application\application.cpp" />
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
+    <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />

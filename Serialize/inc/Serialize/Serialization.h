@@ -7,6 +7,6 @@ namespace Utility
 	class Serialization
 	{
 	public:
-		
+		static rengine::Object* 
 	};
 }
