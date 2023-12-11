@@ -113,7 +113,8 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
-xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,7 +136,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
-xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -153,7 +155,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
-xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -175,7 +178,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
-xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -186,6 +190,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     <ClInclude Include="inc\rengine\core\component\Renderer.h" />
     <ClInclude Include="inc\rengine\core\component\Transform.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
+    <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\resource\material.h" />
     <ClInclude Include="inc\rengine\core\resource\mesh.h" />
     <ClInclude Include="inc\rengine\core\resource\resource.h" />
@@ -203,6 +208,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"</Command>
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
+    <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine_api.cpp" />

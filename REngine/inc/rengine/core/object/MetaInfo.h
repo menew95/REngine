@@ -1,0 +1,35 @@
+﻿/**
+
+    @file      MetaInfo.h
+    @brief     Meta data enum info
+    @details   meta data에 관한 enum class info들
+    @author    LWT
+    @date      11.12.2023
+    @copyright © Cool Guy, 2023. All right reserved.
+
+**/
+#pragma once
+
+namespace rengine
+{
+    enum class MetaData
+    {
+        Serializable,
+        ObjectType,
+    };
+
+    enum class MetaDataType
+    {
+        WSTRING,
+        VECTOR2,
+        VECTOR3,
+        VECTOR4,
+        MATRIX,
+        UUID,
+        BOOL,
+        UINT32,
+        INT32,
+        FLOAT,
+        DOUBLE,
+    };
+}

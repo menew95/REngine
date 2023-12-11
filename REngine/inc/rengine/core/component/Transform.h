@@ -100,7 +100,6 @@ namespace rengine
             return _s;
         }
 
-
         void SetWolrd(Matrix& m);
 
         void SetLocal(Matrix& m);
@@ -109,6 +108,8 @@ namespace rengine
         shared_ptr<Transform> m_parent;
 
         vector<shared_ptr<Transform>> m_childs;
+
+        bool m_bIsDirty;
 
         math::Matrix m_world;
 

@@ -51,6 +51,8 @@ namespace rengine
         inline tstring& GetTag() { return m_Tag; }
         inline void SetTag(tstring& val) { m_Tag = val; }
         
+        inline std::vector<std::shared_ptr<Component>>& GetComponents() { return m_Components; }
+
     private:
         std::vector<std::shared_ptr<Component>>  m_Components;
         
