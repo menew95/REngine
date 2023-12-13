@@ -2,6 +2,8 @@
 
 #include <rengine/System/EditorSystem.h>
 
+#include <rengine\application\application.h>
+
 #include <editor/EditorAPI.h>
 
 std::unique_ptr<Module> g_pEditorModule;
@@ -32,6 +34,7 @@ namespace rengine
 		_desc._hwnd = hwnd;
 		_desc._device = device;
 		_desc._deviceContext = context;
+		_desc._application = Application::GetInstance();
 
 		m_pEditor->Initialize(_desc);
 	}

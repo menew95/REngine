@@ -1,4 +1,6 @@
 ﻿#include <rengine\core\component\Transform.h>
+#include <rengine\core\object\GameObject.h>
+#include <rengine\core\scene\scene.h>
 
 namespace rengine
 {
@@ -34,7 +36,14 @@ namespace rengine
 
 		m_parent = parent;
 
-		m_local = m_world * m_parent->GetWorld().Invert();
+		if(m_parent != nullptr)
+			m_local = m_world * m_parent->GetWorld().Invert();
+		else
+		{
+			m_local = m_world;
+
+			GetGameObject()->GetScene().lock()->AddRootGameObject(GetGameObject());
+		}
 	}
 
 	void Transform::DetachParent()

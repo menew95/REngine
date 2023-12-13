@@ -53,12 +53,16 @@ namespace rengine
         
         inline std::vector<std::shared_ptr<Component>>& GetComponents() { return m_Components; }
 
+        inline std::shared_ptr<Transform>& GetTransform() { return m_pTransform; }
+
+        inline std::weak_ptr<Scene>& GetScene() { return m_pScene; }
+
     private:
         std::vector<std::shared_ptr<Component>>  m_Components;
         
         std::shared_ptr<Transform> m_pTransform;
         
-        std::shared_ptr<Scene> m_pScene;
+        std::weak_ptr<Scene> m_pScene;
 
         bool m_bActiveHierarchy = true;
         bool m_bActiveSelf = true;

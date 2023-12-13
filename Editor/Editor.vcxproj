@@ -74,28 +74,28 @@
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -111,6 +111,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -135,6 +137,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -156,6 +160,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -180,6 +186,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -188,6 +196,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\editor\Core\EnginePlugin.h" />
     <ClInclude Include="inc\editor\EditorAPI.h" />
     <ClInclude Include="inc\editor\GUI\Document.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
@@ -271,6 +280,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\editor\Core\EnginePlugin.cpp" />
     <ClCompile Include="src\editor\GUI\HierarchyView.cpp" />
     <ClCompile Include="src\editor\GUI\InspectorView.cpp" />
     <ClCompile Include="src\editor\Editor.cpp" />

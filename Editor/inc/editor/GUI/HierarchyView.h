@@ -11,49 +11,41 @@
 
 #include <editor\GUI\View.h>
 
-class GameObject
+namespace rengine
 {
-public:
-    GameObject() = default;
-
-    GameObject(std::string& name)
-    : m_Name(name) {}
-
-    GameObject(std::string name)
-        : m_Name(name) {}
-
-    ~GameObject() = default;
-
-    std::string& GetName() { return m_Name; }
-
-    auto& GetChilds() { return m_Childs; }
-    void AddChilds(std::shared_ptr<GameObject> val) { m_Childs.push_back(val); }
-
-private:
-    std::string m_Name = "GameObject";
-
-    std::vector<std::shared_ptr<GameObject>> m_Childs;
-};
+    class GameObject;
+}
 
 namespace editor
 {
-    class EDITOR_API HierarchyView : public View
+    class HierarchyView : public View
     {
     public:
         HierarchyView();
 
-        ~HierarchyView();
+        EDITOR_API ~HierarchyView();
 
-        void Begin();
+        void EDITOR_API Begin();
 
-        void Render();
+        void EDITOR_API Render();
 
-        void End();
+        void EDITOR_API End();
 
-        void SetScene();
+        void EDITOR_API SetScene();
         
     private:
-        void DrawTree(std::shared_ptr<GameObject> gameObj);
+        void DrawTreeNode(rengine::GameObject* gameObj);
 
+        void Drag(rengine::GameObject* gameObj);
+
+        void Right();
+
+        bool m_bIsOnDrag = false;
+
+        float m_fPrevYcursor = 0.0f;
+
+        rengine::GameObject* m_pDragItem;
+
+        rengine::GameObject* m_pFocusGameObject = nullptr;
     };
 }

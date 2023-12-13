@@ -223,7 +223,7 @@ namespace utility
 
 		boost::property_tree::ptree _pt;
 
-		for (auto _go : scene->GetGameObjects())
+		for (auto _go : scene->GetRootGameObjects())
 		{
 			boost::property_tree::ptree _go_pt;
 

@@ -1,37 +1,20 @@
 ﻿#include <Editor_pch.h>
+#include <ImGui\imgui_internal.h>
 
 #include <editor\GUI\HierarchyView.h>
 
+#include <rengine\core\object\GameObject.h>
+#include <rengine\core\component\Transform.h>
+#include <rengine\core\scene\scene.h>
+#include <rengine\core\sceneManager.h>
 
-std::shared_ptr<GameObject> g_pRoot = std::make_shared<GameObject>("Root");
+rengine::GameObject* g_rootGO = nullptr;
 
 namespace editor
 {
 	HierarchyView::HierarchyView()
 	{
 		m_ViewName = "HierarchyView";
-
-		int idx = 0;
-
-		for (int i = 0; i < 4; i++)
-		{
-			std::string _name = "GameObject" + idx;
-			idx++;
-
-			std::shared_ptr<GameObject> _obj = std::make_shared<GameObject>(_name.c_str());
-
-			for (int j = 4 - i; j > 0; j--)
-			{
-				std::string _name2 = "GameObject" + idx;
-				idx++;
-
-				std::shared_ptr<GameObject> _obj2 = std::make_shared<GameObject>(_name2.c_str());
-
-				_obj->AddChilds(_obj2);
-			}
-
-			g_pRoot->AddChilds(_obj);
-		}
 	}
 
 	HierarchyView::~HierarchyView()
@@ -49,7 +32,29 @@ namespace editor
 	{
 		__super::Render();
 
-		DrawTree(g_pRoot);
+
+		for (auto& _root : rengine::SceneManager::GetInstance()->GetCurrentScene()->GetRootGameObjects())
+		{
+			DrawTreeNode(_root.get());
+		}
+		//CalculateBlank();
+
+		//m_prevYcursor = ImGui::GetCursorPosY() + ImGui::GetWindowPos().y - 5;
+
+		//RightClick();
+
+		std::vector<rengine::GameObject*> tempVec;
+		//m_ObjectList.swap(tempVec);
+
+		std::vector<int> tempInt;
+		//m_IndexList.swap(tempInt);
+
+		//DebugManager::GetInstance()->DrawDebugText("Mouse : %f, %f", ImGui::GetMousePos().x - ImGui::GetWindowPos().x - ImGui::GetCursorStartPos().x, ImGui::GetMousePos().y - ImGui::GetWindowPos().y - ImGui::GetCursorStartPos().y);
+		//DebugManager::GetInstance()->DrawDebugText("Region : %f, %f", ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y);
+		//DebugManager::GetInstance()->DrawDebugText("Dragging : %d", m_bIsOnDrag);
+		//if (m_pDragItem != nullptr)
+			//DebugManager::GetInstance()->DrawDebugText("Drag target: %s", m_pDragItem->getName().c_str());
+
 	}
 
 	void HierarchyView::End()
@@ -63,21 +68,136 @@ namespace editor
 
 	}
 
-	void HierarchyView::DrawTree(std::shared_ptr<GameObject> gameObj)
+	void HierarchyView::DrawTreeNode(rengine::GameObject* gameObj)
 	{
+		if(gameObj == nullptr)
+			return;
 
-		// Text and Tree nodes are less high than framed widgets, using AlignTextToFramePadding() we add vertical spacing to make the tree lines equal high.
+		ImGuiTreeNodeFlags nodeFlag = ImGuiTreeNodeFlags_None;
+		nodeFlag |= ImGuiTreeNodeFlags_OpenOnArrow;
 
-		bool node_open = ImGui::TreeNode(gameObj->GetName().c_str());
-
-		if (node_open)
+		if (gameObj->GetTransform()->GetChildSize() == 0)
 		{
-			for (auto& child : gameObj->GetChilds())
-			{
-				DrawTree(child);
-			}
+			nodeFlag |= ImGuiTreeNodeFlags_Leaf;
+		}
 
+		/// 특정 객체를 선택하면 그 객체만 아닌 자식 객체도 모두 색칠되어 일단 주석처리
+		//if (gameObj == SelectManager::GetInstance()->GetRecentHierarchy())
+		{
+			ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));          // 기본 색상
+			//ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));   // 마우스 오버 시 색상
+			//ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));    // 클릭 시 색
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+		}
+
+		bool open;
+		if (gameObj->GetName().empty() == true)
+		{
+			open = ImGui::TreeNodeEx(gameObj, nodeFlag, "UnNamed Object");
+		}
+		else
+		{
+			open = ImGui::TreeNodeEx(gameObj, nodeFlag, gameObj->GetNameStr().c_str());
+		}
+
+		/*if (gameObj == SelectManager::GetInstance()->GetRecentHierarchy())
+		{
+			ImGui::PopStyleColor(2);
+		}*/
+
+		//m_ObjectList.push_back(root);
+		ImGui::Spacing();
+
+		//ClickLogic(root);
+
+		//DragLogic(root);
+
+		if (ImGui::IsItemClicked()) {
+			// Some processing...
+		}
+
+		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
+			// Some processing...
+			ImGui::EndDragDropSource();
+		}
+
+		if (ImGui::BeginDragDropTarget()) {
+			// Some processing...
+			ImGui::EndDragDropTarget();
+		}
+
+		//ImGui::PushID(gameObj->GetUUID().c_str());
+		//if (ImGui::BeginPopupContextItem()) {
+		//	// Some processing...
+		//	ImGui::EndPopup();
+		//}
+		//ImGui::PopID();
+
+		if (open)
+		{
+			for (uint32 i = 0; i < gameObj->GetTransform()->GetChildSize(); i++)
+			{
+				DrawTreeNode(gameObj->GetTransform()->GetChild(i)->GetGameObject().get());
+			}
 			ImGui::TreePop();
+		}
+	}
+	void HierarchyView::Drag(rengine::GameObject* gameObj)
+	{
+		if (ImGui::IsMouseDragging(0))//enum ImGuiMouseButton_     // Enum: A mouse button identifier (0=left, 1=right, 2=middle)
+		{
+			m_bIsOnDrag = true;
+		}
+
+		if (m_bIsOnDrag == true && ImGui::IsItemHovered())
+		{
+			m_pDragItem = gameObj;
+			m_bIsOnDrag = false;
+		}
+
+		if (m_bIsOnDrag == false && m_pDragItem != nullptr && m_pDragItem != m_pFocusGameObject && ImGui::IsItemHovered())
+		{
+			if (m_pFocusGameObject != nullptr)
+			{
+				for (uint32 i = 0; m_pFocusGameObject->GetTransform()->GetChildSize(); i++)
+				{
+					if (m_pFocusGameObject->GetTransform()->GetChild(i)->GetGameObject().get() == m_pDragItem)
+					{
+						if (m_pFocusGameObject->GetTransform()->GetParent() != nullptr)
+						{
+							assert(false);
+							//m_pDragItem->GetTransform()->SetParent(SelectManager::GetInstance()->GetRecentHierarchy()->GetParentGameObject());
+						}
+						else
+						{
+							m_pDragItem->GetTransform()->SetParent(nullptr);
+						}
+						break;
+					}
+				}
+
+				m_pFocusGameObject->GetTransform()->SetParent(m_pDragItem->GetTransform());
+
+				m_pDragItem = nullptr;
+			}
+		}
+
+		if (ImGui::GetMousePos().y >= m_fPrevYcursor && ImGui::IsMouseReleased(0))
+		{
+			m_pDragItem = nullptr;
+			m_bIsOnDrag = false;
+		}
+
+		if (m_bIsOnDrag == true && m_pDragItem != nullptr)
+		{
+			ImVec2 originPos = ImGui::GetCursorPos();
+			ImVec2 newPos;
+			newPos.x = ImGui::GetMousePos().x - ImGui::GetWindowPos().x + 15;
+			newPos.y = ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
+			ImGui::SetCursorPos(newPos);
+			ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 0.5f), m_pFocusGameObject->GetNameStr().c_str(), newPos);
+
+			ImGui::SetCursorPos(originPos);
 		}
 	}
 }

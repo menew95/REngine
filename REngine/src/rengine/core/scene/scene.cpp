@@ -26,17 +26,20 @@ namespace rengine
 
 	Scene::~Scene()
 	{
-
+		for (auto& _go : m_RootGameObjects)
+		{
+			_go.reset();
+		}
 	}
 
 	std::shared_ptr<GameObject> Scene::FindGameObject(tstring& objectName)
 	{
-		auto _iter = find_if(m_GameObjects.begin(), m_GameObjects.end(), [&objectName](auto& go)
+		auto _iter = find_if(m_RootGameObjects.begin(), m_RootGameObjects.end(), [&objectName](auto& go)
 			{
 				return go->GetName() == objectName;
 			});
 
-		if (_iter != m_GameObjects.end())
+		if (_iter != m_RootGameObjects.end())
 		{
 			return *_iter;
 		}

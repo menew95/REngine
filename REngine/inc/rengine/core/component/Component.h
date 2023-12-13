@@ -18,7 +18,7 @@ namespace rengine
     class GameObject;
     class Transform;
 
-    class RENGINE_API Component : public Object
+    class Component : public Object
     {
     public:
         Component(std::shared_ptr<GameObject>& gameObj);
@@ -33,9 +33,9 @@ namespace rengine
 
         virtual ~Component();
 
-        inline auto GetGameObject() { return m_pGameObject; }
+        inline RENGINE_API auto GetGameObject() { return m_pGameObject; }
 
-        inline auto GetTransform() { return m_pTransform; }
+        inline RENGINE_API auto GetTransform() { return m_pTransform; }
 
     private:
         std::shared_ptr<GameObject> m_pGameObject;

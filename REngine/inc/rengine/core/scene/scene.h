@@ -19,7 +19,7 @@ namespace rengine
 {
     class GameObject;
 
-    class RENGINE_API Scene : public Object
+    class Scene : public Object
     {
     public:
         Scene();
@@ -32,11 +32,16 @@ namespace rengine
 
         virtual ~Scene();
 
-        std::shared_ptr<GameObject> FindGameObject(tstring& objectName);
+        RENGINE_API std::shared_ptr<GameObject> FindGameObject(tstring& objectName);
 
-        std::vector<std::shared_ptr<GameObject>>& GetGameObjects() { return m_GameObjects; }
+        RENGINE_API std::vector<std::shared_ptr<GameObject>>& GetRootGameObjects() { return m_RootGameObjects; }
+
+        RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go)
+        {
+            m_RootGameObjects.push_back(go);
+        }
 
     private:
-        std::vector<std::shared_ptr<GameObject>> m_GameObjects;
+        std::vector<std::shared_ptr<GameObject>> m_RootGameObjects;
     };
 }

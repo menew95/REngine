@@ -13,18 +13,18 @@
 #include <editor\Editor_dllexport.h>
 namespace editor
 {
-	class EDITOR_API View
+	class View
 	{
 	public:
 		View();
 
-		virtual ~View();
+		virtual EDITOR_API ~View();
 
-		virtual void Begin();
+		virtual EDITOR_API void Begin();
 
-		virtual void Render();
+		virtual EDITOR_API void Render();
 
-		virtual void End();
+		virtual EDITOR_API void End();
 
 	protected:
 		std::string m_ViewName;

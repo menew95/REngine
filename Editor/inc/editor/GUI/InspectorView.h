@@ -13,9 +13,15 @@
 
 #include <editor\GUI\View.h>
 
+namespace rengine
+{
+	class GameObject;
+	class Component;
+}
+
 namespace editor
 {
-	class EDITOR_API InspectorView :
+	class InspectorView :
 		public View
 	{
 	public:
@@ -29,9 +35,13 @@ namespace editor
 
 		void End();
 
-		void SetObject();
+		void SetObject(rengine::GameObject*);
 
 	private:
+
+		void DrawComponent(rengine::Component* comp);
+
+		rengine::GameObject* m_pSelectObj = nullptr;
 	};
 
 }

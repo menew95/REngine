@@ -6,7 +6,7 @@
 
 namespace rengine
 {
-	class RENGINE_API Object
+	class Object
 	{
 	public:
 		Object(); 
@@ -29,12 +29,13 @@ namespace rengine
 		tstring m_typeName;
 
 	public:
-		inline uuid GetUUID() { return m_uuid; }
-		inline void SetUUID(uuid uuid) { m_uuid = uuid; }
+		inline RENGINE_API uuid GetUUID() { return m_uuid; }
+		inline RENGINE_API void SetUUID(uuid uuid) { m_uuid = uuid; }
 		
-		inline tstring GetName() { return m_objectName; }
-		inline void SetName(tstring val) { m_objectName = val; }
+		inline RENGINE_API tstring GetName() { return m_objectName; }
+		inline RENGINE_API string GetNameStr() { return StringHelper::WStringToString(m_objectName.c_str()); }
+		inline RENGINE_API void SetName(tstring val) { m_objectName = val; }
 	
-		inline tstring GetType() { return m_typeName; }
+		inline RENGINE_API tstring GetType() { return m_typeName; }
 	};
 }

@@ -110,6 +110,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -133,6 +135,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -152,6 +156,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -175,6 +181,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)_include\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -191,10 +199,12 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClInclude Include="inc\rengine\core\component\Transform.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
+    <ClInclude Include="inc\rengine\core\resourcesManager.h" />
     <ClInclude Include="inc\rengine\core\resource\material.h" />
     <ClInclude Include="inc\rengine\core\resource\mesh.h" />
     <ClInclude Include="inc\rengine\core\resource\resource.h" />
     <ClInclude Include="inc\rengine\core\resource\texture.h" />
+    <ClInclude Include="inc\rengine\core\sceneManager.h" />
     <ClInclude Include="inc\rengine\core\scene\scene.h" />
     <ClInclude Include="inc\rengine\System\EditorSystem.h" />
     <ClInclude Include="inc\rengine\core\object\object.h" />
@@ -208,6 +218,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
+    <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
@@ -219,9 +230,6 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{9d40d96d-8233-4822-8fb7-fa6155c0da9d}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Editor\Editor.vcxproj">
-      <Project>{d49d0489-197b-4905-9249-2656d3f4d1e3}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Graphics_Core\Graphics_Core.vcxproj">
       <Project>{b4d5311f-311c-4575-9747-0c1d66d22319}</Project>

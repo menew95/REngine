@@ -18,12 +18,12 @@ namespace spdlog
 	class logger;
 }
 
-class LOG_DLL_DECLSPEC Log
+class Log
 {
 public:
-	static void Initialize();
+	static LOG_DLL_DECLSPEC void Initialize();
 
-	static bool IsInitialized() { return s_Initialized; }
+	static LOG_DLL_DECLSPEC bool IsInitialized() { return s_Initialized; }
 
 	inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 	inline static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
@@ -34,19 +34,19 @@ public:
 	/* Core */
 
 	template <typename ... Args>
-	inline static void Core_Trace(std::string _format, Args ... _args) { s_CoreLogger->trace(_format, _args ...); }
+	inline static LOG_DLL_DECLSPEC void Core_Trace(std::string _format, Args ... _args) { s_CoreLogger->trace(_format, _args ...); }
 
 	template <typename ... Args>
-	inline static void Core_Debug(std::string _format, Args ... _args) { s_CoreLogger->debug(_format, _args ...); }
+	inline static LOG_DLL_DECLSPEC void Core_Debug(std::string _format, Args ... _args) { s_CoreLogger->debug(_format, _args ...); }
 
 	template <typename ... Args>
-	inline static void Core_Info(std::string _format, Args ... _args) { s_CoreLogger->info(_format, _args ...); }
+	inline static LOG_DLL_DECLSPEC void Core_Info(std::string _format, Args ... _args) { s_CoreLogger->info(_format, _args ...); }
 
 	template <typename ... Args>
-	inline static void Core_Warn(std::string _format, Args ... _args) { s_CoreLogger->warn(_format, _args ...); }
+	inline static LOG_DLL_DECLSPEC void Core_Warn(std::string _format, Args ... _args) { s_CoreLogger->warn(_format, _args ...); }
 
 	template <typename ... Args>
-	inline static void Core_Error(std::string _format, Args ... _args) { s_CoreLogger->error(_format, _args ...); }
+	inline static LOG_DLL_DECLSPEC void Core_Error(std::string _format, Args ... _args) { s_CoreLogger->error(_format, _args ...); }
 
 	/* Graphics */
 

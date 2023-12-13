@@ -17,7 +17,7 @@ namespace rengine
 {
     class GameObject;
     
-    class RENGINE_API Transform : public Component, public enable_shared_from_this<Transform>
+    class Transform : public Component, public enable_shared_from_this<Transform>
     {
     public:
         Transform(std::shared_ptr<GameObject>& gameObj);
@@ -33,30 +33,35 @@ namespace rengine
         virtual ~Transform();
 
 
-        shared_ptr<Transform> GetParent() { return m_parent; }
+        RENGINE_API shared_ptr<Transform> GetParent() { return m_parent; }
 
-        shared_ptr<Transform> GetChild(uint32 idx)
+        RENGINE_API shared_ptr<Transform> GetChild(uint idx)
         { 
             if(m_childs.size() < idx) assert(false);
 
             return m_childs.at(idx);
         }
 
-        void SetParent(shared_ptr<Transform> parent);
+        inline RENGINE_API uint32 GetChildSize()
+        {
+            return static_cast<uint32>(m_childs.size());
+        }
 
-        void DetachParent();
+        RENGINE_API void SetParent(shared_ptr<Transform> parent);
 
-        void AddChild(shared_ptr<Transform> child);
+        RENGINE_API void DetachParent();
 
-        void DetachChild(shared_ptr<Transform> child);
+        RENGINE_API void AddChild(shared_ptr<Transform> child);
 
-        void DetachChildren();
+        RENGINE_API void DetachChild(shared_ptr<Transform> child);
 
-        math::Matrix GetWorld() { return m_world; }
+        RENGINE_API void DetachChildren();
 
-        math::Matrix GetLocal() { return m_local; }
+        RENGINE_API math::Matrix GetWorld() { return m_world; }
 
-        math::Vector3 GetLocalPosition()
+        RENGINE_API math::Matrix GetLocal() { return m_local; }
+
+        RENGINE_API math::Vector3 GetLocalPosition()
         {
             Vector3 _s, _t;
             Quaternion _r;
@@ -67,7 +72,7 @@ namespace rengine
             return _t;
         }
 
-        math::Quaternion GetLocalRotation()
+        RENGINE_API math::Quaternion GetLocalRotation()
         {
             Vector3 _s, _t;
             Quaternion _r;
@@ -78,7 +83,7 @@ namespace rengine
             return _r;
         }
 
-        math::Vector3 GetLocalEulerAngle()
+        RENGINE_API math::Vector3 GetLocalEulerAngle()
         {
             Vector3 _s, _t;
             Quaternion _r;
@@ -89,7 +94,7 @@ namespace rengine
             return _r.ToEuler();
         }
 
-        math::Vector3 GetLocalScale()
+        RENGINE_API math::Vector3 GetLocalScale()
         {
             Vector3 _s, _t;
             Quaternion _r;
@@ -100,9 +105,9 @@ namespace rengine
             return _s;
         }
 
-        void SetWolrd(Matrix& m);
+        RENGINE_API void SetWolrd(Matrix& m);
 
-        void SetLocal(Matrix& m);
+        RENGINE_API void SetLocal(Matrix& m);
 
     private:
         shared_ptr<Transform> m_parent;
