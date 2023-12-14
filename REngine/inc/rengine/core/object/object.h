@@ -6,8 +6,9 @@
 
 namespace rengine
 {
-	class Object
+	class RENGINE_API Object
 	{
+		class Impl;
 	public:
 		Object(); 
 
@@ -21,21 +22,21 @@ namespace rengine
 
 		Object(Object&& object) = default;
 
+		virtual ~Object();
+
+		uuid GetUUID();
+
+		void SetUUID(uuid uuid);
+
+		tstring GetName();
+
+		string GetNameStr();
+
+		void SetName(tstring val);
+
+		tstring GetType();
+
 	private:
-		uuid m_uuid;
-
-		tstring m_objectName;
-
-		tstring m_typeName;
-
-	public:
-		inline RENGINE_API uuid GetUUID() { return m_uuid; }
-		inline RENGINE_API void SetUUID(uuid uuid) { m_uuid = uuid; }
-		
-		inline RENGINE_API tstring GetName() { return m_objectName; }
-		inline RENGINE_API string GetNameStr() { return StringHelper::WStringToString(m_objectName.c_str()); }
-		inline RENGINE_API void SetName(tstring val) { m_objectName = val; }
-	
-		inline RENGINE_API tstring GetType() { return m_typeName; }
+		Impl* m_pImpl;
 	};
 }

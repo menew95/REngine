@@ -19,7 +19,7 @@ namespace rengine
 
         })
 
-    bool SceneManager::initialize()
+    bool SceneManager::Initialize()
     {
         bool _hr = true;
 

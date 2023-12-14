@@ -17,7 +17,7 @@ namespace rengine
     class Component;
     class Transform;
 
-    class RENGINE_API GameObject : public Object
+    class RENGINE_API GameObject : public Object, public enable_shared_from_this<GameObject>
     {
     public:
         GameObject();
@@ -70,16 +70,6 @@ namespace rengine
 
         tstring m_Tag;
     };
-
-    template<typename T>
-    inline std::shared_ptr<T> GameObject::AddComponent()
-    {
-        return std::shared_ptr<T>();
-    }
-
-    template<typename T>
-    inline std::shared_ptr<T> GameObject::GetComponent()
-    {
-        return std::shared_ptr<T>();
-    }
 }
+
+#include <rengine\core\object\GameObject.inl>

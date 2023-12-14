@@ -81,6 +81,9 @@
     <ClInclude Include="inc\rengine\core\resourcesManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\core\object\object_impl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
@@ -118,7 +121,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\rengine\core\object\GameObject.inl">
+    <None Include="inc\rengine\core\object\GameObject.inl">
       <Filter>헤더 파일</Filter>
     </None>
   </ItemGroup>

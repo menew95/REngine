@@ -25,9 +25,9 @@ namespace rengine
         DECLARE_SINGLETON_CLASS_EXPORT(RENGINE_API, SceneManager)
     
     public:
-        bool initialize();
+        bool Initialize();
 
-        std::shared_ptr<Scene>& GetCurrentScene();
+        RENGINE_API std::shared_ptr<Scene>& GetCurrentScene();
 
         RENGINE_API size_t GetSceneCount();
 

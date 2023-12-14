@@ -3,6 +3,9 @@
 #include <rengine/System/GraphicsSystem.h>
 #include <rengine/System/EditorSystem.h>
 
+#include <rengine\core\sceneManager.h>
+#include <rengine\core\resourcesManager.h>
+
 #include <log/log.h>
 
 namespace rengine
@@ -53,6 +56,8 @@ namespace rengine
 		m_pEditorSystem = EditorSystem::GetInstance();
 
 		m_pEditorSystem->Initialize(m_pWindow->GetWindowInfo()._hWnd, m_pGraphicsSystem->GetDevice(), m_pGraphicsSystem->GetContext());
+
+		SceneManager::GetInstance()->Initialize();
 
 		return _hr == S_OK;
 	}

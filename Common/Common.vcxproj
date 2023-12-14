@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,6 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>x64;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +149,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>x64;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -163,7 +167,9 @@
     <ClInclude Include="inc\common\singleton.h" />
     <ClInclude Include="inc\common\string_helper.h" />
     <ClInclude Include="inc\common\types.h" />
+    <ClInclude Include="inc\common\uuid.h" />
     <ClInclude Include="inc\common\vertex_attribute.h" />
+    <ClInclude Include="inc\common\UUIDGenerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\common\math.inl" />
@@ -172,6 +178,7 @@
   <ItemGroup>
     <ClCompile Include="src\common\math.cpp" />
     <ClCompile Include="src\common\Module.cpp" />
+    <ClCompile Include="src\common\UUIDGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

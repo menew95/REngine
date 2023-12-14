@@ -1,10 +1,13 @@
-﻿#include <rengine\core\object\GameObject.h>
+﻿
+#ifndef GAMEOBJECT_INL
+#define GAMEOBJECT_INL
+#include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
 
 namespace rengine
 {
 	template<typename T>
-	inline std::shared_ptr<T> rengine::GameObject::AddComponent()
+	inline std::shared_ptr<T> GameObject::AddComponent()
 	{
 		auto _this = shared_from_this();
 
@@ -16,7 +19,7 @@ namespace rengine
 	}
 
 	template<typename T>
-	inline std::shared_ptr<T> rengine::GameObject::GetComponent()
+	inline std::shared_ptr<T> GameObject::GetComponent()
 	{
 		for (auto& component : m_Components)
 		{
@@ -30,22 +33,14 @@ namespace rengine
 	}
 
 	template<typename T>
-	inline std::shared_ptr<T> rengine::GameObject::GetComponentInChildren()
+	inline std::shared_ptr<T> GameObject::GetComponentInChildren()
 	{
 
 		return nullptr;
 	}
 
 	template<typename T>
-	inline std::shared_ptr<T> rengine::GameObject::GetComponentInParent()
-	{
-
-		return nullptr;
-	}
-
-	template<typename T>
-	inline std::vector<std::shared_ptr<T>>
-		rengine::GameObject::GetComponentsInChildren()
+	inline std::shared_ptr<T> GameObject::GetComponentInParent()
 	{
 
 		return nullptr;
@@ -53,9 +48,18 @@ namespace rengine
 
 	template<typename T>
 	inline std::vector<std::shared_ptr<T>>
-		rengine::GameObject::GetComponentsInParent()
+		GameObject::GetComponentsInChildren()
+	{
+
+		return nullptr;
+	}
+
+	template<typename T>
+	inline std::vector<std::shared_ptr<T>>
+		GameObject::GetComponentsInParent()
 	{
 
 		return nullptr;
 	}
 }
+#endif

@@ -58,6 +58,7 @@
 *.ilk
 *.suo
 *.opendb
+*.exp
 
 # Folder
 _build/

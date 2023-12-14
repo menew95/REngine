@@ -66,7 +66,7 @@ namespace graphics
 		void DX11Buffer::ReadSubresource(ID3D11DeviceContext* context, void* data, uint32 dataSize, uint32 offset)
 		{
 			// Todo :: 리소스를 읽어 오는 부분 필요
-			D3D11_MAPPED_SUBRESOURCE _subResouce;
+			//D3D11_MAPPED_SUBRESOURCE _subResouce;
 		
 			assert(false);
 		}
