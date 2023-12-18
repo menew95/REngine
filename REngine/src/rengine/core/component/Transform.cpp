@@ -26,18 +26,20 @@ namespace rengine
 
 	void Transform::SetParent(shared_ptr<Transform> parent)
 	{
-		if(parent == m_parent)
+		if(parent == m_parent.lock())
 			return;
 
-		if (m_parent != nullptr)
+		if (!m_parent.expired() && m_parent.lock() != nullptr)
 		{
-			m_parent->DetachChild(shared_from_this());
+			m_parent.lock()->DetachChild(shared_from_this());
 		}
 
 		m_parent = parent;
 
-		if(m_parent != nullptr)
-			m_local = m_world * m_parent->GetWorld().Invert();
+		if (!m_parent.expired() && m_parent.lock() != nullptr)
+		{
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+		}
 		else
 		{
 			m_local = m_world;
@@ -48,7 +50,7 @@ namespace rengine
 
 	void Transform::DetachParent()
 	{
-		m_parent = nullptr;
+		m_parent.reset();
 
 		m_local = m_world;
 	}
@@ -85,8 +87,8 @@ namespace rengine
 	{
 		m_world = m;
 
-		if (m_parent != nullptr)
-			m_local = m_world * m_parent->GetWorld().Invert();
+		if (!m_parent.expired() && m_parent.lock() != nullptr)
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
 		else
 			m_local = m_world;
 	}
@@ -95,8 +97,8 @@ namespace rengine
 	{
 		m_local = m;
 
-		if(m_parent != nullptr)
-			m_world = m_parent->GetWorld() * m_local;
+		if(!m_parent.expired() && m_parent.lock() != nullptr)
+			m_world = m_parent.lock()->GetWorld() * m_local;
 		else
 			m_world = m_local;
 	}

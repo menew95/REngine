@@ -33,7 +33,7 @@ namespace rengine
         virtual ~Transform();
 
 
-        RENGINE_API shared_ptr<Transform> GetParent() { return m_parent; }
+        RENGINE_API shared_ptr<Transform> GetParent() { return m_parent.lock(); }
 
         RENGINE_API shared_ptr<Transform> GetChild(uint idx)
         { 
@@ -110,7 +110,7 @@ namespace rengine
         RENGINE_API void SetLocal(Matrix& m);
 
     private:
-        shared_ptr<Transform> m_parent;
+        weak_ptr<Transform> m_parent;
 
         vector<shared_ptr<Transform>> m_childs;
 

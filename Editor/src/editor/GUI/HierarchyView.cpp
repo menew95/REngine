@@ -31,7 +31,8 @@ namespace editor
 	void HierarchyView::Render()
 	{
 		__super::Render();
-
+		
+		test = nullptr;
 
 		for (auto& _root : rengine::SceneManager::GetInstance()->GetCurrentScene()->GetRootGameObjects())
 		{
@@ -82,13 +83,15 @@ namespace editor
 		}
 
 		/// 특정 객체를 선택하면 그 객체만 아닌 자식 객체도 모두 색칠되어 일단 주석처리
-		//if (gameObj == SelectManager::GetInstance()->GetRecentHierarchy())
+		if (gameObj == m_pFocusGameObject)
 		{
 			ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));          // 기본 색상
-			//ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.7f, 0.7f, 0.7f, 1.0f));   // 마우스 오버 시 색상
 			//ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));    // 클릭 시 색
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
+
+
+		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
 
 		bool open;
 		if (gameObj->GetName().empty() == true)
@@ -100,10 +103,11 @@ namespace editor
 			open = ImGui::TreeNodeEx(gameObj, nodeFlag, gameObj->GetNameStr().c_str());
 		}
 
-		/*if (gameObj == SelectManager::GetInstance()->GetRecentHierarchy())
+		ImGui::PopStyleColor(1);
+		if (gameObj == m_pFocusGameObject)
 		{
 			ImGui::PopStyleColor(2);
-		}*/
+		}
 
 		//m_ObjectList.push_back(root);
 		ImGui::Spacing();
@@ -111,20 +115,24 @@ namespace editor
 		//ClickLogic(root);
 
 		//DragLogic(root);
-
+		int a= 0;
 		if (ImGui::IsItemClicked()) {
 			// Some processing...
+			m_pFocusGameObject = gameObj;
 		}
 
-		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
-			// Some processing...
-			ImGui::EndDragDropSource();
-		}
+		DrawPopUp(open, gameObj);
+		Drag(gameObj);
 
-		if (ImGui::BeginDragDropTarget()) {
-			// Some processing...
-			ImGui::EndDragDropTarget();
-		}
+		//if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
+		//	// Some processing...
+		//	ImGui::EndDragDropSource();
+		//}
+
+		//if (ImGui::BeginDragDropTarget()) {
+		//	// Some processing...
+		//	ImGui::EndDragDropTarget();
+		//}
 
 		//ImGui::PushID(gameObj->GetUUID().c_str());
 		//if (ImGui::BeginPopupContextItem()) {
@@ -133,11 +141,16 @@ namespace editor
 		//}
 		//ImGui::PopID();
 
+
 		if (open)
 		{
 			for (uint32 i = 0; i < gameObj->GetTransform()->GetChildSize(); i++)
 			{
-				DrawTreeNode(gameObj->GetTransform()->GetChild(i)->GetGameObject().get());
+				auto _child = gameObj->GetTransform()->GetChild(i);
+				if (_child != nullptr && _child->GetGameObject())
+				{
+					DrawTreeNode(gameObj->GetTransform()->GetChild(i)->GetGameObject().get());
+				}
 			}
 			ImGui::TreePop();
 		}
@@ -198,6 +211,46 @@ namespace editor
 			ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 0.5f), m_pFocusGameObject->GetNameStr().c_str(), newPos);
 
 			ImGui::SetCursorPos(originPos);
+		}
+	}
+	void HierarchyView::Right(rengine::GameObject* gameObj)
+	{
+
+	}
+
+	void HierarchyView::DrawPopUp(bool& open, rengine::GameObject* gameObj)
+	{
+		if (ImGui::IsItemClicked(1))
+		{
+			m_pFocusGameObject = gameObj;
+			m_bPopUpMenu = true;
+		}
+
+		if (m_bPopUpMenu == true)
+		{
+			if (ImGui::BeginPopupContextItem())
+			{
+				rengine::GameObject* _test = nullptr;
+				if (ImGui::MenuItem("Add Object"))
+				{
+					// 부모가 존재하는 오브젝트를 생성
+					auto _newGO = rengine::GameObject::Instantiate(m_pFocusGameObject->GetTransform());
+					_test = _newGO.get();
+					_newGO->SetName(L"Game Object");
+
+					m_bPopUpMenu = false;
+
+					ImGui::GetCurrentWindow();
+				}
+
+				if (ImGui::MenuItem("Delete Object"))
+				{
+					//SelectManager::GetInstance()->DeleteHierarchyList(obj);
+					//DeleteObject(obj);
+				}
+
+				ImGui::EndPopup();
+			}
 		}
 	}
 }

@@ -226,6 +226,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{9d40d96d-8233-4822-8fb7-fa6155c0da9d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\REngine\REngine.vcxproj">
+      <Project>{9daf3503-6920-4c29-9c63-2d4a20e1ebc7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="inc\ImGui\imgui.cpp">

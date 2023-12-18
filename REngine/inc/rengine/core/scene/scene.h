@@ -34,14 +34,28 @@ namespace rengine
 
         RENGINE_API std::shared_ptr<GameObject> FindGameObject(tstring& objectName);
 
-        RENGINE_API std::vector<std::shared_ptr<GameObject>>& GetRootGameObjects() { return m_RootGameObjects; }
+        RENGINE_API std::vector<std::shared_ptr<GameObject>>& GetRootGameObjects() { return m_rootGameObjects; }
 
         RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go)
         {
-            m_RootGameObjects.push_back(go);
+            m_rootGameObjects.push_back(go);
         }
 
+        RENGINE_API bool GetIsDirty() { return m_bIsDirty; }
+        RENGINE_API bool GetIsLoaded() { return m_bIsLoaded; }
+        RENGINE_API tstring GetPath() { return m_path; }
+
+        RENGINE_API void SetIsDirty(bool value) { m_bIsDirty = value; }
+        RENGINE_API void SetIsLoaded(bool value) { m_bIsLoaded = value; }
+        RENGINE_API void SetPath(tstring& value) { m_path = value; }
+
     private:
-        std::vector<std::shared_ptr<GameObject>> m_RootGameObjects;
+        bool m_bIsDirty = false;
+
+        bool m_bIsLoaded = false;
+
+        tstring m_path;
+
+        std::vector<std::shared_ptr<GameObject>> m_rootGameObjects;
     };
 }

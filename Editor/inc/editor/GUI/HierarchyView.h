@@ -38,13 +38,18 @@ namespace editor
 
         void Drag(rengine::GameObject* gameObj);
 
-        void Right();
+        void Right(rengine::GameObject* gameObj);
+
+        void DrawPopUp(bool& open, rengine::GameObject* gameObj);
 
         bool m_bIsOnDrag = false;
+
+        bool m_bPopUpMenu = false;
 
         float m_fPrevYcursor = 0.0f;
 
         rengine::GameObject* m_pDragItem;
+        rengine::GameObject* test;
 
         rengine::GameObject* m_pFocusGameObject = nullptr;
     };

@@ -5,8 +5,16 @@
 namespace rengine
 {
 	Scene::Scene()
+	: Object()
 	{
+		auto _camGO = GameObject::Instantiate();
+		_camGO->SetName(L"Main Camera");
 
+		auto _lightGO = GameObject::Instantiate();
+		_lightGO->SetName(L"Directional Light");
+
+		m_rootGameObjects.push_back(_camGO);
+		m_rootGameObjects.push_back(_lightGO);
 	}
 	Scene::Scene(uuid uuid)
 		: Object(uuid)
@@ -26,7 +34,7 @@ namespace rengine
 
 	Scene::~Scene()
 	{
-		for (auto& _go : m_RootGameObjects)
+		for (auto& _go : m_rootGameObjects)
 		{
 			_go.reset();
 		}
@@ -34,12 +42,12 @@ namespace rengine
 
 	std::shared_ptr<GameObject> Scene::FindGameObject(tstring& objectName)
 	{
-		auto _iter = find_if(m_RootGameObjects.begin(), m_RootGameObjects.end(), [&objectName](auto& go)
+		auto _iter = find_if(m_rootGameObjects.begin(), m_rootGameObjects.end(), [&objectName](auto& go)
 			{
 				return go->GetName() == objectName;
 			});
 
-		if (_iter != m_RootGameObjects.end())
+		if (_iter != m_rootGameObjects.end())
 		{
 			return *_iter;
 		}

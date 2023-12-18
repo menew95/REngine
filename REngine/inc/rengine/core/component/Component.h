@@ -33,13 +33,16 @@ namespace rengine
 
         virtual ~Component();
 
-        inline RENGINE_API auto GetGameObject() { return m_pGameObject; }
+        inline RENGINE_API auto GetGameObject() 
+        { 
+            return m_pGameObject; 
+        }
 
         inline RENGINE_API auto GetTransform() { return m_pTransform; }
 
     private:
         std::shared_ptr<GameObject> m_pGameObject;
         
-        std::shared_ptr<Transform> m_pTransform;
+        std::weak_ptr<Transform> m_pTransform;
     };
 }

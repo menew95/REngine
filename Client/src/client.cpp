@@ -107,6 +107,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	_rengineModule.reset();
 
-
 	return 0;
 }

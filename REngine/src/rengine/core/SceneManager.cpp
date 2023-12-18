@@ -23,7 +23,11 @@ namespace rengine
     {
         bool _hr = true;
 
+        auto _scene = SceneManager::CreateScene(L"Main Scene");
 
+        m_Scenes.push_back(_scene);
+
+        LoadScene(0);
 
         return _hr;
     }
@@ -58,5 +62,13 @@ namespace rengine
             m_pCurrentScene.reset();
 
         m_pCurrentScene = GetScene(idx);
+    }
+    RENGINE_API std::shared_ptr<Scene> SceneManager::CreateScene(tstring name)
+    {
+        auto _newScene = make_shared<Scene>();
+
+        _newScene->SetName(name);
+
+        return _newScene;
     }
 }

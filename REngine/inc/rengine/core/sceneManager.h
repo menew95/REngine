@@ -35,6 +35,8 @@ namespace rengine
 
         RENGINE_API void LoadScene(size_t idx);
 
+        static RENGINE_API std::shared_ptr<Scene> CreateScene(tstring name);
+
     private:
 
         std::shared_ptr<Scene> m_pCurrentScene;

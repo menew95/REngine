@@ -37,6 +37,6 @@ namespace rengine
 		tstring GetType();
 
 	private:
-		Impl* m_pImpl;
+		class Impl* m_pImpl;
 	};
 }

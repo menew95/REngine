@@ -20,6 +20,9 @@ namespace rengine
     class RENGINE_API GameObject : public Object, public enable_shared_from_this<GameObject>
     {
     public:
+        
+        static shared_ptr<GameObject> Instantiate(shared_ptr<Transform> parent = nullptr);
+
         GameObject();
 
         GameObject(uuid uuid);
@@ -58,6 +61,7 @@ namespace rengine
         inline std::weak_ptr<Scene>& GetScene() { return m_pScene; }
 
     private:
+
         std::vector<std::shared_ptr<Component>>  m_Components;
         
         std::shared_ptr<Transform> m_pTransform;

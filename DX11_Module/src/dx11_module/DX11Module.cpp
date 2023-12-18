@@ -21,12 +21,14 @@ extern "C"
 
     GRAPHICS_DLL_DECLSPEC const char* RenderSystem_Name()
     {
+
         return "Direct3D 11";
     }
 
     GRAPHICS_DLL_DECLSPEC void* RenderSystem_Alloc(const void* renderSystemDesc, int renderSystemDescSize)
     {
         g_DX11RenderSystem = std::make_shared<graphics::DX11::DX11RenderSystem>();
+
 
         return reinterpret_cast<void*>(g_DX11RenderSystem.get());
     }
