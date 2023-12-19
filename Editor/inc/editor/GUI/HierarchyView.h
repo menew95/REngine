@@ -25,11 +25,11 @@ namespace editor
 
         EDITOR_API ~HierarchyView();
 
-        void EDITOR_API Begin();
+        void EDITOR_API Begin() override;
 
-        void EDITOR_API Render();
+        void EDITOR_API Render() override;
 
-        void EDITOR_API End();
+        void EDITOR_API End() override;
 
         void EDITOR_API SetScene();
         

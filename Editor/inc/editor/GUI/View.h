@@ -16,7 +16,7 @@ namespace editor
 	class View
 	{
 	public:
-		View();
+		View(std::string name);
 
 		virtual EDITOR_API ~View();
 
@@ -26,8 +26,16 @@ namespace editor
 
 		virtual EDITOR_API void End();
 
+		inline bool GetOpen() { return m_bOpen; }
+		inline void SetOpen(bool val) { m_bOpen = val; }
+
+		virtual void LoadSetting();
+
 	protected:
 		std::string m_ViewName;
 
+		bool m_bOpen = false;
+
+		uint32 m_flags = 0;
 	};
 }

@@ -13,8 +13,9 @@ rengine::GameObject* g_rootGO = nullptr;
 namespace editor
 {
 	HierarchyView::HierarchyView()
+		: View("Hierarchy View")
 	{
-		m_ViewName = "HierarchyView";
+
 	}
 
 	HierarchyView::~HierarchyView()
@@ -31,8 +32,6 @@ namespace editor
 	void HierarchyView::Render()
 	{
 		__super::Render();
-		
-		test = nullptr;
 
 		for (auto& _root : rengine::SceneManager::GetInstance()->GetCurrentScene()->GetRootGameObjects())
 		{
@@ -90,7 +89,6 @@ namespace editor
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
 		}
 
-
 		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
 
 		bool open;
@@ -112,10 +110,6 @@ namespace editor
 		//m_ObjectList.push_back(root);
 		ImGui::Spacing();
 
-		//ClickLogic(root);
-
-		//DragLogic(root);
-		int a= 0;
 		if (ImGui::IsItemClicked()) {
 			// Some processing...
 			m_pFocusGameObject = gameObj;
@@ -124,23 +118,22 @@ namespace editor
 		DrawPopUp(open, gameObj);
 		Drag(gameObj);
 
-		//if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
-		//	// Some processing...
-		//	ImGui::EndDragDropSource();
-		//}
+		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
+			// Some processing...
+			ImGui::EndDragDropSource();
+		}
 
-		//if (ImGui::BeginDragDropTarget()) {
-		//	// Some processing...
-		//	ImGui::EndDragDropTarget();
-		//}
+		if (ImGui::BeginDragDropTarget()) {
+			// Some processing...
+			ImGui::EndDragDropTarget();
+		}
 
-		//ImGui::PushID(gameObj->GetUUID().c_str());
-		//if (ImGui::BeginPopupContextItem()) {
-		//	// Some processing...
-		//	ImGui::EndPopup();
-		//}
-		//ImGui::PopID();
-
+		ImGui::PushID(gameObj->GetUUID().c_str());
+		if (ImGui::BeginPopupContextItem()) {
+			// Some processing...
+			ImGui::EndPopup();
+		}
+		ImGui::PopID();
 
 		if (open)
 		{
@@ -167,7 +160,7 @@ namespace editor
 			m_pDragItem = gameObj;
 			m_bIsOnDrag = false;
 		}
-
+		return;
 		if (m_bIsOnDrag == false && m_pDragItem != nullptr && m_pDragItem != m_pFocusGameObject && ImGui::IsItemHovered())
 		{
 			if (m_pFocusGameObject != nullptr)

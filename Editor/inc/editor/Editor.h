@@ -42,6 +42,12 @@ namespace editor
 
         void InitResource();
 
+        void LoadInFile(const char* file);
+
+        std::filesystem::path GetEditorDir();
+
+        void LoadLayout(std::string aLayout, void* someContext);
+
         HWND m_hwnd;
         int m_Height;
         int m_Width;
@@ -49,7 +55,6 @@ namespace editor
         void* m_pDevice;
         void* m_pContext;
 
-        View* _test1;
-        View* _test2;
+        View* m_pEditorView;
     };
 }

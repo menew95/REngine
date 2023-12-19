@@ -12,8 +12,9 @@
 namespace editor
 {
     InspectorView::InspectorView()
+    : View("Inspector View")
     {
-        m_ViewName = "InspectorView";
+
     }
 
     InspectorView::~InspectorView()

@@ -199,8 +199,11 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClInclude Include="inc\editor\Core\EnginePlugin.h" />
     <ClInclude Include="inc\editor\EditorAPI.h" />
     <ClInclude Include="inc\editor\GUI\Document.h" />
+    <ClInclude Include="inc\editor\GUI\EditorView.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
+    <ClInclude Include="inc\editor\GUI\GameView.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
+    <ClInclude Include="inc\editor\GUI\ProjectView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
     <ClInclude Include="inc\ImGui\imconfig.h" />
     <ClInclude Include="inc\ImGui\imgui.h" />
@@ -284,10 +287,13 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\editor\Core\EnginePlugin.cpp" />
+    <ClCompile Include="src\editor\GUI\EditorView.cpp" />
+    <ClCompile Include="src\editor\GUI\GameView.cpp" />
     <ClCompile Include="src\editor\GUI\HierarchyView.cpp" />
     <ClCompile Include="src\editor\GUI\InspectorView.cpp" />
     <ClCompile Include="src\editor\Editor.cpp" />
     <ClCompile Include="src\editor\EditorAPI.cpp" />
+    <ClCompile Include="src\editor\GUI\ProjectView.cpp" />
     <ClCompile Include="src\editor\GUI\View.cpp" />
     <ClCompile Include="src\Editor_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

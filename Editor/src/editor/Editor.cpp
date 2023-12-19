@@ -2,12 +2,10 @@
 
 #include <editor/Editor.h>
 
-#include <editor\GUI\HierarchyView.h>
-#include <editor\GUI\InspectorView.h>
+#include <editor\GUI\EditorView.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
 
 namespace editor
 {
@@ -19,14 +17,12 @@ namespace editor
 
 		InitImGui();
 
-		_test1 = new HierarchyView();
-		_test2 = new InspectorView();
+		m_pEditorView = new EditorView();
 	}
 
 	void Editor::Release()
 	{
-		delete _test1;
-		delete _test2;
+		delete m_pEditorView;
 
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
@@ -38,6 +34,8 @@ namespace editor
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+
+		m_pEditorView->Begin();
 	}
 
 	bool show_demo_window = true;
@@ -45,53 +43,13 @@ namespace editor
 
 	void Editor::Render()
 	{
-		// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
-
-		static float f = 0.0f;
-		static int counter = 0;
-
-		ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		ImGui::Checkbox("Another Window", &show_another_window);
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		auto& io = ImGui::GetIO();
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-		ImGui::End();
-
-		// 3. Show another simple window.
-		if (show_another_window)
-		{
-			ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-			ImGui::Text("Hello from another window!");
-			if (ImGui::Button("Close Me"))
-				show_another_window = false;
-			ImGui::End();
-		}
-
-		_test1->Begin();
-
-		_test1->Render();
-
-		_test1->End();
+		m_pEditorView->Render();
 	}
 
 	void Editor::End()
 	{
+		m_pEditorView->End();
+
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2((float)m_Width, (float)m_Height);
 
@@ -127,6 +85,8 @@ namespace editor
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking Controls
+		io.WantCaptureMouse = false;
+
 		ImGui::StyleColorsDark();
 
 		ImGui_ImplWin32_Init(m_hwnd);
@@ -136,5 +96,58 @@ namespace editor
 	void Editor::InitResource()
 	{
 		
+	}
+	void Editor::LoadInFile(const char* file)
+	{
+		//Clears the previous init settings [Reduntant check]
+		ImGui::ClearIniSettings();
+
+		//Fetches the absolute path of the file and calls the ImGui::LoadIniSettingsFromDisk()
+		std::filesystem::path dir(GetEditorDir().string() + file);
+		ImGui::LoadIniSettingsFromDisk(dir.string().c_str());
+	}
+
+	std::filesystem::path Editor::GetEditorDir()
+	{
+		//Constructs an absolute path the directoy that contains information about the Editor.
+		std::string workingDir = std::filesystem::current_path().string();
+
+		auto editorDir = workingDir + "\\ProjectSettings\\";
+
+		std::cout << "Editor Directory: " << editorDir << "\n";
+
+		return std::filesystem::path(editorDir);
+	}
+
+	void Editor::LoadLayout(std::string aLayout, void* someContext)
+	{
+		//InitializeContext
+
+		//Read the json file
+		//ember::Json layoutData = ember::Json::Read(aLayout);
+
+		////Check if the json file exists
+		//if (!layoutData) return;
+
+		////Reduntant check to make sure that the io.InitFilename is indeed nullptr
+		//ImGuiIO& io = ImGui::GetIO();
+		//io.IniFilename = NULL;
+
+		////Fetch the file address for the .ini file and the layout structure.
+		//auto imguiIni = layoutData.Get<std::string>("imguiData");
+		//auto layout = layoutData.Get<ember::Json>("layout");
+
+		////Clear any previous editors that were alive beforehand.
+		//myRootContext->RemoveAllChildren();
+
+		////Iterate through the layout and create an instance of each type stored.
+		//for (size_t i = 0; i < layout.GetArraySize(); i++)
+		//{
+		//	auto data = layoutData.Get("layout", i);
+		//	auto ins = CreateInstance(data.Get<StringID>("type"), someContext);
+		//}
+
+		//Load the init file.
+		//LoadIniFile(imguiIni.c_str());
 	}
 }

@@ -29,11 +29,11 @@ namespace editor
 
 		~InspectorView();
 
-		void Begin();
+		void Begin() override;
 
-		void Render();
+		void Render() override;
 
-		void End();
+		void End() override;
 
 		void SetObject(rengine::GameObject*);
 
