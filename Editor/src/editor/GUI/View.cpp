@@ -7,7 +7,7 @@ namespace editor
 	View::View(std::string name)
 	: m_ViewName(name)
 	{
-		LoadSetting();
+		//LoadSetting();
 	}
 
 	View::~View()
@@ -19,8 +19,12 @@ namespace editor
 	{
 		if(!m_bOpen)
 			return;
+		if (!_test)
+		{
+			_test = true;
 
-		ImGui::PushID(m_ViewName.c_str());
+			LoadSetting();
+		}
 		ImGui::Begin(m_ViewName.c_str(), &m_bOpen, m_flags);
 	}
 
@@ -34,13 +38,16 @@ namespace editor
 	{
 		if (!m_bOpen)
 			return;
+
 		ImGui::End();
 	}
 
 	void View::LoadSetting()
 	{
-		auto* _settings = ImGui::FindWindowSettingsByID(ImGui::GetID(m_ViewName.c_str()));
+		auto _id = ImGui::GetID(m_ViewName.c_str());
 
-		m_bOpen = _settings->Collapsed;
+		auto* _settings = ImGui::FindSettingsHandler(m_ViewName.c_str());
+
+		//m_bOpen = _settings->Collapsed;
 	}
 }

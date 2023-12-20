@@ -2,6 +2,7 @@
 #include <ImGui\imgui_internal.h>
 
 #include <editor\GUI\HierarchyView.h>
+#include <editor\GUI\EditorStyle.h>
 
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Transform.h>
@@ -84,12 +85,11 @@ namespace editor
 		/// 특정 객체를 선택하면 그 객체만 아닌 자식 객체도 모두 색칠되어 일단 주석처리
 		if (gameObj == m_pFocusGameObject)
 		{
-			ImGui::PushStyleColor(ImGuiCol_Header, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));          // 기본 색상
-			//ImGui::PushStyleColor(ImGuiCol_HeaderActive, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));    // 클릭 시 색
-			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_Header, EditorStyle::GetColor(ImGuiCol_Header));          // 기본 색상
+			ImGui::PushStyleColor(ImGuiCol_Text, EditorStyle::GetColor(ImGuiCol_Text));
 		}
 
-		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, EditorStyle::GetColor(ImGuiCol_HeaderHovered));
 
 		bool open;
 		if (gameObj->GetName().empty() == true)
@@ -102,6 +102,7 @@ namespace editor
 		}
 
 		ImGui::PopStyleColor(1);
+
 		if (gameObj == m_pFocusGameObject)
 		{
 			ImGui::PopStyleColor(2);

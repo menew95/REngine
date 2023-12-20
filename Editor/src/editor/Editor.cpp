@@ -99,24 +99,35 @@ namespace editor
 	}
 	void Editor::LoadInFile(const char* file)
 	{
-		//Clears the previous init settings [Reduntant check]
 		ImGui::ClearIniSettings();
 
-		//Fetches the absolute path of the file and calls the ImGui::LoadIniSettingsFromDisk()
-		std::filesystem::path dir(GetEditorDir().string() + file);
+		std::filesystem::path dir(/*GetEditorDir().string() + */file);
 		ImGui::LoadIniSettingsFromDisk(dir.string().c_str());
 	}
 
-	std::filesystem::path Editor::GetEditorDir()
+	//std::filesystem::path Editor::GetEditorDir()
+	//{
+	//	//Constructs an absolute path the directoy that contains information about the Editor.
+	//	std::string workingDir = std::filesystem::current_path().string();
+
+	//	auto editorDir = workingDir + "\\ProjectSettings\\";
+
+	//	std::cout << "Editor Directory: " << editorDir << "\n";
+
+	//	return std::filesystem::path(editorDir);
+	//}
+
+	void Editor::GetEditorDir(void* path)
 	{
-		//Constructs an absolute path the directoy that contains information about the Editor.
+		std::filesystem::path* _path = reinterpret_cast<std::filesystem::path*>(path);
+
 		std::string workingDir = std::filesystem::current_path().string();
 
 		auto editorDir = workingDir + "\\ProjectSettings\\";
 
 		std::cout << "Editor Directory: " << editorDir << "\n";
 
-		return std::filesystem::path(editorDir);
+		*_path = std::filesystem::path(editorDir);
 	}
 
 	void Editor::LoadLayout(std::string aLayout, void* someContext)

@@ -107,6 +107,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Editor_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +132,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Editor_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +158,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Editor_pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(ProjectDir)\src;</AdditionalIncludeDirectories>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -180,6 +183,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>Editor_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard_C>Default</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -200,11 +204,15 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClInclude Include="inc\editor\EditorAPI.h" />
     <ClInclude Include="inc\editor\GUI\Document.h" />
     <ClInclude Include="inc\editor\GUI\EditorView.h" />
+    <ClInclude Include="inc\editor\GUI\EditorStyle.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
     <ClInclude Include="inc\editor\GUI\GameView.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
+    <ClInclude Include="inc\editor\Widget\TreeNode.h" />
+    <ClInclude Include="inc\editor\Widget\Widget.h" />
+    <ClInclude Include="inc\editor\Widget\WidgetManager.h" />
     <ClInclude Include="inc\ImGui\imconfig.h" />
     <ClInclude Include="inc\ImGui\imgui.h" />
     <ClInclude Include="inc\ImGui\imgui_impl_dx11.h" />
@@ -288,6 +296,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </ClCompile>
     <ClCompile Include="src\editor\Core\EnginePlugin.cpp" />
     <ClCompile Include="src\editor\GUI\EditorView.cpp" />
+    <ClCompile Include="src\editor\GUI\EditorStyle.cpp" />
     <ClCompile Include="src\editor\GUI\GameView.cpp" />
     <ClCompile Include="src\editor\GUI\HierarchyView.cpp" />
     <ClCompile Include="src\editor\GUI\InspectorView.cpp" />
@@ -295,12 +304,18 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClCompile Include="src\editor\EditorAPI.cpp" />
     <ClCompile Include="src\editor\GUI\ProjectView.cpp" />
     <ClCompile Include="src\editor\GUI\View.cpp" />
+    <ClCompile Include="src\editor\Widget\TreeNode.cpp" />
+    <ClCompile Include="src\editor\Widget\Widget.cpp" />
+    <ClCompile Include="src\editor\Widget\WidgetManager.cpp" />
     <ClCompile Include="src\Editor_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

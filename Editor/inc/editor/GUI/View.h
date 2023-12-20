@@ -11,6 +11,7 @@
 #include <common\common.h>
 
 #include <editor\Editor_dllexport.h>
+
 namespace editor
 {
 	class View
@@ -32,6 +33,7 @@ namespace editor
 		virtual void LoadSetting();
 
 	protected:
+	bool _test = false;
 		std::string m_ViewName;
 
 		bool m_bOpen = false;

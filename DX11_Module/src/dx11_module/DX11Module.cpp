@@ -11,6 +11,7 @@ extern "C"
     GRAPHICS_DLL_DECLSPEC int RenderSystem_BuildID()
     {
         assert(false);
+
         return 0;
     }
 

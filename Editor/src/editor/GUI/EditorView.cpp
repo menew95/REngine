@@ -50,7 +50,16 @@ namespace editor
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
+		ImGui::PushStyleColor(ImGuiCol_FrameBg,		ImVec4(0.8f, 0.0f, 0.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_WindowBg,	ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_Border,		ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_TitleBg,		ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_MenuBarBg,		ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_Header,		ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+
 		__super::Begin();
+
+		ImGui::PopStyleColor(6);
 
 		/*ImVec2 _pos = { 0, 0 };
 		ImGui::SetWindowPos(m_ViewName.c_str(), _pos);
@@ -59,6 +68,7 @@ namespace editor
 
 		static ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
 		ImGuiID dockspaceID = ImGui::GetID(m_ViewName.c_str());
+
 
 		if (!ImGui::DockBuilderGetNode(dockspaceID)) {
 			ImGui::DockBuilderRemoveNode(dockspaceID);

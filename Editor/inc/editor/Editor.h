@@ -11,6 +11,8 @@
 
 #include <common/common.h>
 
+#include <filesystem>
+
 #include <editor/Editor_dllexport.h>
 #include <editor/EditorFlags.h>
 
@@ -44,7 +46,9 @@ namespace editor
 
         void LoadInFile(const char* file);
 
-        std::filesystem::path GetEditorDir();
+
+        //fs::path GetEditorDir();
+        void GetEditorDir(void* path);
 
         void LoadLayout(std::string aLayout, void* someContext);
 
