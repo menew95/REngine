@@ -47,16 +47,10 @@ namespace editor
 
             string _str = _go->GetNameStr();
 
-            InputText _inputText(_go->GetNameStr(), _str);
+            Event<rengine::Object, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
+            InputText _inputText(_go->GetNameStr(), _str, 0, _event);
 
-            function<void(rengine::GameObject&, string)> _func = &rengine::GameObject::SetNameStr;
-
-            Event<rengine::GameObject, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
-
-            if (_inputText.Test())
-            {
-                _event.Invoke(_str);
-            }
+            _inputText.Render();
 
             for (auto& _comp : _go->GetComponents())
             {

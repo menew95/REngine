@@ -14,22 +14,27 @@
 
 #include <editor\Core\Event.h>
 
+namespace rengine
+{
+    class Object;
+}
+
 namespace editor
 {
     class InputText : public Widget
     {
     public:
-        InputText(string name, string& test, uint32 flags = 0);
+        InputText(string name, string& test, uint32 flags, Event<rengine::Object, void, string> event);
 
         ~InputText();
 
         EDITOR_API void Render() override;
 
-        bool Test();
-
     private:
         std::string m_label;
         std::string& m_text;
         char m_pInputText[256];
+
+        Event<rengine::Object, void, string> m_event;
     };
 }

@@ -4,10 +4,11 @@
 
 namespace editor
 {
-	InputText::InputText(string name, string& text,uint32 flags)
+	InputText::InputText(string name, string& text, uint32 flags, Event<rengine::Object, void, string> event)
 	: Widget(name, flags)
 	, m_text(text)
 	, m_label("##")
+	, m_event(event)
 	{
 		m_label.append(name);
 	}
@@ -22,21 +23,7 @@ namespace editor
 
 		if (ImGui::InputTextEx(m_label.c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), ImGuiInputTextFlags_EnterReturnsTrue))
 		{
-			m_text = m_pInputText;
+			m_event.Invoke(m_pInputText);
 		}
-	}
-
-
-	bool InputText::Test()
-	{
-		bool _ret = false;
-		strcpy_s(m_pInputText, m_text.c_str());
-
-		if (_ret = ImGui::InputTextEx(m_label.c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), ImGuiInputTextFlags_EnterReturnsTrue))
-		{
-			m_text = m_pInputText;
-		}
-
-		return _ret;
 	}
 }

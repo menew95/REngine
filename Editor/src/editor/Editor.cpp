@@ -87,7 +87,10 @@ namespace editor
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking Controls
 		io.WantCaptureMouse = false;
 
-		ImGui::StyleColorsDark();
+		io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());
+
+
+		ImGui::StyleColorsClassic();
 
 		ImGui_ImplWin32_Init(m_hwnd);
 		ImGui_ImplDX11_Init(reinterpret_cast<ID3D11Device*>(m_pDevice), reinterpret_cast<ID3D11DeviceContext*>(m_pContext));
