@@ -111,9 +111,11 @@ namespace editor
 		//m_ObjectList.push_back(root);
 		ImGui::Spacing();
 
-		if (ImGui::IsItemClicked()) {
-			// Some processing...
+		if (ImGui::IsItemClicked())
+		{
 			m_pFocusGameObject = gameObj;
+
+			EventManager::GetInstance()->SetFocusObject(gameObj); // 인스펙터 창에서 알기위해서
 		}
 
 		DrawPopUp(open, gameObj);

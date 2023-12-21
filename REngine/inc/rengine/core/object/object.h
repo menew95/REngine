@@ -34,6 +34,8 @@ namespace rengine
 
 		void SetName(tstring val);
 
+		void SetNameStr(string val);
+
 		tstring GetType();
 
 	private:

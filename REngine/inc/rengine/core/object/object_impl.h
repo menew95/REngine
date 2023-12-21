@@ -51,6 +51,7 @@ namespace rengine
 		inline tstring GetName() { return m_objectName; }
 		inline string GetNameStr() { return StringHelper::WStringToString(m_objectName.c_str()); }
 		inline void SetName(tstring val) { m_objectName = val; }
+		inline void SetNameStr(string val) { m_objectName = StringHelper::StringToWString(val); }
 
 		inline tstring GetType() { return m_typeName; }
 	};

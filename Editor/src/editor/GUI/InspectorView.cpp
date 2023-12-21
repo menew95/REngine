@@ -1,6 +1,11 @@
 ﻿#include <Editor_pch.h>
 
+#include <editor\Core\EventManager.h>
+
 #include <editor/GUI/InspectorView.h>
+
+#include <editor\Widget\Button.h>
+#include <editor\Widget\InputText.h>
 
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
@@ -36,19 +41,24 @@ namespace editor
 
         }
 
-        if (ImGui::ButtonEx("Button2", ImVec2(10.f, 10.f)))
+        if (EventManager::GetInstance()->GetFocusObject() != nullptr)
         {
+            auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
 
-        }
+            string _str = _go->GetNameStr();
 
-        if (ImGui::ButtonEx("Button3", ImVec2(200.f, 200.f), ImGuiButtonFlags_AlignTextBaseLine))
-        {
+            InputText _inputText(_go->GetNameStr(), _str);
 
-        }
+            function<void(rengine::GameObject&, string)> _func = &rengine::GameObject::SetNameStr;
 
-        if (m_pSelectObj != nullptr)
-        {
-            for (auto& _comp : m_pSelectObj->GetComponents())
+            Event<rengine::GameObject, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
+
+            if (_inputText.Test())
+            {
+                _event.Invoke(_str);
+            }
+
+            for (auto& _comp : _go->GetComponents())
             {
                 DrawComponent(_comp.get());
             }
@@ -58,12 +68,6 @@ namespace editor
     {
         __super::End();
 
-    }
-    void InspectorView::SetObject(rengine::GameObject* gameObj)
-    {
-        assert(gameObj == nullptr);
-
-        m_pSelectObj = gameObj;
     }
 
     void InspectorView::DrawComponent(rengine::Component* comp)

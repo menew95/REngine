@@ -35,13 +35,12 @@ namespace editor
 
 		void End() override;
 
-		void SetObject(rengine::GameObject*);
-
 	private:
-
+		/**
+		  @brief component의 직렬화가 되는 정보들을 노출
+		  @param comp - component pointer
+		**/
 		void DrawComponent(rengine::Component* comp);
-
-		rengine::GameObject* m_pSelectObj = nullptr;
 	};
 
 }

@@ -19,6 +19,8 @@ namespace editor
     class Widget
     {
     public:
+        Widget(string name, uint32 flags);
+
         Widget(string name, vector<Widget*> childs, uint32 flags);
 
         virtual ~Widget();

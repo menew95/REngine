@@ -55,6 +55,11 @@ namespace rengine
 		m_pImpl->SetName(val);
 	}
 
+	void Object::SetNameStr(string val)
+	{
+		m_pImpl->SetNameStr(val);
+	}
+
 	tstring Object::GetType()
 	{
 		return m_pImpl->GetType();

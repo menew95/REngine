@@ -4,6 +4,7 @@
 
 #include <editor/Editor_dllexport.h>
 
+#include <editor\Core\EventManager.h>
 #include <editor\GUI\EditorStyle.h>
 
 #include <ImGui/imgui_impl_win32.h>
