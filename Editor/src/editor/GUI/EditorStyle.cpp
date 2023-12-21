@@ -8,9 +8,9 @@ namespace editor
     {
         ImVec4(1.0f, 0.0f, 0.0f, 1.0f), // ImGuiCol_Text,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_TextDisabled,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_WindowBg,              // Background of normal windows
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ChildBg,               // Background of child windows
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_PopupBg,               // Background of popups, menus, tooltips windows
+        ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_WindowBg,              // Background of normal windows
+        ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_ChildBg,               // Background of child windows
+        ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_PopupBg,               // Background of popups, menus, tooltips windows
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_Border,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_BorderShadow,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_FrameBg,               // Background of checkbox, radio button, plot, slider, text input
@@ -19,19 +19,19 @@ namespace editor
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_TitleBg,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_TitleBgActive,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_TitleBgCollapsed,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_MenuBarBg,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ScrollbarBg,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ScrollbarGrab,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ScrollbarGrabHovered,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ScrollbarGrabActive,
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_MenuBarBg,
+        ImVec4(1.0f, 1.0f, 1.0f, 1.0f), // ImGuiCol_ScrollbarBg,
+        ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_ScrollbarGrab,
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_ScrollbarGrabHovered,
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_ScrollbarGrabActive,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_CheckMark,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_SliderGrab,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_SliderGrabActive,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_Button,
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_Button,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ButtonHovered,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ButtonActive,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_Header,                // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_HeaderHovered,
+        ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_Header,                // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_HeaderHovered,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_HeaderActive,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_Separator,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_SeparatorHovered,

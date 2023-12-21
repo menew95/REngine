@@ -33,10 +33,11 @@ namespace editor
 		virtual void LoadSetting();
 
 	protected:
-	bool _test = false;
+		bool _test = false;
+		
 		std::string m_ViewName;
 
-		bool m_bOpen = false;
+		bool m_bOpen = true;
 
 		uint32 m_flags = 0;
 	};

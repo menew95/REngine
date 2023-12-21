@@ -4,6 +4,8 @@
 
 #include <editor/Editor_dllexport.h>
 
+#include <editor\GUI\EditorStyle.h>
+
 #include <ImGui/imgui_impl_win32.h>
 #include <ImGui/imgui_impl_dx11.h>
 

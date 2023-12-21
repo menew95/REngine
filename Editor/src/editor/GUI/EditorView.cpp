@@ -50,16 +50,15 @@ namespace editor
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
-		ImGui::PushStyleColor(ImGuiCol_FrameBg,		ImVec4(0.8f, 0.0f, 0.0f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_WindowBg,	ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_Border,		ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_TitleBg,		ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_MenuBarBg,		ImVec4(0.3f, 0.3f, 0.3f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_Header,		ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_FrameBg,		EditorStyle::GetColor(ImGuiCol_FrameBg));
+		ImGui::PushStyleColor(ImGuiCol_WindowBg,	EditorStyle::GetColor(ImGuiCol_WindowBg));
+		ImGui::PushStyleColor(ImGuiCol_Border,		EditorStyle::GetColor(ImGuiCol_Border));
+		ImGui::PushStyleColor(ImGuiCol_TitleBg,		EditorStyle::GetColor(ImGuiCol_TitleBg));
+		ImGui::PushStyleColor(ImGuiCol_MenuBarBg,	EditorStyle::GetColor(ImGuiCol_MenuBarBg));
+		ImGui::PushStyleColor(ImGuiCol_Header,		EditorStyle::GetColor(ImGuiCol_Header));
 
 		__super::Begin();
 
-		ImGui::PopStyleColor(6);
 
 		/*ImVec2 _pos = { 0, 0 };
 		ImGui::SetWindowPos(m_ViewName.c_str(), _pos);
@@ -81,7 +80,7 @@ namespace editor
 			ImGuiID dock_down_id = ImGui::DockBuilderSplitNode(dock_main_id, ImGuiDir_Down, 0.2f, nullptr, &dock_main_id);
 			ImGuiID dock_down_right_id = ImGui::DockBuilderSplitNode(dock_down_id, ImGuiDir_Right, 0.6f, nullptr, &dock_down_id);
 
-			ImGui::DockBuilderDockWindow("Hierarchy View", dock_right_id);
+			//ImGui::DockBuilderDockWindow("Hierarchy View", dock_right_id);
 			/*ImGui::DockBuilderDockWindow("Actions", dock_up_id);
 			ImGui::DockBuilderDockWindow("Hierarchy", dock_right_id);
 			ImGui::DockBuilderDockWindow("Inspector", dock_left_id);
@@ -102,7 +101,6 @@ namespace editor
 		{
 			if (ImGui::BeginMenu("View"))
 			{
-
 				if (ImGui::MenuItem("Flag: GameView", "", m_pGameView->GetOpen() != 0))
 				{
 					m_pGameView->SetOpen(!m_pGameView->GetOpen());
@@ -142,51 +140,9 @@ namespace editor
 
 	}
 
-	//bool show_demo_window = true;
-	//bool show_another_window = false;
-
 	void EDITOR_API EditorView::Render()
 	{
 		__super::Render();
-
-		//// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-		//if (show_demo_window)
-		//	ImGui::ShowDemoWindow(&show_demo_window);
-
-		//static float f = 0.0f;
-		//static int counter = 0;
-
-		//ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
-		//ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-		//ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-		//ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-		//ImGui::Checkbox("Another Window", &show_another_window);
-
-		//ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-		//ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-		//if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-		//	counter++;
-		//ImGui::SameLine();
-		//ImGui::Text("counter = %d", counter);
-
-		//auto& io = ImGui::GetIO();
-
-		//ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-		//ImGui::End();
-
-		//// 3. Show another simple window.
-		//if (show_another_window)
-		//{
-		//	ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-		//	ImGui::Text("Hello from another window!");
-		//	if (ImGui::Button("Close Me"))
-		//		show_another_window = false;
-		//	ImGui::End();
-		//}
-
 
 		for (auto* _view : m_views)
 		{
@@ -204,5 +160,7 @@ namespace editor
 	void EDITOR_API EditorView::End()
 	{
 		__super::End();
+
+		ImGui::PopStyleColor(6);
 	}
 }

@@ -30,6 +30,22 @@ namespace editor
     {
         __super::Render();
 
+
+        if (ImGui::ButtonEx("Button1"))
+        {
+
+        }
+
+        if (ImGui::ButtonEx("Button2", ImVec2(10.f, 10.f)))
+        {
+
+        }
+
+        if (ImGui::ButtonEx("Button3", ImVec2(200.f, 200.f), ImGuiButtonFlags_AlignTextBaseLine))
+        {
+
+        }
+
         if (m_pSelectObj != nullptr)
         {
             for (auto& _comp : m_pSelectObj->GetComponents())

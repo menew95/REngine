@@ -17,27 +17,25 @@ namespace editor
 
 	void View::Begin()
 	{
-		if(!m_bOpen)
-			return;
 		if (!_test)
 		{
 			_test = true;
 
 			LoadSetting();
 		}
+
 		ImGui::Begin(m_ViewName.c_str(), &m_bOpen, m_flags);
 	}
 
 	void View::Render()
 	{
-		if (!m_bOpen)
-			return;
+
 	}
 
 	void View::End()
 	{
-		if (!m_bOpen)
-			return;
+		/*if (!m_bOpen)
+			return;*/
 
 		ImGui::End();
 	}
@@ -48,6 +46,7 @@ namespace editor
 
 		auto* _settings = ImGui::FindSettingsHandler(m_ViewName.c_str());
 
+		auto* _window = ImGui::FindWindowByName(m_ViewName.c_str());
 		//m_bOpen = _settings->Collapsed;
 	}
 }
