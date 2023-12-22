@@ -123,7 +123,6 @@ namespace utility
 			}
 			case rengine::MetaDataType::UUID:
 			{
-
 				break;
 			}
 			case rengine::MetaDataType::BOOL:

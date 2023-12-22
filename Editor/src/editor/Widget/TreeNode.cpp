@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	TreeNode::TreeNode(string name, vector<Widget*> childs, uint32 flags)
-		: Widget(name, childs, flags)
+	TreeNode::TreeNode(string name, uint32 flags)
+		: WidgetContainer(name, flags)
 	{
 		
 	}

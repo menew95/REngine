@@ -1,5 +1,28 @@
 ﻿#include <rengine/core/object/object_impl.h>
 
+#include <rttr\registration.h>
+
+RTTR_REGISTRATION
+{
+	rttr::registration::class_<rengine::Object>("Object")
+	.constructor<>()
+	.constructor<tstring>()
+	.constructor<tstring, tstring>()
+	.constructor<tstring, tstring, tstring>()
+	.property("m_uuid", &rengine::Object::GetUUID, &rengine::Object::SetUUID)
+	/*(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
+	)*/
+	.property("m_objectName", &rengine::Object::GetName, &rengine::Object::SetName)
+	/*(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
+	)*/
+	.property_readonly("m_typeName", &rengine::Object::GetType)
+	/*(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
+	)*/;
+}
+
 namespace rengine
 {
 	Object::Object()

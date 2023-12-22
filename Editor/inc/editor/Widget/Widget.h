@@ -21,25 +21,17 @@ namespace editor
     public:
         Widget(string name, uint32 flags);
 
-        Widget(string name, vector<Widget*> childs, uint32 flags);
-
         virtual ~Widget();
 
         virtual EDITOR_API void Render() abstract;
-
-        EDITOR_API void AddWidget(Widget* widget) { m_childWidgets.push_back(widget); }
 
         EDITOR_API string& GetWidgetName() { return m_widgetName; }
 
         EDITOR_API uint32 GetFlags() { return m_flags; }
 
-        EDITOR_API vector<Widget*>& GetChilds() { return m_childWidgets; }
-
     private:
         string m_widgetName;
 
         uint32 m_flags;
-
-        vector<Widget*> m_childWidgets;
     };
 }

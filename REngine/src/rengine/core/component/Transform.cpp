@@ -2,21 +2,35 @@
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\scene\scene.h>
 
+#include <rttr\registration.h>
+
+RTTR_REGISTRATION
+{
+	rttr::registration::class_<rengine::Transform>("Transform")
+	.constructor<std::shared_ptr<rengine::GameObject>&>()
+	.constructor<std::shared_ptr<rengine::GameObject>&, uuid>()
+	.property("m_world", &rengine::Transform::GetWorld, &rengine::Transform::SetWorld)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::MATRIX)
+	)
+	.property("m_local", &rengine::Transform::GetLocal, &rengine::Transform::SetLocal)
+	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::MATRIX)
+	);
+}
+
 namespace rengine
 {
 	Transform::Transform(std::shared_ptr<GameObject>& gameObj)
 	: Component(gameObj)
 	{
+		SetName(TEXT("Transform"));
 	}
 
 	Transform::Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid)
 	: Component(gameObj, uuid)
 	{
-	}
-
-	Transform::Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name)
-	: Component(gameObj, uuid, name)
-	{
+		SetName(TEXT("Transform"));
 	}
 
 	Transform::~Transform()
@@ -83,7 +97,7 @@ namespace rengine
 		}
 	}
 
-	void Transform::SetWolrd(Matrix& m)
+	void Transform::SetWorld(Matrix m)
 	{
 		m_world = m;
 
@@ -93,7 +107,7 @@ namespace rengine
 			m_local = m_world;
 	}
 
-	void Transform::SetLocal(Matrix& m)
+	void Transform::SetLocal(Matrix m)
 	{
 		m_local = m;
 

@@ -124,5 +124,6 @@
     <None Include="inc\rengine\core\object\GameObject.inl">
       <Filter>헤더 파일</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

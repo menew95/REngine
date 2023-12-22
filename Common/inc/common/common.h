@@ -5,4 +5,7 @@
 #include <common\prefix.h>
 #include <common\string_helper.h>
 
+#undef min
+#undef max
+
 using namespace std;

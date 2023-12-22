@@ -24,14 +24,11 @@ namespace rengine
 
         Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid);
 
-        Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
-
         Transform(const Transform& component) = default;
 
         Transform(Transform&& component) = default;
 
         virtual ~Transform();
-
 
         RENGINE_API shared_ptr<Transform> GetParent() { return m_parent.lock(); }
 
@@ -105,19 +102,23 @@ namespace rengine
             return _s;
         }
 
-        RENGINE_API void SetWolrd(Matrix& m);
+        RENGINE_API void SetWorld(Matrix m);
 
-        RENGINE_API void SetLocal(Matrix& m);
+        RENGINE_API void SetLocal(Matrix m);
 
     private:
         weak_ptr<Transform> m_parent;
 
         vector<shared_ptr<Transform>> m_childs;
 
-        bool m_bIsDirty;
+        bool m_bIsDirty = true;
 
-        math::Matrix m_world;
+        math::Matrix m_world = math::Matrix::Identity;
 
-        math::Matrix m_local;
+        math::Matrix m_local = math::Matrix::Identity;
+
+        RTTR_ENABLE(Component)
+
+        RTTR_REGISTRATION_FRIEND
     };
 }

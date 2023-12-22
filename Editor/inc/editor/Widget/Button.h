@@ -17,7 +17,7 @@ namespace editor
     class Button : public Widget
     {
     public:
-        Button(string name, vector<Widget*> childs, uint32 flags = 0);
+        Button(string name, uint32 flags = 0);
 
         ~Button();
 

@@ -22,7 +22,6 @@ extern "C"
 
     GRAPHICS_DLL_DECLSPEC const char* RenderSystem_Name()
     {
-
         return "Direct3D 11";
     }
 

@@ -10,14 +10,14 @@
 **/
 #pragma once
 
-#include <editor\Widget\Widget.h>
+#include <editor\Widget\WidgetContainer.h>
 
 namespace editor
 {
-    class TreeNode : public Widget
+    class TreeNode : public WidgetContainer
     {
     public:
-        TreeNode(string name, vector<Widget*> childs, uint32 flags = 0);
+        TreeNode(string name, uint32 flags = 0);
 
         ~TreeNode();
 

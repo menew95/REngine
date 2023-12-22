@@ -14,10 +14,17 @@
 
 #include <common\singleton.h>
 
+#include <editor\Widget\Button.h>
+#include <editor\Widget\TreeNode.h>
+#include <editor\Widget\InputText.h>
+#include <editor\Widget\InputFloat.h>
+#include <editor\Widget\InputFloat2.h>
+#include <editor\Widget\InputFloat3.h>
+#include <editor\Widget\InputFloat4.h>
+#include <editor\Widget\CollapsingHeader.h>
+
 namespace editor
 {
-    class Widget; 
-
     class WidgetManager
     {
         DECLARE_SINGLETON_CLASS(WidgetManager)
@@ -27,42 +34,39 @@ namespace editor
 		void ClearCollapsWidget();
 		void ClearTreeNodeWidget();
 
-		template<typename T, typename ... Args>
-		T& CreateWidget(Args&&... args)
-		{
-			
-			return nullptr;
-		}
+		Widget* GetColumnWidget(string name);
 
-		/*template<typename T, typename ... Args>
-		T* CreateColumnsWidget(Args&&... args)
-		{
-			_columnWidgets.emplace_back(new T(args...));
-			T* ins = reinterpret_cast<T*>(_columnWidgets.back());
-			return ins;
-		}
+		CollapsingHeader* GetCollapsWidget(string name);
 
 		template<typename T, typename ... Args>
-		T* CreateCollapsWidget(Args&&... args)
+		Widget* CreateWidget(string name, Args&&... args)
 		{
-			_collapsWidgets.emplace_back(new T(args...));
-			T& ins = reinterpret_cast<T*>(_collapsWidgets.back());
-			return ins;
-		}*/
+			Widget* _newWidget = new T(args...);
 
-		class TreeNode;
+			return _newWidget;
+		}
 
 		template<typename ... Args>
-		TreeNode* CreateWidget(Args&&... args)
+		Widget* CreateWidget(string name, Args&&... args)
 		{
-			m_treeNodeWidgets.emplace_back(new TreeNode(args...));
-			TreeNode* ins = reinterpret_cast<TreeNode*>(m_treeNodeWidgets.back());
-			return ins;
+			TreeNode* _newWidget = new TreeNode(args...);
+			m_treeNodeWidgets.insert(std::make_pair(name, _newWidget));
+
+			return _newWidget;
+		}
+
+		template<typename ... Args>
+		Widget* CreateWidget(string name, Args&&... args)
+		{
+			CollapsingHeader* _newWidget = new CollapsingHeader(args...);
+			m_collapsWidgets.insert(std::make_pair(name, _newWidget));
+
+			return _newWidget;
 		}
 
 	private:
-		std::vector<Widget*> m_columnWidgets;
-		std::vector<Widget*> m_collapsWidgets;
-		std::vector<Widget*> m_treeNodeWidgets;
+		std::map<string, Widget*> m_columnWidgets;
+		std::map<string, Widget*> m_collapsWidgets; //하나의 컴포넌트에 대응이 될지도
+		std::map<string, Widget*> m_treeNodeWidgets;
     };
 }

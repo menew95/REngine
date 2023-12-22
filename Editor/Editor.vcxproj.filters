@@ -111,6 +111,24 @@
     <ClInclude Include="inc\editor\Core\Event.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\editor\Widget\InputFloat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\InputFloat2.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\InputFloat3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\InputFloat4.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\CollapsingHeader.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\WidgetContainer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\Editor.cpp">
@@ -189,6 +207,24 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Core\Event.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\InputFloat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\InputFloat2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\InputFloat3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\InputFloat4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\WidgetContainer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

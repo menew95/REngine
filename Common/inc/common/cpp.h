@@ -3,6 +3,7 @@
  * bits/stdc++.h
  */
  // C
+
 #ifndef _GLIBCXX_NO_ASSERT
 #include <cassert>
 #endif
@@ -39,7 +40,7 @@
 #endif
 
 // C++
-#include <algorithm>
+//#include <algorithm>
 #include <bitset>
 #include <complex>
 #include <deque>

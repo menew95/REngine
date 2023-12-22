@@ -1,61 +1,60 @@
-#pragma once
+ï»¿#pragma once
 
 #include <common/types.h>
 
-#include <Windows.h>
 #include <vector>
 
 class StringHelper
 {
 public:
     /**
-     * @brief ¹®ÀÚ¿­À» Æ÷¸ÅÆÃÇÕ´Ï´Ù.
-     * @param _format Æ÷¸ÅÆÃÇÒ ¹®ÀÚ¿­ Çü½ÄÀÔ´Ï´Ù.
-     * @param ..._args (optional) Æ÷¸ÅÆÃÇÒ ¹®ÀÚ¿­¿¡ µé¾î°¥ °ªµéÀÔ´Ï´Ù.
+     * @brief ë¬¸ìì—´ì„ í¬ë§¤íŒ…í•©ë‹ˆë‹¤.
+     * @param _format í¬ë§¤íŒ…í•  ë¬¸ìì—´ í˜•ì‹ì…ë‹ˆë‹¤.
+     * @param ..._args (optional) í¬ë§¤íŒ…í•  ë¬¸ìì—´ì— ë“¤ì–´ê°ˆ ê°’ë“¤ì…ë‹ˆë‹¤.
      * @return
     */
     template <typename ... Args>
     static tstring Format(const tstring& _format, Args ... _args);
 
     /**
-     * @brief ¹®ÀÚ¿­À» Æ÷¸ÅÆÃÇÕ´Ï´Ù.
-     * @param _format Æ÷¸ÅÆÃÇÒ ¹®ÀÚ¿­ Çü½ÄÀÔ´Ï´Ù.
-     * @param ..._args (optional) Æ÷¸ÅÆÃÇÒ ¹®ÀÚ¿­¿¡ µé¾î°¥ °ªµéÀÔ´Ï´Ù.
-     * @return Æ÷¸ÅÆÃµÈ ¹®ÀÚ¿­ÀÔ´Ï´Ù.
+     * @brief ë¬¸ìì—´ì„ í¬ë§¤íŒ…í•©ë‹ˆë‹¤.
+     * @param _format í¬ë§¤íŒ…í•  ë¬¸ìì—´ í˜•ì‹ì…ë‹ˆë‹¤.
+     * @param ..._args (optional) í¬ë§¤íŒ…í•  ë¬¸ìì—´ì— ë“¤ì–´ê°ˆ ê°’ë“¤ì…ë‹ˆë‹¤.
+     * @return í¬ë§¤íŒ…ëœ ë¬¸ìì—´ì…ë‹ˆë‹¤.
     */
     template <typename ... Args>
     static tstring Format(const TCHAR* _format, Args ... _args);
 
     /**
-     * @brief ¹®ÀÚ¿­À» ÁÖ¾îÁø ÅäÅ« ±âÁØÀ¸·Î ³ª´¯´Ï´Ù.
-     * @param _str ÅäÅ«À¸·Î ³ª´­ ¹®ÀÚ¿­ÀÔ´Ï´Ù.
-     * @param _token ³ª´­ ±¸ºĞÀÚ ÅäÅ«ÀÔ´Ï´Ù.
-     * @return ÅäÅ«À¸·Î ³ª´©¾îÁø ¹®ÀÚ¿­ ¹è¿­ÀÔ´Ï´Ù.
+     * @brief ë¬¸ìì—´ì„ ì£¼ì–´ì§„ í† í° ê¸°ì¤€ìœ¼ë¡œ ë‚˜ëˆ•ë‹ˆë‹¤.
+     * @param _str í† í°ìœ¼ë¡œ ë‚˜ëˆŒ ë¬¸ìì—´ì…ë‹ˆë‹¤.
+     * @param _token ë‚˜ëˆŒ êµ¬ë¶„ì í† í°ì…ë‹ˆë‹¤.
+     * @return í† í°ìœ¼ë¡œ ë‚˜ëˆ„ì–´ì§„ ë¬¸ìì—´ ë°°ì—´ì…ë‹ˆë‹¤.
     */
     static std::vector<tstring> Split(const tstring& _str, const tstring& _token);
 
     /**
-     * @brief stringÀ» wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief stringì„ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring StringToWString(const char* _string);
 
     /**
-     * @brief stringÀ» wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief stringì„ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring StringToWString(const std::string& _string);
 
     /**
-     * @brief wstringÀ» stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief wstringì„ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string WStringToString(const wchar_t* _string);
 
     /**
-     * @brief wstringÀ» stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief wstringì„ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string WStringToString(const std::wstring& _string);
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring ToWString(const std::string& _string)
     {
@@ -63,7 +62,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring ToWString(const std::wstring& _string)
     {
@@ -71,7 +70,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring ToWString(const char* _string)
     {
@@ -79,7 +78,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ wstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ wstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::wstring ToWString(const wchar_t* _string)
     {
@@ -87,7 +86,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string ToString(const std::wstring& _string)
     {
@@ -95,7 +94,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string ToString(const std::string& _string)
     {
@@ -103,7 +102,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string ToString(const wchar_t* _string)
     {
@@ -111,7 +110,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ stringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ stringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static std::string ToString(const char* _string)
     {
@@ -119,7 +118,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ tstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ tstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static tstring ToTString(const std::string& _string)
     {
@@ -131,7 +130,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ tstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ tstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static tstring ToTString(const std::wstring& _string)
     {
@@ -143,7 +142,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ tstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ tstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static tstring ToTString(const char* _string)
     {
@@ -155,7 +154,7 @@ public:
     }
 
     /**
-     * @brief ¾î¶² ¹®ÀÚ¿­ Å¸ÀÔÀÌµç »ó°ü ¾øÀÌ tstringÀ¸·Î º¯È¯ÇÕ´Ï´Ù.
+     * @brief ì–´ë–¤ ë¬¸ìì—´ íƒ€ì…ì´ë“  ìƒê´€ ì—†ì´ tstringìœ¼ë¡œ ë³€í™˜í•©ë‹ˆë‹¤.
     */
     static tstring ToTString(const wchar_t* _string)
     {

@@ -3,8 +3,8 @@
 
 namespace editor
 {
-	Button::Button(string name, vector<Widget*> childs, uint32 flags)
-		: Widget(name, childs, flags)
+	Button::Button(string name, uint32 flags)
+		: Widget(name, flags)
 		, m_rectSize(ImVec2(0.f, 0.f))
 	{
 
