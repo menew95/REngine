@@ -12,12 +12,14 @@
 
 #include <editor\Widget\Widget.h>
 
+#include <editor\Core\Event.h>
+
 namespace editor
 {
     class InputFloat3 : public Widget
     {
     public:
-        InputFloat3(string name, float* handler, uint32 flags = 0);
+        InputFloat3(string name, float* handler, /*Event<rengine::Object, void, string> event,*/ uint32 flags = 0);
 
         ~InputFloat3();
 
@@ -25,5 +27,10 @@ namespace editor
 
     private:
         float* m_pHandler = nullptr;
+
+        float _handler[3];
+
+        void* _comp;
+        //Event<rengine::Object, void, string> m_event;
     };
 }

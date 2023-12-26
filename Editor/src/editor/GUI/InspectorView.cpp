@@ -100,37 +100,53 @@ namespace editor
 			math::Vector3 _pos, _rot, _scale;
 			math::Quaternion _q;
 
-			prop.set_value(component, _v);
-
 			uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
 			_v.Decompose(_scale, _q, _pos);
 
 			_rot = _q.ToEuler();
 
-			float* _pos_ptr[3] = { &_pos.x, &_pos.y, &_pos.z };
-			float* _rot_ptr[3] = { &_rot.x, &_rot.y, &_rot.z };
-			float* _scl_ptr[3] = { &_scale.x, &_scale.y, &_scale.z };
+			float _pos_ptr[3] = { _pos.x, _pos.y, _pos.z };
+			float _rot_ptr[3] = { _rot.x, _rot.y, _rot.z };
+			float _scl_ptr[3] = { _scale.x, _scale.y, _scale.z };
 
-			InputFloat3 _input[3] = {
+			/*InputFloat3 _input[3] = {
 				{string("Position"),	*_pos_ptr, _flags},
 				{string("Rotation"),	*_rot_ptr, _flags},
 				{string("Scale"),		*_scl_ptr, _flags}
-			};
+			};*/
 
-			if (Widget* _pos_widget = header.GetChild("Position"))
+			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Position")))
 			{
 
 			}
+			else
+			{
+				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Position", _pos_ptr, 0);
 
-			if (Widget* _pos_widget = header.GetChild("Rotation"))
+				header.AddWidget(_newWidget);
+			}
+
+			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Rotation")))
 			{
 
 			}
+			else
+			{
+				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Rotation", _rot_ptr, 0);
 
-			if (Widget* _pos_widget = header.GetChild("Scale"))
+				header.AddWidget(_newWidget);
+			}
+
+			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Scale")))
 			{
 
+			}
+			else
+			{
+				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Scale", _scl_ptr, 0);
+
+				header.AddWidget(_newWidget);
 			}
 
 			break;

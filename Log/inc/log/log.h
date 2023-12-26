@@ -36,14 +36,26 @@ public:
 	template <typename ... Args>
 	inline static LOG_DLL_DECLSPEC void Core_Trace(std::string _format, Args ... _args) { s_CoreLogger->trace(_format, _args ...); }
 
+	template <>
+	inline static LOG_DLL_DECLSPEC void Core_Trace(std::string _format) { s_CoreLogger->trace(_format); }
+
 	template <typename ... Args>
 	inline static LOG_DLL_DECLSPEC void Core_Debug(std::string _format, Args ... _args) { s_CoreLogger->debug(_format, _args ...); }
+
+	template <>
+	inline static LOG_DLL_DECLSPEC void Core_Debug(std::string _format) { s_CoreLogger->debug(_format); }
 
 	template <typename ... Args>
 	inline static LOG_DLL_DECLSPEC void Core_Info(std::string _format, Args ... _args) { s_CoreLogger->info(_format, _args ...); }
 
+	template <>
+	inline static LOG_DLL_DECLSPEC void Core_Info(std::string _format) { s_CoreLogger->info(_format); }
+
 	template <typename ... Args>
 	inline static LOG_DLL_DECLSPEC void Core_Warn(std::string _format, Args ... _args) { s_CoreLogger->warn(_format, _args ...); }
+
+	template <>
+	inline static LOG_DLL_DECLSPEC void Core_Warn(std::string _format) { s_CoreLogger->warn(_format); }
 
 	template <typename ... Args>
 	inline static LOG_DLL_DECLSPEC void Core_Error(std::string _format, Args ... _args) { s_CoreLogger->error(_format, _args ...); }

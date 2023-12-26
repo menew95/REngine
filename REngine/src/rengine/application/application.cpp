@@ -50,6 +50,10 @@ namespace rengine
 		_hr = m_pWindow->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
 
 		m_pGraphicsSystem = GraphicsSystem::GetInstance();
+		Log::Core_Trace("Graphics System init succeed");
+		Log::Core_Debug("Graphics System init succeed");
+		Log::Core_Info("Graphics System init succeed");
+		Log::Core_Warn("Graphics System init succeed");
 
 		m_pGraphicsSystem->Initialize();
 

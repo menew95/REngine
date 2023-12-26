@@ -23,6 +23,8 @@
 #include <editor\Widget\InputFloat4.h>
 #include <editor\Widget\CollapsingHeader.h>
 
+#include <log/log.h>
+
 namespace editor
 {
     class WidgetManager
@@ -36,35 +38,33 @@ namespace editor
 
 		Widget* GetColumnWidget(string name);
 
+		TreeNode* GetTreeNodeWidget(string name);
+
 		CollapsingHeader* GetCollapsWidget(string name);
 
 		template<typename T, typename ... Args>
-		Widget* CreateWidget(string name, Args&&... args)
+		T* CreateWidget(string name, Args... args)
 		{
-			Widget* _newWidget = new T(args...);
+			T* _newWidget = new T(name, args...);
 
-			return _newWidget;
-		}
-
-		template<typename ... Args>
-		Widget* CreateWidget(string name, Args&&... args)
-		{
-			TreeNode* _newWidget = new TreeNode(args...);
-			m_treeNodeWidgets.insert(std::make_pair(name, _newWidget));
-
-			return _newWidget;
-		}
-
-		template<typename ... Args>
-		Widget* CreateWidget(string name, Args&&... args)
-		{
-			CollapsingHeader* _newWidget = new CollapsingHeader(args...);
-			m_collapsWidgets.insert(std::make_pair(name, _newWidget));
+			if constexpr (std::is_same_v<T, TreeNode>)
+			{
+				m_treeNodeWidgets.insert(std::make_pair(name, _newWidget));
+			}
+			else if constexpr (std::is_same_v<T, CollapsingHeader>)
+			{
+				m_collapsWidgets.insert(std::make_pair(name, _newWidget));
+			}
+			else
+			{
+				m_widgets.insert(std::make_pair(name, _newWidget));
+			}
 
 			return _newWidget;
 		}
 
 	private:
+		std::map<string, Widget*> m_widgets;
 		std::map<string, Widget*> m_columnWidgets;
 		std::map<string, Widget*> m_collapsWidgets; //하나의 컴포넌트에 대응이 될지도
 		std::map<string, Widget*> m_treeNodeWidgets;

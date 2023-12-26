@@ -2,6 +2,8 @@
 
 #include <editor\Widget\WidgetContainer.h>
 
+#include <editor\Widget\WidgetManager.h>
+
 namespace editor
 {
 	WidgetContainer::WidgetContainer(string name, uint32 flags)

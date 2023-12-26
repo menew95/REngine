@@ -6,6 +6,7 @@ namespace editor
 	InputFloat3::InputFloat3(string name, float* handler, uint32 flags)
 		: Widget(name, flags)
 		, m_pHandler(handler)
+		, _handler{handler[0], handler[1], handler[2]}
 	{
 
 	}
@@ -17,9 +18,9 @@ namespace editor
 
 	void InputFloat3::Render()
 	{
-		if (ImGui::InputFloat3(GetWidgetName().c_str(), m_pHandler, "%.3f", GetFlags()))
+		if (ImGui::InputFloat3(GetWidgetName().c_str(), _handler, "%.3f", GetFlags()))
 		{
-			cout << m_pHandler[0];
+
 		}
 	}
 }

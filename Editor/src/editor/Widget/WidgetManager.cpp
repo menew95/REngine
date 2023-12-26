@@ -60,6 +60,21 @@ namespace editor
 		return nullptr;
 	}
 
+	TreeNode* WidgetManager::GetTreeNodeWidget(string name)
+	{
+		auto _find = m_treeNodeWidgets.find(name);
+
+		if (_find != m_treeNodeWidgets.end())
+			return reinterpret_cast<TreeNode*>(_find->second);
+
+		if (TreeNode* _ret = CreateWidget<TreeNode>(name))
+		{
+			return _ret;
+		}
+
+		return nullptr;
+	}
+
 	CollapsingHeader* WidgetManager::GetCollapsWidget(string name)
 	{
 		auto _find = m_collapsWidgets.find(name);
@@ -67,11 +82,29 @@ namespace editor
 		if (_find != m_collapsWidgets.end())
 			return reinterpret_cast<CollapsingHeader*>(_find->second);
 
-		if (Widget* _ret = CreateWidget<CollapsingHeader>(name))
+		if (CollapsingHeader* _ret = CreateWidget<CollapsingHeader>(name))
 		{
-			return (CollapsingHeader*)_ret;
+			return _ret;
 		}
 
 		return nullptr;
 	}
+
+	/*template<>
+	TreeNode* WidgetManager::CreateWidget(string name, uint32 flags)
+	{
+		TreeNode* _newWidget = new TreeNode(name, flags);
+		m_treeNodeWidgets.insert(std::make_pair(name, _newWidget));
+
+		return _newWidget;
+	}
+
+	template<>
+	CollapsingHeader* WidgetManager::CreateWidget(string name, uint32 flags)
+	{
+		CollapsingHeader* _newWidget = new CollapsingHeader(name, flags);
+		m_collapsWidgets.insert(std::make_pair(name, _newWidget));
+
+		return _newWidget;
+	}*/
 }

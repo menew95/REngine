@@ -66,6 +66,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
     _In_ int       nCmdShow)
 {
+	RedirectIOToConsole();
+
 	auto _rengineModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
 
 	auto _applicationConstructor = (rengine::ApplicationConstructor)_rengineModule->LoadProcedure("CreateApplication");
