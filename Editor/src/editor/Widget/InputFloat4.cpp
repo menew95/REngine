@@ -1,11 +1,14 @@
 ﻿#include <Editor_pch.h>
 #include <editor\Widget\InputFloat4.h>
 
+#include <rengine/core/component/Component.h>
+
 namespace editor
 {
-	InputFloat4::InputFloat4(string name, float* handler, uint32 flags)
+	InputFloat4::InputFloat4(string name, rengine::Component* handler, rttr::property& prop, uint32 flags)
 		: Widget(name, flags)
 		, m_pHandler(handler)
+		, m_prop(prop)
 	{
 
 	}
@@ -17,9 +20,18 @@ namespace editor
 
 	void InputFloat4::Render()
 	{
-		if (ImGui::InputFloat4(GetWidgetName().c_str(), m_pHandler))
-		{
+		auto _val = m_prop.get_value(m_pHandler);
 
+		if (!_val.can_convert<math::Vector4>())
+			assert(false);
+
+		math::Vector4 _vec = _val.convert<math::Vector4>();
+
+		float* _handler[4] = { &_vec.x, &_vec.y, &_vec.z, &_vec.w };
+
+		if (ImGui::InputFloat4(GetWidgetName().c_str(), *_handler, "%.3f", GetFlags()))
+		{
+			m_prop.set_value(m_pHandler, _vec);
 		}
 	}
 }

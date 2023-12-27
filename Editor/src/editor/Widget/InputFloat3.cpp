@@ -1,12 +1,14 @@
 ﻿#include <Editor_pch.h>
 #include <editor\Widget\InputFloat3.h>
 
+#include <rengine/core/component/Component.h>
+
 namespace editor
 {
-	InputFloat3::InputFloat3(string name, float* handler, uint32 flags)
+	InputFloat3::InputFloat3(string name, rengine::Component* handler, rttr::property& prop, uint32 flags)
 		: Widget(name, flags)
 		, m_pHandler(handler)
-		, _handler{handler[0], handler[1], handler[2]}
+		, m_prop(prop)
 	{
 
 	}
@@ -18,9 +20,18 @@ namespace editor
 
 	void InputFloat3::Render()
 	{
-		if (ImGui::InputFloat3(GetWidgetName().c_str(), _handler, "%.3f", GetFlags()))
-		{
+		auto _val = m_prop.get_value(m_pHandler);
 
+		if(!_val.can_convert<math::Vector3>())
+			assert(false);
+
+		math::Vector3 _vec = _val.convert<math::Vector3>();
+
+		float* _handler[3] = { &_vec.x, &_vec.y, &_vec.z };
+
+		if (ImGui::InputFloat3(GetWidgetName().c_str(), *_handler, "%.3f", GetFlags()))
+		{
+			m_prop.set_value(m_pHandler, _vec);
 		}
 	}
 }

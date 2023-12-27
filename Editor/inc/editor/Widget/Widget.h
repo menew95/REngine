@@ -12,6 +12,8 @@
 
 #include <common\common.h>
 
+#include <common\math.h>
+
 #include <editor\Editor.h>
 
 namespace editor

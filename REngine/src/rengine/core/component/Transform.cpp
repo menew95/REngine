@@ -14,9 +14,25 @@ RTTR_REGISTRATION
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::MATRIX)
 	)
 	.property("m_local", &rengine::Transform::GetLocal, &rengine::Transform::SetLocal)
+	/*(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::MATRIX)
+	)*/
+	.property("Position", &rengine::Transform::GetLocalPosition, &rengine::Transform::SetLocalPosition)
+	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::VECTOR3)
+	)
+	.property("Rotate", &rengine::Transform::GetLocalEulerAngle, &rengine::Transform::SetLocalEulerAngle)
+	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::VECTOR3)
+	)
+	.property("Scale", &rengine::Transform::GetLocalScale, &rengine::Transform::SetLocalScale)
+	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::VECTOR3)
+	)
+	/*.property("m_local", &rengine::Transform::GetLocal, &rengine::Transform::SetLocal)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::MATRIX)
-	);
+	)*/;
 }
 
 namespace rengine
@@ -115,5 +131,93 @@ namespace rengine
 			m_world = m_parent.lock()->GetWorld() * m_local;
 		else
 			m_world = m_local;
+	}
+
+	RENGINE_API math::Vector3 Transform::GetLocalPosition()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _t;
+	}
+
+	RENGINE_API void Transform::SetLocalPosition(math::Vector3 val)
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		// Todo : 이게 되는지 모르겠네 일단 이론상으론 기존의 forward 벡터와 up벡터를 그래고 쓰고 포지션만 바뀌는거니깐 정상적으로 작동이 되야한다. 
+		m_local = Matrix::CreateWorld(val, m_local.Forward(), m_local.Up());
+	}
+
+	RENGINE_API math::Quaternion Transform::GetLocalRotation()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _r;
+	}
+
+	RENGINE_API void Transform::SetLocalRotation(math::Quaternion val)
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_local = Matrix::CreateScale(_s) * Matrix::CreateFromQuaternion(val) * Matrix::CreateTranslation(_t);
+	}
+
+	RENGINE_API math::Vector3 Transform::GetLocalEulerAngle()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _r.ToEuler() * math::Rad2Deg;
+	}
+
+	RENGINE_API void Transform::SetLocalEulerAngle(math::Vector3 val)
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_local = Matrix::CreateScale(_s) * Matrix::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(val * math::Deg2Rad)) * Matrix::CreateTranslation(_t);
+	}
+
+	RENGINE_API math::Vector3 Transform::GetLocalScale()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _s;
+	}
+	RENGINE_API void Transform::SetLocalScale(math::Vector3 val)
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_local.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_local = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
 	}
 }

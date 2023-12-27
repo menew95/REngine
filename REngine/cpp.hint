@@ -2,3 +2,5 @@
 // 해석하는 데 도움이 됩니다.
 // 자세한 내용은 다음을 참조하세요. https://go.microsoft.com/fwlink/?linkid=865984
 #define TEXT(quote) __TEXT(quote)
+#define RENGINE_API __declspec(dllexport)
+#define RENGINE_API __declspec(dllimport)

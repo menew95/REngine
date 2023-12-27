@@ -65,7 +65,7 @@ namespace editor
 
     }
 
-	void GetProperty(CollapsingHeader& header, rengine::MetaDataType type, const rengine::Component* component
+	void GetProperty(CollapsingHeader& header, rengine::MetaDataType type, rengine::Component* component
 	, const rttr::variant& var, rttr::property& prop)
 	{
 		string _propName = prop.get_name().to_string();
@@ -86,6 +86,22 @@ namespace editor
 		case rengine::MetaDataType::VECTOR3:
 		{
 			auto _v = var.convert<math::Vector3>();
+
+			auto _t = var.is_valid();
+
+			if (InputFloat3* _widget = reinterpret_cast<InputFloat3*>(header.GetChild(_propName)))
+			{
+				_widget->SetHandler(component);
+			}
+			else
+			{
+				uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+				_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>(_propName, component, prop, _flags);
+
+				header.AddWidget(_widget);
+			}
+
 			break;
 		}
 		case rengine::MetaDataType::VECTOR4:
@@ -97,57 +113,7 @@ namespace editor
 		{
 			auto _v = var.convert<math::Matrix>();
 
-			math::Vector3 _pos, _rot, _scale;
-			math::Quaternion _q;
-
 			uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
-
-			_v.Decompose(_scale, _q, _pos);
-
-			_rot = _q.ToEuler();
-
-			float _pos_ptr[3] = { _pos.x, _pos.y, _pos.z };
-			float _rot_ptr[3] = { _rot.x, _rot.y, _rot.z };
-			float _scl_ptr[3] = { _scale.x, _scale.y, _scale.z };
-
-			/*InputFloat3 _input[3] = {
-				{string("Position"),	*_pos_ptr, _flags},
-				{string("Rotation"),	*_rot_ptr, _flags},
-				{string("Scale"),		*_scl_ptr, _flags}
-			};*/
-
-			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Position")))
-			{
-
-			}
-			else
-			{
-				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Position", _pos_ptr, 0);
-
-				header.AddWidget(_newWidget);
-			}
-
-			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Rotation")))
-			{
-
-			}
-			else
-			{
-				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Rotation", _rot_ptr, 0);
-
-				header.AddWidget(_newWidget);
-			}
-
-			if (InputFloat3* _pos_widget = reinterpret_cast<InputFloat3*>(header.GetChild("Scale")))
-			{
-
-			}
-			else
-			{
-				InputFloat3* _newWidget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>("Scale", _scl_ptr, 0);
-
-				header.AddWidget(_newWidget);
-			}
 
 			break;
 		}

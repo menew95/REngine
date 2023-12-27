@@ -12,25 +12,33 @@
 
 #include <editor\Widget\Widget.h>
 
-#include <editor\Core\Event.h>
+#include <rttr/registration.h>
+
+namespace rengine
+{
+    class Component;
+}
 
 namespace editor
 {
     class InputFloat3 : public Widget
     {
     public:
-        InputFloat3(string name, float* handler, /*Event<rengine::Object, void, string> event,*/ uint32 flags = 0);
+        //InputFloat3(string name, float* handler, /*Event<rengine::Object, void, string> event,*/ uint32 flags = 0);
+        InputFloat3(string name, rengine::Component* handler, rttr::property& prop, uint32 flags = 0);
 
         ~InputFloat3();
 
         EDITOR_API void Render() override;
 
+        void SetHandler(rengine::Component* handler) { m_pHandler = handler; }
+
     private:
-        float* m_pHandler = nullptr;
+        
+        // component handler;
+        rengine::Component* m_pHandler;
 
-        float _handler[3];
-
-        void* _comp;
-        //Event<rengine::Object, void, string> m_event;
+        // property
+        rttr::property m_prop;
     };
 }

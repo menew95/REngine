@@ -55,56 +55,24 @@ namespace rengine
         RENGINE_API void DetachChildren();
 
         RENGINE_API math::Matrix GetWorld() { return m_world; }
-
-        RENGINE_API math::Matrix GetLocal() { return m_local; }
-
-        RENGINE_API math::Vector3 GetLocalPosition()
-        {
-            Vector3 _s, _t;
-            Quaternion _r;
-
-            if(!m_local.Decompose(_s, _r, _t))
-                assert(false);
-
-            return _t;
-        }
-
-        RENGINE_API math::Quaternion GetLocalRotation()
-        {
-            Vector3 _s, _t;
-            Quaternion _r;
-
-            if (!m_local.Decompose(_s, _r, _t))
-                assert(false);
-
-            return _r;
-        }
-
-        RENGINE_API math::Vector3 GetLocalEulerAngle()
-        {
-            Vector3 _s, _t;
-            Quaternion _r;
-
-            if (!m_local.Decompose(_s, _r, _t))
-                assert(false);
-
-            return _r.ToEuler();
-        }
-
-        RENGINE_API math::Vector3 GetLocalScale()
-        {
-            Vector3 _s, _t;
-            Quaternion _r;
-
-            if (!m_local.Decompose(_s, _r, _t))
-                assert(false);
-
-            return _s;
-        }
-
         RENGINE_API void SetWorld(Matrix m);
 
+        RENGINE_API math::Matrix GetLocal() { return m_local; }
         RENGINE_API void SetLocal(Matrix m);
+
+        RENGINE_API math::Vector3 GetLocalPosition();
+        RENGINE_API void SetLocalPosition(math::Vector3 val);
+
+        RENGINE_API math::Quaternion GetLocalRotation();
+        RENGINE_API void SetLocalRotation(math::Quaternion val);
+
+        RENGINE_API math::Vector3 GetLocalEulerAngle();
+        RENGINE_API void SetLocalEulerAngle(math::Vector3 val);
+
+        RENGINE_API math::Vector3 GetLocalScale();
+        RENGINE_API void SetLocalScale(math::Vector3 val);
+
+
 
     private:
         weak_ptr<Transform> m_parent;
