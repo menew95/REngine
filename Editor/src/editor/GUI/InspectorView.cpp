@@ -36,22 +36,11 @@ namespace editor
     {
         __super::Render();
 
-
-        if (ImGui::ButtonEx("Button1"))
-        {
-
-        }
-
         if (EventManager::GetInstance()->GetFocusObject() != nullptr)
         {
             auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
 
-            string _str = _go->GetNameStr();
-
-            Event<rengine::Object, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
-            InputText _inputText(_go->GetNameStr(), _str, 0, _event);
-
-            _inputText.Render();
+			DrawGameObject(_go);
 
             for (auto& _comp : _go->GetComponents())
             {
@@ -72,89 +61,211 @@ namespace editor
 
 		switch (type)
 		{
-		case rengine::MetaDataType::WSTRING:
-		{
-			auto _wstr = var.convert<tstring>();
-			auto _str = StringHelper::WStringToString(_wstr);
-			break;
-		}
-		case rengine::MetaDataType::VECTOR2:
-		{
-			auto _v = var.convert<math::Vector2>();
-			break;
-		}
-		case rengine::MetaDataType::VECTOR3:
-		{
-			auto _v = var.convert<math::Vector3>();
-
-			auto _t = var.is_valid();
-
-			if (InputFloat3* _widget = reinterpret_cast<InputFloat3*>(header.GetChild(_propName)))
+			case rengine::MetaDataType::WSTRING:
 			{
-				_widget->SetHandler(component);
+				auto _wstr = var.convert<tstring>();
+				auto _str = StringHelper::WStringToString(_wstr);
+
+				if (InputText* _widget = reinterpret_cast<InputText*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+
+				break;
 			}
-			else
+			case rengine::MetaDataType::VECTOR2:
 			{
+				if (InputFloat2* _widget = reinterpret_cast<InputFloat2*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat2>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+
+				break;
+			}
+			case rengine::MetaDataType::VECTOR3:
+			{
+				if (InputFloat3* _widget = reinterpret_cast<InputFloat3*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+
+				break;
+			}
+			case rengine::MetaDataType::VECTOR4:
+			{
+				if (InputFloat4* _widget = reinterpret_cast<InputFloat4*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat4>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+
+				break;
+			}
+			case rengine::MetaDataType::MATRIX:
+			{
+				auto _v = var.convert<math::Matrix>();
+
 				uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-				_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>(_propName, component, prop, _flags);
-
-				header.AddWidget(_widget);
+				break;
 			}
+			case rengine::MetaDataType::UUID:
+			{
+				auto _uuid = var.convert<uuid>();
+				break;
+			}
+			case rengine::MetaDataType::BOOL:
+			{
+				if (CheckBox* _widget = reinterpret_cast<CheckBox*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName, component, prop);
 
-			break;
-		}
-		case rengine::MetaDataType::VECTOR4:
-		{
-			auto _v = var.convert<math::Vector4>();
-			break;
-		}
-		case rengine::MetaDataType::MATRIX:
-		{
-			auto _v = var.convert<math::Matrix>();
+					header.AddWidget(_widget);
+				}
+				break;
+			}
+			case rengine::MetaDataType::UINT32:
+			{
+				auto _u32 = var.to_uint32();
+			}
+			case rengine::MetaDataType::INT32:
+			{
+				auto _i32 = var.to_int32();
+				break;
+			}
+			case rengine::MetaDataType::FLOAT:
+			{
+				if (InputFloat* _widget = reinterpret_cast<InputFloat*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-			uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat>(_propName, component, prop, _flags);
 
-			break;
-		}
-		case rengine::MetaDataType::UUID:
-		{
-			auto _uuid = var.convert<uuid>();
-			break;
-		}
-		case rengine::MetaDataType::BOOL:
-		{
-			auto _bool = var.to_bool();
-			break;
-		}
-		case rengine::MetaDataType::UINT32:
-		{
-			auto _u32 = var.to_uint32();
-		}
-		case rengine::MetaDataType::INT32:
-		{
-			auto _i32 = var.to_int32();
-			break;
-		}
-		case rengine::MetaDataType::FLOAT:
-		{
-			auto _f = var.to_float();
-			break;
-		}
-		case rengine::MetaDataType::DOUBLE:
-		{
-			auto _d = var.to_double();
-			break;
-		}
-		default:
-		{
-			assert(false);
-			break;
-		}
+					header.AddWidget(_widget);
+				}
+				break;
+			}
+			case rengine::MetaDataType::DOUBLE:
+			{
+				auto _d = var.to_double();
+				break;
+			}
+			default:
+			{
+				assert(false);
+				break;
+			}
 		}
 	}
 
-    void InspectorView::DrawComponent(rengine::Component* comp)
+	void InspectorView::DrawGameObject(rengine::GameObject* go)
+	{
+		//Event<rengine::Object, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
+		//InputText _inputText(go->GetNameStr(), _str, 0, _event);
+
+		//_inputText.Render();
+
+		const rttr::type gameobject_type = rttr::type::get_by_name("GameObject");
+
+		ImGui::Columns(3, "Test", false);
+
+		{
+			rttr::property _prop = gameobject_type.get_property("Active Self");
+
+			CheckBox _widget{ "", go, _prop };
+
+			_widget.Render();
+		}
+
+		ImGui::NextColumn();
+
+		{
+			rttr::property _prop = gameobject_type.get_property("m_objectName");
+
+			InputText _widget{"Name", go, _prop};
+
+			_widget.Render();
+		}
+
+		ImGui::NextColumn();
+
+		{
+			rttr::property _prop = gameobject_type.get_property("Static");
+
+			CheckBox _widget{ "Static", go, _prop };
+
+			_widget.Render();
+		}
+
+		ImGui::Columns(1);
+
+		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
+
+		{
+			rttr::property _prop = gameobject_type.get_property("Tag");
+
+			if (ImGui::BeginCombo("Tag", "Tag Test", ImGuiComboFlags_PopupAlignLeft))
+			{
+
+				ImGui::EndCombo();
+			}
+		}
+
+		ImGui::SameLine();
+
+		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
+
+		{
+			rttr::property _prop = gameobject_type.get_property("Layer");
+
+			if (ImGui::BeginCombo("Layer", "Layer Test", ImGuiComboFlags_PopupAlignLeft))
+			{
+
+				ImGui::EndCombo();
+			}
+		}
+	}
+
+	void InspectorView::DrawComponent(rengine::Component* comp)
     {
         const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(comp->GetName()));
 
@@ -163,8 +274,6 @@ namespace editor
         for (rttr::property _prop : component_type.get_properties())
         {
             const rttr::variant _value = _prop.get_value(comp);
-
-            cout << _prop.get_name() << endl;
 
             rttr::variant _metaVariant = _prop.get_metadata(rengine::MetaData::Editor);
 

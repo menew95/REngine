@@ -29,10 +29,10 @@ RTTR_REGISTRATION
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::VECTOR3)
 	)
-	/*.property("m_local", &rengine::Transform::GetLocal, &rengine::Transform::SetLocal)
+	.property("parent", &rengine::Transform::GetParent, &rengine::Transform::SetParent)
 	(
-		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::MATRIX)
-	)*/;
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
+	);
 }
 
 namespace rengine

@@ -2,6 +2,8 @@
 
 #include <rengine\core\object\GameObject.h>
 
+#include <rengine\core\component\Camera.h>
+
 namespace rengine
 {
 	Scene::Scene()
@@ -9,6 +11,8 @@ namespace rengine
 	{
 		auto _camGO = GameObject::Instantiate();
 		_camGO->SetName(L"Main Camera");
+
+		_camGO->AddComponent<Camera>();
 
 		auto _lightGO = GameObject::Instantiate();
 		_lightGO->SetName(L"Directional Light");

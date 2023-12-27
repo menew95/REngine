@@ -213,6 +213,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
     <ClInclude Include="inc\editor\Widget\Button.h" />
+    <ClInclude Include="inc\editor\Widget\CheckBox.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat2.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat3.h" />
@@ -256,6 +257,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)_include\lib\*"</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\Widget\CheckBox.cpp" />
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat2.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat3.cpp" />

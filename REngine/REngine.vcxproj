@@ -220,6 +220,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\application\application.cpp" />
+    <ClCompile Include="src\rengine\core\component\Camera.cpp" />
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />

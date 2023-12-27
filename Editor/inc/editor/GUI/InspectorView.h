@@ -37,6 +37,11 @@ namespace editor
 
 	private:
 		/**
+		  @brief gameobject의 정보들을 위젯으로 그림
+		  @param go - gameobject pointer
+		**/
+		void DrawGameObject(rengine::GameObject* go);
+		/**
 		  @brief component의 직렬화가 되는 정보들을 노출
 		  @param comp - component pointer
 		**/

@@ -15,6 +15,7 @@
 #include <common\singleton.h>
 
 #include <editor\Widget\Button.h>
+#include <editor\Widget\CheckBox.h>
 #include <editor\Widget\TreeNode.h>
 #include <editor\Widget\InputText.h>
 #include <editor\Widget\InputFloat.h>

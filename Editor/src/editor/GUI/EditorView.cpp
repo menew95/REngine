@@ -50,12 +50,12 @@ namespace editor
 		ImGui::SetNextWindowSize(viewport->WorkSize);
 		ImGui::SetNextWindowViewport(viewport->ID);
 
-		ImGui::PushStyleColor(ImGuiCol_FrameBg,		EditorStyle::GetColor(ImGuiCol_FrameBg));
+		/*ImGui::PushStyleColor(ImGuiCol_FrameBg,		EditorStyle::GetColor(ImGuiCol_FrameBg));
 		ImGui::PushStyleColor(ImGuiCol_WindowBg,	EditorStyle::GetColor(ImGuiCol_WindowBg));
 		ImGui::PushStyleColor(ImGuiCol_Border,		EditorStyle::GetColor(ImGuiCol_Border));
 		ImGui::PushStyleColor(ImGuiCol_TitleBg,		EditorStyle::GetColor(ImGuiCol_TitleBg));
 		ImGui::PushStyleColor(ImGuiCol_MenuBarBg,	EditorStyle::GetColor(ImGuiCol_MenuBarBg));
-		ImGui::PushStyleColor(ImGuiCol_Header,		EditorStyle::GetColor(ImGuiCol_Header));
+		ImGui::PushStyleColor(ImGuiCol_Header,		EditorStyle::GetColor(ImGuiCol_Header));*/
 
 		__super::Begin();
 
@@ -161,6 +161,6 @@ namespace editor
 	{
 		__super::End();
 
-		ImGui::PopStyleColor(6);
+		//ImGui::PopStyleColor(6);
 	}
 }

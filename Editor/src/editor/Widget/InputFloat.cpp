@@ -6,7 +6,7 @@
 
 namespace editor
 {
-	InputFloat::InputFloat(string name, rengine::Component* handler, rttr::property& prop, uint32 flags)
+	InputFloat::InputFloat(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
 		: Widget(name, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)

@@ -51,8 +51,8 @@ namespace rengine
         template<typename T>
         std::vector<std::shared_ptr<T>> GetComponentsInParent();
 
-        inline tstring& GetTag() { return m_Tag; }
-        inline void SetTag(tstring& val) { m_Tag = val; }
+        inline tstring& GetTag() { return m_tag; }
+        inline void SetTag(tstring& val) { m_tag = val; }
         
         inline std::vector<std::shared_ptr<Component>>& GetComponents() { return m_Components; }
 
@@ -72,7 +72,13 @@ namespace rengine
         bool m_bActiveSelf = true;
         bool m_bIsStatic = false;
 
-        tstring m_Tag;
+        tstring m_tag;
+
+        uint32 m_layer;
+
+        RTTR_ENABLE(rengine::Object);
+
+        RTTR_REGISTRATION_FRIEND
     };
 }
 

@@ -32,5 +32,6 @@ namespace rengine
         INT32,
         FLOAT,
         DOUBLE,
+        ENUM,
     };
 }

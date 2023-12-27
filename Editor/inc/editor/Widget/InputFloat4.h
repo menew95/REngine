@@ -16,7 +16,7 @@
 
 namespace rengine
 {
-    class Component;
+    class Object;
 }
 
 namespace editor
@@ -24,18 +24,18 @@ namespace editor
     class InputFloat4 : public Widget
     {
     public:
-        InputFloat4(string name, rengine::Component* handler, rttr::property& prop, uint32 flags = 0);
+        InputFloat4(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~InputFloat4();
 
         EDITOR_API void Render() override;
 
-        void SetHandler(rengine::Component* handler) { m_pHandler = handler; }
+        EDITOR_API void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
         
     private:
 
-        // component handler;
-        rengine::Component* m_pHandler;
+        // object handler;
+        rengine::Object* m_pHandler;
 
         // property
         rttr::property m_prop;
