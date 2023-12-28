@@ -22,17 +22,27 @@ namespace fs = std::filesystem;
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_folderSrv;
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_fileSrv;
 
-//HICON GetFileTypeIcon(LPCTSTR szFileType, LPWSTR szTypeName)
-//{ 
-//	SHFILEINFO sfi; 
-//
-//	ZeroMemory(&sfi, sizeof(SHFILEINFO));
-//	SHGetFileInfo(szFileType, 0, &sfi, sizeof(SHFILEINFO), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_TYPENAME);
-//	lstrcpy(szTypeName, sfi.szTypeName); 
-//
-//	return sfi.hIcon; 
-//}
+HICON GetFileTypeIcon(LPCTSTR szFileType, LPWSTR szTypeName)
+{ 
+	SHFILEINFO sfi; 
 
+	ZeroMemory(&sfi, sizeof(SHFILEINFO));
+	SHGetFileInfo(szFileType, 0, &sfi, sizeof(SHFILEINFO), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_TYPENAME);
+	lstrcpy(szTypeName, sfi.szTypeName);
+
+	return sfi.hIcon; 
+}
+
+HBITMAP icon_to_bitmap(HICON hicon) {
+	
+	ICONINFO _icon_info;
+
+	GetIconInfo(hicon, &_icon_info);
+
+	return _icon_info.hbmColor;
+}
+
+map<string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_iconMap;
 
 union DX11NativeTexture
 {
@@ -221,7 +231,7 @@ namespace editor
 
 		DrawDirectory();
 
-		ImGui::Columns(1);
+		//ImGui::Columns(1);
 	}
 
 	void ProjectView::DrawFileTreeNode(string path)
