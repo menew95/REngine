@@ -62,7 +62,6 @@
 
 # Folder
 _build/
-Asset/
 Common/include/
 Importer/include/
 dependencies/

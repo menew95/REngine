@@ -20,3 +20,8 @@ bool UpdateEditor()
 {
 	return false;
 }
+
+editor::Editor* GetEditor()
+{
+	return g_pEditor.get();
+}

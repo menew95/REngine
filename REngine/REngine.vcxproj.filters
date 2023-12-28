@@ -122,6 +122,12 @@
     <ClCompile Include="src\rengine\core\component\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="inc\rengine\System\ObjectFactory.h">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\System\ObjectFactory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\rengine\core\object\GameObject.inl">

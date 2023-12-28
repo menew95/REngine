@@ -38,6 +38,9 @@ namespace editor
         void End();
 
         bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+        void* GetDevice() { return m_pDevice; };
+
     private:
         
         void InitImGui();

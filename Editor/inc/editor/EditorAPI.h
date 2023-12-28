@@ -12,3 +12,5 @@ extern "C"
 	using EditorConstructor = editor::Editor * (*)();
 	using EditorDestructor = void (*)(editor::Editor*);
 }
+
+editor::Editor* GetEditor();

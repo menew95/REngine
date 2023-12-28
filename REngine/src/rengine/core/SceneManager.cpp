@@ -25,7 +25,7 @@ namespace rengine
 
         auto _scene = SceneManager::CreateScene(L"Main Scene");
 
-        m_Scenes.push_back(_scene);
+        m_scenes.push_back(_scene);
 
         LoadScene(0);
 
@@ -39,18 +39,18 @@ namespace rengine
 
     size_t SceneManager::GetSceneCount()
     {
-        return m_Scenes.size();
+        return m_scenes.size();
     }
 
     std::shared_ptr<Scene> SceneManager::GetScene(size_t idx)
     {
         try
         {
-            return m_Scenes.at(idx);
+            return m_scenes.at(idx);
         }
         catch (std::out_of_range& e)
         {
-            assert(false, e.what());
+            assert(false);
 
             return nullptr;
         }
