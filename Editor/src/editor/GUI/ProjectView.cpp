@@ -6,9 +6,12 @@
 
 #include <editor/EditorAPI.h>
 
-#include "DirectXTex/DirectXTex.h"
 
 namespace fs = std::filesystem;
+
+#pragma region icon를 출력하기 위해 임시 방편으로 만듬
+
+#include "DirectXTex/DirectXTex.h"
 
 #include <d3d11.h>
 #include <dxgi.h>
@@ -22,13 +25,14 @@ namespace fs = std::filesystem;
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_folderSrv;
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_fileSrv;
 
-HICON GetFileTypeIcon(LPCTSTR szFileType, LPWSTR szTypeName)
+map<string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> g_iconMap; // extension, srv
+
+HICON GetFileTypeIcon(LPCTSTR path/*, LPWSTR szTypeName*/)
 { 
 	SHFILEINFO sfi; 
 
 	ZeroMemory(&sfi, sizeof(SHFILEINFO));
-	SHGetFileInfo(szFileType, 0, &sfi, sizeof(SHFILEINFO), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_TYPENAME);
-	lstrcpy(szTypeName, sfi.szTypeName);
+	SHGetFileInfo(path, 0, &sfi, sizeof(SHFILEINFO), SHGFI_USEFILEATTRIBUTES | SHGFI_ICON | SHGFI_TYPENAME);
 
 	return sfi.hIcon; 
 }
@@ -41,8 +45,6 @@ HBITMAP icon_to_bitmap(HICON hicon) {
 
 	return _icon_info.hbmColor;
 }
-
-map<string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_iconMap;
 
 union DX11NativeTexture
 {
@@ -69,6 +71,86 @@ union DX11NativeTexture
 };
 
 DX11NativeTexture m_NativeTexture;
+
+std::vector<unsigned char> ToPixels(HBITMAP BitmapHandle, int& width, int& height, int& pitch)
+{
+	BITMAP Bmp = { 0 };
+	BITMAPINFO Info = { 0 };
+	std::vector<unsigned char> Pixels = std::vector<unsigned char>();
+
+	HDC DC = CreateCompatibleDC(NULL);
+	std::memset(&Info, 0, sizeof(BITMAPINFO));
+	HBITMAP OldBitmap = (HBITMAP)SelectObject(DC, BitmapHandle);
+	GetObject(BitmapHandle, sizeof(Bmp), &Bmp);
+
+	Info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	Info.bmiHeader.biWidth = width = Bmp.bmWidth;
+	Info.bmiHeader.biHeight = height = Bmp.bmHeight;
+	Info.bmiHeader.biPlanes = 1;
+	Info.bmiHeader.biBitCount = Bmp.bmBitsPixel;
+	Info.bmiHeader.biCompression = BI_RGB;
+	Info.bmiHeader.biSizeImage = ((width * Bmp.bmBitsPixel + 31) / 32) * 4 * height;
+
+	pitch = Bmp.bmWidthBytes;
+
+	Pixels.resize(Info.bmiHeader.biSizeImage);
+	GetDIBits(DC, BitmapHandle, 0, height, &Pixels[0], &Info, DIB_RGB_COLORS);
+	SelectObject(DC, OldBitmap);
+
+	height = std::abs(height);
+	DeleteDC(DC);
+	return Pixels;
+}
+
+void BitmapToSrv(LPCTSTR path, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv)
+{
+	HDC hdcScreen = GetDC(NULL);
+	HDC hdc = CreateCompatibleDC(hdcScreen);
+
+	HICON hicon = GetFileTypeIcon(path);
+
+	HBITMAP hbmp = icon_to_bitmap(hicon);
+
+	int _width = 0, _height = 0, _pitch = 0;
+
+	auto _pixel = ToPixels(hbmp, _width, _height, _pitch);
+
+	D3D11_TEXTURE2D_DESC screenshot_desc = CD3D11_TEXTURE2D_DESC(
+		DXGI_FORMAT_B8G8R8A8_UNORM,     // format
+		_width,							// width
+		_height,						// height
+		1,                              // arraySize
+		1,                              // mipLevels
+		D3D11_BIND_SHADER_RESOURCE,     // bindFlags
+		D3D11_USAGE_DEFAULT,            // usage
+		D3D11_CPU_ACCESS_WRITE,         // cpuaccessFlags
+		1,                              // sampleCount
+		0,                              // sampleQuality
+		0                               // miscFlags
+	);
+
+	D3D11_SUBRESOURCE_DATA data;
+	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
+	data.pSysMem = _pixel.data();
+	data.SysMemPitch = _pitch;
+	data.SysMemSlicePitch = _pitch * _height;
+
+	auto* device = (ID3D11Device*)GetEditor()->GetDevice();
+
+	bool hr = device->CreateTexture2D(
+		&screenshot_desc,
+		&data,
+		m_NativeTexture._tex2D.GetAddressOf()
+	);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	srvDesc.Format = screenshot_desc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MostDetailedMip = 0;
+	srvDesc.Texture2D.MostDetailedMip = screenshot_desc.MipLevels;
+
+	device->CreateShaderResourceView(m_NativeTexture._tex2D.Get(), NULL, srv.ReleaseAndGetAddressOf());
+}
 
 uint32 CheckFileFormat(const tstring& path)
 {
@@ -181,18 +263,19 @@ void CreateImageTest(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv, cons
 	device->CreateShaderResourceView(m_NativeTexture._resource.Get(), &srvDesc, srv.ReleaseAndGetAddressOf());
 }
 
+#pragma endregion
 
 namespace editor
 {
 	ProjectView::ProjectView()
 		: View("Project View")
-		, m_currPath("C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine")
+		, m_currPath("..\\..\\..\\..")
 	{
-		ImageDesc _desc{ TEXT("C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine\\Assets\\icon\\folder_icon.png"), nullptr};
+		ImageDesc _desc{ TEXT("..\\..\\..\\..\\Assets\\icon\\folder_icon.png"), nullptr};
 
 		CreateImageTest(g_folderSrv, _desc);
 
-		ImageDesc _desc2{ TEXT("C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine\\Assets\\icon\\file_icon.png"), nullptr };
+		ImageDesc _desc2{ TEXT("..\\..\\..\\..\\\\Assets\\icon\\file_icon.png"), nullptr };
 
 		CreateImageTest(g_fileSrv, _desc2);
 	}
@@ -303,9 +386,9 @@ namespace editor
 	{
 		fs::path _cur_path(m_currPath);
 
-		fs::path _assetPath("C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine");
+		fs::path _assetPath("..\\..\\..\\..");
 
-		if (m_currPath != "C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine")
+		if (m_currPath != "..\\..\\..\\..")
 		{
 			if (ImGui::Button("<-"))
 			{
@@ -314,7 +397,6 @@ namespace editor
 				_cur_path = _cur_path.parent_path();
 			}
 		}
-
 
 		static float _padding = 16.0f;
 
@@ -336,9 +418,31 @@ namespace editor
 
 			std::string _fileName = _relativePath.filename().string();
 
-			//ImGui::Button(_fileName.c_str(), { _thumnailSize, _thumnailSize });
+			//tstring _test = StringHelper::StringToWString(_relativePath.wstring().c_str());
 
-			ImTextureID _texId = _directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
+			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _srv;
+
+			if (_path.has_extension())
+			{
+				auto _iter = g_iconMap.find(_path.extension().string());
+
+				if (_iter != g_iconMap.end())
+				{
+					_srv = _iter->second;
+				}
+				else
+				{
+					BitmapToSrv(_path.wstring().c_str(), _srv);
+
+					g_iconMap.insert(make_pair(_path.extension().string(), _srv));
+				}
+			}
+			else
+			{
+				_srv = _directoryEntry.is_directory() ? g_folderSrv : g_fileSrv;
+			}
+
+			ImTextureID _texId = _srv.Get();//_directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
 
 			ImGui::ImageButton(_texId, { _thumnailSize, _thumnailSize }, {0, 0}, {1, 1});
 

@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <memory>
+
 #include <spdlog/logger.h>
 
 #if defined(_MSC_VER) && defined(LOG_EXPORT)

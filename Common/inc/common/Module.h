@@ -11,6 +11,9 @@
 
 #include <common\common.h>
 
+//#define ProcedureName(namespaceName, className, funcName) "?"#namespaceName"@"#className"@@"#funcName\
+//"@@Z";
+
 class Module
 {
 public:

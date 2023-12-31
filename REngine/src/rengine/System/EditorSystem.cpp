@@ -25,6 +25,12 @@ namespace rengine
 	}
 	)
 
+	void (*_Initialize)(editor::Editor&, const editor::EditorDesc&);
+	void (*_Begin)(editor::Editor&);
+	void (*_Render)(editor::Editor&);
+	void (*_End)(editor::Editor&);
+	bool (*_WndProc)(editor::Editor&, HWND, UINT, WPARAM, LPARAM);
+
 	void EditorSystem::Initialize(void* hwnd, void* device, void* context)
 	{
 		LoadModule();
@@ -36,21 +42,29 @@ namespace rengine
 		_desc._deviceContext = context;
 		_desc._application = Application::GetInstance();
 
-		m_pEditor->Initialize(_desc);
+		_Initialize(*m_pEditor, _desc);
+		//m_pEditor->_Initialize(_desc);
 	}
 
 	void EditorSystem::Render()
 	{
-		m_pEditor->Begin();
+		_Begin(*m_pEditor);
 
-		m_pEditor->Render();
+		_Render(*m_pEditor);
 
-		m_pEditor->End();
+		_End(*m_pEditor);
+
+		//m_pEditor->Begin();
+
+		//m_pEditor->Render();
+
+		//m_pEditor->End();
 	}
 
 	bool EditorSystem::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		return m_pEditor->WndProc(hWnd, message, wParam, lParam);
+		//return m_pEditor->WndProc(hWnd, message, wParam, lParam);
+		return m_pEditor != nullptr ? _WndProc(*m_pEditor, hWnd, message, wParam, lParam) : false;
 	}
 
 	void EditorSystem::LoadModule()
@@ -60,6 +74,12 @@ namespace rengine
 		auto _editorConstructor = (EditorConstructor)g_pEditorModule->LoadProcedure("CreateEditor");
 
 		auto _editorDestructor = (EditorDestructor)g_pEditorModule->LoadProcedure("ReleaseEditor");
+
+		_Initialize	= (void (*)(editor::Editor&,const editor::EditorDesc&))g_pEditorModule->LoadProcedure("?Initialize@Editor@editor@@QEAAXAEBUEditorDesc@2@@Z");
+		_Begin		= (void (*)(editor::Editor&))g_pEditorModule->LoadProcedure("?Begin@Editor@editor@@QEAAXXZ");
+		_Render		= (void (*)(editor::Editor&))g_pEditorModule->LoadProcedure("?Render@Editor@editor@@QEAAXXZ");
+		_End		= (void (*)(editor::Editor&))g_pEditorModule->LoadProcedure("?End@Editor@editor@@QEAAXXZ");
+		_WndProc	= (bool (*)(editor::Editor&,HWND, UINT, WPARAM, LPARAM))g_pEditorModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
 
 		m_pEditor = _editorConstructor();
 
