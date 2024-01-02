@@ -20,24 +20,26 @@ namespace editor
 {
     class View;
     
-    class EDITOR_API Editor
+    class Editor
     {
     public:
         /**
             @brief editor 초기화
             @param desc - editor 설정
         **/
-        void Initialize(const EditorDesc& desc);
+        EDITOR_API void Initialize(const EditorDesc& desc);
 
-        void Release();
+        EDITOR_API void Update();
 
-        void Begin();
+        EDITOR_API void Release();
 
-        void Render();
+        EDITOR_API void Begin();
 
-        void End();
+        EDITOR_API void Render();
 
-        bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        EDITOR_API void End();
+
+        EDITOR_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
         void* GetDevice() { return m_pDevice; };
 

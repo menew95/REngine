@@ -159,7 +159,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -185,7 +185,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -211,9 +211,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\resource\texture.h" />
     <ClInclude Include="inc\rengine\core\sceneManager.h" />
     <ClInclude Include="inc\rengine\core\scene\scene.h" />
+    <ClInclude Include="inc\rengine\rengine.h" />
     <ClInclude Include="inc\rengine\System\EditorSystem.h" />
     <ClInclude Include="inc\rengine\core\object\object.h" />
-    <ClInclude Include="inc\rengine\core\window.h" />
     <ClInclude Include="inc\rengine\System\GraphicsSystem.h" />
     <ClInclude Include="inc\rengine_api.h" />
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
@@ -229,13 +229,13 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
+    <ClCompile Include="src\rengine\rengine.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine\System\ObjectFactory.cpp" />
     <ClCompile Include="src\rengine_api.cpp" />
     <ClInclude Include="inc\rengine\application\application.h" />
     <ClCompile Include="src\rengine\core\object\object.cpp" />
-    <ClCompile Include="src\rengine\core\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

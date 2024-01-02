@@ -2,7 +2,6 @@
 
 namespace rengine
 {
-
 	RENGINE_API Application* CreateApplication()
 	{
 		auto _application = Application::GetInstance();

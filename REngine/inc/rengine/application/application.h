@@ -13,6 +13,7 @@ namespace rengine
 
 	public:
 		bool Update();
+
 		bool Quit();
 
 		bool Initallize(bool showCmd,

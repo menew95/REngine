@@ -48,6 +48,9 @@
     <ClInclude Include="inc\common\UUIDGenerator.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\common\AppBase.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\common\string_helper.inl">

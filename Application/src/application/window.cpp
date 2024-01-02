@@ -1,8 +1,8 @@
-﻿#include <rengine/core/window.h>
+﻿#include <application/window.h>
 
-#include <rengine\System\EditorSystem.h>
+//#include <rengine\System\EditorSystem.h>
 
-namespace rengine
+namespace app
 {
 	DEFINE_SINGLETON_CLASS(Window, {}, {},
 		{

@@ -20,6 +20,15 @@ namespace editor
 		m_pEditorView = new EditorView();
 	}
 
+	void Editor::Update()
+	{
+		Begin();
+
+		Render();
+
+		End();
+	}
+
 	void Editor::Release()
 	{
 		delete m_pEditorView;

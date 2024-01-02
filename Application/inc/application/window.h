@@ -1,11 +1,13 @@
-#pragma once
+﻿#pragma once
 
 #include <common/common.h>
 #include <common/singleton.h>
 
+#include <application/application.h>
+
 #include <windows.h>
 
-namespace rengine
+namespace app
 {
 	struct WindowInfo
 	{

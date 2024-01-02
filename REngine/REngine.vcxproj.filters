@@ -18,9 +18,6 @@
     <ClInclude Include="inc\rengine\core\object\object.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\window.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\REngine\Application\application.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
@@ -84,12 +81,12 @@
     <ClInclude Include="inc\rengine\core\object\object_impl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\rengine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rengine\core\window.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\application\application.cpp">
@@ -126,6 +123,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\System\ObjectFactory.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\rengine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
