@@ -2,7 +2,7 @@
 
 #include <rengine/System/EditorSystem.h>
 
-#include <rengine\application\application.h>
+//#include <rengine\application\application.h>
 
 #include <editor/EditorAPI.h>
 
@@ -40,7 +40,7 @@ namespace rengine
 		_desc._hwnd = hwnd;
 		_desc._device = device;
 		_desc._deviceContext = context;
-		_desc._application = Application::GetInstance();
+		//_desc._application = Application::GetInstance();
 
 		_Initialize(*m_pEditor, _desc);
 		//m_pEditor->_Initialize(_desc);

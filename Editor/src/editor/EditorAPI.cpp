@@ -2,11 +2,11 @@
 
 #include <editor/EditorApi.h>
 
-static std::shared_ptr<editor::Editor> g_pEditor = nullptr;
+static std::unique_ptr<editor::Editor> g_pEditor = nullptr;
 
 EDITOR_API editor::Editor* CreateEditor()
 {
-	g_pEditor = std::make_shared<editor::Editor>();
+	g_pEditor = std::make_unique<editor::Editor>();
 
 	return g_pEditor.get();
 }

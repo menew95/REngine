@@ -11,6 +11,8 @@
 
 #include <common/common.h>
 
+#include <common/AppBase.h>
+
 #include <filesystem>
 
 #include <editor/Editor_dllexport.h>
@@ -20,31 +22,31 @@ namespace editor
 {
     class View;
     
-    class Editor
+    class Editor : public AppBase
     {
     public:
         /**
             @brief editor 초기화
             @param desc - editor 설정
         **/
-        EDITOR_API void Initialize(const EditorDesc& desc);
+        EDITOR_API void Initialize(void* desc) override;
 
-        EDITOR_API void Update();
+        EDITOR_API bool Update() override;
 
-        EDITOR_API void Release();
+        EDITOR_API bool Quit() override;
 
-        EDITOR_API void Begin();
-
-        EDITOR_API void Render();
-
-        EDITOR_API void End();
-
-        EDITOR_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+        EDITOR_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
         void* GetDevice() { return m_pDevice; };
 
     private:
         
+        void Begin();
+
+        void Render();
+
+        void End();
+
         void InitImGui();
 
         void InitResource();

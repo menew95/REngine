@@ -9,33 +9,39 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace editor
 {
-	void Editor::Initialize(const EditorDesc& desc)
+	void Editor::Initialize(void* desc)
 	{
-		m_hwnd = (HWND)desc._hwnd;
-		m_pDevice = desc._device;
-		m_pContext = desc._deviceContext;
+		auto* _desc = reinterpret_cast<EditorDesc*>(desc);
+
+		m_hwnd = (HWND)_desc->_hwnd;
+		m_pDevice = _desc->_device;
+		m_pContext = _desc->_deviceContext;
 
 		InitImGui();
 
 		m_pEditorView = new EditorView();
 	}
 
-	void Editor::Update()
+	bool Editor::Update()
 	{
 		Begin();
 
 		Render();
 
 		End();
+
+		return true;
 	}
 
-	void Editor::Release()
+	bool Editor::Quit()
 	{
 		delete m_pEditorView;
 
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+
+		return true;
 	}
 
 	void Editor::Begin()

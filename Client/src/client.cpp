@@ -6,7 +6,8 @@
 #include <io.h>
 #include <shellapi.h>
 
-#include <rengine_api.h>
+//#include <rengine_api.h>
+#include <application_api.h>
 
 void RedirectIOToConsole()
 {
@@ -68,11 +69,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	RedirectIOToConsole();
 
-	auto _rengineModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
+	auto _rengineModule = Module::Load(Module::GetModuleFilename("Application").c_str());
 
-	auto _applicationConstructor = (rengine::ApplicationConstructor)_rengineModule->LoadProcedure("CreateApplication");
+	auto _applicationConstructor = (app::ApplicationConstructor)_rengineModule->LoadProcedure("CreateApplication");
 
-	auto _applicationDestructor = (rengine::ApplicationDestructor)_rengineModule->LoadProcedure("DeleteApplication");
+	auto _applicationDestructor = (app::ApplicationDestructor)_rengineModule->LoadProcedure("QuitApplication");
 
 	auto* _application = _applicationConstructor();
 
@@ -105,7 +106,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		_application->Quit();
 	}
 
-	_applicationDestructor(_application);
+	_applicationDestructor();
 
 	_rengineModule.reset();
 

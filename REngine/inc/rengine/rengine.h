@@ -25,7 +25,7 @@ namespace rengine
 
         RENGINE_API bool Update() override;
 
-        RENGINE_API void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
+        RENGINE_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
     private:
         class Window* m_pWindow = nullptr;

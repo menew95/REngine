@@ -89,7 +89,7 @@ namespace app
 
 	LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		if (EditorSystem::GetInstance()->WndProc(hWnd, message, wParam, lParam))
+		if (Application::GetInstance()->GetApp() && Application::GetInstance()->GetApp()->WndProc(hWnd, message, wParam, lParam))
 			return true;
 
 		switch (message)

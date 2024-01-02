@@ -41,9 +41,9 @@ namespace rengine
 		return false;
 	}
 
-	void REngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+	bool REngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		// Todo : 아직 없음
-		return;
+		return true;
 	}
 }

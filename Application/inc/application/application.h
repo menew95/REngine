@@ -3,13 +3,15 @@
 #include <common/common.h>
 #include <common/singleton.h>
 
-#include <ApplicationAPI.h>
+#include <common/AppBase.h>
+
+#include <application_api.h>
 
 #define EDITOR
 
 #ifndef APPCLASS
 #ifdef EDITOR
-#define APPCLASS editor::Editor
+#define APPCLASS AppBase
 #elif !defined(EDITOR)
 #define APPCLASS rengine::REngine
 #endif // DEBUG
@@ -17,7 +19,7 @@
 
 using appConstructor = APPCLASS* (*)();
 using appDestructor = void (*)(APPCLASS&);
-using appInitialize = void (*)(APPCLASS&, const editor::EditorDesc&);
+using appInitialize = void (*)(APPCLASS&, void*);
 using appUpdate = bool (*)(APPCLASS&);
 using appQuit = bool (*)(APPCLASS&);
 using appWndProc = bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM);
@@ -40,9 +42,16 @@ namespace app
 			UINT width,
 			UINT height);
 
+		AppBase* GetApp() const
+		{
+			return m_pApp;
+		}
+
 	protected:
 		double m_dTickTime = 0;
 		double m_TickCnt = 0;
+
+		AppBase* m_pApp;
 
 		class Window* m_pWindow;
 	};

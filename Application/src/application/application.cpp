@@ -9,8 +9,6 @@
 
 std::unique_ptr<Module> g_pModule;
 
-APPCLASS* g_pApp;
-
 appConstructor _constructor;
 appDestructor _destructor;
 appInitialize _initialize;
@@ -39,12 +37,12 @@ namespace app
 
 	bool Application::Update()
 	{
-		return _update(*g_pApp);
+		return _update(*m_pApp);
 	}
 
 	bool Application::Quit()
 	{
-		return _quit(*g_pApp);
+		return _quit(*m_pApp);
 	}
 
 	bool Application::Initallize(bool showCmd, HINSTANCE hInstance, const tstring& windowClassName, const tstring& windowName, UINT width, UINT height)
@@ -54,17 +52,17 @@ namespace app
 #ifdef EDITOR
 		g_pModule = Module::Load(Module::GetModuleFilename("Editor").c_str());
 
-		_initialize = (void (*)(APPCLASS&, const editor::EditorDesc&))g_pModule->LoadProcedure("?Initialize@Editor@editor@@QEAAXAEBUEditorDesc@2@@Z");
-		_update = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Update@Editor@editor@@QEAAXXZ");
+		/*_initialize = (void (*)(APPCLASS&, void*))g_pModule->LoadProcedure("?Initialize@Editor@editor@@QEAAXAEBUEditorDesc@2@@Z");
+		_update = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Update@Editor@editor@@QEAA_NXXZ");
 		_quit = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Quit@Editor@editor@@QEAAXXZ");
-		_wndProc = (bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM))g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
+		_wndProc = (bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM))g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");*/
 
-		_constructor = (APPCLASS* (*)())g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
-		_destructor = (void (*)(APPCLASS&))g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
+		_constructor = (APPCLASS* (*)())g_pModule->LoadProcedure("CreateEditor");
+		_destructor = (void (*)(APPCLASS&))g_pModule->LoadProcedure("QuitEditor");
 #elif !defined(EDITOR)
 		g_pModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
 
-		_Initialize = (void (*)(APPCLASS&, const editor::EditorDesc&))g_pModule->LoadProcedure("?Initialize@REngine@rengine@@QEAAXAEBUEditorDesc@2@@Z");
+		_Initialize = (void (*)(APPCLASS&, void*))g_pModule->LoadProcedure("?Initialize@REngine@rengine@@QEAAXAEBUEditorDesc@2@@Z");
 		_Update = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Update@REngine@rengine@@QEAAXXZ");
 		_quit = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Quit@Editor@editor@@QEAAXXZ");
 		_WndProc = (bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM))g_pModule->LoadProcedure("?WndProc@REngine@rengine@@QEAA_NPEAUHWND__@@I_K_J@Z");
@@ -75,9 +73,9 @@ namespace app
 
 		m_pWindow = Window::GetInstance();
 
-		_hr = m_pWindow->Initialize(showCmd, hInstance, windowClassName, windowName, width, height, _wndProc);
+		_hr = m_pWindow->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
 
-		g_pApp = _constructor();
+		m_pApp = _constructor();
 
 
 		return _hr == S_OK;

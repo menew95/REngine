@@ -1,5 +1,5 @@
 ﻿#include <rengine/application/application.h>
-#include <rengine/core/window.h>
+//#include <rengine/core/window.h>
 #include <rengine/System/GraphicsSystem.h>
 #include <rengine/System/EditorSystem.h>
 

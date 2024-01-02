@@ -5,7 +5,7 @@
 extern "C"
 {
 	EDITOR_API editor::Editor* CreateEditor();
-	EDITOR_API void ReleaseEditor(editor::Editor*);
+	EDITOR_API void QuitEditor(editor::Editor*);
 
 	EDITOR_API bool UpdateEditor();
 

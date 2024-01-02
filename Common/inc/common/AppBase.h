@@ -13,11 +13,12 @@
 
 class AppBase
 {
+public:
     virtual void Initialize(void* desc) abstract;
 
     virtual bool Quit() abstract;
 
     virtual bool Update() abstract;
 
-    virtual void WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) abstract;
+    virtual bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) abstract;
 };

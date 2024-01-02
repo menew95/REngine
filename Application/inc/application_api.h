@@ -18,6 +18,8 @@
 #endif
 #endif
 
+#include <application/application.h>
+
 namespace app
 {
 	class Application;
