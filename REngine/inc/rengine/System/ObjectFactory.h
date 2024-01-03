@@ -14,10 +14,10 @@
 
 #include <common\singleton.h>
 
+#include <rengine\core\object\object.h>
+
 namespace rengine
 {
-    class Object;
-
     class ObjectFactory
     {
         DECLARE_SINGLETON_CLASS(ObjectFactory);
@@ -26,13 +26,25 @@ namespace rengine
         template<typename T>
         shared_ptr<T> CreateObject()
         {
-            return nullptr;
+            static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
+
+            shared_ptr<T> _object = make_shared<T>();
+
+            //m_objectMap.insert(make_pair(_object->GetUUID(), _object));
+
+            return _object;
         }
 
         template<typename T>
         shared_ptr<T> CreateObject(uuid uuid)
         {
-            return nullptr;
+            static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
+
+            shared_ptr<T> _object = make_shared<T>(uuid);
+
+            //m_objectMap.insert(make_pair(uuid, _object));
+
+            return _object;
         }
 
     private:

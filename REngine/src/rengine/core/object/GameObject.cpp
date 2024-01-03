@@ -1,6 +1,8 @@
 ﻿#include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Transform.h>
 
+#include <rengine\System\ObjectFactory.h>
+
 #include <rttr\registration.h>
 
 RTTR_REGISTRATION
@@ -34,7 +36,9 @@ namespace rengine
 {
 	RENGINE_API shared_ptr<GameObject> GameObject::Instantiate(shared_ptr<Transform> parent)
 	{
-		auto _newGO = make_shared<GameObject>();
+		//auto _newGO = make_shared<GameObject>();
+
+		auto _newGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
 
 		auto _trans = _newGO->AddComponent<Transform>();
 

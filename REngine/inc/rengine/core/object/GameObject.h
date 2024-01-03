@@ -74,7 +74,7 @@ namespace rengine
 
         tstring m_tag;
 
-        uint32 m_layer;
+        uint32 m_layer = 0;
 
         RTTR_ENABLE(rengine::Object);
 
