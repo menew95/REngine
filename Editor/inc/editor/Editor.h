@@ -21,6 +21,7 @@
 namespace editor
 {
     class View;
+    class Document;
     
     class Editor : public AppBase
     {
@@ -29,7 +30,7 @@ namespace editor
             @brief editor 초기화
             @param desc - editor 설정
         **/
-        EDITOR_API void Initialize(void* desc) override;
+        EDITOR_API void Initialize(void* option = nullptr) override;
 
         EDITOR_API bool Update() override;
 
@@ -66,6 +67,8 @@ namespace editor
         void* m_pDevice;
         void* m_pContext;
 
-        View* m_pEditorView;
+        Document* m_pEditorDocment;
+
+        EditorDesc m_desc;
     };
 }

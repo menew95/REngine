@@ -10,9 +10,11 @@
 
 #pragma once
 
-#include <common/AppBase.h>
+#include <common\AppBase.h>
 
-#include <rengine/rengine_dllexport.h>
+#include <rengine\rengine_flags.h>
+
+#include <rengine\rengine_dllexport.h>
 
 namespace rengine
 {
@@ -28,8 +30,9 @@ namespace rengine
         RENGINE_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
     private:
-        class Window* m_pWindow = nullptr;
         class GraphicsSystem* m_pGraphicsSystem = nullptr;
+
+        REngineDesc m_desc;
 
         double m_dTickTime = 0;
         double m_TickCnt = 0;   

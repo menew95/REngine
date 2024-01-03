@@ -1,8 +1,12 @@
 ﻿#include <Editor_pch.h>
 
-#include <editor/Editor.h>
+#include <editor\Editor.h>
 
-#include <editor\GUI\EditorView.h>
+#include <editor\Core\EnginePlugin.h>
+
+#include <editor\GUI\EditorDocument.h>
+
+#include <rengine\System\GraphicsSystem.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -11,15 +15,18 @@ namespace editor
 {
 	void Editor::Initialize(void* desc)
 	{
-		auto* _desc = reinterpret_cast<EditorDesc*>(desc);
+		m_desc = *reinterpret_cast<EditorDesc*>(desc);
 
-		m_hwnd = (HWND)_desc->_hwnd;
-		m_pDevice = _desc->_device;
-		m_pContext = _desc->_deviceContext;
+		m_hwnd = (HWND)m_desc._windowInfo._hWnd;
+
+		EnginePlugin::GetInstance()->Initialize(m_desc._windowInfo);
+
+		m_pDevice = rengine::GraphicsSystem::GetInstance()->GetDevice();
+		m_pContext = rengine::GraphicsSystem::GetInstance()->GetContext();
 
 		InitImGui();
 
-		m_pEditorView = new EditorView();
+		m_pEditorDocment = new EditorDocument();
 	}
 
 	bool Editor::Update()
@@ -30,16 +37,18 @@ namespace editor
 
 		End();
 
-		return true;
+		return EnginePlugin::GetInstance()->GetEngine()->Update();;
 	}
 
 	bool Editor::Quit()
 	{
-		delete m_pEditorView;
+		delete m_pEditorDocment;
 
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
+
+		assert(EnginePlugin::GetInstance()->GetEngine()->Quit());
 
 		return true;
 	}
@@ -50,7 +59,7 @@ namespace editor
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		m_pEditorView->Begin();
+		m_pEditorDocment->Begin();
 	}
 
 	bool show_demo_window = true;
@@ -58,12 +67,12 @@ namespace editor
 
 	void Editor::Render()
 	{
-		m_pEditorView->Render();
+		m_pEditorDocment->Render();
 	}
 
 	void Editor::End()
 	{
-		m_pEditorView->End();
+		m_pEditorDocment->End();
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2((float)m_Width, (float)m_Height);

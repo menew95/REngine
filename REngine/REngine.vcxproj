@@ -212,10 +212,16 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\sceneManager.h" />
     <ClInclude Include="inc\rengine\core\scene\scene.h" />
     <ClInclude Include="inc\rengine\rengine.h" />
-    <ClInclude Include="inc\rengine\System\EditorSystem.h" />
+    <ClInclude Include="inc\rengine\rengine_flags.h" />
+    <ClInclude Include="inc\rengine\System\EditorSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="inc\rengine\core\object\object.h" />
     <ClInclude Include="inc\rengine\System\GraphicsSystem.h" />
-    <ClInclude Include="inc\rengine_api.h" />
+    <ClInclude Include="inc\rengine\rengine_api.h" />
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
   </ItemGroup>
   <ItemGroup>
@@ -235,10 +241,15 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\rengine.cpp" />
-    <ClCompile Include="src\rengine\System\EditorSystem.cpp" />
+    <ClCompile Include="src\rengine\System\EditorSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine\System\ObjectFactory.cpp" />
-    <ClCompile Include="src\rengine_api.cpp" />
+    <ClCompile Include="src\rengine\rengine_api.cpp" />
     <ClInclude Include="inc\rengine\application\application.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

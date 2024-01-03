@@ -24,7 +24,7 @@ namespace rengine
 		}
 	});
 
-	void GraphicsSystem::Initialize()
+	void GraphicsSystem::Initialize(const WindowInfo& wininfo)
 	{
 		g_pGraphicsCoreModule = Module::Load(Module::GetModuleFilename("Graphics_Core").c_str());
 
@@ -36,9 +36,9 @@ namespace rengine
 
 		GraphicsEngineDesc _desc;
 		_desc._module = API::DirectX11;
-		//_desc._hwnd = Window::GetInstance()->GetWindowInfo()._hWnd;
-		//_desc._extent._height = Window::GetInstance()->GetWindowInfo()._height;
-		//_desc._extent._width = Window::GetInstance()->GetWindowInfo()._width;
+		_desc._hwnd = wininfo._hWnd;
+		_desc._extent._height = wininfo._height;
+		_desc._extent._width = wininfo._width;
 
 		m_pGraphicsEngine->Init(_desc);
 	}

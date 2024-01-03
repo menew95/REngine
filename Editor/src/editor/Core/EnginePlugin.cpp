@@ -1,12 +1,14 @@
 ﻿#include <Editor_pch.h>
 #include <editor\Core\EnginePlugin.h>
+
 #include <common\Module.h>
+
+#include <rengine\rengine_api.h>
 
 std::unique_ptr<Module> g_engineModule;
 
 namespace editor
 {
-
 	DEFINE_SINGLETON_CLASS(EnginePlugin, 
 		{
 
@@ -18,22 +20,20 @@ namespace editor
 
 		})
 
-	void EnginePlugin::Initialize(rengine::Application* app)
+	void EnginePlugin::Initialize(WindowInfo& winInfo)
 	{
-		/*g_engineModule = Module::Load(Module::GetModuleFilename("Editor").c_str());
+		g_engineModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
 
-		auto _graphicsConstructor = g_engineModule->LoadProcedure("CreateGraphicsEngine");
+		auto _constructor = (rengine::REngine* (*)())g_engineModule->LoadProcedure("CreateREngine");
 
-		auto _graphicsDestructor = g_engineModule->LoadProcedure("ReleaseGraphicsEngine");
+		g_engineModule->LoadProcedure("QuitREngine");
 
-		m_pGraphicsEngine = _graphicsConstructor();
+		m_pRengine = _constructor();
 
-		GraphicsEngineDesc _desc;
-		_desc._module = API::DirectX11;
-		_desc._hwnd = Window::GetInstance()->GetWindowInfo()._hWnd;
-		_desc._extent._height = Window::GetInstance()->GetWindowInfo()._height;
-		_desc._extent._width = Window::GetInstance()->GetWindowInfo()._width;
+		rengine::REngineDesc _desc;
 
-		m_pGraphicsEngine->Init(_desc);*/
+		_desc._windowInfo = winInfo;
+
+		m_pRengine->Initialize(&_desc);
 	}
 }

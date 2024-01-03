@@ -35,6 +35,23 @@ using uuid = tstring;
 
 using Layer = uint32;
 
+struct WindowInfo
+{
+	HINSTANCE _hInstance = 0;
+	HWND _hWnd = 0;
+	uint32 _width = 1;
+	uint32 _height = 1;
+};
+
+struct WindowDesc
+{
+	bool _showCmd;
+	HINSTANCE _hInstance;
+	const tstring& _windowClassName;
+	const tstring& _windowName;
+	UINT _width;
+	UINT _height;
+};
 
 struct Extent2D
 {

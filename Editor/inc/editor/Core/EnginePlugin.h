@@ -13,6 +13,8 @@
 #include <common\common.h>
 #include <common\singleton.h>
 
+#include <common\AppBase.h>
+
 namespace rengine
 {
     class SceneManager;
@@ -27,15 +29,14 @@ namespace editor
         DECLARE_SINGLETON_CLASS(EnginePlugin)
 
     public:
-        void Initialize(rengine::Application* app);
+        void Initialize(WindowInfo& winInfo);
+
+        AppBase* GetEngine()
+        {
+            return m_pRengine;
+        }
 
     private:
-        
-        rengine::Application* m_pApp;
-
-        rengine::SceneManager* m_pSceneMgr;
-
-        rengine::ResourceManager* m_pResourceMgr;
-        
+        AppBase* m_pRengine;
     };
 }

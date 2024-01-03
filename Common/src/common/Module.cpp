@@ -19,6 +19,8 @@ Module::Module(const char* moduleName)
 {
     m_pHandle = LoadLibrarySafe(moduleName);
 
+    auto _error = GetLastError();
+
     /* Check if loading has failed */
     assert(m_pHandle != NULL);
 }

@@ -35,7 +35,7 @@ namespace editor
 	protected:
 		bool _test = false;
 		
-		std::string m_ViewName;
+		std::string m_viewName;
 
 		bool m_bOpen = true;
 

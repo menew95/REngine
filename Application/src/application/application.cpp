@@ -1,7 +1,11 @@
 ﻿#include <application/application.h>
 #include <application/window.h>
 
+#if defined(EDITOR)
 #include <editor/Editor.h>
+#else
+#include <rengine/rengine.h>
+#endif
 
 #include <rengine/application/application.h>
 
@@ -9,12 +13,9 @@
 
 std::unique_ptr<Module> g_pModule;
 
+using appConstructor = AppBase * (*)();
+
 appConstructor _constructor;
-appDestructor _destructor;
-appInitialize _initialize;
-appUpdate _update;
-appQuit _quit;
-appWndProc _wndProc;
 
 namespace app
 {
@@ -37,12 +38,12 @@ namespace app
 
 	bool Application::Update()
 	{
-		return _update(*m_pApp);
+		return m_pApp->Update();
 	}
 
 	bool Application::Quit()
 	{
-		return _quit(*m_pApp);
+		return m_pApp->Quit();
 	}
 
 	bool Application::Initallize(bool showCmd, HINSTANCE hInstance, const tstring& windowClassName, const tstring& windowName, UINT width, UINT height)
@@ -52,31 +53,26 @@ namespace app
 #ifdef EDITOR
 		g_pModule = Module::Load(Module::GetModuleFilename("Editor").c_str());
 
-		/*_initialize = (void (*)(APPCLASS&, void*))g_pModule->LoadProcedure("?Initialize@Editor@editor@@QEAAXAEBUEditorDesc@2@@Z");
-		_update = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Update@Editor@editor@@QEAA_NXXZ");
-		_quit = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Quit@Editor@editor@@QEAAXXZ");
-		_wndProc = (bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM))g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");*/
+		_constructor = (appConstructor)g_pModule->LoadProcedure("CreateEditor");
 
-		_constructor = (APPCLASS* (*)())g_pModule->LoadProcedure("CreateEditor");
-		_destructor = (void (*)(APPCLASS&))g_pModule->LoadProcedure("QuitEditor");
+		editor::EditorDesc _desc;
 #elif !defined(EDITOR)
 		g_pModule = Module::Load(Module::GetModuleFilename("REngine").c_str());
 
-		_Initialize = (void (*)(APPCLASS&, void*))g_pModule->LoadProcedure("?Initialize@REngine@rengine@@QEAAXAEBUEditorDesc@2@@Z");
-		_Update = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Update@REngine@rengine@@QEAAXXZ");
-		_quit = (bool (*)(APPCLASS&))g_pModule->LoadProcedure("?Quit@Editor@editor@@QEAAXXZ");
-		_WndProc = (bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM))g_pModule->LoadProcedure("?WndProc@REngine@rengine@@QEAA_NPEAUHWND__@@I_K_J@Z");
+		_constructor = (appConstructor)g_pModule->LoadProcedure("CreateREngine");
 
-		_constructor = (APPCLASS* (*)())g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
-		_destructor = (void (*)(APPCLASS&))g_pModule->LoadProcedure("?WndProc@Editor@editor@@QEAA_NPEAUHWND__@@I_K_J@Z");
+		rengine::REngineDesc _desc;
 #endif // DEBUG
 
 		m_pWindow = Window::GetInstance();
 
-		_hr = m_pWindow->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
+		_hr = Window::GetInstance()->Initialize(showCmd, hInstance, windowClassName, windowName, width, height);
+
+		_desc._windowInfo = Window::GetInstance()->GetWindowInfo();
 
 		m_pApp = _constructor();
-
+		
+		m_pApp->Initialize(&_desc);
 
 		return _hr == S_OK;
 	}

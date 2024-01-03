@@ -1,33 +1,28 @@
 ﻿#include <Editor_pch.h>
 
-#include <editor\GUI\EditorView.h>
+#include <editor\GUI\EditorDocument.h>
 #include <editor\GUI\GameView.h>
 #include <editor\GUI\HierarchyView.h>
 #include <editor\GUI\InspectorView.h>
 #include <editor\GUI\ProjectView.h>
 
-
-
-
 namespace editor
 {
-	EditorView::EditorView()
-		: View("Editor View")
+	EditorDocument::EditorDocument()
+		: Document("Editor View")
 	{
-		m_bOpen = true;
-
 		m_pGameView = new GameView();
 		m_pInspectorView = new InspectorView();
 		m_pHierarchyView = new HierarchyView();
 		m_pProjectView = new ProjectView();
 
-		m_views.push_back(m_pGameView);
-		m_views.push_back(m_pInspectorView);
-		m_views.push_back(m_pHierarchyView);
-		m_views.push_back(m_pProjectView);
+		m_childs.push_back(m_pGameView);
+		m_childs.push_back(m_pInspectorView);
+		m_childs.push_back(m_pHierarchyView);
+		m_childs.push_back(m_pProjectView);
 	}
 
-	EditorView::~EditorView()
+	EditorDocument::~EditorDocument()
 	{
 		delete m_pGameView;
 		delete m_pInspectorView;
@@ -35,11 +30,8 @@ namespace editor
 		delete m_pProjectView;
 	}
 
-	void EDITOR_API EditorView::Begin()
+	void EDITOR_API EditorDocument::Begin()
 	{
-		// virtual를 통해 세개의 인자를 다 넘겨 받는 형식으로 바꿔야하나?
-		//__super::Begin();
-
 		m_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
 
 		m_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
@@ -66,7 +58,7 @@ namespace editor
 		ImGui::SetWindowSize(m_ViewName.c_str(), _size);*/
 
 		static ImGuiDockNodeFlags dockspaceFlags = ImGuiDockNodeFlags_None;
-		ImGuiID dockspaceID = ImGui::GetID(m_ViewName.c_str());
+		ImGuiID dockspaceID = ImGui::GetID(m_documentName.c_str());
 
 
 		if (!ImGui::DockBuilderGetNode(dockspaceID)) {
@@ -140,11 +132,11 @@ namespace editor
 
 	}
 
-	void EDITOR_API EditorView::Render()
+	void EDITOR_API EditorDocument::Render()
 	{
 		__super::Render();
 
-		for (auto* _view : m_views)
+		for (auto* _view : m_childs)
 		{
 			if (_view->GetOpen())
 			{
@@ -157,7 +149,7 @@ namespace editor
 		}
 	}
 
-	void EDITOR_API EditorView::End()
+	void EDITOR_API EditorDocument::End()
 	{
 		__super::End();
 

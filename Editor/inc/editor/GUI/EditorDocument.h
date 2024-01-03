@@ -10,16 +10,16 @@
 **/
 #pragma once
 
-#include <editor\GUI\View.h>
+#include <editor\GUI\Document.h>
 
 namespace editor
 {
-    class EditorView : public View 
+    class EditorDocument : public Document
     {
     public:
-        EditorView();
+        EditorDocument();
 
-        EDITOR_API ~EditorView();
+        EDITOR_API ~EditorDocument();
 
         void EDITOR_API Begin() override;
 
@@ -28,9 +28,7 @@ namespace editor
         void EDITOR_API End() override;
 
     private:
-        vector<View*> m_views;
 
-        // test 중
         class GameView* m_pGameView;
         class InspectorView* m_pInspectorView;
         class HierarchyView* m_pHierarchyView;

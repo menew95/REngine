@@ -9,21 +9,6 @@
 
 #define EDITOR
 
-#ifndef APPCLASS
-#ifdef EDITOR
-#define APPCLASS AppBase
-#elif !defined(EDITOR)
-#define APPCLASS rengine::REngine
-#endif // DEBUG
-#endif
-
-using appConstructor = APPCLASS* (*)();
-using appDestructor = void (*)(APPCLASS&);
-using appInitialize = void (*)(APPCLASS&, void*);
-using appUpdate = bool (*)(APPCLASS&);
-using appQuit = bool (*)(APPCLASS&);
-using appWndProc = bool (*)(APPCLASS&, HWND, UINT, WPARAM, LPARAM);
-
 namespace app
 {
 	class Application

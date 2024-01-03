@@ -4,7 +4,7 @@
     public: \
         static TClass Instance; \
         static TClass* GetInstance() { return &TClass::Instance; } \
-        void Release();\
+        static void Release();\
     protected: \
         TClass(); \
         virtual ~TClass(); \
@@ -16,7 +16,7 @@
     public: \
         static EXPORT TClass Instance; \
         static EXPORT TClass* GetInstance() { return &TClass::Instance; } \
-        EXPORT void Release();\
+        static EXPORT void Release();\
     protected: \
         TClass(); \
         virtual ~TClass(); \

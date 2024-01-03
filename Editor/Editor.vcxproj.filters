@@ -63,7 +63,7 @@
     <ClInclude Include="inc\editor\GUI\View.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\editor\EditorAPI.h">
+    <ClInclude Include="inc\editor\editor_api.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\editor\GUI\InspectorView.h">
@@ -81,7 +81,7 @@
     <ClInclude Include="inc\editor\GUI\ProjectView.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\editor\GUI\EditorView.h">
+    <ClInclude Include="inc\editor\GUI\EditorDocument.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\editor\Widget\Widget.h">
@@ -132,6 +132,9 @@
     <ClInclude Include="inc\editor\Widget\CheckBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\editor\GUI\SceneView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\Editor.cpp">
@@ -164,7 +167,7 @@
     <ClCompile Include="inc\ImGui\imgui_widgets.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\EditorAPI.cpp">
+    <ClCompile Include="src\editor\editor_api.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\GUI\View.cpp">
@@ -185,7 +188,7 @@
     <ClCompile Include="src\editor\GUI\GameView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\GUI\EditorView.cpp">
+    <ClCompile Include="src\editor\GUI\EditorDocument.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Widget\Widget.cpp">
@@ -231,6 +234,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Widget\CheckBox.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\SceneView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\Document.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

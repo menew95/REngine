@@ -11,9 +11,9 @@ namespace editor
 
 		},
 		{
-			ClearColumnWidget();
+			/*ClearColumnWidget();
 			ClearCollapsWidget();
-			ClearTreeNodeWidget();
+			ClearTreeNodeWidget();*/
 		});
 
 	void WidgetManager::ClearColumnWidget()

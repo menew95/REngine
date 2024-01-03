@@ -14,7 +14,7 @@
 class AppBase
 {
 public:
-    virtual void Initialize(void* desc) abstract;
+    virtual void Initialize(void* option) abstract;
 
     virtual bool Quit() abstract;
 

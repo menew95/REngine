@@ -4,6 +4,8 @@
 
 #include <common/singleton.h>
 
+#include <rengine/rengine_dllexport.h>
+
 namespace graphics
 {
 	class GraphicsEngine;
@@ -13,26 +15,26 @@ namespace rengine
 {
 	class GraphicsSystem
 	{
-		DECLARE_SINGLETON_CLASS(GraphicsSystem);
+		DECLARE_SINGLETON_CLASS_EXPORT(RENGINE_API, GraphicsSystem);
 
 	public:
 
 		/**
 		    @brief Graphics Module 초기화
 		**/
-		void Initialize();
+		void Initialize(const WindowInfo& wininfo);
 
 		/**
 		    @brief  Module로부터 생성한 Device를 반환
 		    @retval  - Device pointer
 		**/
-		void* GetDevice();
+		RENGINE_API void* GetDevice();
 
 		/**
 		    @brief  Module로부터 생성한 Context를 반환
 		    @retval  - Context pointer
 		**/
-		void* GetContext();
+		RENGINE_API void* GetContext();
 
 		/**
 		    @brief Graphics Render

@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -139,7 +139,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -190,7 +190,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -203,14 +203,15 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\Core\Event.h" />
     <ClInclude Include="inc\editor\Core\EventManager.h" />
     <ClInclude Include="inc\editor\Core\EnginePlugin.h" />
-    <ClInclude Include="inc\editor\EditorAPI.h" />
+    <ClInclude Include="inc\editor\editor_api.h" />
     <ClInclude Include="inc\editor\GUI\Document.h" />
-    <ClInclude Include="inc\editor\GUI\EditorView.h" />
+    <ClInclude Include="inc\editor\GUI\EditorDocument.h" />
     <ClInclude Include="inc\editor\GUI\EditorStyle.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
     <ClInclude Include="inc\editor\GUI\GameView.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
+    <ClInclude Include="inc\editor\GUI\SceneView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
     <ClInclude Include="inc\editor\Widget\Button.h" />
     <ClInclude Include="inc\editor\Widget\CheckBox.h" />
@@ -257,6 +258,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\GUI\Document.cpp" />
+    <ClCompile Include="src\editor\GUI\SceneView.cpp" />
     <ClCompile Include="src\editor\Widget\CheckBox.cpp" />
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat2.cpp" />
@@ -317,13 +320,13 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\editor\Core\EnginePlugin.cpp" />
     <ClCompile Include="src\editor\Core\Event.cpp" />
     <ClCompile Include="src\editor\Core\EventManager.cpp" />
-    <ClCompile Include="src\editor\GUI\EditorView.cpp" />
+    <ClCompile Include="src\editor\GUI\EditorDocument.cpp" />
     <ClCompile Include="src\editor\GUI\EditorStyle.cpp" />
     <ClCompile Include="src\editor\GUI\GameView.cpp" />
     <ClCompile Include="src\editor\GUI\HierarchyView.cpp" />
     <ClCompile Include="src\editor\GUI\InspectorView.cpp" />
     <ClCompile Include="src\editor\Editor.cpp" />
-    <ClCompile Include="src\editor\EditorAPI.cpp" />
+    <ClCompile Include="src\editor\editor_api.cpp" />
     <ClCompile Include="src\editor\GUI\ProjectView.cpp" />
     <ClCompile Include="src\editor\GUI\View.cpp" />
     <ClCompile Include="src\editor\Widget\Button.cpp" />

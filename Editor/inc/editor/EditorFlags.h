@@ -8,16 +8,12 @@
 **/
 #pragma once
 
+#include <common/common.h>
+
 namespace editor
 {
     struct EditorDesc
     {
-        void* _hwnd;
-
-        void* _device;
-        void* _deviceContext;
-        void* _renderTarget;
-
-        void* _application;
+        WindowInfo _windowInfo;
     };
 }

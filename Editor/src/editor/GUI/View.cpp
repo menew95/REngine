@@ -5,7 +5,7 @@
 namespace editor
 {
 	View::View(std::string name)
-	: m_ViewName(name)
+	: m_viewName(name)
 	{
 		//LoadSetting();
 	}
@@ -24,7 +24,7 @@ namespace editor
 			LoadSetting();
 		}
 
-		ImGui::Begin(m_ViewName.c_str(), &m_bOpen, m_flags);
+		ImGui::Begin(m_viewName.c_str(), &m_bOpen, m_flags);
 	}
 
 	void View::Render()
@@ -42,11 +42,11 @@ namespace editor
 
 	void View::LoadSetting()
 	{
-		auto _id = ImGui::GetID(m_ViewName.c_str());
+		auto _id = ImGui::GetID(m_viewName.c_str());
 
-		auto* _settings = ImGui::FindSettingsHandler(m_ViewName.c_str());
+		auto* _settings = ImGui::FindSettingsHandler(m_viewName.c_str());
 
-		auto* _window = ImGui::FindWindowByName(m_ViewName.c_str());
+		auto* _window = ImGui::FindWindowByName(m_viewName.c_str());
 		//m_bOpen = _settings->Collapsed;
 	}
 }

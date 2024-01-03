@@ -1,6 +1,6 @@
 ﻿#include <Editor_pch.h>
 
-#include <editor/EditorApi.h>
+#include <editor\editor_api.h>
 
 static std::unique_ptr<editor::Editor> g_pEditor = nullptr;
 
@@ -11,14 +11,14 @@ EDITOR_API editor::Editor* CreateEditor()
 	return g_pEditor.get();
 }
 
-void ReleaseEditor(editor::Editor* editor)
+EDITOR_API bool QuitEditor()
 {
-
+	return g_pEditor->Quit();
 }
 
-bool UpdateEditor()
+EDITOR_API bool UpdateEditor()
 {
-	return false;
+	return g_pEditor->Update();
 }
 
 editor::Editor* GetEditor()

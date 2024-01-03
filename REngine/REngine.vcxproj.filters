@@ -21,7 +21,7 @@
     <ClInclude Include="inc\REngine\Application\application.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine_api.h">
+    <ClInclude Include="inc\rengine\rengine_api.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\rengine_dllexport.h">
@@ -84,6 +84,9 @@
     <ClInclude Include="inc\rengine\rengine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\rengine_flags.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
@@ -92,7 +95,7 @@
     <ClCompile Include="src\rengine\application\application.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine_api.cpp">
+    <ClCompile Include="src\rengine\rengine_api.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\System\GraphicsSystem.cpp">

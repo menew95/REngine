@@ -5,12 +5,14 @@
 extern "C"
 {
 	EDITOR_API editor::Editor* CreateEditor();
-	EDITOR_API void QuitEditor(editor::Editor*);
+
+	EDITOR_API bool QuitEditor();
 
 	EDITOR_API bool UpdateEditor();
 
 	using EditorConstructor = editor::Editor * (*)();
-	using EditorDestructor = void (*)(editor::Editor*);
+
+	using EditorDestructor = bool (*)();
 }
 
 editor::Editor* GetEditor();

@@ -43,7 +43,6 @@ namespace graphics
 		m_pCommandBuffer->SetRenderTarget(*m_pSwapChain, 1, &_clear);
 
 		//m_pCommandBuffer->ClearState();
-
 	}
 
 	void GraphicsEngine::Present()

@@ -63,6 +63,7 @@ namespace rengine
 
         m_pCurrentScene = GetScene(idx);
     }
+
     RENGINE_API std::shared_ptr<Scene> SceneManager::CreateScene(tstring name)
     {
         auto _newScene = make_shared<Scene>();

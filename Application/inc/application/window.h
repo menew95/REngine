@@ -9,24 +9,6 @@
 
 namespace app
 {
-	struct WindowInfo
-	{
-		HINSTANCE _hInstance = 0;
-		HWND _hWnd = 0;
-		uint32 _width = 1;
-		uint32 _height = 1;
-	};
-
-	struct WindowDesc
-	{
-		bool _showCmd;
-		HINSTANCE _hInstance;
-		const tstring& _windowClassName;
-		const tstring& _windowName;
-		UINT _width;
-		UINT _height;
-	};
-
 	class Window
 	{
 		DECLARE_SINGLETON_CLASS(Window)

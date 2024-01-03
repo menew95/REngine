@@ -1,10 +1,10 @@
 ﻿#include <common\Module.h>
 
-#include <rengine/System/EditorSystem.h>
+#include <rengine\System\EditorSystem.h>
 
 //#include <rengine\application\application.h>
 
-#include <editor/EditorAPI.h>
+#include <editor\editor_api.h>
 
 std::unique_ptr<Module> g_pEditorModule;
 

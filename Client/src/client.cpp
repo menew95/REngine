@@ -106,7 +106,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		_application->Quit();
 	}
 
-	_applicationDestructor();
+	//_applicationDestructor();
 
 	_rengineModule.reset();
 
