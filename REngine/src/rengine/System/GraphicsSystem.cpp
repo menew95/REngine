@@ -62,4 +62,11 @@ namespace rengine
 	{
 		m_pGraphicsEngine->Present();
 	}
+
+	void rengine::GraphicsSystem::ResizeWindow(uint32 width, uint32 height)
+	{
+		Extent2D _resolution{ width , height};
+
+		m_pGraphicsEngine->ResizeSwapchain(_resolution);
+	}
 }

@@ -36,7 +36,7 @@ namespace app
 		double m_dTickTime = 0;
 		double m_TickCnt = 0;
 
-		AppBase* m_pApp;
+		AppBase* m_pApp = nullptr;
 
 		class Window* m_pWindow;
 	};

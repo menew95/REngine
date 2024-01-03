@@ -26,19 +26,22 @@ namespace graphics
 			m_pGraphicsModule.reset();
 		}
 	}
+
 	void* GraphicsEngine::GetDevice()
 	{
 		return m_pRenderSystem->GetDevice();
 	}
+
 	void* GraphicsEngine::GetContext()
 	{
 		return m_pRenderSystem->GetDeviceContext();
 	}
+
 	void GraphicsEngine::Excute()
 	{
 		AttachmentClear _clear{math::Color::Black, 0};
 
-		m_pCommandBuffer->SetViewport({0, 0, 1280, 720, 0, 1});
+		m_pCommandBuffer->SetViewport({0, 0, static_cast<float>(m_windowInfo._width), static_cast<float>(m_windowInfo._height), 0, 1});
 
 		m_pCommandBuffer->SetRenderTarget(*m_pSwapChain, 1, &_clear);
 
@@ -48,6 +51,14 @@ namespace graphics
 	void GraphicsEngine::Present()
 	{
 		m_pSwapChain->Present();
+	}
+
+	void GraphicsEngine::ResizeSwapchain(const Extent2D& resolution)
+	{
+		m_windowInfo._width = resolution._width;
+		m_windowInfo._height = resolution._height;
+
+		m_pSwapChain->ResizeBuffer(resolution);
 	}
 
 	void GraphicsEngine::LoadModule(const GraphicsEngineDesc& desc)

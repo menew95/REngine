@@ -43,6 +43,8 @@ namespace rengine
 
 		void Present();
 
+		void ResizeWindow(uint32 width, uint32 height);
+
 	private:
 		graphics::GraphicsEngine* m_pGraphicsEngine = nullptr;
 	};

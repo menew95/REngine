@@ -31,7 +31,7 @@ namespace editor
     public:
         void Initialize(WindowInfo& winInfo);
 
-        AppBase* GetEngine()
+        inline AppBase* GetEngine()
         {
             return m_pRengine;
         }

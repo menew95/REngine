@@ -89,53 +89,12 @@ namespace app
 
 	LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		if (Application::GetInstance()->GetApp() && Application::GetInstance()->GetApp()->WndProc(hWnd, message, wParam, lParam))
-			return true;
 
 		switch (message)
 		{
-		//case WM_PAINT:
-		//{
-		//	PAINTSTRUCT ps;
-		//	HDC hdc = BeginPaint(hWnd, &ps);
-		//	EndPaint(hWnd, &ps);
-		//	break;
-		//}
-		case WM_MOUSEMOVE:
-		{
-			RECT clidentRC;
-			POINT p1, p2;
-
-			GetClientRect(hWnd, &clidentRC);
-
-			p1.x = clidentRC.left;
-			p1.y = clidentRC.top;
-			p2.x = clidentRC.right;
-			p2.y = clidentRC.bottom;
-
-			ClientToScreen(hWnd, &p1);
-			ClientToScreen(hWnd, &p2);
-
-			clidentRC.left = p1.x;
-			clidentRC.top = p1.y;
-			clidentRC.right = p2.x;
-			clidentRC.bottom = p2.y;
-
-			float middleOfScrrenX = (clidentRC.left + clidentRC.right) / 2.0f;
-			float middleOfScrrenY = (clidentRC.top + clidentRC.bottom) / 2.0f;
-
-			POINT screenPos;
-			screenPos.x = LOWORD(lParam);
-			screenPos.y = HIWORD(lParam);
-
-			ClientToScreen(hWnd, &screenPos);
-
-			return 0;
-		}
-		case WM_SIZE:
-		{
+			case WM_MOUSEMOVE:
 			{
-				RECT clidentRC;
+				/*RECT clidentRC;
 				POINT p1, p2;
 
 				GetClientRect(hWnd, &clidentRC);
@@ -153,32 +112,49 @@ namespace app
 				clidentRC.right = p2.x;
 				clidentRC.bottom = p2.y;
 
-				ClipCursor(&clidentRC);
+				float middleOfScrrenX = (clidentRC.left + clidentRC.right) / 2.0f;
+				float middleOfScrrenY = (clidentRC.top + clidentRC.bottom) / 2.0f;
 
+				POINT screenPos;
+				screenPos.x = LOWORD(lParam);
+				screenPos.y = HIWORD(lParam);
+
+				ClientToScreen(hWnd, &screenPos);
+
+				ClipCursor(&clidentRC);*/
+
+				return 0;
+			}
+			case WM_SIZE:
+			{
 				Window::GetInstance()->GetWindowInfo()._width = LOWORD(lParam);
 				Window::GetInstance()->GetWindowInfo()._height = HIWORD(lParam);
+				break;
 			}
+			case WM_SETFOCUS:
+			{
 
-			//// Save the new client area dimensions.
-			//g_game->OnSize(g_windowInfo.width, g_windowInfo.height, wParam);
-			break;
-		}
-		case WM_SETFOCUS:
-		{
+				break;
+			}
+			case WM_KILLFOCUS:
+			{
 
-			break;
+				break;
+			}
+			case WM_CLOSE:
+			{
+				DestroyWindow(hWnd);
+				break;
+			}
+			case WM_DESTROY:
+			{
+				PostQuitMessage(0);
+				break;
+			}
 		}
-		case WM_KILLFOCUS:
-		{
 
-			break;
-		}
-		case WM_DESTROY:
-		{
-			PostQuitMessage(0);
-			break;
-		}
-		}
+		if (Application::GetInstance()->GetApp())
+			Application::GetInstance()->GetApp()->WndProc(hWnd, message, wParam, lParam);
 
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

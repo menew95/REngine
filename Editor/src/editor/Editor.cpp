@@ -95,10 +95,11 @@ namespace editor
 	
 	bool Editor::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-			return true;
+		auto _ret = ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam) == S_OK;
 
-		return false;
+		_ret = EnginePlugin::GetInstance()->GetEngine()->WndProc(hWnd, message, wParam, lParam);
+			
+		return _ret;
 	}
 
 	void Editor::InitImGui()

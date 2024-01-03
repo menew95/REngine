@@ -47,6 +47,8 @@ namespace graphics
 
 		void Present();
 
+		void ResizeSwapchain(const Extent2D& resolution);
+
 	private:
 		
 		/**
@@ -66,5 +68,7 @@ namespace graphics
 		class SwapChain* m_pSwapChain = nullptr;
 
 		class CommandBuffer* m_pCommandBuffer = nullptr;
+
+		WindowInfo m_windowInfo;
 	};
 }

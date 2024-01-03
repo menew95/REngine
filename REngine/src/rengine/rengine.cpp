@@ -52,7 +52,23 @@ namespace rengine
 
 	bool REngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
-		// Todo : 아직 없음
+		switch (message)
+		{
+			case WM_MOUSEMOVE:
+			{
+				// 마우스 움직임
+				return 0;
+			}
+			case WM_SIZE:
+			{
+				m_desc._windowInfo._width = LOWORD(lParam);
+				m_desc._windowInfo._height = HIWORD(lParam);
+
+				GraphicsSystem::GetInstance()->ResizeWindow(m_desc._windowInfo._width, m_desc._windowInfo._height);
+
+				break;
+			}
+		}
 		return true;
 	}
 }
