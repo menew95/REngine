@@ -27,8 +27,8 @@ namespace editor
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_CheckMark,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_SliderGrab,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_SliderGrabActive,
-        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_Button,
-        ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ButtonHovered,
+        ImVec4(0.0f, 0.0f, 0.0f, 0.0f), // ImGuiCol_Button,
+        ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_ButtonHovered,
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f), // ImGuiCol_ButtonActive,
         ImVec4(0.8f, 0.8f, 0.8f, 1.0f), // ImGuiCol_Header,                // Header* colors are used for CollapsingHeader, TreeNode, Selectable, MenuItem
         ImVec4(0.7f, 0.7f, 0.7f, 1.0f), // ImGuiCol_HeaderHovered,

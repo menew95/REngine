@@ -2,6 +2,8 @@
 
 #include <editor\GUI\ProjectView.h>
 
+#include <editor\GUI\EditorStyle.h>
+
 #include <filesystem>
 
 #include <editor\editor_api.h>
@@ -267,9 +269,11 @@ void CreateImageTest(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv, cons
 
 namespace editor
 {
+	extern const tstring g_assetPath = TEXT("..\\..\\..\\..");
+
 	ProjectView::ProjectView()
 		: View("Project View")
-		, m_currPath("..\\..\\..\\..")
+		, m_currPath(g_assetPath)
 	{
 		ImageDesc _desc{ TEXT("..\\..\\..\\..\\Assets\\icon\\folder_icon.png"), nullptr};
 
@@ -304,7 +308,7 @@ namespace editor
 
 	void ProjectView::Draw()
 	{
-		string _path = "C:\\Users\\IK-LPC-020\\Documents\\GitHub\\REngine";
+		tstring _path = g_assetPath;
 
 		ImGui::Columns(2, "Test", true);
 
@@ -317,7 +321,7 @@ namespace editor
 		//ImGui::Columns(1);
 	}
 
-	void ProjectView::DrawFileTreeNode(string path)
+	void ProjectView::DrawFileTreeNode(tstring path)
 	{
 		fs::path _path(path);
 
@@ -351,30 +355,13 @@ namespace editor
 			m_currPath = path;
 		}
 
-		//if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
-		//	// Some processing...
-		//	ImGui::EndDragDropSource();
-		//}
-
-		//if (ImGui::BeginDragDropTarget()) {
-		//	// Some processing...
-		//	ImGui::EndDragDropTarget();
-		//}
-
-		//ImGui::PushID(gameObj->GetUUID().c_str());
-		//if (ImGui::BeginPopupContextItem()) {
-		//	// Some processing...
-		//	ImGui::EndPopup();
-		//}
-		//ImGui::PopID();
-
 		if (open)
 		{
 			if (fs::is_directory(_path))
 			{
 				for (auto& p : fs::directory_iterator(_path, fs::directory_options::skip_permission_denied))
 				{
-					DrawFileTreeNode(p.path().generic_string());
+					DrawFileTreeNode(p.path().wstring());
 				}
 			}
 
@@ -386,13 +373,13 @@ namespace editor
 	{
 		fs::path _cur_path(m_currPath);
 
-		fs::path _assetPath("..\\..\\..\\..");
+		fs::path _assetPath(g_assetPath);
 
-		if (m_currPath != "..\\..\\..\\..")
+		if (m_currPath != g_assetPath)
 		{
 			if (ImGui::Button("<-"))
 			{
-				m_currPath = _cur_path.parent_path().string();
+				m_currPath = _cur_path.parent_path().wstring();
 
 				_cur_path = _cur_path.parent_path();
 			}
@@ -410,6 +397,9 @@ namespace editor
 
 		ImGui::Columns(_columnsCnt == 0 ? 1 : _columnsCnt, 0, false);
 
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, EditorStyle::GetColor(ImGuiCol_ButtonActive));
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, EditorStyle::GetColor(ImGuiCol_ButtonHovered));
+
 		for (auto& _directoryEntry : fs::directory_iterator(_cur_path, fs::directory_options::skip_permission_denied))
 		{
 			const auto& _path = _directoryEntry.path();
@@ -417,6 +407,8 @@ namespace editor
 			auto _relativePath = fs::relative(_path, _assetPath);
 
 			std::string _fileName = _relativePath.filename().string();
+			
+			ImGui::PushID(_fileName.c_str());
 
 			//tstring _test = StringHelper::StringToWString(_relativePath.wstring().c_str());
 
@@ -444,25 +436,86 @@ namespace editor
 
 			ImTextureID _texId = _srv.Get();//_directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
 
+
+			if (m_selected.end() != std::find(m_selected.begin(), m_selected.end(), _path.wstring()))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 1.0f, 0.3f));
+			}
+			else
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, EditorStyle::GetColor(ImGuiCol_Button));
+			}
+
 			ImGui::ImageButton(_texId, { _thumnailSize, _thumnailSize }, {0, 0}, {1, 1});
 
-			if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			ImGui::PopStyleColor(1);
+
+			if (ImGui::BeginDragDropSource())
 			{
-				if (_directoryEntry.is_directory())
+				auto _itemPath = _relativePath.c_str();
+
+				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", _itemPath, wcslen(_itemPath) * sizeof(wchar_t) + 2, ImGuiCond_Once);
+				ImGui::EndDragDropSource();
+			}
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
+
+				if (_payload != nullptr && _directoryEntry.is_directory())
 				{
-					m_currPath = (fs::path(m_currPath) / _path.filename()).string();
+					const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
+
+					fs::path _payloadPath(g_assetPath);
+
+					_payloadPath /= _wstr;
+
+					fs::path _newPath = _path / _payloadPath.filename();
+
+					fs::rename(_payloadPath, _newPath);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+
+			if (ImGui::IsItemHovered())
+			{
+				if(ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+				{
+					if (_directoryEntry.is_directory())
+					{
+						m_selected.clear();
+
+						m_currPath = (fs::path(m_currPath) / _path.filename()).wstring();
+					}
+				}
+				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+				{
+					if (ImGui::IsKeyDown(ImGuiKey_LeftShift))
+					{
+						m_selected.push_back(_path.wstring());
+					}
+					else
+					{
+						m_selected.clear();
+						m_selected.push_back(_path.wstring());
+					}
 				}
 			}
 
 			ImGui::TextWrapped(_fileName.c_str());
 
 			ImGui::NextColumn();
+
+			ImGui::PopID();
 		}
 
 		ImGui::Columns(1);
 
 		ImGui::SliderFloat("Thumbnail Size", &_thumnailSize, 64, 512);
 		ImGui::SliderFloat("Padding Size", &_padding, 0, 32);
+
+		ImGui::PopStyleColor(2);
 	}
 
 	void ProjectView::DrawImageBtn()

@@ -36,7 +36,7 @@ namespace editor
         /**
             @brief 폴더들을 TreeNode형식으로 그려줌
         **/
-        void DrawFileTreeNode(string path);
+        void DrawFileTreeNode(tstring path);
 
         /**
             @brief 현재 디렉토리가 가르키고 있는 디렉토리를 그려줌
@@ -45,6 +45,8 @@ namespace editor
 
         void DrawImageBtn();
 
-        string m_currPath;
+        tstring m_currPath;
+
+        vector<tstring> m_selected;
     };
 }
