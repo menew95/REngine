@@ -54,7 +54,13 @@ namespace rengine
 
         RENGINE_API void DetachChildren();
 
-        RENGINE_API math::Matrix GetWorld() { return m_world; }
+        RENGINE_API math::Matrix GetWorld()
+        {
+            if(m_bIsDirty)
+                UpdateWorld();
+
+            return m_world; 
+        }
         RENGINE_API void SetWorld(Matrix m);
 
         RENGINE_API math::Matrix GetLocal() { return m_local; }
@@ -72,9 +78,9 @@ namespace rengine
         RENGINE_API math::Vector3 GetLocalScale();
         RENGINE_API void SetLocalScale(math::Vector3 val);
 
-
-
     private:
+        void UpdateWorld();
+
         weak_ptr<Transform> m_parent;
 
         vector<shared_ptr<Transform>> m_childs;

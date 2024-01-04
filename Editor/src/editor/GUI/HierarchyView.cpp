@@ -121,13 +121,23 @@ namespace editor
 		DrawPopUp(open, gameObj);
 		Drag(gameObj);
 
-		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) {
-			// Some processing...
+		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) 
+		{
+			ImGui::SetDragDropPayload("HIERARCHY_ITEM", &gameObj, sizeof(rengine::GameObject*), ImGuiCond_Once);
 			ImGui::EndDragDropSource();
 		}
 
-		if (ImGui::BeginDragDropTarget()) {
-			// Some processing...
+		if (ImGui::BeginDragDropTarget())
+		{
+			auto* _payload = ImGui::AcceptDragDropPayload("HIERARCHY_ITEM");
+
+			if (_payload != nullptr)
+			{
+				rengine::GameObject** _dropGO = reinterpret_cast<rengine::GameObject**>(_payload->Data);
+
+				(*_dropGO)->GetTransform()->SetParent(gameObj->GetTransform());
+			}
+
 			ImGui::EndDragDropTarget();
 		}
 

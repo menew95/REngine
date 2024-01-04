@@ -42,7 +42,7 @@ namespace rengine
 
 		auto _trans = _newGO->AddComponent<Transform>();
 
-		if(parent != nullptr) parent->AddChild(_trans);
+		if(parent != nullptr) _trans->SetParent(parent);
 
 		_newGO->GetTransform() = _trans;
 

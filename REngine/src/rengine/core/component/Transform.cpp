@@ -56,7 +56,7 @@ namespace rengine
 
 	void Transform::SetParent(shared_ptr<Transform> parent)
 	{
-		if(parent == m_parent.lock())
+		if(!m_parent.expired() && parent == m_parent.lock())
 			return;
 
 		if (!m_parent.expired() && m_parent.lock() != nullptr)
@@ -68,6 +68,8 @@ namespace rengine
 
 		if (!m_parent.expired() && m_parent.lock() != nullptr)
 		{
+			m_parent.lock()->AddChild(shared_from_this());
+
 			m_local = m_world * m_parent.lock()->GetWorld().Invert();
 		}
 		else
@@ -94,7 +96,7 @@ namespace rengine
 
 		m_childs.push_back(child);
 
-		child->SetParent(shared_from_this());
+		//child->SetParent(shared_from_this());
 	}
 
 	void Transform::DetachChild(shared_ptr<Transform> child)
@@ -146,6 +148,8 @@ namespace rengine
 
 	RENGINE_API void Transform::SetLocalPosition(math::Vector3 val)
 	{
+		m_bIsDirty = true;
+
 		Vector3 _s, _t;
 		Quaternion _r;
 
@@ -169,6 +173,8 @@ namespace rengine
 
 	RENGINE_API void Transform::SetLocalRotation(math::Quaternion val)
 	{
+		m_bIsDirty = true;
+
 		Vector3 _s, _t;
 		Quaternion _r;
 
@@ -191,6 +197,8 @@ namespace rengine
 
 	RENGINE_API void Transform::SetLocalEulerAngle(math::Vector3 val)
 	{
+		m_bIsDirty = true;
+
 		Vector3 _s, _t;
 		Quaternion _r;
 
@@ -212,6 +220,8 @@ namespace rengine
 	}
 	RENGINE_API void Transform::SetLocalScale(math::Vector3 val)
 	{
+		m_bIsDirty = true;
+
 		Vector3 _s, _t;
 		Quaternion _r;
 
@@ -219,5 +229,19 @@ namespace rengine
 			assert(false);
 
 		m_local = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
+	}
+
+	void Transform::UpdateWorld()
+	{
+		m_bIsDirty = false;
+
+		if (auto parent = m_parent.lock())
+		{
+			m_world = m_local * parent->GetWorld();
+		}
+		else
+		{
+			m_world = m_local;
+		}
 	}
 }
