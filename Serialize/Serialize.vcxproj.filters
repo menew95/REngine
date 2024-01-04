@@ -21,10 +21,10 @@
     <ClInclude Include="inc\Serialize_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Serialize\Serialize_dllexport.h">
+    <ClInclude Include="inc\serialize\Serialize_dllexport.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Serialize\Serialization.h">
+    <ClInclude Include="inc\serialize\Serialization.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,8 +20,6 @@ namespace rengine
     class RENGINE_API Texture : public Resource
     {
     public:
-        Texture(uuid uuid);
-
         Texture(uuid uuid, tstring name);
 
         Texture(uuid uuid, tstring name, tstring type);
@@ -30,14 +28,19 @@ namespace rengine
 
         Texture(Texture&& mesh) = default;
 
-        virtual ~Texture();
+        virtual ~Texture() override;
 
-        inline virtual ResourceType GetType()
+        ResourceType GetResourceType() override
         {
             return ResourceType::TEXTURE;
         };
 
+        //void* GetRawSRV()
+        //{
+        //    return m_textureBuffer
+        //}
+
     private:
-        graphics::TextureBuffer* m_textureBuffer;
+        graphics::TextureBuffer* m_textureBuffer = nullptr;
     };
 }

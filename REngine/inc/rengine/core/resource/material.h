@@ -21,8 +21,7 @@ namespace rengine
 {
     class RENGINE_API Material : public Resource
     {
-        Material(uuid uuid);
-
+    public:
         Material(uuid uuid, tstring name);
 
         Material(uuid uuid, tstring name, tstring type);
@@ -33,12 +32,12 @@ namespace rengine
 
         virtual ~Material();
 
-        inline virtual ResourceType GetType()
+        ResourceType GetResourceType() override
         {
             return ResourceType::MATERIAL;
         };
 
     private:
-        graphics::MaterialBuffer* m_materialBuffer;
+        graphics::MaterialBuffer* m_pMaterialBuffer = nullptr;
     };
 }

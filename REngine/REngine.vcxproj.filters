@@ -75,7 +75,7 @@
     <ClInclude Include="inc\rengine\core\sceneManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resourcesManager.h">
+    <ClInclude Include="inc\rengine\core\resources.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\core\object\object_impl.h">
@@ -129,6 +129,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\rengine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\material.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\mesh.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\resource.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\texture.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resources.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

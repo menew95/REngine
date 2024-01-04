@@ -1,11 +1,11 @@
 ﻿#include <Serialize_pch.h>
-#include <Serialize\Serialization.h>
+#include <serialize\Serialization.h>
 
 #include <rttr\registration.h>
 #include <rttr\type.h>
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <boost\property_tree\ptree.hpp>
+#include <boost\property_tree\json_parser.hpp>
 
 #include <common\math.h>
 
@@ -13,60 +13,66 @@
 
 #include <rengine\core\scene\scene.h>
 #include <rengine\core\object\GameObject.h>
-#include <rengine/core/component/Component.h>
+#include <rengine\core\component\Component.h>
+
+template<typename T>
+void serializeConfig(T&, std::string&, boost::property_tree::ptree& pt)
+{
+	//static_assert(false, "need template specialization for T");
+}
+template<>
+void serializeConfig(math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt)
+{
+	boost::property_tree::ptree _vec;
+
+	_vec.put("x", v.x);
+	_vec.put("y", v.y);
+
+	pt.push_back(std::make_pair(valueName, _vec));
+}
+
+template<>
+void serializeConfig(math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt)
+{
+	boost::property_tree::ptree _vec;
+
+	_vec.put("x", v.x);
+	_vec.put("y", v.y);
+	_vec.put("z", v.z);
+
+	pt.push_back(std::make_pair(valueName, _vec));
+}
+
+template<>
+void serializeConfig(math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt)
+{
+	boost::property_tree::ptree _vec;
+
+	_vec.put("x", v.x);
+	_vec.put("y", v.y);
+	_vec.put("z", v.z);
+	_vec.put("w", v.w);
+
+	pt.push_back(std::make_pair(valueName, _vec));
+}
+
+
+template<>
+void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt)
+{
+	boost::property_tree::ptree _matrix;
+
+	_matrix.put("_11", m._11); _matrix.put("_12", m._12); _matrix.put("_13", m._13); _matrix.put("_14", m._14);
+	_matrix.put("_21", m._21); _matrix.put("_22", m._22); _matrix.put("_23", m._23); _matrix.put("_24", m._24);
+	_matrix.put("_31", m._31); _matrix.put("_32", m._32); _matrix.put("_33", m._33); _matrix.put("_34", m._34);
+	_matrix.put("_41", m._41); _matrix.put("_42", m._42); _matrix.put("_43", m._43); _matrix.put("_44", m._44);
+
+	pt.push_back(std::make_pair(valueName, _matrix));
+}
+
 
 namespace utility
 {
-	template<>
-	void serializeConfig(math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt)
-	{
-		boost::property_tree::ptree _vec;
-
-		_vec.put("x", v.x);
-		_vec.put("y", v.y);
-
-		pt.push_back(std::make_pair(valueName, _vec));
-	}
-
-	template<>
-	void serializeConfig(math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt)
-	{
-		boost::property_tree::ptree _vec;
-
-		_vec.put("x", v.x);
-		_vec.put("y", v.y);
-		_vec.put("z", v.z);
-
-		pt.push_back(std::make_pair(valueName, _vec));
-	}
-
-	template<>
-	void serializeConfig(math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt)
-	{
-		boost::property_tree::ptree _vec;
-
-		_vec.put("x", v.x);
-		_vec.put("y", v.y);
-		_vec.put("z", v.z);
-		_vec.put("w", v.w);
-
-		pt.push_back(std::make_pair(valueName, _vec));
-	}
-
-
-	template<>
-	void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt)
-	{
-		boost::property_tree::ptree _matrix;
-
-		_matrix.put("_11", m._11); _matrix.put("_12", m._12); _matrix.put("_13", m._13); _matrix.put("_14", m._14);
-		_matrix.put("_21", m._21); _matrix.put("_22", m._22); _matrix.put("_23", m._23); _matrix.put("_24", m._24);
-		_matrix.put("_31", m._31); _matrix.put("_32", m._32); _matrix.put("_33", m._33); _matrix.put("_34", m._34);
-		_matrix.put("_41", m._41); _matrix.put("_42", m._42); _matrix.put("_43", m._43); _matrix.put("_44", m._44);
-
-		pt.push_back(std::make_pair(valueName, _matrix));
-	}
-
 	/*template<>
 	bool Serialized(rengine::GameObject* object, boost::property_tree::basic_ptree<std::string, std::string>& pt)
 	{
@@ -245,6 +251,11 @@ namespace utility
 		}
 
 		return _hr;
+	}
+
+	SERIALIZE_API bool Serialization::Serialize(rengine::Object* object)
+	{
+		return true;
 	}
 
 	/*bool Serialization::Serialize(rengine::GameObject* object, void* pt)

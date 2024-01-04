@@ -30,9 +30,6 @@ namespace rengine
     class RENGINE_API Resource : public Object
     {
     public:
-
-        Resource(uuid uuid);
-
         Resource(uuid uuid, tstring name);
 
         Resource(uuid uuid, tstring name, tstring type);
@@ -45,7 +42,19 @@ namespace rengine
 
         virtual ResourceType GetType() abstract;
 
-    private:
+        inline bool GetIsLoad()
+        {
+            return m_bIsLoad;
+        }
+
+        virtual ResourceType GetResourceType() abstract;
+
+    protected:
+
+        // 이 리소스가 가리키는 파일 위치
         tstring m_path;
+
+        // 리소스가 메모리에 로드가 되었는지 여부
+        bool m_bIsLoad = false;
     };
 }

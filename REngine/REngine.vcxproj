@@ -86,7 +86,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
-    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Editor\inc;$(SolutionDir)_include;$(SolutionDir)serialize\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(ProjectDir)inc;$(SolutionDir)Common\inc;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
@@ -204,7 +204,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\object\object_impl.h" />
-    <ClInclude Include="inc\rengine\core\resourcesManager.h" />
+    <ClInclude Include="inc\rengine\core\resources.h" />
     <ClInclude Include="inc\rengine\core\resource\material.h" />
     <ClInclude Include="inc\rengine\core\resource\mesh.h" />
     <ClInclude Include="inc\rengine\core\resource\resource.h" />
@@ -225,6 +225,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\rengine\core\resources.cpp" />
+    <ClCompile Include="src\rengine\core\resource\material.cpp" />
     <ClCompile Include="inc\rengine\System\ObjectFactory.h">
       <FileType>CppHeader</FileType>
     </ClCompile>
@@ -238,6 +240,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
+    <ClCompile Include="src\rengine\core\resource\mesh.cpp" />
+    <ClCompile Include="src\rengine\core\resource\resource.cpp" />
+    <ClCompile Include="src\rengine\core\resource\texture.cpp" />
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\rengine.cpp" />
@@ -267,6 +272,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </ProjectReference>
     <ProjectReference Include="..\Log\Log.vcxproj">
       <Project>{86fad86b-3691-4047-b71e-331eeb6fdb0f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Serialize\Serialize.vcxproj">
+      <Project>{4d70b610-f79e-4126-867f-e692c8133b7b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

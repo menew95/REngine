@@ -4,7 +4,7 @@
 
 #include <common\math.h>
 
-#include <boost/property_tree/ptree.hpp>
+#include <serialize\Serialize_dllexport.h>
 
 namespace rengine
 {
@@ -19,18 +19,14 @@ namespace utility
 	{
 	public:
 
-		static bool Serialize(rengine::Scene* scene);
+		SERIALIZE_API static bool Serialize(rengine::Scene* scene);
 
+
+		SERIALIZE_API static bool Serialize(rengine::Object* object);
 		/*template<class T>
 		static bool Serialize(rengine::GameObject* object, T& pt);*/
 
-		static rengine::Object* DeSerialize(tstring& path);
+		SERIALIZE_API static rengine::Object* DeSerialize(tstring& path);
 	};
-
-	template<typename T>
-	void serializeConfig(T&, std::string&, boost::property_tree::ptree& pt)
-	{
-		//static_assert(false, "need template specialization for T");
-	}
 
 }

@@ -22,8 +22,6 @@ namespace rengine
     class RENGINE_API Mesh : public Resource
     {
     public:
-        Mesh(uuid uuid);
-
         Mesh(uuid uuid, tstring name);
 
         Mesh(uuid uuid, tstring name, tstring type);
@@ -34,10 +32,15 @@ namespace rengine
 
         virtual ~Mesh();
 
-        virtual ResourceType GetType();
+        ResourceType GetResourceType() override
+        {
+            return m_bIsSkinned ?  ResourceType::SKINNED_MESH : ResourceType::MESH;
+        }
 
     private:
-        graphics::MeshBuffer* m_meshBuffer;
+        bool m_bIsSkinned = false;
+
+        graphics::MeshBuffer* m_meshBuffer = nullptr;
 
     };
 }

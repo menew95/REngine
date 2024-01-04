@@ -10,6 +10,6 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include <common\common.h>
 
-#include <Serialize\Serialize_dllexport.h>
+#include <serialize\Serialize_dllexport.h>
 
 #endif //PCH_H

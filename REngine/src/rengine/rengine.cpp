@@ -3,7 +3,7 @@
 #include <rengine/System/GraphicsSystem.h>
 
 #include <rengine\core\sceneManager.h>
-#include <rengine\core\resourcesManager.h>
+#include <rengine\core\resources.h>
 
 #include <log/log.h>
 
@@ -25,6 +25,10 @@ namespace rengine
 		m_pGraphicsSystem->Initialize(m_desc._windowInfo);
 
 		Log::Core_Info("Graphics System init succeed");
+
+		Resources::GetInstance()->Initialize();
+
+		Log::Core_Info("Resources init succeed");
 
 		SceneManager::GetInstance()->Initialize();
 

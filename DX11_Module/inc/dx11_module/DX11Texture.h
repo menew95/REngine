@@ -45,6 +45,11 @@ namespace graphics
 			//DX11Texture(ID3D11Device* device, const TextureDesc& desc);
 			~DX11Texture() override;
 
+			void* GetTextureID() override
+			{
+				return m_ShaderResourceView.Get();
+			}
+
 			inline const DX11NativeTexture& GetNativeTexture() const { return m_NativeTexture; }
 			inline const ID3D11Resource* GetResource() const { return m_NativeTexture._resource.Get(); }
 			inline ID3D11ShaderResourceView* GetSRV() const { return m_ShaderResourceView.Get(); }
