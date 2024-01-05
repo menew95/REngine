@@ -21,6 +21,8 @@ namespace graphics
         MESH = 0,
         MATERIAL = 1,
         TEXTURE = 2,
+        CAMERA = 3,
+        LIGHT = 4,
     };
 
     class ResourceBuffer

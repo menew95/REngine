@@ -17,6 +17,6 @@ namespace graphics
 	
 	void* TextureBuffer::GetTextureID()
 	{
-		return m_pTextureBuffer->GetTextureID();
+		return m_pTexture->GetTextureID();
 	}
 }

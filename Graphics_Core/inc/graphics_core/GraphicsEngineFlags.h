@@ -1,4 +1,16 @@
-﻿#pragma once
+﻿/**
+
+    @file      GraphicsEngineFlags.h
+    @brief     graphics engine setting flags
+    @details   ~
+    @author    LWT
+    @date      5.01.2024
+    @copyright © Cool Guy, 2024. All right reserved.
+
+**/
+#pragma once
+
+#pragma once
 
 #include <common/common.h>
 
@@ -11,9 +23,9 @@ namespace graphics
 
 	struct GraphicsEngineDesc
 	{
-		API _module;
+		API _module = API::DirectX11;
 
-		void* _hwnd;
+		void* _hwnd = nullptr;
 		
 		Extent2D _extent;
 	};

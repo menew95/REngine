@@ -15,22 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\graphics_core.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="src\graphics_pch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\graphics_dllexport.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\graphics_core\GraphicsEngine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\graphics_core\GraphicsEngineAPI.h">
+    <ClInclude Include="inc\graphics_core\GraphicsEngine_api.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\graphics_core\graphics_core_dllexport.h">
+    <ClInclude Include="inc\graphics_core\Graphics_core_dllexport.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\graphics_core\GraphicsEngineFlags.h">
@@ -45,18 +36,27 @@
     <ClInclude Include="inc\graphics_core\resource\TextureBuffer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\graphics_core\resource\MeshBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\graphics_core\resource\CameraBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\graphics_core\ResourceManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\graphics_core\resource\LightBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\graphics_core\resource\MaterialBuffer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\graphics_core.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\graphics_pch.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\graphics_core\GraphicsEngine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphics_core\GraphicsEngineAPI.cpp">
+    <ClCompile Include="src\graphics_core\GraphicsEngine_api.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics_core\resource\TextureBuffer.cpp">
@@ -65,5 +65,23 @@
     <ClCompile Include="src\graphics_core\resource\ResourceBuffer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics_core\resource\MeshBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_core\resource\CameraBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_core\ResourceManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_core\resource\LightBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_core\resource\MaterialBuffer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

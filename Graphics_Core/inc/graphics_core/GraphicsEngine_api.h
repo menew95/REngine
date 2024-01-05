@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "graphics_core\GraphicsEngine.h"
-#include "graphics_core\graphics_core_dllexport.h"
+#include "graphics_core\Graphics_core_dllexport.h"
 #include "graphics_core\GraphicsEngineFlags.h"
 
 namespace graphics

@@ -12,7 +12,6 @@
 
 #include <graphics_core\resource\ResourceBuffer.h>
 
-
 namespace graphics
 {
     class Texture;
@@ -24,9 +23,14 @@ namespace graphics
 
         ~TextureBuffer();
 
+        BufferType GetBufferType()
+        {
+            return BufferType::TEXTURE;
+        }
+
         void* GetTextureID();
 
     private:
-        Texture* m_pTextureBuffer;
+        Texture* m_pTexture = nullptr;
     };
 }

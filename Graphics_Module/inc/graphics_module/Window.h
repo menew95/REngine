@@ -6,7 +6,7 @@
 
 namespace graphics
 {
-	struct WindowInfo
+	struct WindowGraphicsInfo
 	{
 		uint32 _refrashRate = 60;
 		HWND _hwnd = 0;
@@ -24,11 +24,11 @@ namespace graphics
 		inline uint32 GetRefrashRate() { return s_WindowInfo._refrashRate; }
 		inline HWND GetHwnd() { return s_WindowInfo._hwnd; }
 
-		inline WindowInfo& GetWindowInfo() { return s_WindowInfo; }
+		inline WindowGraphicsInfo& GetWindowGraphicsInfo() { return s_WindowInfo; }
 
 		static std::shared_ptr<Window> Create();
 
 	private:
-		WindowInfo s_WindowInfo;
+		WindowGraphicsInfo s_WindowInfo;
 	};
 }

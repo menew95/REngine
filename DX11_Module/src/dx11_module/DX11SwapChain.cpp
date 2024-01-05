@@ -16,7 +16,7 @@ namespace graphics
 			: SwapChain()
 			, m_Device(device)
 		{
-			GetWindow().GetWindowInfo()._hwnd = reinterpret_cast<HWND>(desc._windowDesc._hwnd);
+			GetWindow().GetWindowGraphicsInfo()._hwnd = reinterpret_cast<HWND>(desc._windowDesc._hwnd);
 
 			CreateSwapChain(factory, m_Device, desc);
 

@@ -1,8 +1,9 @@
 ﻿#pragma once
 
-#include <graphics_module/graphics_module_dllexport.h>
+#include <graphics_module\graphics_module_dllexport.h>
 
-#include "graphics_module\PipelineLayoutFlags.h"
+#include <graphics_module\RenderSystemObject.h>
+#include <graphics_module\PipelineLayoutFlags.h>
 
 namespace graphics
 {
@@ -11,7 +12,7 @@ namespace graphics
 	class Sampler;
 	class ResourceView;
 
-	class GRAPHICS_DLL_DECLSPEC PipelineLayout
+	class GRAPHICS_DLL_DECLSPEC PipelineLayout : public RenderSystemObject
 	{
 	public:
 		virtual void SetResources(std::vector<void*>& resources) abstract;
