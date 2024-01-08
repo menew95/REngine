@@ -25,7 +25,21 @@ namespace graphics
             return BufferType::MATERIAL;
         }
 
-    private:
+        void SetRenderPass(class RenderPass* pass) { m_pRenderPass = pass; }
 
+        /**
+            @brief pass에 render object 등록 
+            @param obj - render object ptr
+        **/
+        void AddRenderObject(class RenderObject* obj);
+
+        /**
+            @brief pass에 등록 된 render object 제거
+            @param obj - render object ptr
+        **/
+        void RemoveRenderObject(class RenderObject* obj);
+
+    private:
+        class RenderPass* m_pRenderPass = nullptr;
     };
 }

@@ -1,7 +1,8 @@
+﻿#pragma once
 
-#pragma once
 #include <utility>
-#include "Common/StringHelper.h"
+
+#include <common/string_helper.h>
 
 #define JSON_SERIALIZE_ENUM(ENUM_TYPE, ...)														\
 	inline bool StringToEnum(const tstring& str, ENUM_TYPE& e)                       \

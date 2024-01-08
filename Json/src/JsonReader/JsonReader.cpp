@@ -1,17 +1,17 @@
-﻿#include "JsonReader/JsonReader.h"
+﻿#include <jsonReader/JsonReader.h>
 
-#include "rapidjson/filereadstream.h"
-#include "rapidjson/filewritestream.h"
-#include "rapidjson/prettywriter.h"
-#include "rapidjson/error/en.h"
-#include "rapidjson/writer.h"
-#include "rapidjson/OStreamWrapper.h"
+#include <rapidjson/filereadstream.h>
+#include <rapidjson/filewritestream.h>
+#include <rapidjson/prettywriter.h>
+#include <rapidjson/error/en.h>
+#include <rapidjson/writer.h>
+#include <rapidjson/OStreamWrapper.h>
 
 #include <fstream>
 
 #pragma once
 
-namespace Utility
+namespace utility
 {
 	inline void JSON_ASSERT(const TCHAR* text, ...)
 	{
@@ -27,15 +27,15 @@ namespace Utility
 		throw MessageBox(nullptr, buffer, L"Error", MB_OK);
 	}
 
-	std::unique_ptr<Utility::JsonReader, JsonReader::Deleter> JsonReader::_instance;
+	std::unique_ptr<utility::JsonReader, JsonReader::Deleter> JsonReader::_instance;
 	std::once_flag JsonReader::_flag;
 
-	Utility::JsonReader::JsonReader()
+	utility::JsonReader::JsonReader()
 	{
 		_documents.reserve(8);
 	}
 
-	JsonReader* const Utility::JsonReader::GetInstance()
+	JSON_API JsonReader* const JsonReader::GetInstance()
 	{
 		std::call_once(JsonReader::_flag, []()
 			{
@@ -45,14 +45,14 @@ namespace Utility
 		return _instance.get();
 	}
 
-	void Utility::JsonReader::Release()
+	JSON_API void JsonReader::Release()
 	{
 		_instance.release();
 
 		return;
 	}
 
-	Utility::TDocument* JsonReader::LoadJson(const tstring& jsonPath)
+	TDocument* JsonReader::LoadJson(const tstring& jsonPath)
 	{
 		if (_documents.size() > 0)
 		{
@@ -76,12 +76,12 @@ namespace Utility
 			JSON_ASSERT(_T("JSON file load error : %d\n"), err);
 		}
 
-		char readBuffer[23768];
+		char* readBuffer = new char[23768];
 
 		rapidjson::FileReadStream readStream{ fp, readBuffer, sizeof(readBuffer) };
 		rapidjson::AutoUTFInputStream<unsigned, rapidjson::FileReadStream> eis(readStream);  // wraps bis into eis
 
-		auto document = std::make_unique<Utility::TDocument>();
+		auto document = std::make_unique<TDocument>();
 
 		rapidjson::ParseResult result = document->ParseStream<0, rapidjson::AutoUTF<unsigned>>(eis);
 
@@ -94,6 +94,8 @@ namespace Utility
 		fclose(fp);
 
 		_documents.emplace(jsonPath, std::move(document));
+
+		delete[] readBuffer;
 
 		return _documents.find(jsonPath)->second.get();
 	}

@@ -1,11 +1,11 @@
-#pragma once
+﻿#pragma once
 
 #if defined(_MSC_VER) && defined(JSON_EXPORT)
-#ifndef JSON_DLL_DECLSPEC
-#define JSON_DLL_DECLSPEC __declspec(dllexport)
+#ifndef JSON_API
+#define JSON_API __declspec(dllexport)
 #endif
 #else
-#ifndef JSON_DLL_DECLSPEC
-#define JSON_DLL_DECLSPEC dll_import
+#ifndef JSON_API
+#define JSON_API dll_import
 #endif
 #endif

@@ -1,25 +1,18 @@
-#pragma once
-#include <memory>
-#include <mutex>
-#include <unordered_map>
+Ôªø#pragma once
 
-#include "Common.h"
+#include <common\common.h>
 
-#include "JsonReader/Export.h"
-#include "JsonReader/JsonMacro.h"
+#include <jsonReader\Export.h>
+#include <jsonReader\JsonMacro.h>
 
-#include "rapidjson/document.h"
+#include <rapidjson\document.h>
 
-/**
- * ∞ÊπŒ¿Ã≥◊≤® »…√≥ø»
-*/
-
-namespace Utility
+namespace utility
 {
 	using JsonUnicode = rapidjson::UTF8<TCHAR>;
 	using TDocument = rapidjson::GenericDocument<JsonUnicode>;
 
-	class JSON_DLL_DECLSPEC JsonReader
+	class JsonReader
 	{
 	protected:
 		JsonReader();
@@ -30,7 +23,7 @@ namespace Utility
 		JsonReader& operator =(const JsonReader& other) = delete;
 
 	public:
-		struct JSON_DLL_DECLSPEC Deleter
+		struct JSON_API Deleter
 		{
 			void operator()(JsonReader* instance)
 			{
@@ -43,18 +36,18 @@ namespace Utility
 
 		static std::once_flag _flag;
 
-		std::unordered_map<tstring, std::unique_ptr<Utility::TDocument>> _documents;
+		std::unordered_map<tstring, std::unique_ptr<TDocument>> _documents;
 
 	public:
-		static  JsonReader* const GetInstance();
+		JSON_API static  JsonReader* const GetInstance();
 
-		static void Release();
+		JSON_API static void Release();
 
 	public:
-		Utility::TDocument* LoadJson(const tstring& jsonPath);
+		JSON_API TDocument* LoadJson(const tstring& jsonPath);
 
-		void UnloadJson(const tstring& jsonPath);
-		bool WriteJson(const tstring& jsonPath, rapidjson::Document& document);
+		JSON_API void UnloadJson(const tstring& jsonPath);
+		JSON_API bool WriteJson(const tstring& jsonPath, rapidjson::Document& document);
 	};
 
 }

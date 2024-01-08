@@ -12,6 +12,8 @@
 
 #include <common\common.h>
 
+#include <graphics_core\RenderPassFlags.h>
+
 namespace graphics
 {
     class RenderPass
@@ -20,18 +22,37 @@ namespace graphics
         RenderPass(tstring passName);
         virtual ~RenderPass();
 
+        /**
+            @brief pass에 설정 된 pipeline를 바인드
+            @param command - command buffer ptr
+        **/
         virtual void Bind(class CommandBuffer* command);
+
+        /**
+            @brief pass에 render object 등록
+            @param obj - render object ptr
+        **/
+        void AddRenderObject(class RenderObject* obj);
+        
+        /**
+            @brief pass에 등록 된 render object 제거
+            @param obj - render object ptr
+        **/
+        void RemoveRenderObject(class RenderObject* obj);
 
         class PipelineState* GetPipelineState() { return m_pPipelineState; }
         class PipelineLayout* GetPipelineLayout() { return m_pPipelineLayout; }
+        vector<class RenderObject*>& GetRenderObjects() { return m_renderObjects; }
 
         void SetPipelineState(class PipelineState* state) { m_pPipelineState = state; }
         void SetPipelineLayout(class PipelineLayout* layout) { m_pPipelineLayout = layout; }
-
+    
     private:
         tstring m_passName;
 
         class PipelineState* m_pPipelineState = nullptr;
         class PipelineLayout* m_pPipelineLayout =  nullptr;
+
+        vector<class RenderObject*> m_renderObjects;
     };
 }

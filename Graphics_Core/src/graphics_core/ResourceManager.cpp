@@ -2,6 +2,7 @@
 
 #include <graphics_module\RenderSystem.h>
 
+#include <graphics_core\RenderPass.h>
 #include <graphics_core\resource\MeshBuffer.h>
 #include <graphics_core\resource\LightBuffer.h>
 #include <graphics_core\resource\CameraBuffer.h>
@@ -191,6 +192,86 @@ namespace graphics
 		auto* _layout = m_pRenderSystem->CreatePipelineLayout(uuid, desc);
 
 		return _layout;
+	}
+
+	Buffer* graphics::ResourceManager::GetBuffer(uuid uuid)
+	{
+		auto _it = m_bufferMap.find(uuid);
+
+		if (_it != m_bufferMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	Shader* graphics::ResourceManager::GetShader(uuid uuid)
+	{
+		auto _it = m_shaderMap.find(uuid);
+
+		if (_it != m_shaderMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	Sampler* graphics::ResourceManager::GetSampler(uuid uuid)
+	{
+		auto _it = m_samplerMap.find(uuid);
+
+		if (_it != m_samplerMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	Texture* graphics::ResourceManager::GetTexture(uuid uuid)
+	{
+		auto _it = m_textureMap.find(uuid);
+
+		if (_it != m_textureMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	ResourceView* graphics::ResourceManager::GetResourceView(uuid uuid)
+	{
+		auto _it = m_resourceViewMap.find(uuid);
+
+		if (_it != m_resourceViewMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	RenderTarget* graphics::ResourceManager::GetRenderTarget(uuid uuid)
+	{
+		auto _it = m_renderTargetMap.find(uuid);
+
+		if (_it != m_renderTargetMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	PipelineState* graphics::ResourceManager::GetPipelineState(uuid uuid)
+	{
+		auto _it = m_pipelineStateMap.find(uuid);
+
+		if(_it != m_pipelineStateMap.end())
+			return _it->second;
+
+		return nullptr;
+	}
+
+	PipelineLayout* graphics::ResourceManager::GetPipelineLayout(uuid uuid)
+	{
+		auto _it = m_pipelineLayoutMap.find(uuid);
+
+		if (_it != m_pipelineLayoutMap.end())
+			return _it->second;
+
+		return nullptr;
 	}
 
 	bool ResourceManager::ReleaseBuffer(Buffer* buffer)

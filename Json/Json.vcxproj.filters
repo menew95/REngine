@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\JsonReader\JsonReader.h">
+    <ClInclude Include="inc\jsonReader\JsonReader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\JsonReader\Export.h">
+    <ClInclude Include="inc\jsonReader\Export.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\JsonReader\JsonMacro.h">
+    <ClInclude Include="inc\jsonReader\JsonMacro.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\JsonReader\JsonReader.cpp">
+    <ClCompile Include="src\jsonReader\JsonReader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
