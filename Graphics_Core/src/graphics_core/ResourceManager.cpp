@@ -24,7 +24,7 @@ template <typename T>
 bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, const T* entry)
 {
 	static_assert(is_base_of<graphics::RenderSystemObject, T>::value, "class doesn't derive from the base");
-	/*auto it = find(std::begin(cont), std::end(cont), [entry](pair<uuid, T*>& p)
+	auto it = find_if(std::begin(cont), std::end(cont), [entry](pair<const uuid, T*>& p)
 		{
 			return p.second == entry;
 		});
@@ -32,7 +32,7 @@ bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, const T* entry)
 	if (it == std::end(cont))
 		return false;
 
-	cont.erase(it);*/
+	cont.erase(it);
 	return true;
 }
 
@@ -47,7 +47,7 @@ namespace graphics
 		},
 		{
 			// release
-
+			ResourceManager::GetInstance()->ReleaseAll();
 		});
 	
 	void ResourceManager::Initialze(RenderSystem* renderSystem)
@@ -130,9 +130,9 @@ namespace graphics
 		return nullptr;
 	}
 
-	Buffer* ResourceManager::CreateBuffer(uuid uuid, BufferDesc& desc)
+	Buffer* ResourceManager::CreateBuffer(uuid uuid, BufferDesc& desc, const void* init)
 	{
-		auto* _buffer = m_pRenderSystem->CreateBuffer(uuid, desc);
+		auto* _buffer = m_pRenderSystem->CreateBuffer(uuid, desc, init);
 
 		return _buffer;
 	}
@@ -151,9 +151,9 @@ namespace graphics
 		return _sampler;
 	}
 
-	Texture* ResourceManager::CreateTexture(uuid uuid, TextureDesc& desc)
+	Texture* ResourceManager::CreateTexture(uuid uuid, TextureDesc& desc, const struct ImageDesc* image)
 	{
-		auto* _tex = m_pRenderSystem->CreateTexture(uuid, desc);
+		auto* _tex = m_pRenderSystem->CreateTexture(uuid, desc, image);
 
 		return _tex;
 	}
@@ -247,5 +247,35 @@ namespace graphics
 		m_pRenderSystem->Release(*layout);
 
 		return RemoveFromUnorderedMap(m_pipelineLayoutMap, layout);
+	}
+
+	template <typename T>
+	void ResourceManager::ClearFromUnorderedMap(std::unordered_map<uuid, T*>& cont)
+	{
+		for (auto& p : cont)
+		{
+			if constexpr (is_base_of<graphics::RenderSystemObject, T>::value)  m_pRenderSystem->Release(*p.second);
+			else SAFE_DELETE(p.second);
+		}
+	}
+
+	void ResourceManager::ReleaseAll()
+	{
+		ClearFromUnorderedMap(m_meshBuffers);
+		ClearFromUnorderedMap(m_lightBuffers);
+		ClearFromUnorderedMap(m_cameraBuffers);
+		ClearFromUnorderedMap(m_textureBuffers);
+		ClearFromUnorderedMap(m_materialBuffers);
+
+		//ClearFromUnorderedMap(m_renderPassMap);
+
+		ClearFromUnorderedMap(m_shaderMap);
+		ClearFromUnorderedMap(m_bufferMap);
+		ClearFromUnorderedMap(m_samplerMap);
+		ClearFromUnorderedMap(m_textureMap);
+		ClearFromUnorderedMap(m_resourceViewMap);
+		ClearFromUnorderedMap(m_renderTargetMap);
+		ClearFromUnorderedMap(m_pipelineStateMap);
+		ClearFromUnorderedMap(m_pipelineLayoutMap);
 	}
 }

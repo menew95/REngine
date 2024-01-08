@@ -44,10 +44,10 @@ namespace graphics
 
         class RenderPass*     CreateRenderPass(uuid uuid, struct RenderPassDesc& desc);
 
-        class Buffer*         CreateBuffer(uuid uuid, struct BufferDesc& desc);
+        class Buffer*         CreateBuffer(uuid uuid, struct BufferDesc& desc, const void* init = nullptr);
         class Shader*         CreateShader(uuid uuid, struct ShaderDesc& desc);
         class Sampler*        CreateSampler(uuid uuid, struct SamplerDesc& desc);
-        class Texture*        CreateTexture(uuid uuid, struct TextureDesc& desc);
+        class Texture*        CreateTexture(uuid uuid, struct TextureDesc& desc, const struct ImageDesc* image = nullptr);
         class ResourceView*   CreateResourceView(uuid uuid, struct ResourceViewDesc& desc);
         class RenderTarget*   CreateRenderTarget(uuid uuid, struct RenderTargetDesc& desc);
         class PipelineState*  CreatePipelineState(uuid uuid, struct GraphicsPipelineDesc& desc);
@@ -64,7 +64,12 @@ namespace graphics
         bool ReleasePipelineLayout(class PipelineLayout* layout);
 
     private:
+        template <typename T>
+        void ClearFromUnorderedMap(std::unordered_map<uuid, T*>& cont);
+
         class RenderSystem* m_pRenderSystem = nullptr;
+
+        void ReleaseAll();
 
         // graphics core resource
         unordered_map<uuid, class MeshBuffer*>      m_meshBuffers;

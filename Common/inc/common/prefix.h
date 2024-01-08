@@ -61,6 +61,7 @@ typedef void* RHandle;
 #define NullCheck(val) { if(val == nullptr) { MessageBoxA(NULL, TO_STRING(val is null), "NullCheck Message", MB_OK); DebugBreak(); } }
 #define SAFE_RELEASE(x) if(x != nullptr) { x->release(); x = nullptr; }
 #define SAFE_DELETE(x) if(x != nullptr) { delete x; x = nullptr; }
+
 #define SAFE_INSERT_MAP(val, container, key) auto item = container.find(key);\
 if (item == container.end()){ \
     AssertMessageBox(false, TO_STRING(key insert failed)); }\
