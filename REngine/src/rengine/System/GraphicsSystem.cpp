@@ -3,7 +3,7 @@
 #include <rengine\System\GraphicsSystem.h>
 //#include <rengine\core\window.h>
 
-#include <graphics_core\GraphicsEngineAPI.h>
+#include <graphics_core\GraphicsEngine_api.h>
 using namespace graphics;
 
 std::unique_ptr<Module> g_pGraphicsCoreModule;
