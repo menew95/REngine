@@ -58,7 +58,7 @@ namespace rengine
 	{
 		auto _parent = m_parent.lock();
 
-		if(parent != _parent)
+		if(parent == _parent)
 			return;
 
 		if (_parent != nullptr)
@@ -78,7 +78,7 @@ namespace rengine
 		{
 			m_local = m_world;
 
-			GetGameObject()->GetScene().lock()->AddRootGameObject(GetGameObject());
+			GetGameObject()->GetScene()->AddRootGameObject(GetGameObject());
 		}
 	}
 

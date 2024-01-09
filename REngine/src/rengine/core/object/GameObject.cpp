@@ -37,14 +37,14 @@ namespace rengine
 	RENGINE_API shared_ptr<GameObject> GameObject::Instantiate(shared_ptr<Transform> parent)
 	{
 		//auto _newGO = make_shared<GameObject>();
-
+		
 		auto _newGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
 
 		auto _trans = _newGO->AddComponent<Transform>();
 
 		if(parent != nullptr) _trans->SetParent(parent);
 
-		_newGO->GetTransform() = _trans;
+		_newGO->SetTransform(_trans);
 
 		return _newGO;
 	}

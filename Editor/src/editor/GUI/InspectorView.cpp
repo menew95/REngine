@@ -44,7 +44,7 @@ namespace editor
 
             for (auto& _comp : _go->GetComponents())
             {
-                DrawComponent(_comp.get());
+                DrawComponent(_comp.lock().get());
             }
         }
     }
