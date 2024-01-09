@@ -19,11 +19,11 @@ namespace rengine
     class RENGINE_API Renderer : public Component
     {
     public:
-        Renderer(std::shared_ptr<GameObject>& gameObj);
+        //Renderer(std::shared_ptr<GameObject>& gameObj);
 
-        Renderer(std::shared_ptr<GameObject>& gameObj, uuid uuid);
+        Renderer(uuid uuid);
 
-        Renderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
+        //Renderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
 
         Renderer(const Renderer& renderer) = default;
 

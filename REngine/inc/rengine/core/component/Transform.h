@@ -20,9 +20,9 @@ namespace rengine
     class Transform : public Component, public enable_shared_from_this<Transform>
     {
     public:
-        Transform(std::shared_ptr<GameObject>& gameObj);
+        //Transform(std::shared_ptr<GameObject>& gameObj);
 
-        Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid);
+        Transform(uuid uuid);
 
         Transform(const Transform& component) = default;
 

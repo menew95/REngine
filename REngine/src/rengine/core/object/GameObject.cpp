@@ -8,7 +8,7 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::GameObject>("GameObject")
-	.constructor<uuid>()
+	.constructor<uuid, tstring>()
 	.property("Active Self", &rengine::GameObject::m_bActiveSelf, rttr::detail::private_access())
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL),
@@ -49,7 +49,7 @@ namespace rengine
 		return _newGO;
 	}
 
-	GameObject::GameObject()
+	/*GameObject::GameObject()
 		: Object()
 	{
 	}
@@ -58,9 +58,10 @@ namespace rengine
 		: Object(uuid)
 	{
 
-	}
+	}*/
+
 	GameObject::GameObject(uuid uuid, tstring name)
-		: Object(uuid, name)
+		: Object(uuid, name, TEXT("GameObject"))
 	{
 	}
 }

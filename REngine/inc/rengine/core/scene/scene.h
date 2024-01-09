@@ -22,13 +22,13 @@ namespace rengine
     class Scene : public Object
     {
     public:
-        Scene();
+        //Scene();
 
         Scene(uuid uuid);
 
-        Scene(uuid uuid, tstring name);
+        //Scene(uuid uuid, tstring name);
 
-        Scene(uuid uuid, tstring name, tstring type);
+        //Scene(uuid uuid, tstring name, tstring type);
 
         virtual ~Scene();
 

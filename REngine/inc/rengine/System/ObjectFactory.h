@@ -16,6 +16,8 @@
 
 #include <rengine\core\object\object.h>
 
+#include <common\UUIDGenerator.h>
+
 namespace rengine
 {
     class ObjectFactory
@@ -23,14 +25,24 @@ namespace rengine
         DECLARE_SINGLETON_CLASS(ObjectFactory);
 
     public:
+
+        template<typename T>
+        shared_ptr<T> Instantiate()
+        {
+            static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
+
+        }
+
         template<typename T>
         shared_ptr<T> CreateObject()
         {
             static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
 
-            shared_ptr<T> _object = make_shared<T>();
+            uuid _uuid = UUIDGenerator::Generate();
 
-            //m_objectMap.insert(make_pair(_object->GetUUID(), _object));
+            shared_ptr<T> _object = make_shared<T>(_uuid);
+
+            m_objectsMap[_object->GetType()].insert(make_pair(_uuid, _object));
 
             return _object;
         }
@@ -42,12 +54,12 @@ namespace rengine
 
             shared_ptr<T> _object = make_shared<T>(uuid);
 
-            //m_objectMap.insert(make_pair(uuid, _object));
+            m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
 
             return _object;
         }
 
     private:
-        map<uuid, shared_ptr<Object>> m_objectMap;
+        map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
     };
 }

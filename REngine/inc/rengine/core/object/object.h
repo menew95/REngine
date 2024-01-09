@@ -16,11 +16,11 @@ namespace rengine
 		class Impl;
 
 	public:
-		Object(); 
+		/*Object(); 
 
 		Object(uuid uuid);
 
-		Object(uuid uuid, tstring name);
+		Object(uuid uuid, tstring name);*/
 
 		Object(uuid uuid, tstring name, tstring type);
 
@@ -31,18 +31,17 @@ namespace rengine
 		virtual ~Object();
 
 		uuid GetUUID();
-
 		void SetUUID(uuid uuid);
 
 		tstring GetName();
-
 		string GetNameStr();
-
 		void SetName(tstring val);
-
 		void SetNameStr(string val);
 
 		tstring GetType();
+		string GetTypeStr();
+		void SetType(tstring val);
+		void SetTypeStr(string val);
 
 	private:
 		class Impl* m_pImpl;

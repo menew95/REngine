@@ -7,8 +7,8 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Component>("Component")
-	.constructor<std::shared_ptr<rengine::GameObject>&>()
-	.constructor<std::shared_ptr<rengine::GameObject>&, uuid>()
+	//.constructor<std::shared_ptr<rengine::GameObject>&>()
+	.constructor</*std::shared_ptr<rengine::GameObject>&, */uuid>()
 	.property("m_bEnable", &rengine::Component::GetEnable, &rengine::Component::SetEnable)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::BOOL),
@@ -18,15 +18,15 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Component::Component(std::shared_ptr<GameObject>& gameObj)
+	/*Component::Component(std::shared_ptr<GameObject>& gameObj)
 	: Object()
 	, m_pGameObject(gameObj)
 	{
-	}
+	}*/
 
-	Component::Component(std::shared_ptr<GameObject>& gameObj, uuid uuid)
-	: Object(uuid)
-	, m_pGameObject(gameObj)
+	Component::Component(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid, tstring type)
+	: Object(uuid, type, type)
+	//, m_pGameObject(gameObj)
 	{
 	}
 

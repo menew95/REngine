@@ -17,11 +17,11 @@ namespace rengine
     class RENGINE_API MeshRenderer : public Renderer, public enable_shared_from_this<MeshRenderer>
     {
     public:
-        MeshRenderer(std::shared_ptr<GameObject>& gameObj);
+        //MeshRenderer(std::shared_ptr<GameObject>& gameObj);
 
-        MeshRenderer(std::shared_ptr<GameObject>& gameObj, uuid uuid);
+        MeshRenderer(uuid uuid);
 
-        MeshRenderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
+        //MeshRenderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
 
         MeshRenderer(const MeshRenderer& renderer) = default;
 

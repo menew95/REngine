@@ -5,9 +5,9 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Object>("Object")
-	.constructor<>()
-	.constructor<tstring>()
-	.constructor<tstring, tstring>()
+	//.constructor<>()
+	//.constructor<tstring>()
+	//.constructor<tstring, tstring>()
 	.constructor<tstring, tstring, tstring>()
 	.property("m_uuid", &rengine::Object::GetUUID, &rengine::Object::SetUUID)
 	/*(
@@ -25,7 +25,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Object::Object()
+	/*Object::Object()
 	: m_pImpl(new Object::Impl())
 	{
 
@@ -41,7 +41,7 @@ namespace rengine
 	: m_pImpl(new Object::Impl(uuid, name))
 	{
 
-	}
+	}*/
 
 	Object::Object(uuid uuid, tstring name, tstring type)
 	: m_pImpl(new Object::Impl(uuid, name, type))
@@ -70,7 +70,7 @@ namespace rengine
 
 	string Object::GetNameStr()
 	{
-		return m_pImpl->GetNameStr();
+		return StringHelper::WStringToString(m_pImpl->GetName());
 	}
 
 	void Object::SetName(tstring val)
@@ -80,11 +80,25 @@ namespace rengine
 
 	void Object::SetNameStr(string val)
 	{
-		m_pImpl->SetNameStr(val);
+		m_pImpl->SetName(StringHelper::StringToWString(val));
 	}
 
 	tstring Object::GetType()
 	{
 		return m_pImpl->GetType();
+	}
+	string Object::GetTypeStr()
+	{
+		return StringHelper::WStringToString(m_pImpl->GetType());
+	}
+
+	void Object::SetType(tstring val)
+	{
+		m_pImpl->SetType(val);
+	}
+
+	void Object::SetTypeStr(string val)
+	{
+		m_pImpl->SetType(StringHelper::StringToWString(val));
 	}
 }

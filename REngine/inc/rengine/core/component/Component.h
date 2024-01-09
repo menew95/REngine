@@ -21,9 +21,9 @@ namespace rengine
     class Component : public Object
     {
     public:
-        Component(std::shared_ptr<GameObject>& gameObj);
+       // Component(std::shared_ptr<GameObject>& gameObj);
 
-        Component(std::shared_ptr<GameObject>& gameObj, uuid uuid);
+        Component(uuid uuid, tstring type = TEXT("Component"));
 
         Component(const Component& component) = default;
 
@@ -44,7 +44,25 @@ namespace rengine
         bool GetIsActiveAndEnabled() { return m_bIsActiveAndEnabled; }
         void SetIsActiveAndEnabled(bool value) { m_bIsActiveAndEnabled = value; }
 
+        virtual void Awake() {}
+
+        virtual void OnEnable() {}
+
+        virtual void Reset() {}
+
+        virtual void Start() {}
+
+        virtual void Update() {}
+
+        virtual void LateUpdate() {}
+
+        virtual void OnDisable() {}
+
+        virtual void OnDestroy() {}
+
     private:
+        inline void SetGameObject(auto gameObject) { m_pGameObject = gameObject; }
+
         std::shared_ptr<GameObject> m_pGameObject;
         
         std::weak_ptr<Transform> m_pTransform;
@@ -52,6 +70,8 @@ namespace rengine
         bool m_bEnable = true;
 
         bool m_bIsActiveAndEnabled = true;
+
+        friend GameObject;
 
         RTTR_ENABLE(Object);
 

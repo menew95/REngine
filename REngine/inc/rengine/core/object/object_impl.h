@@ -48,11 +48,10 @@ namespace rengine
 		inline uuid GetUUID() { return m_uuid; }
 		inline void SetUUID(uuid uuid) { m_uuid = uuid; }
 
-		inline tstring GetName() { return m_objectName; }
-		inline string GetNameStr() { return StringHelper::WStringToString(m_objectName.c_str()); }
-		inline void SetName(tstring val) { m_objectName = val; }
-		inline void SetNameStr(string val) { m_objectName = StringHelper::StringToWString(val); }
-
-		inline tstring GetType() { return m_typeName; }
+		inline tstring GetName()			{ return m_objectName; }
+		inline void SetName(tstring val)	{ m_objectName = val; }
+		
+		inline tstring GetType()			{ return m_typeName; }
+		inline void SetType(tstring val)	{ m_typeName = val; }
 	};
 }

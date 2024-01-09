@@ -8,8 +8,8 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Camera>("Camera")
-	.constructor<std::shared_ptr<rengine::GameObject>&>()
-	.constructor<std::shared_ptr<rengine::GameObject>&, uuid>()
+	//.constructor<std::shared_ptr<rengine::GameObject>&>()
+	.constructor</*std::shared_ptr<rengine::GameObject>&, */uuid>()
 	.property("Near", &rengine::Camera::GetNear, &rengine::Camera::SetNear)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::FLOAT),
@@ -35,14 +35,14 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Camera::Camera(std::shared_ptr<GameObject>& gameObj)
+	/*Camera::Camera(std::shared_ptr<GameObject>& gameObj)
 		: Component(gameObj)
 	{
 		SetName(TEXT("Camera"));
-	}
+	}*/
 
-	Camera::Camera(std::shared_ptr<GameObject>& gameObj, uuid uuid)
-		: Component(gameObj, uuid)
+	Camera::Camera(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid)
+		: Component(/*gameObj, */uuid, TEXT("Camera"))
 	{
 		SetName(TEXT("Camera"));
 	}

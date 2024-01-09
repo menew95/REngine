@@ -1,5 +1,7 @@
 ﻿#include <Editor_pch.h>
 
+#include <common\AssetPath.h>
+
 #include <editor\GUI\ProjectView.h>
 
 #include <editor\GUI\EditorStyle.h>
@@ -269,8 +271,6 @@ void CreateImageTest(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv, cons
 
 namespace editor
 {
-	extern const tstring g_assetPath = TEXT("..\\..\\..\\..");
-
 	ProjectView::ProjectView()
 		: View("Project View")
 		, m_currPath(g_assetPath)

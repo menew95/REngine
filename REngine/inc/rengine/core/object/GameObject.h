@@ -23,11 +23,11 @@ namespace rengine
         
         static shared_ptr<GameObject> Instantiate(shared_ptr<Transform> parent = nullptr);
 
-        GameObject();
+        //GameObject();
 
-        GameObject(uuid uuid);
+        //GameObject(uuid uuid);
 
-        GameObject(uuid uuid, tstring name);
+        GameObject(uuid uuid, tstring name = TEXT("Game Object"));
 
         GameObject(const GameObject& object) = default;
 
@@ -51,14 +51,19 @@ namespace rengine
         template<typename T>
         std::vector<std::shared_ptr<T>> GetComponentsInParent();
 
-        inline tstring& GetTag() { return m_tag; }
-        inline void SetTag(tstring& val) { m_tag = val; }
-        
         inline std::vector<std::shared_ptr<Component>>& GetComponents() { return m_Components; }
-
         inline std::shared_ptr<Transform>& GetTransform() { return m_pTransform; }
-
         inline std::weak_ptr<Scene>& GetScene() { return m_pScene; }
+        
+        inline bool GetActiveInHierarchy()  { return m_bActiveInHierarchy; }
+        inline bool GetIsStatic()           { return m_bIsStatic; }
+        inline tstring GetTag()             { return m_tag; }
+        inline uint32 GetLayer()            { return m_layer; }
+
+        inline void SetActiveInHierarchy(bool val)  { m_bActiveInHierarchy = val; }
+        inline void SetIsStatic(bool val)           { m_bIsStatic = val; }
+        inline void SetTag(tstring val)             { m_tag = val; }
+        inline void SetLayer(uint32 val)            { m_layer = val; }
 
     private:
 
@@ -68,7 +73,7 @@ namespace rengine
         
         std::weak_ptr<Scene> m_pScene;
 
-        bool m_bActiveHierarchy = true;
+        bool m_bActiveInHierarchy = true;
         bool m_bActiveSelf = true;
         bool m_bIsStatic = false;
 

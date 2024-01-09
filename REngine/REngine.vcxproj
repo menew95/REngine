@@ -195,6 +195,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\rengine\core\ComponentManager.h" />
+    <ClInclude Include="inc\rengine\core\Components.h" />
     <ClInclude Include="inc\rengine\core\component\Camera.h" />
     <ClInclude Include="inc\rengine\core\component\Component.h" />
     <ClInclude Include="inc\rengine\core\component\MeshFilter.h" />
@@ -225,6 +227,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\rengine\core\Components.cpp" />
     <ClCompile Include="src\rengine\core\resources.cpp" />
     <ClCompile Include="src\rengine\core\resource\material.cpp" />
     <ClCompile Include="inc\rengine\System\ObjectFactory.h">
@@ -246,6 +249,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\rengine.cpp" />
+    <ClCompile Include="src\rengine\core\ComponentManager.cpp" />
     <ClCompile Include="src\rengine\System\EditorSystem.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

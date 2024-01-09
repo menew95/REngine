@@ -267,9 +267,9 @@ namespace editor
 
 	void InspectorView::DrawComponent(rengine::Component* comp)
     {
-        const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(comp->GetName()));
+        const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(comp->GetTypeStr()));
 
-		auto* _componentWidget = WidgetManager::GetInstance()->GetCollapsWidget(comp->GetNameStr());
+		auto* _componentWidget = WidgetManager::GetInstance()->GetCollapsWidget(comp->GetTypeStr());
 
         for (rttr::property _prop : component_type.get_properties())
         {

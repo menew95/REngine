@@ -17,9 +17,9 @@ namespace rengine
     class RENGINE_API Camera : public Component, public enable_shared_from_this<Camera>
     {
     public:
-        Camera(std::shared_ptr<GameObject>& gameObj);
+        //Camera(std::shared_ptr<GameObject>& gameObj);
 
-        Camera(std::shared_ptr<GameObject>& gameObj, uuid uuid);
+        Camera(uuid uuid);
 
         Camera(const Camera& filter) = default;
 

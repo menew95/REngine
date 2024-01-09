@@ -3,6 +3,7 @@
 #define GAMEOBJECT_INL
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
+#include <rengine\System\ObjectFactory.h>
 
 namespace rengine
 {
@@ -11,7 +12,9 @@ namespace rengine
 	{
 		auto _this = shared_from_this();
 
-		std::shared_ptr<T> _newComponent = std::make_shared<T>(_this);
+		std::shared_ptr<T> _newComponent = ObjectFactory::GetInstance()->CreateObject<T>();
+
+		_newComponent->SetGameObject(_this);
 
 		m_Components.emplace_back(_newComponent);
 

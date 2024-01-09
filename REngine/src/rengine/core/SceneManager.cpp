@@ -1,6 +1,7 @@
 ﻿#include <rengine\core\sceneManager.h>
 #include <rengine\core\scene\scene.h>
 
+#include <rengine\System\ObjectFactory.h>
 
 namespace rengine
 {
@@ -66,7 +67,7 @@ namespace rengine
 
     RENGINE_API std::shared_ptr<Scene> SceneManager::CreateScene(tstring name)
     {
-        auto _newScene = make_shared<Scene>();
+        auto _newScene = ObjectFactory::GetInstance()->CreateObject<Scene>();
 
         _newScene->SetName(name);
 

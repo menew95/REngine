@@ -3,13 +3,13 @@
 namespace rengine
 {
 	Resource::Resource(uuid uuid, tstring name)
-	: Object(uuid, name)
+	: Object(uuid, name, TEXT("Resource"))
 	{
 
 	}
 
 	Resource::Resource(uuid uuid, tstring name, tstring type)
-		: Object(uuid, name, TEXT("Resource"))
+		: Object(uuid, name, type)
 	{
 
 	}

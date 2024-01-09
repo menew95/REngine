@@ -6,7 +6,7 @@
 
 namespace rengine
 {
-	Scene::Scene()
+	/*Scene::Scene()
 	: Object()
 	{
 		auto _camGO = GameObject::Instantiate();
@@ -19,22 +19,43 @@ namespace rengine
 
 		m_rootGameObjects.push_back(_camGO);
 		m_rootGameObjects.push_back(_lightGO);
-	}
+	}*/
+
 	Scene::Scene(uuid uuid)
-		: Object(uuid)
+		: Object(uuid, TEXT("Scene"), TEXT("Scene"))
 	{
+		auto _camGO = GameObject::Instantiate();
+		_camGO->SetName(L"Main Camera");
 
+		_camGO->AddComponent<Camera>();
+
+		auto _lightGO = GameObject::Instantiate();
+		_lightGO->SetName(L"Directional Light");
+
+		m_rootGameObjects.push_back(_camGO);
+		m_rootGameObjects.push_back(_lightGO);
 	}
-	Scene::Scene(uuid uuid, tstring name)
-		: Object(uuid, name)
+
+	/*Scene::Scene(uuid uuid, tstring name)
+		: Object(uuid, name, TEXT("Scene"))
 	{
+		auto _camGO = GameObject::Instantiate();
+		_camGO->SetName(L"Main Camera");
 
-	}
-	Scene::Scene(uuid uuid, tstring name, tstring type)
+		_camGO->AddComponent<Camera>();
+
+		auto _lightGO = GameObject::Instantiate();
+		_lightGO->SetName(L"Directional Light");
+
+		m_rootGameObjects.push_back(_camGO);
+		m_rootGameObjects.push_back(_lightGO);
+	}*/
+
+	/*Scene::Scene(uuid uuid, tstring name, tstring type)
 		: Object(uuid, name, type)
 	{
 
-	}
+	}*/
 
 	Scene::~Scene()
 	{

@@ -7,8 +7,8 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Transform>("Transform")
-	.constructor<std::shared_ptr<rengine::GameObject>&>()
-	.constructor<std::shared_ptr<rengine::GameObject>&, uuid>()
+	//.constructor<std::shared_ptr<rengine::GameObject>&>()
+	.constructor</*std::shared_ptr<rengine::GameObject>&, */uuid>()
 	.property("m_world", &rengine::Transform::GetWorld, &rengine::Transform::SetWorld)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::MATRIX)
@@ -37,16 +37,16 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Transform::Transform(std::shared_ptr<GameObject>& gameObj)
+	/*Transform::Transform(std::shared_ptr<GameObject>& gameObj)
 	: Component(gameObj)
 	{
 		SetName(TEXT("Transform"));
-	}
+	}*/
 
-	Transform::Transform(std::shared_ptr<GameObject>& gameObj, uuid uuid)
-	: Component(gameObj, uuid)
+	Transform::Transform(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid)
+	: Component(/*gameObj, */uuid, TEXT("Transform"))
 	{
-		SetName(TEXT("Transform"));
+
 	}
 
 	Transform::~Transform()

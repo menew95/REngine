@@ -9,6 +9,7 @@
 namespace graphics
 {
 	class GraphicsEngine;
+	class Texture;
 }
 
 namespace rengine
