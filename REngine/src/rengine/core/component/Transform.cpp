@@ -56,21 +56,23 @@ namespace rengine
 
 	void Transform::SetParent(shared_ptr<Transform> parent)
 	{
-		if(!m_parent.expired() && parent == m_parent.lock())
+		auto _parent = m_parent.lock();
+
+		if(parent != _parent)
 			return;
 
-		if (!m_parent.expired() && m_parent.lock() != nullptr)
+		if (_parent != nullptr)
 		{
-			m_parent.lock()->DetachChild(shared_from_this());
+			_parent->DetachChild(shared_from_this());
 		}
 
 		m_parent = parent;
 
-		if (!m_parent.expired() && m_parent.lock() != nullptr)
+		if (parent != nullptr)
 		{
-			m_parent.lock()->AddChild(shared_from_this());
+			parent->AddChild(shared_from_this());
 
-			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+			m_local = m_world * parent->GetWorld().Invert();
 		}
 		else
 		{
@@ -89,7 +91,11 @@ namespace rengine
 
 	void Transform::AddChild(shared_ptr<Transform> child)
 	{
-		auto _iter = find(m_childs.begin(), m_childs.end(), child);
+		//auto _iter = find(m_childs.begin(), m_childs.end(), child);
+		auto _iter = find_if(m_childs.begin(), m_childs.end(), [child](auto& ptr)
+			{
+				return ptr.lock() == child;
+			});
 
 		if (_iter != m_childs.end())
 			return;
@@ -101,7 +107,11 @@ namespace rengine
 
 	void Transform::DetachChild(shared_ptr<Transform> child)
 	{
-		auto _iter = find(m_childs.begin(), m_childs.end(), child);
+		//auto _iter = find(m_childs.begin(), m_childs.end(), child);
+		auto _iter = find_if(m_childs.begin(), m_childs.end(), [child](auto& ptr)
+			{
+				return ptr.lock() == child;
+			});
 
 		if(_iter != m_childs.end())
 			m_childs.erase(_iter);
@@ -111,7 +121,10 @@ namespace rengine
 	{
 		for (auto& _child : m_childs)
 		{
-			_child->SetParent(nullptr);
+			if(_child.lock())
+				continue;
+
+			_child.lock()->SetParent(nullptr);
 		}
 	}
 
@@ -119,7 +132,7 @@ namespace rengine
 	{
 		m_world = m;
 
-		if (!m_parent.expired() && m_parent.lock() != nullptr)
+		if (m_parent.lock() != nullptr)
 			m_local = m_world * m_parent.lock()->GetWorld().Invert();
 		else
 			m_local = m_world;
@@ -129,7 +142,7 @@ namespace rengine
 	{
 		m_local = m;
 
-		if(!m_parent.expired() && m_parent.lock() != nullptr)
+		if(m_parent.lock() != nullptr)
 			m_world = m_parent.lock()->GetWorld() * m_local;
 		else
 			m_world = m_local;

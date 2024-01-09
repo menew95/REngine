@@ -45,16 +45,16 @@
     <ClInclude Include="inc\rengine\core\component\Transform.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resource\resource.h">
+    <ClInclude Include="inc\rengine\core\resource\Resource.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resource\mesh.h">
+    <ClInclude Include="inc\rengine\core\resource\Mesh.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resource\texture.h">
+    <ClInclude Include="inc\rengine\core\resource\Texture.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resource\material.h">
+    <ClInclude Include="inc\rengine\core\resource\Material.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\core\component\Camera.h">
@@ -137,16 +137,16 @@
     <ClCompile Include="src\rengine\rengine.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\resource\material.cpp">
+    <ClCompile Include="src\rengine\core\resource\Material.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\resource\mesh.cpp">
+    <ClCompile Include="src\rengine\core\resource\Mesh.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\resource\resource.cpp">
+    <ClCompile Include="src\rengine\core\resource\Resource.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\resource\texture.cpp">
+    <ClCompile Include="src\rengine\core\resource\Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\resources.cpp">

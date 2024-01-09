@@ -10,7 +10,7 @@
 **/
 #pragma once
 
-#include <rengine\core\resource\resource.h>
+#include <rengine\core\resource\Resource.h>
 
 namespace graphics
 {
@@ -23,8 +23,6 @@ namespace rengine
     {
     public:
         Material(uuid uuid, tstring name);
-
-        Material(uuid uuid, tstring name, tstring type);
 
         Material(const Material& mat) = default;
 

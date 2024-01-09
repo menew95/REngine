@@ -36,7 +36,7 @@ namespace rengine
         { 
             if(m_childs.size() < idx) assert(false);
 
-            return m_childs.at(idx);
+            return m_childs.at(idx).lock();
         }
 
         inline RENGINE_API uint32 GetChildSize()
@@ -83,7 +83,7 @@ namespace rengine
 
         weak_ptr<Transform> m_parent;
 
-        vector<shared_ptr<Transform>> m_childs;
+        vector<weak_ptr<Transform>> m_childs;
 
         bool m_bIsDirty = true;
 

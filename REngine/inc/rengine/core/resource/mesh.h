@@ -10,7 +10,7 @@
 **/
 #pragma once
 
-#include <rengine\core\resource\resource.h>
+#include <rengine\core\resource\Resource.h>
 
 namespace graphics
 {
@@ -23,8 +23,6 @@ namespace rengine
     {
     public:
         Mesh(uuid uuid, tstring name);
-
-        Mesh(uuid uuid, tstring name, tstring type);
 
         Mesh(const Mesh& mesh) = default;
 

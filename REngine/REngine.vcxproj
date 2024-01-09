@@ -111,8 +111,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -137,8 +137,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Editor_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -159,8 +159,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -185,8 +185,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -207,10 +207,10 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\object\object_impl.h" />
     <ClInclude Include="inc\rengine\core\resources.h" />
-    <ClInclude Include="inc\rengine\core\resource\material.h" />
-    <ClInclude Include="inc\rengine\core\resource\mesh.h" />
-    <ClInclude Include="inc\rengine\core\resource\resource.h" />
-    <ClInclude Include="inc\rengine\core\resource\texture.h" />
+    <ClInclude Include="inc\rengine\core\resource\Material.h" />
+    <ClInclude Include="inc\rengine\core\resource\Mesh.h" />
+    <ClInclude Include="inc\rengine\core\resource\Resource.h" />
+    <ClInclude Include="inc\rengine\core\resource\Texture.h" />
     <ClInclude Include="inc\rengine\core\sceneManager.h" />
     <ClInclude Include="inc\rengine\core\scene\scene.h" />
     <ClInclude Include="inc\rengine\rengine.h" />
@@ -229,7 +229,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   <ItemGroup>
     <ClCompile Include="src\rengine\core\Components.cpp" />
     <ClCompile Include="src\rengine\core\resources.cpp" />
-    <ClCompile Include="src\rengine\core\resource\material.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Material.cpp" />
     <ClCompile Include="inc\rengine\System\ObjectFactory.h">
       <FileType>CppHeader</FileType>
     </ClCompile>
@@ -243,9 +243,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\component\Component.cpp" />
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
-    <ClCompile Include="src\rengine\core\resource\mesh.cpp" />
-    <ClCompile Include="src\rengine\core\resource\resource.cpp" />
-    <ClCompile Include="src\rengine\core\resource\texture.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Mesh.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Resource.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Texture.cpp" />
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />
     <ClCompile Include="src\rengine\core\scene\scene.cpp" />
     <ClCompile Include="src\rengine\rengine.cpp" />

@@ -51,8 +51,8 @@ namespace rengine
         template<typename T>
         std::vector<std::shared_ptr<T>> GetComponentsInParent();
 
-        inline std::vector<std::shared_ptr<Component>>& GetComponents() { return m_Components; }
-        inline std::shared_ptr<Transform>& GetTransform() { return m_pTransform; }
+        inline std::vector<std::weak_ptr<Component>>& GetComponents() { return m_Components; }
+        inline std::weak_ptr<Transform>& GetTransform() { return m_pTransform; }
         inline std::weak_ptr<Scene>& GetScene() { return m_pScene; }
         
         inline bool GetActiveInHierarchy()  { return m_bActiveInHierarchy; }
@@ -67,9 +67,9 @@ namespace rengine
 
     private:
 
-        std::vector<std::shared_ptr<Component>>  m_Components;
+        std::vector<std::weak_ptr<Component>>  m_Components;
         
-        std::shared_ptr<Transform> m_pTransform;
+        std::weak_ptr<Transform> m_pTransform;
         
         std::weak_ptr<Scene> m_pScene;
 

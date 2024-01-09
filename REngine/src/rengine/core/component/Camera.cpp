@@ -44,7 +44,7 @@ namespace rengine
 	Camera::Camera(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid)
 		: Component(/*gameObj, */uuid, TEXT("Camera"))
 	{
-		SetName(TEXT("Camera"));
+
 	}
 
 	Camera::~Camera()

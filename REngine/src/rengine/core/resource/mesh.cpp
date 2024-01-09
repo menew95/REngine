@@ -1,15 +1,9 @@
-﻿#include <rengine\core\resource\mesh.h>
+﻿#include <rengine\core\resource\Mesh.h>
 
 namespace rengine
 {
 	Mesh::Mesh(uuid uuid, tstring name)
-	: Resource(uuid, name)
-	{
-
-	}
-
-	Mesh::Mesh(uuid uuid, tstring name, tstring type)
-	: Resource(uuid, name, type)
+	: Resource(uuid, name, TEXT("Mesh"))
 	{
 
 	}

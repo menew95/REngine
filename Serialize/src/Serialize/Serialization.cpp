@@ -178,11 +178,13 @@ namespace utility
 	{
 		boost::property_tree::ptree _components_pt;
 
-		for (auto& _comp : go->GetComponents())
+		for (auto& _item : go->GetComponents())
 		{
+			auto _comp = _item.lock();
+
 			boost::property_tree::ptree _comp_pt;
 
-			const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(_comp->GetName()));
+			const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(_comp->GetType()));
 
 			for (rttr::property _prop : component_type.get_properties())
 			{

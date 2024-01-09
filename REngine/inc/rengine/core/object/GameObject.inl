@@ -24,11 +24,11 @@ namespace rengine
 	template<typename T>
 	inline std::shared_ptr<T> GameObject::GetComponent()
 	{
-		for (auto& component : m_Components)
+		for (std::weak_ptr<T>& component : m_Components)
 		{
-			if (typeid(*component).name() == typeid(T).name())
+			if (typeid(*(component.lock().get())).name() == typeid(T).name())
 			{
-				return std::static_pointer_cast<T>(component);
+				return std::static_pointer_cast<T>(component.lock());
 			}
 		}
 
@@ -50,16 +50,14 @@ namespace rengine
 	}
 
 	template<typename T>
-	inline std::vector<std::shared_ptr<T>>
-		GameObject::GetComponentsInChildren()
+	inline std::vector<std::shared_ptr<T>> GameObject::GetComponentsInChildren()
 	{
 
 		return nullptr;
 	}
 
 	template<typename T>
-	inline std::vector<std::shared_ptr<T>>
-		GameObject::GetComponentsInParent()
+	inline std::vector<std::shared_ptr<T>> GameObject::GetComponentsInParent()
 	{
 
 		return nullptr;

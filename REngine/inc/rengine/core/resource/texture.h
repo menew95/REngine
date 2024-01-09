@@ -8,7 +8,7 @@
 **/
 #pragma once
 
-#include <rengine\core\resource\resource.h>
+#include <rengine\core\resource\Resource.h>
 
 namespace graphics
 {
@@ -21,8 +21,6 @@ namespace rengine
     {
     public:
         Texture(uuid uuid, tstring name);
-
-        Texture(uuid uuid, tstring name, tstring type);
 
         Texture(const Texture& mesh) = default;
 
