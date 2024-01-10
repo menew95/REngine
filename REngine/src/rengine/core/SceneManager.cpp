@@ -1,5 +1,5 @@
 ﻿#include <rengine\core\sceneManager.h>
-#include <rengine\core\scene\scene.h>
+#include <rengine\core\scene\Scene.h>
 
 #include <rengine\System\ObjectFactory.h>
 

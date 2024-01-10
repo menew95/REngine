@@ -15,6 +15,7 @@
 #include <common\singleton.h>
 
 #include <rengine\core\object\object.h>
+#include <rengine\core\component\Component.h>
 
 #include <common\UUIDGenerator.h>
 
@@ -44,6 +45,8 @@ namespace rengine
 
             m_objectsMap[_object->GetType()].insert(make_pair(_uuid, _object));
 
+            if (std::is_base_of<Component, T>::value && _object) ReserveComponent(_object);
+
             return _object;
         }
 
@@ -56,10 +59,26 @@ namespace rengine
 
             m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
 
+            if (std::is_base_of<Component, T>::value && _object) ReserveComponent(_object);
+
             return _object;
         }
 
     private:
+        
+        template<typename T, typename = enable_if_t<is_base_of_v<Component, T>, Component>>
+        void ReserveComponent()
+        {
+
+            int a = 0;
+        }
+
+        template<typename T>
+        void ReserveComponent() requires is_base_of_v<Component, T>
+        {
+
+        }
+
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
     };
 }

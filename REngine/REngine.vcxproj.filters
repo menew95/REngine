@@ -18,19 +18,13 @@
     <ClInclude Include="inc\rengine\core\object\object.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\REngine\Application\application.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\rengine\rengine_api.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\rengine_dllexport.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\System\GraphicsSystem.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\rengine\System\EditorSystem.h">
+    <ClInclude Include="inc\rengine\system\GraphicsSystem.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\core\component\Component.h">
@@ -39,7 +33,7 @@
     <ClInclude Include="inc\rengine\core\object\GameObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\scene\scene.h">
+    <ClInclude Include="inc\rengine\core\scene\Scene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\core\component\Transform.h">
@@ -72,10 +66,10 @@
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\sceneManager.h">
+    <ClInclude Include="inc\rengine\core\SceneManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\rengine\core\resources.h">
+    <ClInclude Include="inc\rengine\core\Resources.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\rengine\core\object\object_impl.h">
@@ -93,21 +87,24 @@
     <ClInclude Include="inc\rengine\core\Components.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\system\Time.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rengine\system\Input.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rengine\utility\Timer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\application\application.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\rengine\rengine_api.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\System\GraphicsSystem.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\rengine\System\EditorSystem.cpp">
+    <ClCompile Include="src\rengine\system\GraphicsSystem.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\object\GameObject.cpp">
@@ -119,7 +116,7 @@
     <ClCompile Include="src\rengine\core\component\Transform.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\scene\scene.cpp">
+    <ClCompile Include="src\rengine\core\scene\Scene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\SceneManager.cpp">
@@ -128,10 +125,10 @@
     <ClCompile Include="src\rengine\core\component\Camera.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="inc\rengine\System\ObjectFactory.h">
+    <ClCompile Include="inc\rengine\system\ObjectFactory.h">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\System\ObjectFactory.cpp">
+    <ClCompile Include="src\rengine\system\ObjectFactory.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\rengine.cpp">
@@ -149,13 +146,19 @@
     <ClCompile Include="src\rengine\core\resource\Texture.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\rengine\core\resources.cpp">
+    <ClCompile Include="src\rengine\core\Resources.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\ComponentManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\Components.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\system\Time.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\system\Input.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

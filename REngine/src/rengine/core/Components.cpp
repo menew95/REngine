@@ -7,7 +7,7 @@ namespace rengine
 {
 	Components::Components(uint32 order, const tstring& componentName)
 		: m_Order(order)
-		, m_ComponentName(componentName)
+		, m_componentName(componentName)
 	{
 
 	}
@@ -19,7 +19,7 @@ namespace rengine
 
 	void Components::AddComponent(std::shared_ptr<Component>& addComponent)
 	{
-		m_ReserveAddComponents.push(addComponent);
+		m_reserveAddComponents.push(addComponent);
 		addComponent->Awake();
 
 		if (addComponent->GetEnable() && addComponent->GetGameObject()->GetActiveInHierarchy())
@@ -30,40 +30,40 @@ namespace rengine
 
 	void Components::DeleteComponent(std::shared_ptr<Component>& deleteComponent)
 	{
-		auto _find = std::ranges::find(m_ReserveDeleteComponents, deleteComponent);
+		auto _find = std::ranges::find(m_reserveDeleteComponents, deleteComponent);
 
-		if (_find == m_ReserveDeleteComponents.end())
+		if (_find == m_reserveDeleteComponents.end())
 		{
-			m_ReserveDeleteComponents.emplace_back(deleteComponent);
+			m_reserveDeleteComponents.emplace_back(deleteComponent);
 		}
 	}
 
 
 	void Components::StartComponents()
 	{
-		size_t _count = m_ReserveAddComponents.size();
+		size_t _count = m_reserveAddComponents.size();
 
 		for (size_t i = 0; i < _count; i++)
 		{
-			auto _component = m_ReserveAddComponents.front();
+			auto _component = m_reserveAddComponents.front();
 
-			m_ReserveAddComponents.pop();
+			m_reserveAddComponents.pop();
 
 			if (_component->GetEnable() && _component->GetGameObject()->GetActiveInHierarchy())
 			{
 				_component->Start();
-				m_Components.push_back(_component);
+				m_components.push_back(_component);
 			}
 			else
 			{
-				m_ReserveAddComponents.push(_component);
+				m_reserveAddComponents.push(_component);
 			}
 		}
 	}
 
 	void Components::UpdateComponents()
 	{
-		for (auto& _componentIter : m_Components)
+		for (auto& _componentIter : m_components)
 		{
 			if (_componentIter->GetEnable() && _componentIter->GetGameObject()->GetActiveInHierarchy())
 			{
@@ -71,7 +71,7 @@ namespace rengine
 			}
 		}
 
-		for (auto& _componentIter : m_Components)
+		for (auto& _componentIter : m_components)
 		{
 			if (_componentIter->GetEnable() && _componentIter->GetGameObject()->GetActiveInHierarchy())
 			{
@@ -96,13 +96,13 @@ namespace rengine
 
 	void Components::DestroyComponents()
 	{
-		for (auto& _componentIter : m_ReserveDeleteComponents)
+		for (auto& _componentIter : m_reserveDeleteComponents)
 		{
-			auto _find = std::ranges::find(m_Components, _componentIter);
+			auto _find = std::ranges::find(m_components, _componentIter);
 
-			if (_find != m_Components.end())
+			if (_find != m_components.end())
 			{
-				m_Components.erase(_find);
+				m_components.erase(_find);
 			}
 #ifdef _DEBUG
 			else

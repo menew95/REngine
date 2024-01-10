@@ -7,8 +7,6 @@
 #include <rengine/rengine.h>
 #endif
 
-#include <rengine/application/application.h>
-
 #include <common/Module.h>
 
 std::unique_ptr<Module> g_pModule;

@@ -17,22 +17,54 @@ namespace rengine
 
 	void ComponentManager::ReserveAddComponent(std::shared_ptr<Component>& component)
 	{
-		auto _iter = std::ranges::find_if(m_ComponentsList.begin()
-			, m_ComponentsList.end()
+		auto _iter = std::ranges::find_if(m_componentsList.begin()
+			, m_componentsList.end()
 			, [&component](auto& pair)
 			{
 				return pair.first == component->GetType();
 			}
 		);
 
-		if (_iter != m_ComponentsList.end())
+		assert(_iter != m_componentsList.end());
+
+		(*_iter).second.AddComponent(component);
+	}
+
+	void ComponentManager::ReserveDeleteComponent(std::shared_ptr<Component>& component)
+	{
+		auto _iter = std::ranges::find_if(m_componentsList.begin()
+			, m_componentsList.end()
+			, [&component](auto& pair)
+			{
+				return pair.first == component->GetType();
+			}
+		);
+
+		assert(_iter != m_componentsList.end());
+
+		(*_iter).second.DeleteComponent(component);
+	}
+
+	void ComponentManager::UpdateComponent()
+	{
+		for (auto& _comps : m_componentsList)
 		{
-			(*_iter).second.AddComponent(component);
-		}
-		else
-		{
-			assert(false);
+			_comps.second.StartComponents();
+			_comps.second.UpdateComponents();
+			_comps.second.DestroyComponents();
 		}
 	}
 
+	void ComponentManager::RenderComponent()
+	{
+		for (auto& _comps : m_renderComponentsList)
+		{
+			_comps.second.UpdateComponents();
+		}
+	}
+
+	void ComponentManager::ClearComponentsList()
+	{
+		m_componentsList.clear();
+	}
 }

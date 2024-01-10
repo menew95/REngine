@@ -36,6 +36,8 @@ namespace rengine
         void ClearComponentsList();
 
     private:
-        vector<pair<tstring, Components>> m_ComponentsList;
+        vector<pair<tstring, Components>> m_componentsList;
+
+        vector<pair<tstring, Components>> m_renderComponentsList;
     };
 }

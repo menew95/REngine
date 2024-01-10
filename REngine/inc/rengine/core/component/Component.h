@@ -52,6 +52,8 @@ namespace rengine
 
         virtual void Start() {}
 
+        virtual void FixedUpdate() {}
+
         virtual void Update() {}
 
         virtual void LateUpdate() {}

@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include <common/common.h>
+#include <common\common.h>
 
-#include <common/singleton.h>
+#include <common\singleton.h>
 
-#include <rengine/rengine_dllexport.h>
+#include <rengine\rengine_dllexport.h>
 
 namespace graphics
 {

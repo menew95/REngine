@@ -1,4 +1,4 @@
-﻿#include <rengine\core\resource\material.h>
+﻿#include <rengine\core\resource\Material.h>
 
 namespace rengine
 {

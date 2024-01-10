@@ -1,4 +1,4 @@
-﻿#include <rengine\core\scene\scene.h>
+﻿#include <rengine\core\scene\Scene.h>
 
 #include <rengine\core\object\GameObject.h>
 

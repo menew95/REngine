@@ -1,4 +1,4 @@
-﻿#include <rengine\core\resource\resource.h>
+﻿#include <rengine\core\resource\Resource.h>
 
 namespace rengine
 {

@@ -1,8 +1,8 @@
-﻿#include <rengine\core\resources.h>
+﻿#include <rengine\core\Resources.h>
 
-#include <rengine\core\resource\mesh.h>
-#include <rengine\core\resource\texture.h>
-#include <rengine\core\resource\material.h>
+#include <rengine\core\resource\Mesh.h>
+#include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\Material.h>
 
 #include <filesystem>
 

@@ -6,6 +6,10 @@ static HMODULE LoadLibrarySafe(LPCSTR filename)
     UINT prevMode = SetErrorMode(0);
     SetErrorMode(prevMode | SEM_FAILCRITICALERRORS | SEM_NOOPENFILEERRORBOX);
 
+    TCHAR buffer[MAX_PATH] = { 0 };
+    GetModuleFileName(NULL, buffer, MAX_PATH);
+    std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+
     /* Load library */
     HMODULE module = LoadLibraryA(filename);
 
@@ -21,6 +25,8 @@ Module::Module(const char* moduleName)
 
     auto _error = GetLastError();
 
+    if(_error == 126)
+        int a = 0;
     /* Check if loading has failed */
     assert(m_pHandle != NULL);
 }

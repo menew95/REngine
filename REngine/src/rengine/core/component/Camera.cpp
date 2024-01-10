@@ -1,7 +1,7 @@
 ﻿#include <rengine\core\component\Camera.h>
 
 #include <rengine\core\object\GameObject.h>
-#include <rengine\core\scene\scene.h>
+#include <rengine\core\scene\Scene.h>
 
 #include <rttr\registration.h>
 

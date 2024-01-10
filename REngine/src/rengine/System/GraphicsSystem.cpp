@@ -1,6 +1,6 @@
 ﻿#include <common\Module.h>
 
-#include <rengine\System\GraphicsSystem.h>
+#include <rengine\system\GraphicsSystem.h>
 //#include <rengine\core\window.h>
 
 #include <graphics_core\GraphicsEngine_api.h>

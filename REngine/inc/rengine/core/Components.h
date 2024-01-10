@@ -24,7 +24,7 @@ namespace rengine
 
 		bool operator==(const tstring& name)
 		{
-			return m_ComponentName == name;
+			return m_componentName == name;
 		}
 
 		/**
@@ -58,14 +58,14 @@ namespace rengine
 		void SetOrder(uint32 order) { m_Order = order; }
 
 		bool m_IsRender = false;
+
 	protected:
 		uint32 m_Order;
 
-		tstring m_ComponentName;
+		tstring m_componentName;
 
-
-		std::vector<std::shared_ptr<Component>> m_Components;
-		std::queue<std::shared_ptr<Component>> m_ReserveAddComponents;
-		std::vector<std::shared_ptr<Component>> m_ReserveDeleteComponents;
+		std::vector<std::shared_ptr<Component>> m_components;
+		std::queue<std::shared_ptr<Component>> m_reserveAddComponents;
+		std::vector<std::shared_ptr<Component>> m_reserveDeleteComponents;
     };
 }

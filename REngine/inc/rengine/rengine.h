@@ -35,6 +35,6 @@ namespace rengine
         REngineDesc m_desc;
 
         double m_dTickTime = 0;
-        double m_TickCnt = 0;   
+        double m_dTickCnt = 0;   
     };
 }

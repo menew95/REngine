@@ -1,9 +1,14 @@
-﻿#include <rengine/rengine.h>
+﻿#include <rengine\rengine.h>
 
-#include <rengine/System/GraphicsSystem.h>
+#include <rengine\system\GraphicsSystem.h>
+#include <rengine\system\Time.h>
+#include <rengine\system\Input.h>
 
-#include <rengine\core\sceneManager.h>
-#include <rengine\core\resources.h>
+#include <rengine\core\SceneManager.h>
+#include <rengine\core\ComponentManager.h>
+#include <rengine\core\Resources.h>
+
+#include <rengine\utility\Timer.h>
 
 #include <log/log.h>
 
@@ -26,6 +31,14 @@ namespace rengine
 
 		Log::Core_Info("Graphics System init succeed");
 
+		Time::GetInstance()->Initialize();
+
+		Log::Core_Info("Time init succeed");
+
+		Input::GetInstance()->Initialize(m_desc._windowInfo._hWnd);
+
+		Log::Core_Info("Input init succeed");
+
 		Resources::GetInstance()->Initialize();
 
 		Log::Core_Info("Resources init succeed");
@@ -44,14 +57,41 @@ namespace rengine
 
 	bool REngine::Update()
 	{
-		// todo : 일단 에디터에서 에디터 ui를 그릴 필요가 있다. 물론 나중에 바궈야함 그래픽 엔진에서 카메라와 타깃이 되는 메인 프레임 버퍼만 그리도록 구조를 만들어야함
-		m_pGraphicsSystem->Present();
+		Timer _timer;
 
-		m_pGraphicsSystem->Render();
+		_timer.Lap();
+		{
+			ComponentManager::GetInstance()->UpdateComponent();
 
-		//m_pGraphicsSystem->Present();
+			ComponentManager::GetInstance()->RenderComponent();
+		}
 
-		return false;
+		auto _gameTick = _timer.Lap().AsMillis();
+
+		{
+			m_pGraphicsSystem->Present();
+
+			m_pGraphicsSystem->Render();
+		}
+		_timer.Lap();
+
+		auto _renderTick = _timer.Lap().AsMillis();
+
+		m_dTickTime += _gameTick + _renderTick;
+		m_dTickCnt++;
+
+		if (m_dTickTime > 1000)
+		{
+			auto _avgTick = m_dTickTime / m_dTickCnt;
+
+			Log::Core_Info(std::format("Total AvgTick : ({0} ms) Game Tick : ({1} ms) Graphics Tick : ({2} ms)", _avgTick, _gameTick, _renderTick));
+
+			// init
+			m_dTickTime -= 1000;
+			m_dTickCnt = 0;
+		}
+
+		return true;
 	}
 
 	bool REngine::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
