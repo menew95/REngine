@@ -15,7 +15,7 @@ namespace rengine
 
 		});
 
-	void ComponentManager::ReserveAddComponent(std::shared_ptr<Component>& component)
+	void ComponentManager::ReserveAddComponent(std::shared_ptr<Component> component)
 	{
 		auto _iter = std::ranges::find_if(m_componentsList.begin()
 			, m_componentsList.end()
@@ -25,12 +25,21 @@ namespace rengine
 			}
 		);
 
-		assert(_iter != m_componentsList.end());
+		if (_iter != m_componentsList.end())
+		{
+			(*_iter).second.AddComponent(component);
+		}
+		else
+		{
+			auto _components = make_pair(component->GetType(), Components(m_componentsList.size(),  component->GetType()));
+			
+			_components.second.AddComponent(component);
 
-		(*_iter).second.AddComponent(component);
+			m_componentsList.push_back(_components);
+		}
 	}
 
-	void ComponentManager::ReserveDeleteComponent(std::shared_ptr<Component>& component)
+	void ComponentManager::ReserveDeleteComponent(std::shared_ptr<Component> component)
 	{
 		auto _iter = std::ranges::find_if(m_componentsList.begin()
 			, m_componentsList.end()

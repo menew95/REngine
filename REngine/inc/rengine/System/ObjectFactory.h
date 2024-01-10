@@ -16,6 +16,7 @@
 
 #include <rengine\core\object\object.h>
 #include <rengine\core\component\Component.h>
+#include <rengine\core\ComponentManager.h>
 
 #include <common\UUIDGenerator.h>
 
@@ -66,17 +67,39 @@ namespace rengine
 
     private:
         
-        template<typename T, typename = enable_if_t<is_base_of_v<Component, T>, Component>>
-        void ReserveComponent()
-        {
+        //template<class T, bool condition> struct ReserveComponent_Impl;
 
-            int a = 0;
+        //template<class T>
+        //struct ReserveComponent_Impl<T, true>
+        //{
+        //    static void Reserve(shared_ptr<T> component)
+        //    {
+        //        ComponentManager::GetInstance()->ReserveAddComponent(component);
+        //    }
+        //};
+
+        //template<class T>
+        //struct ReserveComponent_Impl<T, false>
+        //{
+        //    static void Reserve(shared_ptr<T> component)
+        //    {
+        //        // 컴포넌트가 아님
+        //    }
+        //};
+
+        //template< class T >
+        //struct ReserveComponent : public ReserveComponent_Impl<T, std::is_base_of_v<Component, T>> {};
+
+        template<typename T>
+        void ReserveComponent(shared_ptr<T> component) requires (!is_base_of_v<Component, T>)
+        {
+            // 컴포넌트가 아님
         }
 
         template<typename T>
-        void ReserveComponent() requires is_base_of_v<Component, T>
+        void ReserveComponent(shared_ptr<T> component) requires is_base_of_v<Component, T>
         {
-
+            ComponentManager::GetInstance()->ReserveAddComponent(component);
         }
 
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;

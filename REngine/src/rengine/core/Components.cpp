@@ -22,10 +22,10 @@ namespace rengine
 		m_reserveAddComponents.push(addComponent);
 		addComponent->Awake();
 
-		if (addComponent->GetEnable() && addComponent->GetGameObject()->GetActiveInHierarchy())
+		/*if (addComponent->GetEnable() && addComponent->GetGameObject()->GetActiveInHierarchy())
 		{
 			addComponent->OnEnable();
-		}
+		}*/
 	}
 
 	void Components::DeleteComponent(std::shared_ptr<Component>& deleteComponent)

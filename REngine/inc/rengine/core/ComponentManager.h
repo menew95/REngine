@@ -25,9 +25,9 @@ namespace rengine
     public:
         void RegistComponent(uint32 order, const tstring& componentName, bool render = false);
 
-        void ReserveAddComponent(std::shared_ptr<Component>& component);
+        void ReserveAddComponent(std::shared_ptr<Component> component);
 
-        void ReserveDeleteComponent(std::shared_ptr<Component>& component);
+        void ReserveDeleteComponent(std::shared_ptr<Component> component);
 
         void UpdateComponent();
 

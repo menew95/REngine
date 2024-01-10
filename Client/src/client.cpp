@@ -98,7 +98,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			}
 			else
 			{
-				if (_application->Update() == true)
+				if (!_application->Update())
 					break;
 			}
 		}
