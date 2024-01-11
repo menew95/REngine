@@ -143,7 +143,7 @@ namespace utility
 			_goSerializer.Serialize(_pt);
 		}
 
-		std::ofstream file(StringHelper::WStringToString(scene->GetPath()));//"Asset/Scene/" + StringHelper::WStringToString(scene->GetName()) + ".scene");
+		std::ofstream file(StringHelper::WStringToString(scene->GetPath()));
 
 		_hr = file.is_open();
 
