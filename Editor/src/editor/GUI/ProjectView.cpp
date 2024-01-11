@@ -275,11 +275,11 @@ namespace editor
 		: View("Project View")
 		, m_currPath(g_assetPath)
 	{
-		ImageDesc _desc{ TEXT("..\\..\\..\\..\\Assets\\icon\\folder_icon.png"), nullptr};
+		ImageDesc _desc{ g_assetPath + TEXT("icon\\folder_icon.png"), nullptr};
 
 		CreateImageTest(g_folderSrv, _desc);
 
-		ImageDesc _desc2{ TEXT("..\\..\\..\\..\\\\Assets\\icon\\file_icon.png"), nullptr };
+		ImageDesc _desc2{ g_assetPath + TEXT("icon\\file_icon.png"), nullptr };
 
 		CreateImageTest(g_fileSrv, _desc2);
 	}

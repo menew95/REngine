@@ -65,6 +65,12 @@ namespace rengine
             return _object;
         }
 
+        /**
+            @brief 오브젝트를 삭제 예약을 걸어둔다. 오브젝트 맵에 있는 오브젝트를 찾고, 삭제 대기 큐에 푸쉬, 만약 이미 삭제 예약 대기중이면 무시
+            @param deleteObject - 삭제할 오브젝트
+        **/
+        void ReserveDestroyObject(shared_ptr<Object> deleteObject);
+
     private:
 
         template<typename T>
@@ -80,5 +86,9 @@ namespace rengine
         }
 
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
+
+        map<tstring, vector<pair<uint32, shared_ptr<Object>>>> m_reserveDestroyObjectsQueue;
+
+
     };
 }

@@ -47,7 +47,7 @@ namespace rengine
 
         RENGINE_API void SetIsDirty(bool value) { m_bIsDirty = value; }
         RENGINE_API void SetIsLoaded(bool value) { m_bIsLoaded = value; }
-        RENGINE_API void SetPath(tstring& value) { m_path = value; }
+        RENGINE_API void SetPath(tstring value) { m_path = value; }
 
     private:
         bool m_bIsDirty = false;

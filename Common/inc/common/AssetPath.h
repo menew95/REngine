@@ -12,4 +12,4 @@
 
 #include <common\common.h>
 
-extern const tstring g_assetPath = TEXT("..\\..\\..\\..");
+extern const tstring g_assetPath = TEXT("..\\..\\..\\..\\Assets\\");
