@@ -65,6 +65,8 @@ namespace rengine
             return m_rootGameObjects;
         }
 
+        RENGINE_API void SaveScene();
+
     private:
         std::shared_ptr<Scene> m_pCurrentScene;
 

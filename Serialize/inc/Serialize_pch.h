@@ -9,7 +9,11 @@
 
 // 여기에 미리 컴파일하려는 헤더 추가
 #include <common\common.h>
+#include <common\AssetPath.h>
 
 #include <serialize\Serialize_dllexport.h>
+#include <serialize\SerializerHelper.h>
+
+#include <rengine\core\object\MetaInfo.h>
 
 #endif //PCH_H

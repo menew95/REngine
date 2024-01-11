@@ -14,22 +14,25 @@ RTTR_REGISTRATION
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::BOOL)
 	)
-	.property("Tag", &rengine::GameObject::m_tag, rttr::detail::private_access())
+	.property("Tag", &rengine::GameObject::GetTag, &rengine::GameObject::SetTag)
 	(
-		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::ENUM),
-		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::ENUM)
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::WSTRING),
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
 	)
-	.property("Layer", &rengine::GameObject::m_layer, rttr::detail::private_access())
+	.property("Layer", &rengine::GameObject::GetLayer, &rengine::GameObject::SetLayer)
 	(
-		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::ENUM),
-		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::ENUM)
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::UINT32),
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UINT32)
 	)
-	.property("Static", &rengine::GameObject::m_bIsStatic, rttr::detail::private_access())
+	.property("Static", &rengine::GameObject::GetIsStatic, &rengine::GameObject::SetIsStatic)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::BOOL)
 	)
-	;
+	.property_readonly("Components", &rengine::GameObject::GetComponents)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
+	);
 }
 
 namespace rengine

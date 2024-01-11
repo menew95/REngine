@@ -199,14 +199,20 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\serialize\ComponentSerializer.h" />
+    <ClInclude Include="inc\serialize\GameObjectSerializer.h" />
+    <ClInclude Include="inc\serialize\SerializerHelper.h" />
     <ClInclude Include="inc\serialize\Serialize_dllexport.h" />
-    <ClInclude Include="inc\serialize\Serialization.h" />
+    <ClInclude Include="inc\serialize\Serializer.h" />
     <ClInclude Include="inc\Serialize_pch.h" />
     <ClInclude Include="inc\SerializeAPI.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Serialize\ComponentSerializer.cpp" />
+    <ClCompile Include="src\Serialize\GameObjectSerializer.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
-    <ClCompile Include="src\Serialize\Serialization.cpp" />
+    <ClCompile Include="src\Serialize\Serializer.cpp" />
+    <ClCompile Include="src\Serialize\SerializerHelper.cpp" />
     <ClCompile Include="src\Serialize_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

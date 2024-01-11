@@ -1,0 +1,193 @@
+{
+    "cbdfb390-e8e6-428b-b4f3-b5ee06eb1e0c": {
+        "m_objectName": "Main Camera",
+        "m_typeName": "GameObject",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "false",
+        "Components": [
+            "b8b04435-758d-476d-a7bb-ba8bc2365b01",
+            "fe646689-4f7f-4236-a690-43427a45893c"
+        ]
+    },
+    "b8b04435-758d-476d-a7bb-ba8bc2365b01": {
+        "m_objectName": "Transform",
+        "m_typeName": "Transform",
+        "m_bEnable": "true",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": [
+            "c9175b1a-c71b-410d-b21b-1de6a86d1f37"
+        ]
+    },
+    "fe646689-4f7f-4236-a690-43427a45893c": {
+        "m_objectName": "Camera",
+        "m_typeName": "Camera",
+        "m_bEnable": "true",
+        "Near": "0.100000001",
+        "Far": "1000",
+        "Field of View": "90",
+        "Aspect Ratio": "1"
+    },
+    "d32a0fc8-1b30-4a83-91ad-d005d862634c": {
+        "m_objectName": "camera child1",
+        "m_typeName": "GameObject",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "false",
+        "Components": [
+            "c9175b1a-c71b-410d-b21b-1de6a86d1f37"
+        ]
+    },
+    "c9175b1a-c71b-410d-b21b-1de6a86d1f37": {
+        "m_objectName": "Transform",
+        "m_typeName": "Transform",
+        "m_bEnable": "true",
+        "m_world": {
+            "_11": "0.99619472",
+            "_12": "0",
+            "_13": "-0.0871557444",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0.0871557444",
+            "_32": "0",
+            "_33": "0.99619472",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": ""
+    },
+    "aa8cbb44-d625-445d-9a7c-9dbe4a02645a": {
+        "m_objectName": "Directional Light",
+        "m_typeName": "GameObject",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "false",
+        "Components": [
+            "34c66deb-879c-49a0-bae5-346a49c041b8"
+        ]
+    },
+    "34c66deb-879c-49a0-bae5-346a49c041b8": {
+        "m_objectName": "Transform",
+        "m_typeName": "Transform",
+        "m_bEnable": "true",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": [
+            "a256ef0b-d5b6-47dd-8b18-6e173134ab12"
+        ]
+    },
+    "50abf2f6-0edf-41ce-81aa-10a8e3b34312": {
+        "m_objectName": "light_child1",
+        "m_typeName": "GameObject",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "true",
+        "Components": [
+            "a256ef0b-d5b6-47dd-8b18-6e173134ab12"
+        ]
+    },
+    "a256ef0b-d5b6-47dd-8b18-6e173134ab12": {
+        "m_objectName": "Transform",
+        "m_typeName": "Transform",
+        "m_bEnable": "true",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": [
+            "5e4f7af3-7e7e-4647-ab9f-2205b0db3d3c"
+        ]
+    },
+    "f069d733-198e-41e1-abd3-ba93e47e00b5": {
+        "m_objectName": "light_child_child1",
+        "m_typeName": "GameObject",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "true",
+        "Components": [
+            "5e4f7af3-7e7e-4647-ab9f-2205b0db3d3c"
+        ]
+    },
+    "5e4f7af3-7e7e-4647-ab9f-2205b0db3d3c": {
+        "m_objectName": "Transform",
+        "m_typeName": "Transform",
+        "m_bEnable": "true",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "10",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": ""
+    }
+}

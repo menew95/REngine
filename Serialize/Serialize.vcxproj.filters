@@ -24,7 +24,16 @@
     <ClInclude Include="inc\serialize\Serialize_dllexport.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\serialize\Serialization.h">
+    <ClInclude Include="inc\serialize\Serializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\serialize\GameObjectSerializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\serialize\SerializerHelper.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\serialize\ComponentSerializer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +47,16 @@
     <ClCompile Include="src\Serialize_pch.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\Serialize\Serialization.cpp">
+    <ClCompile Include="src\Serialize\Serializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serialize\GameObjectSerializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serialize\SerializerHelper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serialize\ComponentSerializer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

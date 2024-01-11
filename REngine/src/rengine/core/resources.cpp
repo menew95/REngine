@@ -6,7 +6,7 @@
 
 #include <filesystem>
 
-#include <serialize\Serialization.h>
+#include <serialize\Serializer.h>
 
 namespace fs = std::filesystem;
 
@@ -87,7 +87,7 @@ namespace rengine
 		if(CheckPathExist(path))
 			return nullptr;
 
-		Object* _obj = utility::Serialization::DeSerialize(path);
+		Object* _obj = utility::Serializer::DeSerialize(path);
 		Resource* _res;
 
 		if(!(_obj || (_res = dynamic_cast<Resource*>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
@@ -111,7 +111,7 @@ namespace rengine
 		if (CheckPathExist(path))
 			return nullptr;
 
-		Object* _obj = utility::Serialization::DeSerialize(path);
+		Object* _obj = utility::Serializer::DeSerialize(path);
 		Resource* _res;
 
 		if (!(_obj || (_res = dynamic_cast<Resource*>(_obj)) || _res->GetResourceType() != ResourceType::MESH))

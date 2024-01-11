@@ -3,6 +3,9 @@
 
 #include <rengine\System\ObjectFactory.h>
 
+#include <common\AssetPath.h>
+#include <serialize\Serializer.h>
+
 namespace rengine
 {
 	//std::shared_ptr<Scene> g_pCurrentScene;
@@ -25,6 +28,12 @@ namespace rengine
         bool _hr = true;
 
         auto _scene = SceneManager::CreateScene(L"Main Scene");
+
+        _scene->SetPath(g_assetPath + _scene->GetName() + TEXT(".scene"));
+
+        utility::Serializer _serializer(_scene.get());
+
+        _serializer.Serialize(_scene.get());
 
         m_scenes.push_back(_scene);
 
@@ -72,5 +81,12 @@ namespace rengine
         _newScene->SetName(name);
 
         return _newScene;
+    }
+
+    void SceneManager::SaveScene()
+    {
+        utility::Serializer _serializer(m_pCurrentScene.get());
+
+        _serializer.Serialize(m_pCurrentScene.get());
     }
 }

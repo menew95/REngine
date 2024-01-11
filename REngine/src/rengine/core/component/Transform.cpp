@@ -29,7 +29,11 @@ RTTR_REGISTRATION
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::VECTOR3)
 	)
-	.property("parent", &rengine::Transform::GetParent, &rengine::Transform::SetParent)
+	.property("m_parent", &rengine::Transform::GetParent, &rengine::Transform::SetParent)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
+	)
+	.property("m_childs", &rengine::Transform::GetChilds, &rengine::Transform::SetChilds)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	);

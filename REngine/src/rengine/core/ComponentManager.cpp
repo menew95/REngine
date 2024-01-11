@@ -31,7 +31,7 @@ namespace rengine
 		}
 		else
 		{
-			auto _components = make_pair(component->GetType(), Components(m_componentsList.size(),  component->GetType()));
+			auto _components = make_pair(component->GetType(), Components((uint32)m_componentsList.size(),  component->GetType()));
 			
 			_components.second.AddComponent(component);
 

@@ -6,6 +6,8 @@
 #include <editor\GUI\InspectorView.h>
 #include <editor\GUI\ProjectView.h>
 
+#include <rengine\core\SceneManager.h>
+
 namespace editor
 {
 	EditorDocument::EditorDocument()
@@ -91,6 +93,20 @@ namespace editor
 
 		if (ImGui::BeginMenuBar())
 		{
+			if (ImGui::BeginMenu("Edit"))
+			{
+				if (ImGui::MenuItem("Flag: Save"))
+				{
+					rengine::SceneManager::GetInstance()->SaveScene();
+				}
+				if (ImGui::MenuItem("Flag: Exit"))
+				{
+
+				}
+
+				ImGui::EndMenu();
+			}
+
 			if (ImGui::BeginMenu("View"))
 			{
 				if (ImGui::MenuItem("Flag: GameView", "", m_pGameView->GetOpen() != 0))
