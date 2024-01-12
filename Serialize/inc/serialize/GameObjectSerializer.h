@@ -20,15 +20,12 @@ namespace utility
 	class GameObjectSerializer
 	{
 	public:
-		GameObjectSerializer(rengine::GameObject* object);
+		GameObjectSerializer();
 
 		~GameObjectSerializer();
 
-		void Serialize(boost::property_tree::ptree& pt);
+		void Serialize(rengine::GameObject* object, boost::property_tree::ptree& pt);
 
 		rengine::GameObject* DeSerialize(tstring& path);
-
-	private:
-		rengine::GameObject* m_pObject;
 	};
 }

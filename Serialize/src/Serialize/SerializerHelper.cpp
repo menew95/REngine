@@ -52,6 +52,55 @@ namespace utility
 		pt.push_back(std::make_pair(valueName, _matrix));
 	}
 
+	template<>
+	math::Vector2 parseConfig(boost::property_tree::ptree& pt)
+	{
+		math::Vector2 _data;
+
+		_data.x = pt.get<float>("x");
+		_data.y = pt.get<float>("y");
+
+		return _data;
+	}
+
+	template<>
+	math::Vector3 parseConfig(boost::property_tree::ptree& pt)
+	{
+		math::Vector3 _data;
+
+		_data.x = pt.get<float>("x");
+		_data.y = pt.get<float>("y");
+		_data.z = pt.get<float>("z");
+
+		return _data;
+	}
+
+	template<>
+	math::Vector4 parseConfig(boost::property_tree::ptree& pt)
+	{
+		math::Vector4 _data;
+
+		_data.x = pt.get<float>("x");
+		_data.y = pt.get<float>("y");
+		_data.z = pt.get<float>("z");
+		_data.w = pt.get<float>("w");
+
+		return _data;
+	}
+
+	template<>
+	math::Matrix parseConfig(boost::property_tree::ptree& pt)
+	{
+		math::Matrix _data;
+
+		_data._11 = pt.get<float>("_11"); _data._12 = pt.get<float>("_12"); _data._13 = pt.get<float>("_13");  _data._14 = pt.get<float>("_14");
+		_data._21 = pt.get<float>("_21"); _data._22 = pt.get<float>("_22"); _data._23 = pt.get<float>("_23");  _data._24 = pt.get<float>("_24");
+		_data._31 = pt.get<float>("_31"); _data._32 = pt.get<float>("_32"); _data._33 = pt.get<float>("_33");  _data._34 = pt.get<float>("_34");
+		_data._41 = pt.get<float>("_41"); _data._42 = pt.get<float>("_42"); _data._43 = pt.get<float>("_43");  _data._44 = pt.get<float>("_44");
+
+		return _data;
+	}
+
 	void GetPropertyArray(boost::property_tree::ptree& pt, const rttr::variant& value, string name, rengine::MetaDataType metaDataType)
 	{
 		boost::property_tree::ptree _array_pt;
@@ -393,94 +442,121 @@ namespace utility
 		{
 			GetPropertySingle(pt, _value, _propName, _metaDataType);
 		}
+	}
 
-		/*switch (_metaDataType)
+	void SetProppertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, const rttr::variant& value, rengine::MetaDataType metaDataType)
+	{
+		switch (metaDataType)
 		{
 			case rengine::MetaDataType::WSTRING:
 			{
-				auto _wstr = _value.convert<tstring>();
-				auto _str = StringHelper::WStringToString(_wstr);
+				auto _data = pt.get<std::string>("");
+				auto _tstring = StringHelper::StringToWString(_data);
 
-				pt.put(_propName, _str);
+				prop.set_value(value, _tstring);
+
 				break;
 			}
 			case rengine::MetaDataType::VECTOR2:
 			{
-				auto _v = _value.convert<math::Vector2>();
+				math::Vector2 _data = parseConfig<math::Vector2>(pt);
 
-				serializeConfig(_v, _propName, pt);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::VECTOR3:
 			{
-				auto _v = _value.convert<math::Vector3>();
+				math::Vector3 _data = parseConfig<math::Vector3>(pt);
 
-				serializeConfig(_v, _propName, pt);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::VECTOR4:
 			{
-				auto _v = _value.convert<math::Vector4>();
+				math::Vector4 _data = parseConfig<math::Vector4>(pt);
 
-				serializeConfig(_v, _propName, pt);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::MATRIX:
 			{
-				auto _v = _value.convert<math::Matrix>();
+				math::Matrix _data = parseConfig<math::Matrix>(pt);
 
-				serializeConfig(_v, _propName, pt);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				auto _uuid = _value.convert<uuid>();
-				auto _str_uuid = StringHelper::WStringToString(_uuid);
-
-				pt.put(_propName, _str_uuid);
-
 				break;
 			}
 			case rengine::MetaDataType::BOOL:
 			{
-				auto _bool = _value.to_bool();
+				auto _data = pt.get<bool>("");
 
-				pt.put(_propName, _bool);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::UINT32:
 			{
-				auto _u32 = _value.to_uint32();
+				auto _data = pt.get<uint32>("");
 
-				pt.put(_propName, _u32);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::INT32:
 			{
-				auto _i32 = _value.to_int32();
+				auto _data = pt.get<int32>("");
 
-				pt.put(_propName, _i32);
+				prop.set_value(value, _data);
+
 				break;
 			}
 			case rengine::MetaDataType::FLOAT:
 			{
-				auto _f = _value.to_float();
+				auto _data = pt.get<float>("");
 
-				pt.put(_propName, _f);
-				break;
-			}
-			case rengine::MetaDataType::DOUBLE:
-			{
-				auto _d = _value.to_double();
+				prop.set_value(value, _data);
 
-				pt.put(_propName, _d);
 				break;
 			}
 			default:
-			{
 				assert(false);
 				break;
-			}
-		}*/
+		}
+	}
+
+	void SetProperty(boost::property_tree::ptree& pt, rttr::property& prop, rengine::Object* object)
+	{
+		rttr::variant _metaVariant = prop.get_metadata(rengine::MetaData::Serializable);
+
+		if (!_metaVariant.is_valid())
+			return;
+
+		if (!_metaVariant.can_convert<rengine::MetaDataType>())
+			return;
+
+		rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
+
+		const rttr::variant _value = prop.get_value(object);
+
+		if (!_value.is_valid())
+			return;
+
+		string _propName = prop.get_name().to_string();
+
+		if (_value.is_sequential_container())
+		{
+
+		}
+		else
+		{
+			SetProppertySingle(pt, prop, _value, _metaDataType);
+		}
 	}
 }

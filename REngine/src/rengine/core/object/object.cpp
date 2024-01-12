@@ -9,18 +9,16 @@ RTTR_REGISTRATION
 	//.constructor<tstring>()
 	//.constructor<tstring, tstring>()
 	.constructor<tstring, tstring, tstring>()
+	.property_readonly("m_typeName", &rengine::Object::GetType)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
+	)
 	.property("m_uuid", &rengine::Object::GetUUID, &rengine::Object::SetUUID)
-	/*(
-		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
-	)*/
 	.property("m_objectName", &rengine::Object::GetName, &rengine::Object::SetName)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
 	)
-	.property_readonly("m_typeName", &rengine::Object::GetType)
-	(
-		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
-	);
+	;
 }
 
 namespace rengine

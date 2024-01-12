@@ -27,6 +27,8 @@ namespace rengine
     {
         bool _hr = true;
 
+        utility::Serializer::DeSerialize(g_assetPath + TEXT("Main Scene.scene"));
+
         auto _scene = SceneManager::CreateScene(L"Main Scene");
 
         _scene->SetPath(g_assetPath + _scene->GetName() + TEXT(".scene"));

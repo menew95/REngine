@@ -14,6 +14,8 @@
 
 #include <common\singleton.h>
 
+#include <rengine\rengine_dllexport.h>
+
 #include <rengine\core\object\object.h>
 #include <rengine\core\component\Component.h>
 #include <rengine\core\ComponentManager.h>
@@ -24,7 +26,7 @@ namespace rengine
 {
     class ObjectFactory
     {
-        DECLARE_SINGLETON_CLASS(ObjectFactory);
+        DECLARE_SINGLETON_CLASS_EXPORT(RENGINE_API, ObjectFactory);
 
     public:
 
@@ -64,6 +66,8 @@ namespace rengine
 
             return _object;
         }
+
+        RENGINE_API shared_ptr<Object> CreateObject(string type, uuid _uuid);
 
         /**
             @brief 오브젝트를 삭제 예약을 걸어둔다. 오브젝트 맵에 있는 오브젝트를 찾고, 삭제 대기 큐에 푸쉬, 만약 이미 삭제 예약 대기중이면 무시

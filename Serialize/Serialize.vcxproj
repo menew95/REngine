@@ -201,6 +201,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   <ItemGroup>
     <ClInclude Include="inc\serialize\ComponentSerializer.h" />
     <ClInclude Include="inc\serialize\GameObjectSerializer.h" />
+    <ClInclude Include="inc\serialize\ObjectSerializer.h" />
     <ClInclude Include="inc\serialize\SerializerHelper.h" />
     <ClInclude Include="inc\serialize\Serialize_dllexport.h" />
     <ClInclude Include="inc\serialize\Serializer.h" />
@@ -211,6 +212,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\Serialize\ComponentSerializer.cpp" />
     <ClCompile Include="src\Serialize\GameObjectSerializer.cpp" />
     <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\Serialize\ObjectSerializer.cpp" />
     <ClCompile Include="src\Serialize\Serializer.cpp" />
     <ClCompile Include="src\Serialize\SerializerHelper.cpp" />
     <ClCompile Include="src\Serialize_pch.cpp">

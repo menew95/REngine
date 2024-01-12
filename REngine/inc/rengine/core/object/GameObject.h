@@ -25,9 +25,9 @@ namespace rengine
 
         //GameObject();
 
-        //GameObject(uuid uuid);
+        GameObject(uuid uuid);
 
-        GameObject(uuid uuid, tstring name = TEXT("Game Object"));
+        //GameObject(uuid uuid, tstring name = TEXT("Game Object"));
 
         GameObject(const GameObject& object) = default;
 

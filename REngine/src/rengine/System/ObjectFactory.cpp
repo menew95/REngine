@@ -2,6 +2,8 @@
 
 #include <rengine\core\ComponentManager.h>
 
+#include <rttr\type.h>
+
 namespace rengine
 {
 	DEFINE_SINGLETON_CLASS(ObjectFactory,
@@ -15,6 +17,34 @@ namespace rengine
 
 		});
 
+
+	shared_ptr<Object> ObjectFactory::CreateObject(string type, uuid _uuid)
+	{
+		rttr::type _objType = rttr::type::get_by_name(type);
+
+		if (!_objType.is_valid())
+			return nullptr;
+
+		rttr::constructor _ctor = _objType.get_constructor({ rttr::type::get<uuid>() });
+
+		if (!_ctor.is_valid())
+			return nullptr;
+
+		rttr::variant _objVar = _ctor.invoke(_uuid);
+
+		if (!_objVar.is_valid() && _objVar.can_convert<Object*>())
+			return nullptr;
+
+		//shared_ptr<Object> _object = shared_ptr<Object>(_objVar.convert<Object*>());
+		Object* _object = _objVar.convert<Object*>();
+
+		auto _pair = make_pair(_object->GetUUID(), shared_ptr<Object>(_object));
+
+		//m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
+		m_objectsMap[_object->GetType()].insert(_pair);
+
+		return _pair.second;
+	}
 
 	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject)
 	{

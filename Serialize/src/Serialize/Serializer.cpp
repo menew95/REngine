@@ -6,6 +6,7 @@
 
 #include <serialize\SerializerHelper.h>
 #include <serialize\GameObjectSerializer.h>
+#include <serialize\ObjectSerializer.h>
 
 #include <common\math.h>
 
@@ -138,9 +139,9 @@ namespace utility
 		{
 			boost::property_tree::ptree _go_pt;
 
-			GameObjectSerializer _goSerializer(_go.get());
+			GameObjectSerializer _goSerializer;
 
-			_goSerializer.Serialize(_pt);
+			_goSerializer.Serialize(_go.get(), _pt);
 		}
 
 		std::ofstream file(StringHelper::WStringToString(scene->GetPath()));
@@ -169,9 +170,34 @@ namespace utility
 		return false;
 	}*/
 
-	rengine::Object* Serializer::DeSerialize(tstring& path)
+	rengine::Object* Serializer::DeSerialize(tstring path)
 	{
+		std::ifstream file(path);
 
+		if (!file.good())
+			return nullptr;
+
+		boost::property_tree::ptree pt;
+
+		try
+		{
+			boost::property_tree::read_json(file, pt);
+
+			file.close();
+		}
+		catch (const boost::property_tree::json_parser_error& e)
+		{
+			auto error = e.what();
+
+			return nullptr;
+		}
+
+		for (auto& _node : pt)
+		{
+			ObjectSerializer _objectSerializer;
+
+			_objectSerializer.DeSerialize(_node);
+		}
 
 		return nullptr;
 	}

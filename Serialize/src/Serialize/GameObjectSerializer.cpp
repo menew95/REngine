@@ -1,13 +1,13 @@
 ﻿#include <Serialize_pch.h>
 #include <serialize\GameObjectSerializer.h>
+#include <serialize\ObjectSerializer.h>
 #include <serialize\ComponentSerializer.h>
 
 #include <rengine\core\component\Transform.h>
 
 namespace utility
 {
-	GameObjectSerializer::GameObjectSerializer(rengine::GameObject* object)
-	: m_pObject(object)
+	GameObjectSerializer::GameObjectSerializer()
 	{
 
 	}
@@ -17,45 +17,29 @@ namespace utility
 
 	}
 
-	void GameObjectSerializer::Serialize(boost::property_tree::ptree& pt)
+	void GameObjectSerializer::Serialize(rengine::GameObject* object, boost::property_tree::ptree& pt)
 	{
-		if(m_pObject == nullptr)
+		if(object == nullptr)
 			return;
 
-		boost::property_tree::ptree _go_pt;
+		ObjectSerializer _goSerializer;
 
-		string _type = StringHelper::ToString(m_pObject->GetType());
+		_goSerializer.Serialize(object, pt);
 
-		/*_go_pt.put("Type", _type);*/
-
-		const rttr::type _go_type = rttr::type::get_by_name(_type);
-
-		for (rttr::property _prop : _go_type.get_properties())
-		{
-			if(!_prop.is_valid())
-				continue;
-
-			GetProperty(_go_pt, _prop, m_pObject);
-		}
-		
-		string _uuid = StringHelper::WStringToString(m_pObject->GetUUID());
-
-		pt.push_back(std::make_pair(_uuid, _go_pt));
-
-		for (auto& _item : m_pObject->GetComponents())
+		for (auto& _item : object->GetComponents())
 		{
 			auto _comp = _item.lock();
 
-			ComponentSerializer _compSerializer(_comp.get());
+			_goSerializer.Serialize(_comp.get(), pt);
 
-			_compSerializer.Serialize(pt);
+			/*ComponentSerializer _compSerializer(_comp.get());
+
+			_compSerializer.Serialize(pt);*/
 		}
 
-		for (auto& _child : m_pObject->GetTransform()->GetChilds())
+		for (auto& _child : object->GetTransform()->GetChilds())
 		{
-			GameObjectSerializer _childSerializer(_child.lock()->GetGameObject().get());
-
-			_childSerializer.Serialize(pt);
+			/*_goSerializer.*/Serialize(_child.lock()->GetGameObject().get(), pt);
 		}
 	}
 
