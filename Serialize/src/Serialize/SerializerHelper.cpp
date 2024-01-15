@@ -444,7 +444,7 @@ namespace utility
 		}
 	}
 
-	void SetProppertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, const rttr::variant& value, rengine::MetaDataType metaDataType)
+	void SetProppertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, const rttr::variant& value, rengine::MetaDataType metaDataType, rengine::Object* object)
 	{
 		switch (metaDataType)
 		{
@@ -453,7 +453,7 @@ namespace utility
 				auto _data = pt.get<std::string>("");
 				auto _tstring = StringHelper::StringToWString(_data);
 
-				prop.set_value(value, _tstring);
+				assert(prop.set_value(object, _tstring));
 
 				break;
 			}
@@ -461,7 +461,7 @@ namespace utility
 			{
 				math::Vector2 _data = parseConfig<math::Vector2>(pt);
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -469,7 +469,7 @@ namespace utility
 			{
 				math::Vector3 _data = parseConfig<math::Vector3>(pt);
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -477,7 +477,7 @@ namespace utility
 			{
 				math::Vector4 _data = parseConfig<math::Vector4>(pt);
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -485,7 +485,7 @@ namespace utility
 			{
 				math::Matrix _data = parseConfig<math::Matrix>(pt);
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -497,7 +497,7 @@ namespace utility
 			{
 				auto _data = pt.get<bool>("");
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -505,7 +505,7 @@ namespace utility
 			{
 				auto _data = pt.get<uint32>("");
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -513,7 +513,7 @@ namespace utility
 			{
 				auto _data = pt.get<int32>("");
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -521,7 +521,7 @@ namespace utility
 			{
 				auto _data = pt.get<float>("");
 
-				prop.set_value(value, _data);
+				prop.set_value(object, _data);
 
 				break;
 			}
@@ -531,7 +531,7 @@ namespace utility
 		}
 	}
 
-	void SetProperty(boost::property_tree::ptree& pt, rttr::property& prop, rengine::Object* object)
+	void SetProperty(boost::property_tree::ptree& pt, rttr::property& prop, shared_ptr<rengine::Object> object)
 	{
 		rttr::variant _metaVariant = prop.get_metadata(rengine::MetaData::Serializable);
 
@@ -550,13 +550,13 @@ namespace utility
 
 		string _propName = prop.get_name().to_string();
 
-		if (_value.is_sequential_container())
+		if (prop.get_type().is_sequential_container())
 		{
 
 		}
 		else
 		{
-			SetProppertySingle(pt, prop, _value, _metaDataType);
+			SetProppertySingle(pt, prop, _value, _metaDataType, object.get());
 		}
 	}
 }

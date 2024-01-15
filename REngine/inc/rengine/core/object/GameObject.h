@@ -32,6 +32,8 @@ namespace rengine
         GameObject(const GameObject& object) = default;
 
         GameObject(GameObject&& object) = default;
+
+        ~GameObject() = default;
         
         template<typename T>
         std::shared_ptr<T> AddComponent();

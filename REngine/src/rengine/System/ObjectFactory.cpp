@@ -32,18 +32,18 @@ namespace rengine
 
 		rttr::variant _objVar = _ctor.invoke(_uuid);
 
-		if (!_objVar.is_valid() && _objVar.can_convert<Object*>())
+		if (!_objVar.is_valid() && _objVar.can_convert<shared_ptr<Object>>())
 			return nullptr;
 
-		//shared_ptr<Object> _object = shared_ptr<Object>(_objVar.convert<Object*>());
-		Object* _object = _objVar.convert<Object*>();
+		shared_ptr<Object> _object = _objVar.get_value<shared_ptr<Object>>();
+		//Object* _object = _objVar.convert<Object*>();
+		//auto _pair = make_pair(_object->GetUUID(), shared_ptr<Object>(_object));
 
-		auto _pair = make_pair(_object->GetUUID(), shared_ptr<Object>(_object));
+ 		m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
+		//m_objectsMap[_object->GetType()].insert(_pair);
 
-		//m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
-		m_objectsMap[_object->GetType()].insert(_pair);
-
-		return _pair.second;
+		return _object;
+		//return _pair.second;
 	}
 
 	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject)

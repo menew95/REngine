@@ -59,7 +59,7 @@ namespace utility
 			if(!_prop.is_valid())
 				continue;
 
-			SetProperty(_property_node.second, _prop, _object.get());
+			SetProperty(_property_node.second, _prop, _object);
 		}
 
 		return nullptr;

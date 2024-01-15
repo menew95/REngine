@@ -60,5 +60,5 @@ namespace utility
 
 	void GetProperty(boost::property_tree::ptree& pt, rttr::property& property, rengine::Object* object);
 
-	void SetProperty(boost::property_tree::ptree& pt, rttr::property& property, rengine::Object* object);
+	void SetProperty(boost::property_tree::ptree& pt, rttr::property& property, shared_ptr<rengine::Object> object);
 }
