@@ -39,7 +39,7 @@ namespace utility
 
 		for (auto& _child : object->GetTransform()->GetChilds())
 		{
-			/*_goSerializer.*/Serialize(_child.lock()->GetGameObject().get(), pt);
+			/*_goSerializer.*/Serialize(_child.lock()->GetGameObject().lock().get(), pt);
 		}
 	}
 

@@ -1,8 +1,8 @@
 ﻿/**
 
-	@file      ComponentSerializer.h
-	@brief     component serializer class
-	@details   컴포넌트를 직렬화 역질렬화
+	@file      ObjectSerializer.h
+	@brief     object serializer class
+	@details   오브젝트를 직렬화 역질렬화
 	@author    LWT
 	@date      11.01.2024
 	@copyright © Cool Guy, 2024. All right reserved.
@@ -26,8 +26,8 @@ namespace utility
 
 		void Serialize(rengine::Object* object, boost::property_tree::ptree& pt);
 
-		rengine::Object* DeSerialize(pair<const string, boost::property_tree::ptree>& node);
+		shared_ptr<rengine::Object> DeSerialize(pair<const string, boost::property_tree::ptree>& node, std::shared_ptr<rengine::Object> object = nullptr);
 
-		rengine::Object* DeSerialize(tstring& path);
+		shared_ptr<rengine::Object> DeSerialize(tstring& path);
 	};
 }

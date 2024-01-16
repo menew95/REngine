@@ -4,6 +4,24 @@
 
 #include <rengine\core\component\Camera.h>
 
+#include <rttr\registration.h>
+
+RTTR_REGISTRATION
+{
+	rttr::registration::class_<rengine::Scene>("Scene")
+	.constructor<tstring>()
+	/*.property_readonly("m_typeName", &rengine::Object::GetType)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
+	)
+	.property("m_uuid", &rengine::Object::GetUUID, &rengine::Object::SetUUID)
+	.property("m_objectName", &rengine::Object::GetName, &rengine::Object::SetName)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
+	)*/
+	;
+}
+
 namespace rengine
 {
 	/*Scene::Scene()
@@ -24,16 +42,7 @@ namespace rengine
 	Scene::Scene(uuid uuid)
 		: Object(uuid, TEXT("Scene"), TEXT("Scene"))
 	{
-		auto _camGO = GameObject::Instantiate();
-		_camGO->SetName(L"Main Camera");
 
-		_camGO->AddComponent<Camera>();
-
-		auto _lightGO = GameObject::Instantiate();
-		_lightGO->SetName(L"Directional Light");
-
-		m_rootGameObjects.push_back(_camGO);
-		m_rootGameObjects.push_back(_lightGO);
 	}
 
 	/*Scene::Scene(uuid uuid, tstring name)

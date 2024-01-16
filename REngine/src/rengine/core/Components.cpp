@@ -49,7 +49,7 @@ namespace rengine
 
 			m_reserveAddComponents.pop();
 
-			if (_component->GetEnable() && _component->GetGameObject()->GetActiveInHierarchy())
+			if (_component->GetEnable() && _component->GetGameObject().lock()->GetActiveInHierarchy())
 			{
 				_component->Start();
 				m_components.push_back(_component);
@@ -65,7 +65,7 @@ namespace rengine
 	{
 		for (auto& _componentIter : m_components)
 		{
-			if (_componentIter->GetEnable() && _componentIter->GetGameObject()->GetActiveInHierarchy())
+			if (_componentIter->GetEnable() && _componentIter->GetGameObject().lock()->GetActiveInHierarchy())
 			{
 				_componentIter->Update();
 			}
@@ -73,7 +73,7 @@ namespace rengine
 
 		for (auto& _componentIter : m_components)
 		{
-			if (_componentIter->GetEnable() && _componentIter->GetGameObject()->GetActiveInHierarchy())
+			if (_componentIter->GetEnable() && _componentIter->GetGameObject().lock()->GetActiveInHierarchy())
 			{
 				_componentIter->LateUpdate();
 			}

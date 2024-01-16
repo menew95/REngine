@@ -36,14 +36,17 @@ namespace rengine
 			return nullptr;
 
 		shared_ptr<Object> _object = _objVar.get_value<shared_ptr<Object>>();
-		//Object* _object = _objVar.convert<Object*>();
-		//auto _pair = make_pair(_object->GetUUID(), shared_ptr<Object>(_object));
+
+		assert(_object != nullptr);
 
  		m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
-		//m_objectsMap[_object->GetType()].insert(_pair);
+
+		if (_objType.is_derived_from(rttr::type::get_by_name("Component")))
+		{
+			ComponentManager::GetInstance()->ReserveAddComponent(std::dynamic_pointer_cast<Component>(_object));
+		}
 
 		return _object;
-		//return _pair.second;
 	}
 
 	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject)
@@ -82,5 +85,20 @@ namespace rengine
 		{
 			m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(0, deleteObject));
 		}*/
+	}
+
+	shared_ptr<Object> ObjectFactory::Find(uuid uuid)
+	{
+		for (auto _objMap : m_objectsMap)
+		{
+			auto _iter = _objMap.second.find(uuid);
+
+			if (_iter != _objMap.second.end())
+			{
+				return _iter->second;
+			}
+		}
+
+		return nullptr;
 	}
 }

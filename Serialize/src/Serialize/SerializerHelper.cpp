@@ -1,6 +1,8 @@
 ﻿#include <Serialize_pch.h>
 #include <serialize\SerializerHelper.h>
 
+#include <rengine\system\ObjectFactory.h>
+
 namespace utility
 {
 	template<>
@@ -444,7 +446,211 @@ namespace utility
 		}
 	}
 
-	void SetProppertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, const rttr::variant& value, rengine::MetaDataType metaDataType, rengine::Object* object)
+	void SetPropertyArray(boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
+	{
+		switch (metaDataType)
+		{
+			case rengine::MetaDataType::WSTRING:
+			{
+				vector<tstring> _data;
+				
+				for (auto& _item : pt)
+				{
+					auto _str = _item.second.get_value<string>();
+
+					_data.push_back(StringHelper::StringToWString(_str));
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::VECTOR2:
+			{
+				vector<math::Vector2> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = parseConfig<math::Vector2>(_item.second);
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::VECTOR3:
+			{
+				vector<math::Vector3> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = parseConfig<math::Vector3>(_item.second);
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::VECTOR4:
+			{
+				vector<math::Vector4> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = parseConfig<math::Vector4>(_item.second);
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::MATRIX:
+			{
+				vector<math::Matrix> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = parseConfig<math::Matrix>(_item.second);
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::UUID:
+			{
+				vector<shared_ptr<rengine::Object>> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _str = _item.second.get_value<string>();
+
+					auto _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_str));
+
+					_data.push_back(_obj);
+					//_data.push_back(StringHelper::StringToWString(_str));
+				}
+
+				rttr::variant _dataVarient = _data;
+
+				auto _data_seq = _dataVarient.create_sequential_view();
+
+				auto _data_type = _data_seq.get_value_type();
+				auto _data_type2 = _dataVarient.get_type();
+
+
+				rttr::type _varType = prop.get_type();
+				bool _varType_w = _varType.is_wrapper();
+				bool _varType_w2 = _varType.is_sequential_container();
+				rttr::type _varType2 = prop.get_declaring_type();
+
+				bool _cna = _dataVarient.can_convert(_varType);
+
+				auto _prop_wrapType = _varType.get_wrapped_type();
+				auto _prop_wrapType2 = _varType.get_raw_type();
+
+				bool _t = _dataVarient.can_convert(_varType);
+
+				auto _var = _varType.create();
+				bool _t2 = _var.is_sequential_container();
+
+				auto _varView = _var.create_sequential_view();
+				//assert(_varType.is_valid());
+				assert(_var.is_valid());
+				//assert(_varView.is_valid());
+
+				auto _valueType = _varView.get_value_type();
+
+				_varView.set_size(_data.size());
+
+				for (size_t i = 0; i < _data.size(); i++)
+				{
+					//auto obj = rengine::ObjectFactory::GetInstance()->Find(_data[i]);
+
+					//_varView.set_value(i, obj);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::BOOL:
+			{
+				vector<bool> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = _item.second.get_value<bool>();
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::UINT32:
+			{
+				vector<uint32> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = _item.second.get_value<uint32>();
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::INT32:
+			{
+				vector<int32> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = _item.second.get_value<int32>();
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			case rengine::MetaDataType::FLOAT:
+			{
+				vector<float> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = _item.second.get_value<float>();
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
+	}
+
+	void SetPropertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
 	{
 		switch (metaDataType)
 		{
@@ -461,7 +667,7 @@ namespace utility
 			{
 				math::Vector2 _data = parseConfig<math::Vector2>(pt);
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -469,7 +675,7 @@ namespace utility
 			{
 				math::Vector3 _data = parseConfig<math::Vector3>(pt);
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -477,7 +683,7 @@ namespace utility
 			{
 				math::Vector4 _data = parseConfig<math::Vector4>(pt);
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -485,19 +691,26 @@ namespace utility
 			{
 				math::Matrix _data = parseConfig<math::Matrix>(pt);
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
 			case rengine::MetaDataType::UUID:
 			{
+				//auto _data = pt.get<std::string>("");
+				//auto _uuid = StringHelper::StringToWString(_data);
+
+				////auto _object = 
+
+				//assert(prop.set_value(object, _object));
+
 				break;
 			}
 			case rengine::MetaDataType::BOOL:
 			{
 				auto _data = pt.get<bool>("");
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -505,7 +718,7 @@ namespace utility
 			{
 				auto _data = pt.get<uint32>("");
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -513,7 +726,7 @@ namespace utility
 			{
 				auto _data = pt.get<int32>("");
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -521,7 +734,7 @@ namespace utility
 			{
 				auto _data = pt.get<float>("");
 
-				prop.set_value(object, _data);
+				assert(prop.set_value(object, _data));
 
 				break;
 			}
@@ -543,7 +756,7 @@ namespace utility
 
 		rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
 
-		const rttr::variant _value = prop.get_value(object);
+		rttr::variant _value(object.get());
 
 		if (!_value.is_valid())
 			return;
@@ -552,11 +765,11 @@ namespace utility
 
 		if (prop.get_type().is_sequential_container())
 		{
-
+			SetPropertyArray(pt, prop, _value, _metaDataType);
 		}
 		else
 		{
-			SetProppertySingle(pt, prop, _value, _metaDataType, object.get());
+			SetPropertySingle(pt, prop, _value, _metaDataType);
 		}
 	}
 }

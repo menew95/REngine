@@ -31,9 +31,9 @@ namespace rengine
 
         virtual ~Component();
 
-        inline RENGINE_API std::shared_ptr<GameObject> GetGameObject()
+        inline RENGINE_API std::weak_ptr<GameObject> GetGameObject()
         { 
-            return m_pGameObject.lock(); 
+            return m_pGameObject; 
         }
 
         inline RENGINE_API auto GetTransform() { return m_pTransform; }
@@ -63,7 +63,7 @@ namespace rengine
         virtual void OnDestroy() {}
 
     private:
-        inline void SetGameObject(std::shared_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
+        inline void SetGameObject(std::weak_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
 
         std::weak_ptr<GameObject> m_pGameObject;
         

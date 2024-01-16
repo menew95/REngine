@@ -2,6 +2,8 @@
 #include <rengine\core\scene\Scene.h>
 
 #include <rengine\System\ObjectFactory.h>
+#include <rengine\core\object\GameObject.h>
+#include <rengine\core\component\Camera.h>
 
 #include <common\AssetPath.h>
 #include <serialize\Serializer.h>
@@ -33,7 +35,7 @@ namespace rengine
 
         _scene->SetPath(g_assetPath + _scene->GetName() + TEXT(".scene"));
 
-        utility::Serializer _serializer(_scene.get());
+        utility::Serializer _serializer;
 
         _serializer.Serialize(_scene.get());
 
@@ -82,12 +84,23 @@ namespace rengine
 
         _newScene->SetName(name);
 
+        auto _camGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
+        _camGO->SetName(L"Main Camera");
+
+        _camGO->AddComponent<Camera>();
+
+        auto _lightGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
+        _lightGO->SetName(L"Directional Light");
+
+        _newScene->AddRootGameObject(_camGO);
+        _newScene->AddRootGameObject(_lightGO);
+
         return _newScene;
     }
 
     void SceneManager::SaveScene()
     {
-        utility::Serializer _serializer(m_pCurrentScene.get());
+        utility::Serializer _serializer;
 
         _serializer.Serialize(m_pCurrentScene.get());
     }

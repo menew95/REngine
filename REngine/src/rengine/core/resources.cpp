@@ -87,10 +87,10 @@ namespace rengine
 		if(CheckPathExist(path))
 			return nullptr;
 
-		Object* _obj = utility::Serializer::DeSerialize(path);
-		Resource* _res;
+		auto _obj = utility::Serializer::DeSerialize(path);
+		shared_ptr<Resource> _res;
 
-		if(!(_obj || (_res = dynamic_cast<Resource*>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
+		if(!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
 			return nullptr;
 
 		return nullptr;
@@ -102,6 +102,12 @@ namespace rengine
 		if (CheckPathExist(path))
 			return nullptr;
 
+		auto _obj = utility::Serializer::DeSerialize(path);
+		shared_ptr<Resource> _res;
+
+		if (!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::MATERIAL))
+			return nullptr;
+
 		return nullptr;
 	}
 
@@ -111,10 +117,10 @@ namespace rengine
 		if (CheckPathExist(path))
 			return nullptr;
 
-		Object* _obj = utility::Serializer::DeSerialize(path);
-		Resource* _res;
+		auto _obj = utility::Serializer::DeSerialize(path);
+		shared_ptr<Resource> _res;
 
-		if (!(_obj || (_res = dynamic_cast<Resource*>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
+		if (!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::TEXTURE))
 			return nullptr;
 
 		return nullptr;

@@ -153,9 +153,9 @@ namespace editor
 			for (uint32 i = 0; i < gameObj->GetTransform()->GetChildSize(); i++)
 			{
 				auto _child = gameObj->GetTransform()->GetChild(i);
-				if (_child != nullptr && _child->GetGameObject())
+				if (_child != nullptr && _child->GetGameObject().lock())
 				{
-					DrawTreeNode(gameObj->GetTransform()->GetChild(i)->GetGameObject().get());
+					DrawTreeNode(gameObj->GetTransform()->GetChild(i)->GetGameObject().lock().get());
 				}
 			}
 			ImGui::TreePop();
@@ -180,7 +180,7 @@ namespace editor
 			{
 				for (uint32 i = 0; m_pFocusGameObject->GetTransform()->GetChildSize(); i++)
 				{
-					if (m_pFocusGameObject->GetTransform()->GetChild(i)->GetGameObject().get() == m_pDragItem)
+					if (m_pFocusGameObject->GetTransform()->GetChild(i)->GetGameObject().lock().get() == m_pDragItem)
 					{
 						if (m_pFocusGameObject->GetTransform()->GetParent() != nullptr)
 						{

@@ -39,15 +39,20 @@ namespace utility
 		pt.push_back(std::make_pair(_uuid, _obj_pt));
 	}
 
-	rengine::Object* ObjectSerializer::DeSerialize(pair<const string, boost::property_tree::ptree>& node)
+	std::shared_ptr<rengine::Object> ObjectSerializer::DeSerialize(pair<const string, boost::property_tree::ptree>& node, std::shared_ptr<rengine::Object> object)
 	{
-		uuid _uuid = StringHelper::StringToWString(node.first);
+		shared_ptr<rengine::Object> _object = object;
 
 		auto _typeIter = node.second.get_child("m_typeName");
 
-		auto _object = rengine::ObjectFactory::GetInstance()->CreateObject(_typeIter.data(), _uuid);
-
 		rttr::type _objType = rttr::type::get_by_name(_typeIter.data());
+
+		if (_object == nullptr)
+		{
+			uuid _uuid = StringHelper::StringToWString(node.first);
+
+			_object = rengine::ObjectFactory::GetInstance()->CreateObject(_typeIter.data(), _uuid);
+		}
 
 		for (auto& _property_node : node.second)
 		{
@@ -62,10 +67,10 @@ namespace utility
 			SetProperty(_property_node.second, _prop, _object);
 		}
 
-		return nullptr;
+		return _object;
 	}
 
-	rengine::Object* ObjectSerializer::DeSerialize(tstring& path)
+	std::shared_ptr<rengine::Object> ObjectSerializer::DeSerialize(tstring& path)
 	{
 		return nullptr;
 	}

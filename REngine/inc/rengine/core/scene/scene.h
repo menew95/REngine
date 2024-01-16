@@ -57,5 +57,9 @@ namespace rengine
         tstring m_path;
 
         std::vector<std::shared_ptr<GameObject>> m_rootGameObjects;
+
+        RTTR_ENABLE(Object);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

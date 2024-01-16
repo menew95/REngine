@@ -29,7 +29,7 @@ RTTR_REGISTRATION
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::BOOL)
 	)
-	.property_readonly("Components", &rengine::GameObject::GetComponents)
+	.property("Components", &rengine::GameObject::GetComponents, &rengine::GameObject::SetComponents)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	);

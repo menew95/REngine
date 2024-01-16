@@ -7,6 +7,7 @@
 #include <serialize\SerializerHelper.h>
 #include <serialize\GameObjectSerializer.h>
 #include <serialize\ObjectSerializer.h>
+#include <serialize\SceneSerializer.h>
 
 #include <common\math.h>
 
@@ -120,8 +121,7 @@ namespace utility
 		}
 	}
 
-	Serializer::Serializer(rengine::Object* object)
-	: m_pObject(object)
+	Serializer::Serializer()
 	{
 	}
 
@@ -134,6 +134,8 @@ namespace utility
 		bool _hr = false;
 
 		boost::property_tree::ptree _pt;
+
+		_pt.add<string>("uuid", scene->GetUUIDStr());
 
 		for (auto _go : scene->GetRootGameObjects())
 		{
@@ -170,7 +172,7 @@ namespace utility
 		return false;
 	}*/
 
-	rengine::Object* Serializer::DeSerialize(tstring path)
+	shared_ptr<rengine::Object> Serializer::DeSerialize(tstring path)
 	{
 		std::ifstream file(path);
 
@@ -192,13 +194,15 @@ namespace utility
 			return nullptr;
 		}
 
-		for (auto& _node : pt)
+		auto _object = SceneSerializer::DeSerialize(path);
+
+		/*for (auto& _node : pt)
 		{
 			ObjectSerializer _objectSerializer;
 
 			_objectSerializer.DeSerialize(_node);
-		}
+		}*/
 
-		return nullptr;
+		return _object;
 	}
 }

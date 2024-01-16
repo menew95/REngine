@@ -51,14 +51,25 @@ namespace rengine
 	{
 		delete m_pImpl;
 	}
+
 	uuid Object::GetUUID()
 	{
 		return m_pImpl->GetUUID();
 	}
 
+	string Object::GetUUIDStr()
+	{
+		return StringHelper::WStringToString(m_pImpl->GetUUID());
+	}
+
 	void Object::SetUUID(uuid uuid)
 	{
 		m_pImpl->SetUUID(uuid);
+	}
+
+	void Object::SetUUIDStr(string uuid)
+	{
+		m_pImpl->SetUUID(StringHelper::StringToWString(uuid));
 	}
 
 	tstring Object::GetName()

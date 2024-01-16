@@ -13,6 +13,10 @@ RTTR_REGISTRATION
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::BOOL),
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL)
+	)
+	.property("m_pGameObject", &rengine::Component::GetGameObject, &rengine::Component::SetGameObject)
+	(
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	);
 }
 

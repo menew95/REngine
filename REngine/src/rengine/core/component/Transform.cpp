@@ -82,7 +82,7 @@ namespace rengine
 		{
 			m_local = m_world;
 
-			GetGameObject()->GetScene()->AddRootGameObject(GetGameObject());
+			GetGameObject().lock()->GetScene()->AddRootGameObject(GetGameObject().lock());
 		}
 	}
 

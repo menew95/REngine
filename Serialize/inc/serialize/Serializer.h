@@ -18,7 +18,7 @@ namespace utility
 	class Serializer
 	{
 	public:
-		SERIALIZE_API Serializer(rengine::Object* object);
+		SERIALIZE_API Serializer();
 
 		SERIALIZE_API ~Serializer();
 
@@ -28,10 +28,7 @@ namespace utility
 		/*template<class T>
 		static bool Serialize(rengine::GameObject* object, T& pt);*/
 
-		SERIALIZE_API static rengine::Object* DeSerialize(tstring path);
-
-	private:
-		rengine::Object* m_pObject;
+		SERIALIZE_API static shared_ptr<rengine::Object> DeSerialize(tstring path);
 	};
 
 }

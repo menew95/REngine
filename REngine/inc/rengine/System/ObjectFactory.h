@@ -67,13 +67,21 @@ namespace rengine
             return _object;
         }
 
-        RENGINE_API shared_ptr<Object> CreateObject(string type, uuid _uuid);
+        /**
+            @brief  rttr를 이용하여 오브젝트 생성하고 반환
+            @param  type  - rttr type name
+            @param  uuid  - object uuid 
+            @retval       - 생성된 오브젝트
+        **/
+        RENGINE_API shared_ptr<Object> CreateObject(string type, uuid uuid);
 
         /**
             @brief 오브젝트를 삭제 예약을 걸어둔다. 오브젝트 맵에 있는 오브젝트를 찾고, 삭제 대기 큐에 푸쉬, 만약 이미 삭제 예약 대기중이면 무시
             @param deleteObject - 삭제할 오브젝트
         **/
-        void ReserveDestroyObject(shared_ptr<Object> deleteObject);
+        RENGINE_API void ReserveDestroyObject(shared_ptr<Object> deleteObject);
+
+        RENGINE_API shared_ptr<Object> Find(uuid uuid);
 
     private:
 

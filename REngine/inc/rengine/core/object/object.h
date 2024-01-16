@@ -31,7 +31,9 @@ namespace rengine
 		virtual ~Object();
 
 		uuid GetUUID();
+		string GetUUIDStr();
 		void SetUUID(uuid uuid);
+		void SetUUIDStr(string uuid);
 
 		tstring GetName();
 		string GetNameStr();
