@@ -4,6 +4,29 @@
 
 #include <rttr\registration.h>
 
+std::weak_ptr<rengine::Component> converter_func(const weak_ptr<rengine::Object>& value, bool& ok)
+{
+	ok = true;
+
+	std::weak_ptr<rengine::Component> _ret = std::static_pointer_cast<rengine::Component>(value.lock());
+
+	return _ret;
+}
+
+std::vector<weak_ptr<rengine::Component>> converter_func_container(const vector<weak_ptr<rengine::Object>>& value, bool& ok)
+{
+	ok = true;
+
+	std::vector<weak_ptr<rengine::Component>> _ret;
+
+	for (auto& _ptr : value)
+	{
+		_ret.push_back(std::static_pointer_cast<rengine::Component>(_ptr.lock()));
+	}
+
+	return _ret;
+}
+
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Component>("Component")
@@ -18,6 +41,9 @@ RTTR_REGISTRATION
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	);
+
+	rttr::type::register_converter_func(converter_func);
+	rttr::type::register_converter_func(converter_func_container);
 }
 
 namespace rengine

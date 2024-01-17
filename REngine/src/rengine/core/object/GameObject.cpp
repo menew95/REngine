@@ -5,6 +5,15 @@
 
 #include <rttr\registration.h>
 
+std::weak_ptr<rengine::GameObject> converter_func(const weak_ptr<rengine::Object>& value, bool& ok)
+{
+	ok = true;
+
+	std::weak_ptr<rengine::GameObject> _ret = std::static_pointer_cast<rengine::GameObject>(value.lock());
+
+	return _ret;
+}
+
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::GameObject>("GameObject")
@@ -33,6 +42,8 @@ RTTR_REGISTRATION
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	);
+
+	rttr::type::register_converter_func(converter_func);
 }
 
 namespace rengine
@@ -66,6 +77,23 @@ namespace rengine
 	GameObject::GameObject(uuid uuid)
 		: Object(uuid, TEXT("Game Object"), TEXT("GameObject"))
 	{
+	}
+
+	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)
+	{
+		m_Components = comps;
+		for(auto& _comp : m_Components)
+		{
+			if (auto _ptr = _comp.lock())
+			{
+				_ptr->SetGameObject(shared_from_this());
+
+				if (_ptr->GetType() == TEXT("Transform"))
+				{
+					SetTransform(std::static_pointer_cast<Transform>(_ptr));
+				}
+			}
+		}
 	}
 
 	/*GameObject::GameObject(uuid uuid, tstring name)

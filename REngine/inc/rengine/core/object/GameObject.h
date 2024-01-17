@@ -57,10 +57,10 @@ namespace rengine
         inline std::shared_ptr<Transform> GetTransform() { return m_pTransform.lock(); }
         inline std::shared_ptr<Scene> GetScene() { return m_pScene.lock(); }
 
+        inline void SetComponents(std::vector<std::weak_ptr<Component>> comps);
         // 일단 GetTransform을 기존에 shared_ptr<Transform> ref를 받아서 Instantiate 할시에 설정이 가능했으나 지금은 안됨
         // 임시로 해둠 추후 변경 될 수 있음
-        inline void SetComponents(std::vector<std::weak_ptr<Component>> comps) { m_Components = comps; }
-        inline void SetTransform(shared_ptr<Transform>& trans) { m_pTransform = trans;}
+        inline void SetTransform(const shared_ptr<Transform>& trans) { m_pTransform = trans;}
         
         inline bool GetActiveInHierarchy()  { return m_bActiveInHierarchy; }
         inline bool GetIsStatic()           { return m_bIsStatic; }

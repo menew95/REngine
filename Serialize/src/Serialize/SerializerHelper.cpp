@@ -3,6 +3,8 @@
 
 #include <rengine\system\ObjectFactory.h>
 
+#include <rttr\rttr_cast.h>
+
 namespace utility
 {
 	template<>
@@ -527,58 +529,49 @@ namespace utility
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				vector<shared_ptr<rengine::Object>> _data;
+				vector<weak_ptr<rengine::Object>> _data;
 
 				for (auto& _item : pt)
 				{
 					auto _str = _item.second.get_value<string>();
 
-					auto _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_str));
+					std::weak_ptr _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_str));
 
 					_data.push_back(_obj);
-					//_data.push_back(StringHelper::StringToWString(_str));
 				}
 
-				rttr::variant _dataVarient = _data;
+				rttr::variant _var = _data;
 
-				auto _data_seq = _dataVarient.create_sequential_view();
+				assert(_var.convert(prop.get_type()));
 
-				auto _data_type = _data_seq.get_value_type();
-				auto _data_type2 = _dataVarient.get_type();
+				assert(prop.set_value(object, _var));
 
+				//{
+				//	// 만약 전부 raw pointer로 변경시에
+				//	vector<rengine::Object*> _objs{ _data[0].lock().get(), _data[1].lock().get() };
 
-				rttr::type _varType = prop.get_type();
-				bool _varType_w = _varType.is_wrapper();
-				bool _varType_w2 = _varType.is_sequential_container();
-				rttr::type _varType2 = prop.get_declaring_type();
+				//	rttr::variant _objs_var = _objs;
+				//	rttr::variant _comps_var = prop.get_value(object);
 
-				bool _cna = _dataVarient.can_convert(_varType);
+				//	rttr::variant_sequential_view _objs_seq_var = _objs_var.create_sequential_view();
+				//	rttr::variant_sequential_view _comps_seq_var = _comps_var.create_sequential_view();
 
-				auto _prop_wrapType = _varType.get_wrapped_type();
-				auto _prop_wrapType2 = _varType.get_raw_type();
+				//	_comps_seq_var.set_size(_objs_seq_var.get_size());
 
-				bool _t = _dataVarient.can_convert(_varType);
+				//	for (size_t i = 0; i < _objs_seq_var.get_size(); i++)
+				//	{
+				//		auto _conv_var = _objs_seq_var.get_value(i);
 
-				auto _var = _varType.create();
-				bool _t2 = _var.is_sequential_container();
+				//		_conv_var.convert(_comps_seq_var.get_value_type());
 
-				auto _varView = _var.create_sequential_view();
-				//assert(_varType.is_valid());
-				assert(_var.is_valid());
-				//assert(_varView.is_valid());
+				//		_comps_seq_var.set_value(i, _conv_var);
+				//	}
 
-				auto _valueType = _varView.get_value_type();
+				//	rttr::type _objs_type = _objs_var.get_type();
+				//	rttr::type _comps_type = _comps_var.get_type();
 
-				_varView.set_size(_data.size());
-
-				for (size_t i = 0; i < _data.size(); i++)
-				{
-					//auto obj = rengine::ObjectFactory::GetInstance()->Find(_data[i]);
-
-					//_varView.set_value(i, obj);
-				}
-
-				assert(prop.set_value(object, _data));
+				//	assert(prop.set_value(object, _comps_var));
+				//}
 
 				break;
 			}
@@ -697,12 +690,31 @@ namespace utility
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				//auto _data = pt.get<std::string>("");
-				//auto _uuid = StringHelper::StringToWString(_data);
+				auto _data = pt.get<std::string>("");
 
-				////auto _object = 
+				if(!_data.size())
+					return;
 
-				//assert(prop.set_value(object, _object));
+				auto _prop_type_name = prop.get_type().get_name().to_string();
+
+				rttr::variant _var;
+
+				if (_prop_type_name.find("weak_ptr") != std::string::npos)
+				{
+					std::weak_ptr _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_data));
+
+					_var = _obj;
+				}
+				else if(_prop_type_name.find("shared_ptr") != std::string::npos)
+				{
+					std::shared_ptr _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_data));
+
+					_var = _obj;
+				}
+
+				assert(_var.convert(prop.get_type()));
+
+				assert(prop.set_value(object, _var));
 
 				break;
 			}

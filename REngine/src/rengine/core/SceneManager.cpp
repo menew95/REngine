@@ -29,17 +29,17 @@ namespace rengine
     {
         bool _hr = true;
 
-        utility::Serializer::DeSerialize(g_assetPath + TEXT("Main Scene.scene"));
+        auto _scene = utility::Serializer::DeSerialize(g_assetPath + TEXT("Main Scene.scene"));
 
-        auto _scene = SceneManager::CreateScene(L"Main Scene");
+        /*auto _scene = SceneManager::CreateScene(L"Main Scene");
 
         _scene->SetPath(g_assetPath + _scene->GetName() + TEXT(".scene"));
 
         utility::Serializer _serializer;
 
-        _serializer.Serialize(_scene.get());
+        _serializer.Serialize(_scene.get());*/
 
-        m_scenes.push_back(_scene);
+        m_scenes.push_back(std::static_pointer_cast<Scene>(_scene));
 
         LoadScene(0);
 

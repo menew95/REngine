@@ -3,6 +3,8 @@
 #include <serialize\ObjectSerializer.h>
 
 #include <rengine\system\ObjectFactory.h>
+#include <rengine\core\component\Component.h>
+#include <rengine\core\scene\Scene.h>
 
 namespace utility
 {
@@ -66,10 +68,21 @@ namespace utility
 			if (_node.first == "uuid")
 				continue;
 
+			auto _typeIter = _node.second.get_child("m_typeName");
+
+			if (_typeIter.data() == "Transform" && _node.second.get_child("m_parent").data() == "")
+			{
+				auto _trans_comp = std::static_pointer_cast<rengine::Component>(_list[_idx]);
+
+				reinterpret_cast<rengine::Scene*>(_scene.get())->AddRootGameObject(_trans_comp->GetGameObject().lock());
+			}
+
 			ObjectSerializer _objectSerializer;
 
 			_objectSerializer.DeSerialize(_node, _list[_idx++]);
+
 		}
+
 
 		return _scene;
 	}
