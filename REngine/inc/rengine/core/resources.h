@@ -26,13 +26,13 @@ namespace rengine
 
     class Resources
     {
-        DECLARE_SINGLETON_CLASS(Resources);
+        DECLARE_SINGLETON_CLASS_EXPORT(RENGINE_API, Resources);
 
     public:
         bool Initialize();
 
         template<class T>
-        RENGINE_API static shared_ptr<T> Load(tstring path)
+        static shared_ptr<T> Load(tstring path)
         {
             static_assert(std::is_base_of<Resource, T>::value, "class doesn't derive from the base");
 
@@ -49,7 +49,7 @@ namespace rengine
         RENGINE_API static shared_ptr<Texture> Load(tstring path);
 
         template<class T>
-        RENGINE_API shared_ptr<T> GetResource(uuid uuid)
+        shared_ptr<T> GetResource(uuid uuid)
         {
             static_assert(std::is_base_of<Resource, T>::value, "class doesn't derive from the base");
 
@@ -64,6 +64,23 @@ namespace rengine
 
         template<>
         RENGINE_API shared_ptr<Texture> GetResource(uuid uuid);
+
+        template<class T>
+        shared_ptr<T> CreateResource(uuid uuid)
+        {
+            static_assert(std::is_base_of<Resource, T>::value, "class doesn't derive from the base");
+
+            return nullptr;
+        }
+
+        template<>
+        RENGINE_API shared_ptr<Mesh> CreateResource(uuid uuid);
+
+        template<>
+        RENGINE_API shared_ptr<Material> CreateResource(uuid uuid);
+
+        template<>
+        RENGINE_API shared_ptr<Texture> CreateResource(uuid uuid);
 
     private:
         void LoadAllAsset();

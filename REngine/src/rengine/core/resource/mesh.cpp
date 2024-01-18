@@ -2,8 +2,8 @@
 
 namespace rengine
 {
-	Mesh::Mesh(uuid uuid, tstring name)
-	: Resource(uuid, name, TEXT("Mesh"))
+	Mesh::Mesh(uuid uuid)
+	: Resource(uuid, TEXT("Mesh"))
 	{
 
 	}

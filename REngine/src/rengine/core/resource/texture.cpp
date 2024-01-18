@@ -2,8 +2,8 @@
 
 namespace rengine
 {
-	Texture::Texture(uuid uuid, tstring name)
-	: Resource(uuid, name, TEXT("Texture"))
+	Texture::Texture(uuid uuid)
+	: Resource(uuid, TEXT("Texture"))
 	{
 
 	}

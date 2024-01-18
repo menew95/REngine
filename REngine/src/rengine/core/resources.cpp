@@ -4,6 +4,8 @@
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\Material.h>
 
+#include <rengine\system\ObjectFactory.h>
+
 #include <filesystem>
 
 #include <serialize\Serializer.h>
@@ -76,7 +78,7 @@ namespace rengine
 			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
 			{
-
+				Load<Texture>(_path.wstring());
 			}
 		}
 	}
@@ -84,7 +86,7 @@ namespace rengine
 	template<>
 	shared_ptr<Mesh> Resources::Load(tstring path)
 	{
-		if(CheckPathExist(path))
+		if(!CheckPathExist(path))
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
@@ -99,7 +101,7 @@ namespace rengine
 	template<>
 	shared_ptr<Material> Resources::Load(tstring path)
 	{
-		if (CheckPathExist(path))
+		if (!CheckPathExist(path))
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
@@ -114,13 +116,13 @@ namespace rengine
 	template<>
 	shared_ptr<Texture> Resources::Load(tstring path)
 	{
-		if (CheckPathExist(path))
+		if (!CheckPathExist(path))
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Resource> _res;
 
-		if (!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::TEXTURE))
+		if (_obj == nullptr|| (_res = dynamic_pointer_cast<Resource>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::TEXTURE)
 			return nullptr;
 
 		return nullptr;
@@ -157,5 +159,41 @@ namespace rengine
 			return nullptr;
 
 		return _iter->second;
+	}
+
+	template<>
+	shared_ptr<Mesh> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_meshMap.insert(make_pair(uuid, _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Material> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Material>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_materialMap.insert(make_pair(uuid, _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Texture> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Texture>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_textureMap.insert(make_pair(uuid, _ret));
+
+		return _ret;
 	}
 }

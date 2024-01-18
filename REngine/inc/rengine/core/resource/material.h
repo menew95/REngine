@@ -22,7 +22,7 @@ namespace rengine
     class RENGINE_API Material : public Resource
     {
     public:
-        Material(uuid uuid, tstring name);
+        Material(uuid uuid);
 
         Material(const Material& mat) = default;
 
@@ -37,5 +37,9 @@ namespace rengine
 
     private:
         graphics::MaterialBuffer* m_pMaterialBuffer = nullptr;
+
+        RTTR_ENABLE(Resource);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

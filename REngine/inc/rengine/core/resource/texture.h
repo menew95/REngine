@@ -20,7 +20,7 @@ namespace rengine
     class RENGINE_API Texture : public Resource
     {
     public:
-        Texture(uuid uuid, tstring name);
+        Texture(uuid uuid);
 
         Texture(const Texture& mesh) = default;
 
@@ -40,5 +40,9 @@ namespace rengine
 
     private:
         graphics::TextureBuffer* m_textureBuffer = nullptr;
+
+        RTTR_ENABLE(Resource);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

@@ -30,17 +30,13 @@ namespace rengine
     class RENGINE_API Resource : public Object
     {
     public:
-        Resource(uuid uuid, tstring name);
-
-        Resource(uuid uuid, tstring name, tstring type);
+        Resource(uuid uuid, tstring type);
 
         Resource(const Resource& res) = default;
 
         Resource(Resource&& res) = default;
 
         virtual ~Resource() = default;
-
-        virtual ResourceType GetType() abstract;
 
         inline bool GetIsLoad()
         {
@@ -49,6 +45,9 @@ namespace rengine
 
         virtual ResourceType GetResourceType() abstract;
 
+        const tstring& GetPath() { return m_path; }
+        void SetPath(const tstring& path) { m_path = path; }
+
     protected:
 
         // 이 리소스가 가리키는 파일 위치
@@ -56,5 +55,9 @@ namespace rengine
 
         // 리소스가 메모리에 로드가 되었는지 여부
         bool m_bIsLoad = false;
+
+        RTTR_ENABLE(Object);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

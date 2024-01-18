@@ -1,6 +1,7 @@
 ﻿#include <Serialize_pch.h>
 #include <serialize\SceneSerializer.h>
 #include <serialize\ObjectSerializer.h>
+#include <serialize\GameObjectSerializer.h>
 
 #include <rengine\system\ObjectFactory.h>
 #include <rengine\core\component\Component.h>
@@ -10,10 +11,18 @@ namespace utility
 {
 	void SceneSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
+		if (object == nullptr)
+			return;
 
+		rengine::Scene* _scene = reinterpret_cast<rengine::Scene*>(object);
+
+		for (auto _go : _scene->GetRootGameObjects())
+		{
+			GameObjectSerializer::Serialize(_go.get(), pt);
+		}
 	}
 
-	std::shared_ptr<rengine::Object> SceneSerializer::DeSerialize(tstring& path)
+	std::shared_ptr<rengine::Object> SceneSerializer::DeSerialize(tstring& path, const rengine::MetaInfo& metaInfo)
 	{
 		std::ifstream file(path);
 
@@ -35,9 +44,9 @@ namespace utility
 			return nullptr;
 		}
 
-		uuid _uuid = StringHelper::StringToWString(pt.get<string>("uuid"));
+		auto _scene = std::static_pointer_cast<rengine::Scene>(rengine::ObjectFactory::GetInstance()->CreateObject("Scene", metaInfo._guid));
 
-		auto _scene = rengine::ObjectFactory::GetInstance()->CreateObject("Scene", _uuid);
+		_scene->SetPath(path);
 
 		assert(_scene != nullptr);
 
@@ -55,10 +64,6 @@ namespace utility
 			uuid _uuid = StringHelper::StringToWString(_node.first);
 
 			_list.emplace_back(rengine::ObjectFactory::GetInstance()->CreateObject(_typeIter.data(), _uuid));
-
-			/*ObjectSerializer _objectSerializer;
-
-			_objectSerializer.DeSerialize(_node);*/
 		}
 
 		size_t _idx = 0;
@@ -77,12 +82,9 @@ namespace utility
 				reinterpret_cast<rengine::Scene*>(_scene.get())->AddRootGameObject(_trans_comp->GetGameObject().lock());
 			}
 
-			ObjectSerializer _objectSerializer;
-
-			_objectSerializer.DeSerialize(_node, _list[_idx++]);
+			ObjectSerializer::DeSerialize(_node, _list[_idx++]);
 
 		}
-
 
 		return _scene;
 	}

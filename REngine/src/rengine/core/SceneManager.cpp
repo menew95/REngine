@@ -100,8 +100,6 @@ namespace rengine
 
     void SceneManager::SaveScene()
     {
-        utility::Serializer _serializer;
-
-        _serializer.Serialize(m_pCurrentScene.get());
+        utility::Serializer::Serialize(m_pCurrentScene->GetPath(), m_pCurrentScene.get());
     }
 }

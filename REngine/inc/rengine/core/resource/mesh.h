@@ -22,7 +22,7 @@ namespace rengine
     class RENGINE_API Mesh : public Resource
     {
     public:
-        Mesh(uuid uuid, tstring name);
+        Mesh(uuid uuid);
 
         Mesh(const Mesh& mesh) = default;
 
@@ -40,5 +40,8 @@ namespace rengine
 
         graphics::MeshBuffer* m_meshBuffer = nullptr;
 
+        RTTR_ENABLE(Resource);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

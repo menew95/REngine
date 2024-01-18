@@ -5,16 +5,6 @@
 
 namespace utility
 {
-	ObjectSerializer::ObjectSerializer()
-	{
-
-	}
-
-	ObjectSerializer::~ObjectSerializer()
-	{
-
-	}
-
 	void ObjectSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
 		if (object == nullptr)

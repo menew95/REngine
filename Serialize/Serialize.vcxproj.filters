@@ -42,6 +42,9 @@
     <ClInclude Include="inc\serialize\SceneSerializer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\serialize\ResourceSerializer.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SerializeAPI.cpp">
@@ -69,6 +72,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\Serialize\SceneSerializer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Serialize\ResourceSerializer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -20,14 +20,14 @@ namespace utility
 	class ObjectSerializer
 	{
 	public:
-		ObjectSerializer();
+		ObjectSerializer() = default;
 
-		~ObjectSerializer();
+		~ObjectSerializer() = default;
 
-		void Serialize(rengine::Object* object, boost::property_tree::ptree& pt);
+		static void Serialize(rengine::Object* object, boost::property_tree::ptree& pt);
 
-		shared_ptr<rengine::Object> DeSerialize(pair<const string, boost::property_tree::ptree>& node, std::shared_ptr<rengine::Object> object = nullptr);
+		static shared_ptr<rengine::Object> DeSerialize(pair<const string, boost::property_tree::ptree>& node, std::shared_ptr<rengine::Object> object = nullptr);
 
-		shared_ptr<rengine::Object> DeSerialize(tstring& path);
+		static shared_ptr<rengine::Object> DeSerialize(tstring& path);
 	};
 }

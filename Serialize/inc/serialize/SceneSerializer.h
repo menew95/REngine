@@ -26,6 +26,6 @@ namespace utility
 
 		static void Serialize(rengine::Object* object, boost::property_tree::ptree& pt);
 
-		static std::shared_ptr<rengine::Object> DeSerialize(tstring& path);
+		static std::shared_ptr<rengine::Object> DeSerialize(tstring& path, const rengine::MetaInfo& metaInfo);
 	};
 }

@@ -8,6 +8,7 @@
 #include <serialize\GameObjectSerializer.h>
 #include <serialize\ObjectSerializer.h>
 #include <serialize\SceneSerializer.h>
+#include <serialize\ResourceSerializer.h>
 
 #include <common\math.h>
 
@@ -20,107 +21,6 @@
 
 namespace utility
 {
-	/*template<>
-	bool Serialized(rengine::GameObject* object, boost::property_tree::basic_ptree<std::string, std::string>& pt)
-	{
-		bool _hr = false;
-
-
-		return _hr;
-	}*/
-
-
-	void GetProperty(rengine::MetaDataType type, const std::shared_ptr<rengine::Component>& component
-		, const rttr::type& component_type, const rttr::variant& var
-		, rttr::property& prop, boost::property_tree::ptree& pt, bool isArray = false)
-	{
-		string _propName = prop.get_name().to_string();
-
-		switch (type)
-		{
-			case rengine::MetaDataType::WSTRING:
-			{
-				auto _wstr = var.convert<tstring>();
-				auto _str = StringHelper::WStringToString(_wstr);
-
-				pt.put(_propName, _str);
-				break;
-			}
-			case rengine::MetaDataType::VECTOR2:
-			{
-				auto _v = var.convert<math::Vector2>();
-
-				serializeConfig(_v, _propName, pt);
-				break;
-			}
-			case rengine::MetaDataType::VECTOR3:
-			{
-				auto _v = var.convert<math::Vector3>();
-
-				serializeConfig(_v, _propName, pt);
-				break;
-			}
-			case rengine::MetaDataType::VECTOR4:
-			{
-				auto _v = var.convert<math::Vector4>();
-
-				serializeConfig(_v, _propName, pt);
-				break;
-			}
-			case rengine::MetaDataType::MATRIX:
-			{
-				auto _v = var.convert<math::Matrix>();
-
-				serializeConfig(_v, _propName, pt);
-				break;
-			}
-			case rengine::MetaDataType::UUID:
-			{
-				break;
-			}
-			case rengine::MetaDataType::BOOL:
-			{
-				auto _bool = var.to_bool();
-
-				pt.put(_propName, _bool);
-				break;
-			}
-			case rengine::MetaDataType::UINT32:
-			{
-				auto _u32 = var.to_uint32();
-
-				pt.put(_propName, _u32);
-				break;
-			}
-			case rengine::MetaDataType::INT32:
-			{
-				auto _i32 = var.to_int32();
-
-				pt.put(_propName, _i32);
-				break;
-			}
-			case rengine::MetaDataType::FLOAT:
-			{
-				auto _f = var.to_float();
-
-				pt.put(_propName, _f);
-				break;
-			}
-			case rengine::MetaDataType::DOUBLE:
-			{
-				auto _d = var.to_double();
-
-				pt.put(_propName, _d);
-				break;
-			}
-			default:
-			{
-				assert(false);
-				break;
-			}
-		}
-	}
-
 	Serializer::Serializer()
 	{
 	}
@@ -129,57 +29,46 @@ namespace utility
 	{
 	}
 
-	bool Serializer::Serialize(rengine::Scene* scene)
+	//bool Serializer::Serialize(rengine::Scene* scene)
+	//{
+	//	bool _hr = false;
+
+	//	boost::property_tree::ptree _pt;
+
+	//	/*_pt.add<string>("uuid", scene->GetUUIDStr());
+
+	//	for (auto _go : scene->GetRootGameObjects())
+	//	{
+	//		boost::property_tree::ptree _go_pt;
+
+	//		GameObjectSerializer _goSerializer;
+
+	//		_goSerializer.Serialize(_go.get(), _pt);
+	//	}*/
+
+	//	std::ofstream file(StringHelper::WStringToString(scene->GetPath()));
+
+	//	_hr = file.is_open();
+
+	//	if (_hr)
+	//	{
+	//		boost::property_tree::write_json(file, _pt);
+
+	//		file.close();
+	//	}
+
+	//	return _hr;
+	//}
+
+	rengine::MetaInfo ReadMetaFile(const tstring& path, boost::property_tree::ptree& pt)
 	{
-		bool _hr = false;
+		// path.meta
+		tstring _metaPath = path + TEXT(".meta");
 
-		boost::property_tree::ptree _pt;
-
-		_pt.add<string>("uuid", scene->GetUUIDStr());
-
-		for (auto _go : scene->GetRootGameObjects())
-		{
-			boost::property_tree::ptree _go_pt;
-
-			GameObjectSerializer _goSerializer;
-
-			_goSerializer.Serialize(_go.get(), _pt);
-		}
-
-		std::ofstream file(StringHelper::WStringToString(scene->GetPath()));
-
-		_hr = file.is_open();
-
-		if (_hr)
-		{
-			boost::property_tree::write_json(file, _pt);
-
-			file.close();
-		}
-
-		return _hr;
-	}
-
-	SERIALIZE_API bool Serializer::Serialize(rengine::Object* object)
-	{
-		return true;
-	}
-
-	/*bool Serialization::Serialize(rengine::GameObject* object, void* pt)
-	{
-		auto* _pt = reinterpret_cast<boost::property_tree::basic_ptree<std::string, std::string>*>(pt);
-
-		return false;
-	}*/
-
-	shared_ptr<rengine::Object> Serializer::DeSerialize(tstring path)
-	{
-		std::ifstream file(path);
+		std::ifstream file(_metaPath);
 
 		if (!file.good())
-			return nullptr;
-
-		boost::property_tree::ptree pt;
+			return rengine::MetaInfo();
 
 		try
 		{
@@ -191,17 +80,93 @@ namespace utility
 		{
 			auto error = e.what();
 
-			return nullptr;
+			return rengine::MetaInfo();
 		}
 
-		auto _object = SceneSerializer::DeSerialize(path);
+		rengine::MetaInfo _metaInfo;
+		_metaInfo._guid = StringHelper::StringToWString(pt.get<string>("guid"));
+		_metaInfo._type = static_cast<rengine::SerializableType>(pt.get<uint32>("serializable type"));
 
-		/*for (auto& _node : pt)
+		return _metaInfo;
+	}
+
+	bool Serializer::Serialize(const tstring& path, rengine::Object* object)
+	{
+		boost::property_tree::ptree _pt;
+
+		rengine::MetaInfo _metaInfo = ReadMetaFile(path, _pt);
+
+		switch (_metaInfo._type)
 		{
-			ObjectSerializer _objectSerializer;
+			case rengine::SerializableType::SCENE:
+			{
+				_pt.clear();
+				SceneSerializer::Serialize(object, _pt);
+				break;
+			}
+			case rengine::SerializableType::RESOURCE:
+			{
+				break;
+			}
+			case rengine::SerializableType::PREFABS:
+			{
+				break;
+			}
+			case rengine::SerializableType::UNKNOWN:
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
 
-			_objectSerializer.DeSerialize(_node);
-		}*/
+		std::ofstream file(StringHelper::WStringToString(path));
+
+		if (!file.is_open())
+			return false;
+
+		boost::property_tree::write_json(file, _pt);
+
+		file.close();
+
+		return true;
+	}
+
+	shared_ptr<rengine::Object> Serializer::DeSerialize(tstring path)
+	{
+		boost::property_tree::ptree _meta_pt;
+
+		rengine::MetaInfo _metaInfo = ReadMetaFile(path, _meta_pt);
+
+		if(_metaInfo._guid.size() == 0)
+			return nullptr;
+
+		shared_ptr<rengine::Object> _object;
+
+		switch (_metaInfo._type)
+		{
+			case rengine::SerializableType::SCENE:
+			{
+				_object = SceneSerializer::DeSerialize(path, _metaInfo);
+				break;
+			}
+			case rengine::SerializableType::RESOURCE:
+			{
+				_object = ResourceSerializer::DeSerialize(path, _metaInfo, _meta_pt);
+				break;
+			}
+			case rengine::SerializableType::PREFABS:
+			{
+				break;
+			}
+			case rengine::SerializableType::UNKNOWN:
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
+		
 
 		return _object;
 	}

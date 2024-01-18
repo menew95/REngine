@@ -24,8 +24,8 @@ namespace utility
 
 		~GameObjectSerializer();
 
-		void Serialize(rengine::GameObject* object, boost::property_tree::ptree& pt);
+		static void Serialize(rengine::GameObject* object, boost::property_tree::ptree& pt);
 
-		rengine::GameObject* DeSerialize(tstring& path);
+		static rengine::GameObject* DeSerialize(tstring& path);
 	};
 }

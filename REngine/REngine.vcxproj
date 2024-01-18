@@ -204,6 +204,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\component\Renderer.h" />
     <ClInclude Include="inc\rengine\core\component\Transform.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
+    <ClInclude Include="inc\rengine\core\object\MetaFile.h" />
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\object\object_impl.h" />
     <ClInclude Include="inc\rengine\core\Resources.h" />

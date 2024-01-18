@@ -369,7 +369,14 @@ namespace utility
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				auto _uuid = value.convert<uuid>();
+				auto _obj_type = value.get_type();
+				
+				auto _uuid_prop = _obj_type.get_wrapped_type().get_property("m_uuid");
+				
+				assert(_uuid_prop.is_valid());
+
+				auto _uuid = _uuid_prop.get_value(value).convert<uuid>();
+
 				auto _str_uuid = StringHelper::WStringToString(_uuid);
 
 				pt.put(name, _str_uuid);

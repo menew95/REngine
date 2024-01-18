@@ -22,9 +22,9 @@ namespace utility
 
 		SERIALIZE_API ~Serializer();
 
-		SERIALIZE_API bool Serialize(rengine::Scene* scene);
+		//SERIALIZE_API static bool Serialize(rengine::Scene* scene);
 
-		SERIALIZE_API static bool Serialize(rengine::Object* object);
+		SERIALIZE_API static bool Serialize(const tstring& path, rengine::Object* object);
 		/*template<class T>
 		static bool Serialize(rengine::GameObject* object, T& pt);*/
 

@@ -31,15 +31,11 @@ namespace utility
 			auto _comp = _item.lock();
 
 			_goSerializer.Serialize(_comp.get(), pt);
-
-			/*ComponentSerializer _compSerializer(_comp.get());
-
-			_compSerializer.Serialize(pt);*/
 		}
 
 		for (auto& _child : object->GetTransform()->GetChilds())
 		{
-			/*_goSerializer.*/Serialize(_child.lock()->GetGameObject().lock().get(), pt);
+			Serialize(_child.lock()->GetGameObject().lock().get(), pt);
 		}
 	}
 

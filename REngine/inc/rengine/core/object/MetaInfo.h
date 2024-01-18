@@ -34,4 +34,27 @@ namespace rengine
         DOUBLE,
         ENUM,
     };
+
+    enum class SerializableType
+    {
+        SCENE       = 0,
+        RESOURCE    = 1,
+        PREFABS     = 2,
+        UNKNOWN     = 3,
+    };
+
+    struct MetaInfo
+    {
+        // 메타파일 위치
+        tstring _metaFilePath;
+
+        // 메타파일이 가리키는 파일 위치
+        tstring _filePath;
+
+        // uuid
+        tstring _guid;
+
+        // serializer type
+        SerializableType _type = SerializableType::UNKNOWN;
+    };
 }
