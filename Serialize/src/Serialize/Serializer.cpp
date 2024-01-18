@@ -100,12 +100,12 @@ namespace utility
 		{
 			case rengine::SerializableType::SCENE:
 			{
-				_pt.clear();
 				SceneSerializer::Serialize(object, _pt);
 				break;
 			}
 			case rengine::SerializableType::RESOURCE:
 			{
+				ResourceSerializer::Serialize(object, _pt);
 				break;
 			}
 			case rengine::SerializableType::PREFABS:

@@ -11,6 +11,8 @@ namespace utility
 {
 	void SceneSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
+		pt.clear();
+
 		if (object == nullptr)
 			return;
 

@@ -68,12 +68,15 @@ namespace utility
 		if (!file.good())
 			return nullptr;
 
-		shared_ptr<rengine::Object> _object;
+		shared_ptr<rengine::Resource> _object;
 
 		for (auto _iter = pt.begin(); _iter != pt.end(); _iter++)
 		{
 			if (_iter->first == "TextureImporter")
 			{
+				auto _tex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid);
+				//_object _tex;
+
 				auto _node = (*_iter);
 				ObjectSerializer::DeSerialize(_node, _object);
 			}
