@@ -51,9 +51,50 @@ bool ReadBinary_Anim(const tstring& path)
 
 namespace utility
 {
-	void ResourceSerializer::Serialize(const rengine::Object* object, boost::property_tree::ptree& pt)
+	void ResourceSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
+		shared_ptr<rengine::Resource> _object;
 
+		rengine::Resource* _resource = reinterpret_cast<rengine::Resource*>(object);
+
+		switch (_resource->GetResourceType())
+		{
+			case rengine::ResourceType::MATERIAL:
+			{
+				break;
+			}
+			case rengine::ResourceType::TEXTURE:
+			{
+				ObjectSerializer::Serialize(object, pt);
+				break;
+			}
+			case rengine::ResourceType::MESH:
+			{
+				break;
+			}
+			case rengine::ResourceType::SKINNED_MESH:
+			{
+				break;
+			}
+			case rengine::ResourceType::ANMATOR_CONTROLLER:
+			{
+				break;
+			}
+			case rengine::ResourceType::ANIMATION_CLIP:
+			{
+				break;
+			}
+			case rengine::ResourceType::AUDIO_CLIP:
+			{
+				break;
+			}
+			case rengine::ResourceType::UNKNOWN:
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
 	}
 
 	std::shared_ptr<rengine::Object> TextureDeSerialize(const boost::property_tree::ptree& pt)

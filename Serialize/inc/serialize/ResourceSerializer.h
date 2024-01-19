@@ -24,7 +24,7 @@ namespace utility
 
 		~ResourceSerializer() = default;
 
-		static void Serialize(const rengine::Object* object, boost::property_tree::ptree& pt);
+		static void Serialize(rengine::Object* object, boost::property_tree::ptree& pt);
 
 		static std::shared_ptr<rengine::Object> DeSerialize(const tstring& path, const rengine::MetaInfo& metaInfo, const boost::property_tree::ptree& pt);
 	};

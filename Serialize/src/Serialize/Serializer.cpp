@@ -4,6 +4,8 @@
 #include <rttr\registration.h>
 #include <rttr\type.h>
 
+#include <filesystem>
+
 #include <serialize\SerializerHelper.h>
 #include <serialize\GameObjectSerializer.h>
 #include <serialize\ObjectSerializer.h>
@@ -18,6 +20,7 @@
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
 
+namespace fs = std::filesystem;
 
 namespace utility
 {
@@ -28,37 +31,6 @@ namespace utility
 	Serializer::~Serializer()
 	{
 	}
-
-	//bool Serializer::Serialize(rengine::Scene* scene)
-	//{
-	//	bool _hr = false;
-
-	//	boost::property_tree::ptree _pt;
-
-	//	/*_pt.add<string>("uuid", scene->GetUUIDStr());
-
-	//	for (auto _go : scene->GetRootGameObjects())
-	//	{
-	//		boost::property_tree::ptree _go_pt;
-
-	//		GameObjectSerializer _goSerializer;
-
-	//		_goSerializer.Serialize(_go.get(), _pt);
-	//	}*/
-
-	//	std::ofstream file(StringHelper::WStringToString(scene->GetPath()));
-
-	//	_hr = file.is_open();
-
-	//	if (_hr)
-	//	{
-	//		boost::property_tree::write_json(file, _pt);
-
-	//		file.close();
-	//	}
-
-	//	return _hr;
-	//}
 
 	rengine::MetaInfo ReadMetaFile(const tstring& path, boost::property_tree::ptree& pt)
 	{
@@ -88,6 +60,64 @@ namespace utility
 		_metaInfo._type = static_cast<rengine::SerializableType>(pt.get<uint32>("serializable type"));
 
 		return _metaInfo;
+	}
+
+	SERIALIZE_API bool Serializer::CreateMetaInfo(const tstring& path, rengine::Object* object)
+	{
+		boost::property_tree::ptree _pt;
+
+		fs::path _path(path);
+
+		_pt.put("guid", object->GetUUIDStr());
+
+		if (_path.has_extension())
+			return false;
+
+		std::string _extension = _path.extension().string();
+
+		std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+		if (_extension == ".scene")
+		{
+			_pt.put("serializable type", rengine::SerializableType::SCENE);
+		}
+		else if (_extension == ".prefab")
+		{
+			_pt.put("serializable type", rengine::SerializableType::PREFABS);
+		}
+		else
+		{
+			_pt.put("serializable type", rengine::SerializableType::RESOURCE);
+
+			if (_extension == ".mat")
+			{
+
+			}
+			else if (_extension == ".mesh")
+			{
+
+			}
+			else if (_extension == ".anim")
+			{
+
+			}
+			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
+				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
+			{
+				ResourceSerializer::Serialize(object, _pt);
+			}
+		}
+
+		std::ofstream _file(StringHelper::WStringToString(path));
+
+		if (!_file.is_open())
+			return false;
+
+		boost::property_tree::write_json(_file, _pt);
+
+		_file.close();
+
+		return true;
 	}
 
 	bool Serializer::Serialize(const tstring& path, rengine::Object* object)
