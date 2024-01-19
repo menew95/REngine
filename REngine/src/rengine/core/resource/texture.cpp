@@ -1,6 +1,10 @@
 ﻿#include <rengine\core\resource\Texture.h>
 #include <graphics_core\resource\TextureBuffer.h>
 
+#include <rengine\system\GraphicsSystem.h>
+
+#include <graphics_core\ResourceManager.h>
+
 #include <rttr\registration.h>
 
 RTTR_REGISTRATION
@@ -55,16 +59,29 @@ namespace rengine
 	}
 	void* Texture::GetTextureID()
 	{
-		return m_textureBuffer->GetTextureID();
+		return m_pTextureBuffer->GetTextureID();
 	}
 
 	bool Texture::LoadMemory()
 	{
+		m_pTextureBuffer = graphics::ResourceManager::GetInstance()->CreateTextureBuffer(GetUUID());
+
+		m_bIsLoad = true;
+
 		return true;
 	}
 
 	bool Texture::UnLoadMemory()
 	{
-		return true;
+		bool _ret = graphics::ResourceManager::GetInstance()->RelaseTextureBuffer(GetUUID());
+
+		if (_ret) 
+		{
+			m_pTextureBuffer = nullptr;
+
+			m_bIsLoad = false;
+		}
+
+		return _ret;
 	}
 }

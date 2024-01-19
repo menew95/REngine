@@ -1,5 +1,9 @@
 ﻿#include <rengine\core\resource\Mesh.h>
 
+#include <rengine\system\GraphicsSystem.h>
+
+#include <graphics_core\ResourceManager.h>
+
 namespace rengine
 {
 	Mesh::Mesh(uuid uuid)
@@ -17,10 +21,23 @@ namespace rengine
 	}
 	bool Mesh::LoadMemory()
 	{
-		return false;
+		m_pMeshBuffer = graphics::ResourceManager::GetInstance()->CreateMeshBuffer(GetUUID());
+
+		m_bIsLoad = true;
+
+		return true;
 	}
 	bool Mesh::UnLoadMemory()
 	{
-		return false;
+		bool _ret = graphics::ResourceManager::GetInstance()->CreateMeshBuffer(GetUUID());
+
+		if (_ret)
+		{
+			m_pMeshBuffer = nullptr;
+
+			m_bIsLoad = false;
+		}
+
+		return _ret;
 	}
 }

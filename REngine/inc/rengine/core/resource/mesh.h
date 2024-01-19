@@ -50,7 +50,7 @@ namespace rengine
     private:
         bool m_bIsSkinned = false;
 
-        graphics::MeshBuffer* m_meshBuffer = nullptr;
+        graphics::MeshBuffer* m_pMeshBuffer = nullptr;
 
         RTTR_ENABLE(Resource);
 

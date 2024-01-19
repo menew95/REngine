@@ -64,7 +64,7 @@ namespace rengine
         inline void SetSamples(uint32 val)      { m_textureImportSetting._samples = val; }
 
     private:
-        graphics::TextureBuffer* m_textureBuffer = nullptr;
+        graphics::TextureBuffer* m_pTextureBuffer = nullptr;
 
         struct TextureImportSetting
         {
