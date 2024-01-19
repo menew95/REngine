@@ -12,4 +12,14 @@ namespace rengine
 	{
 	}
 
+	bool Material::LoadMemory()
+	{
+		return false;
+	}
+
+	bool Material::UnLoadMemory()
+	{
+		return false;
+	}
+
 }

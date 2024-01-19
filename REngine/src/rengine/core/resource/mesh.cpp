@@ -15,4 +15,12 @@ namespace rengine
 
 		}
 	}
+	bool Mesh::LoadMemory()
+	{
+		return false;
+	}
+	bool Mesh::UnLoadMemory()
+	{
+		return false;
+	}
 }

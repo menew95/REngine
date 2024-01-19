@@ -35,6 +35,17 @@ namespace rengine
 
         void* GetTextureID();
 
+        /**
+            @brief  texture 리소스의 메모리 로드
+            @retval  - 로드 성공 여부
+        **/
+        bool LoadMemory();
+
+        /**
+            @brief  texture 리소스의 메모리 해제
+            @retval  - 해제 성공 여부
+        **/
+        bool UnLoadMemory();
 
         inline bool   GetSRGB()         const { return m_textureImportSetting._bIsSRGB; }
         inline bool   GetMipMap()       const { return m_textureImportSetting._mipmaps; }

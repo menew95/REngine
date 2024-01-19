@@ -35,6 +35,18 @@ namespace rengine
             return m_bIsSkinned ?  ResourceType::SKINNED_MESH : ResourceType::MESH;
         }
 
+        /**
+            @brief  mesh 리소스의 메모리 로드
+            @retval  - 로드 성공 여부
+        **/
+        bool LoadMemory();
+
+        /**
+            @brief  mesh 리소스의 메모리 해제
+            @retval  - 해제 성공 여부
+        **/
+        bool UnLoadMemory();
+
     private:
         bool m_bIsSkinned = false;
 

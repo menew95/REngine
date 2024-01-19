@@ -57,4 +57,14 @@ namespace rengine
 	{
 		return m_textureBuffer->GetTextureID();
 	}
+
+	bool Texture::LoadMemory()
+	{
+		return true;
+	}
+
+	bool Texture::UnLoadMemory()
+	{
+		return true;
+	}
 }

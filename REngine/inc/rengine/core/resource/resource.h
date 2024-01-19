@@ -48,6 +48,18 @@ namespace rengine
         const tstring& GetPath() { return m_path; }
         void SetPath(const tstring& path) { m_path = path; }
 
+        /**
+            @brief  그래픽스 리소스의 메모리 로드
+            @retval  - 로드 성공 여부
+        **/
+        virtual bool LoadMemory() {}
+
+        /**
+            @brief  그래픽스 리소스의 메모리 해제
+            @retval  - 해제 성공 여부
+        **/
+        virtual bool UnLoadMemory() {}
+
     protected:
 
         // 이 리소스가 가리키는 파일 위치
