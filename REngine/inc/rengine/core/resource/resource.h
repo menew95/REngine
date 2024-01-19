@@ -30,7 +30,7 @@ namespace rengine
     class RENGINE_API Resource : public Object
     {
     public:
-        Resource(uuid uuid, tstring type);
+        Resource(uuid uuid, tstring type = TEXT("Resource"));
 
         Resource(const Resource& res) = default;
 

@@ -17,7 +17,6 @@ extern "C"
 
     GRAPHICS_DLL_DECLSPEC int RenderSystem_RendererID()
     {
-
         return graphics::RendererID::Direct3D11;
     }
 

@@ -32,6 +32,6 @@ namespace graphics
 
         virtual ~ResourceBuffer();
 
-        virtual BufferType GetBufferType() abstract;
+        GRAPHICS_API virtual BufferType GetBufferType() abstract;
     };
 }

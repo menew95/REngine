@@ -1,4 +1,13 @@
 {
-    "guid" : "00000000-0000-0000-0000-100000000000",
-    "serializable type" : "1"
+    "guid": "ffaa3510-714b-4fef-8676-347cf5c32eba",
+    "serializable type": "1",
+    "TextureImporter": {
+        "sRGBTexture": "false",
+        "mipmaps": "false",
+        "format": "0",
+        "comperssion": "0",
+        "arraylayer": "1",
+        "miplevels": "0",
+        "samples": "1"
+    }
 }

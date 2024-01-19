@@ -23,12 +23,12 @@ namespace graphics
 
         ~TextureBuffer();
 
-        BufferType GetBufferType()
+        GRAPHICS_API BufferType GetBufferType()
         {
             return BufferType::TEXTURE;
         }
 
-        void* GetTextureID();
+        GRAPHICS_API void* GetTextureID();
 
     private:
         Texture* m_pTexture = nullptr;

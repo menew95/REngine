@@ -49,6 +49,34 @@ bool ReadBinary_Anim(const tstring& path)
 	return true;
 }
 
+void TextureSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
+{
+	if (res == nullptr)
+		return;
+
+	boost::property_tree::ptree _obj_pt;
+
+	string _type = StringHelper::ToString(res->GetType());
+
+	const rttr::type _obj_type = rttr::type::get_by_name(_type);
+
+	for (rttr::property _prop : _obj_type.get_properties())
+	{
+		if (!_prop.is_valid())
+			continue;
+
+		auto _dec_ty = _prop.get_declaring_type();
+
+		if(_dec_ty.get_name() != "Texture")
+			continue;
+
+
+		utility::GetProperty(_obj_pt, _prop, res);
+	}
+
+	pt.push_back(make_pair("TextureImporter", _obj_pt));
+}
+
 namespace utility
 {
 	void ResourceSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
@@ -65,7 +93,8 @@ namespace utility
 			}
 			case rengine::ResourceType::TEXTURE:
 			{
-				ObjectSerializer::Serialize(object, pt);
+				TextureSerialize(_resource, pt);
+				//ObjectSerializer::Serialize(object, pt);
 				break;
 			}
 			case rengine::ResourceType::MESH:
@@ -115,7 +144,7 @@ namespace utility
 		{
 			if (_iter->first == "TextureImporter")
 			{
-				auto _tex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid);
+				//auto _tex = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid));
 				//_object _tex;
 
 				auto _node = (*_iter);
@@ -123,6 +152,6 @@ namespace utility
 			}
 		}
 
-		return nullptr;
+		return _object;
 	}
 }

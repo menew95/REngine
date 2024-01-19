@@ -66,7 +66,7 @@ namespace rengine
         RENGINE_API shared_ptr<Texture> GetResource(uuid uuid);
 
         template<class T>
-        shared_ptr<T> CreateResource(uuid uuid)
+        shared_ptr<T> CreateResource()
         {
             static_assert(std::is_base_of<Resource, T>::value, "class doesn't derive from the base");
 
@@ -74,13 +74,13 @@ namespace rengine
         }
 
         template<>
-        RENGINE_API shared_ptr<Mesh> CreateResource(uuid uuid);
+        RENGINE_API shared_ptr<Mesh> CreateResource();
 
         template<>
-        RENGINE_API shared_ptr<Material> CreateResource(uuid uuid);
+        RENGINE_API shared_ptr<Material> CreateResource();
 
         template<>
-        RENGINE_API shared_ptr<Texture> CreateResource(uuid uuid);
+        RENGINE_API shared_ptr<Texture> CreateResource();
 
     private:
         void LoadAllAsset();

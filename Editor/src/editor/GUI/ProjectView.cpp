@@ -10,6 +10,12 @@
 
 #include <editor\editor_api.h>
 
+#include <rengine\core\Resources.h>
+#include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\Mesh.h>
+
+#include <serialize\Serializer.h>
 
 namespace fs = std::filesystem;
 
@@ -282,6 +288,8 @@ namespace editor
 		ImageDesc _desc2{ g_assetPath + TEXT("icon\\file_icon.png"), nullptr };
 
 		CreateImageTest(g_fileSrv, _desc2);
+
+		CheckMetaFile(m_currPath);
 	}
 
 	ProjectView::~ProjectView()
@@ -522,5 +530,54 @@ namespace editor
 	{
 
 
+	}
+
+	void ProjectView::CheckMetaFile(const tstring& path)
+	{
+		fs::path _path(path);
+
+		if (fs::is_directory(_path))
+		{
+			for (auto& _p : fs::directory_iterator(_path, fs::directory_options::skip_permission_denied))
+			{
+				CheckMetaFile(_p.path().wstring());
+			}
+		}
+		else if (_path.has_extension())
+		{
+			std::string _extension = _path.extension().string();
+
+			if(_extension == ".meta")
+				return;
+			fs::path _metaPath(path + TEXT(".meta"));
+
+			if (fs::exists(_metaPath))
+				return;
+
+			std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+			shared_ptr<rengine::Object> _object;
+
+			if (_extension == ".mat")
+			{
+				_object = std::static_pointer_cast<rengine::Object>(rengine::Resources::GetInstance()->CreateResource<rengine::Material>());
+			}
+			else if (_extension == ".mesh")
+			{
+				_object = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>());
+			}
+			else if (_extension == ".anim")
+			{
+
+			}
+			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
+				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
+			{
+				_object = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Texture>());
+			}
+
+			if(_object != nullptr)
+				utility::Serializer::CreateMetaInfo(path, _object.get());
+		}
 	}
 }

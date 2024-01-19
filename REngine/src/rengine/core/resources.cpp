@@ -162,37 +162,37 @@ namespace rengine
 	}
 
 	template<>
-	shared_ptr<Mesh> Resources::CreateResource(uuid uuid)
+	shared_ptr<Mesh> Resources::CreateResource()
 	{
-		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>(uuid);
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>();
 
 		assert(_ret != nullptr);
 
-		m_meshMap.insert(make_pair(uuid, _ret));
+		m_meshMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}
 
 	template<>
-	shared_ptr<Material> Resources::CreateResource(uuid uuid)
+	shared_ptr<Material> Resources::CreateResource()
 	{
-		auto _ret = ObjectFactory::GetInstance()->CreateObject<Material>(uuid);
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Material>();
 
 		assert(_ret != nullptr);
 
-		m_materialMap.insert(make_pair(uuid, _ret));
+		m_materialMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}
 
 	template<>
-	shared_ptr<Texture> Resources::CreateResource(uuid uuid)
+	shared_ptr<Texture> Resources::CreateResource()
 	{
-		auto _ret = ObjectFactory::GetInstance()->CreateObject<Texture>(uuid);
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Texture>();
 
 		assert(_ret != nullptr);
 
-		m_textureMap.insert(make_pair(uuid, _ret));
+		m_textureMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}

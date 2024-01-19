@@ -70,7 +70,7 @@ namespace utility
 
 		_pt.put("guid", object->GetUUIDStr());
 
-		if (_path.has_extension())
+		if (!_path.has_extension())
 			return false;
 
 		std::string _extension = _path.extension().string();
@@ -79,15 +79,15 @@ namespace utility
 
 		if (_extension == ".scene")
 		{
-			_pt.put("serializable type", rengine::SerializableType::SCENE);
+			_pt.put("serializable type", (uint32)rengine::SerializableType::SCENE);
 		}
 		else if (_extension == ".prefab")
 		{
-			_pt.put("serializable type", rengine::SerializableType::PREFABS);
+			_pt.put("serializable type", (uint32)rengine::SerializableType::PREFABS);
 		}
 		else
 		{
-			_pt.put("serializable type", rengine::SerializableType::RESOURCE);
+			_pt.put("serializable type", (uint32)rengine::SerializableType::RESOURCE);
 
 			if (_extension == ".mat")
 			{
@@ -108,7 +108,7 @@ namespace utility
 			}
 		}
 
-		std::ofstream _file(StringHelper::WStringToString(path));
+		std::ofstream _file(StringHelper::WStringToString(path + TEXT(".meta")));
 
 		if (!_file.is_open())
 			return false;

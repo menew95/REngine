@@ -28,7 +28,7 @@ namespace rengine
 
         Mesh(Mesh&& mesh) = default;
 
-        virtual ~Mesh();
+        ~Mesh();
 
         ResourceType GetResourceType() override
         {

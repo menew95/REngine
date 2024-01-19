@@ -45,6 +45,12 @@ namespace editor
 
         void DrawImageBtn();
 
+        /**
+            @brief 파일을 순회하며 meta 파일이 없는 파일에 대해 meta 파일을 생성 및 파일 종류에 따라 임포트 등의 행위처리
+            @param path - 경로
+        **/
+        void CheckMetaFile(const tstring& path);
+
         tstring m_currPath;
 
         vector<tstring> m_selected;
