@@ -947,7 +947,7 @@ namespace graphics
 			{
 				ImageDesc _imageDesc;
 
-				_imageDesc._filePath = _textureTable[imageDesc].GetString();
+				//_imageDesc._filePath = _textureTable[imageDesc].GetString();
 
 				resourceManager->CreateTexture(_uuid, _textureDesc, &_imageDesc);
 

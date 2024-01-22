@@ -102,6 +102,7 @@ namespace graphics
 						m_Context.Get(),
 						textureRegion.subresource.baseMipLevel,
 						textureRegion.subresource.baseArrayLayer,
+						0,
 						CD3D11_BOX(
 							textureRegion.offset.x,
 							0,
@@ -122,6 +123,7 @@ namespace graphics
 						m_Context.Get(),
 						textureRegion.subresource.baseMipLevel,
 						textureRegion.subresource.baseArrayLayer,
+						0,
 						CD3D11_BOX(
 							textureRegion.offset.x,
 							textureRegion.offset.y,
@@ -142,6 +144,7 @@ namespace graphics
 					textureD3D.UpdateSubresource(
 						m_Context.Get(),
 						textureRegion.subresource.baseMipLevel,
+						0,
 						0,
 						CD3D11_BOX(
 							textureRegion.offset.x,
@@ -193,49 +196,80 @@ namespace graphics
 
 		Texture* DX11RenderSystem::CreateTexture(uuid uuid, const TextureDesc& desc, const ImageDesc* imageDesc /*= nullptr*/)
 		{
-			DX11Texture* _texture = TakeOwnership(m_TextureContainer, uuid, MakeUnique<DX11Texture>(desc));
+			DX11Texture* _texture = TakeOwnership(m_TextureContainer, uuid, MakeUnique<DX11Texture>(m_Device.Get(), desc));
 
-			if (imageDesc == nullptr)
+			//if (imageDesc == nullptr)
+			//{
+			//	/*switch (desc._textureType)
+			//	{
+			//		case TextureType::Texture1D:
+			//		case TextureType::Texture1DArray:
+			//		{
+			//			_texture->CreateTexture1D(m_Device.Get(), desc);
+			//			break;
+			//		}
+			//		case TextureType::Texture2D:
+			//		case TextureType::Texture2DArray:
+			//		case TextureType::TextureCube:
+			//		case TextureType::TextureCubeArray:
+			//		case TextureType::Texture2DMS:
+			//		case TextureType::Texture2DMSArray:
+			//		{
+			//			_texture->CreateTexture2D(m_Device.Get(), desc);
+			//			break;
+			//		}
+			//		case TextureType::Texture3D:
+			//		{
+			//			_texture->CreateTexture3D(m_Device.Get(), desc);
+			//			break;
+			//		}
+			//		default:
+			//			AssertMessageBox(false, "failed to create texture with invaild texture type");
+			//			break;
+			//	}*/
+			//	if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
+			//	{
+			//		_texture->CreateShaderResourceView(m_Device.Get(), 0, desc._mipLevels, 0, desc._arrayLayers);
+			//	}
+			//	if ((desc._bindFlags & BindFlags::UnorderedAccess) != 0)
+			//	{
+			//		_texture->CreateUnorderedAccessView(m_Device.Get(), 0, 0, desc._arrayLayers);
+			//	}
+			//}
+			//else
+			//{
+			//	//_texture->CreateTextureFromFile(m_Device.Get(), *imageDesc);
+
+			//	_texture->UpdateSubresource(
+			//		m_Context.Get(),
+			//		0,
+			//		0,
+			//		desc._arrayLayers,
+			//		D3D11_BOX{0, 0, 0, desc._extend._width, desc._extend._height, desc._extend._depth },
+			//		*imageDesc
+			//	);
+			//}
+
+
+			if (imageDesc != nullptr)
 			{
-				switch (desc._textureType)
-				{
-					case TextureType::Texture1D:
-					case TextureType::Texture1DArray:
-					{
-						_texture->CreateTexture1D(m_Device.Get(), desc);
-						break;
-					}
-					case TextureType::Texture2D:
-					case TextureType::Texture2DArray:
-					case TextureType::TextureCube:
-					case TextureType::TextureCubeArray:
-					case TextureType::Texture2DMS:
-					case TextureType::Texture2DMSArray:
-					{
-						_texture->CreateTexture2D(m_Device.Get(), desc);
-						break;
-					}
-					case TextureType::Texture3D:
-					{
-						_texture->CreateTexture3D(m_Device.Get(), desc);
-						break;
-					}
-					default:
-						AssertMessageBox(false, "failed to create texture with invaild texture type");
-						break;
-				}
-				if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
-				{
-					_texture->CreateShaderResourceView(m_Device.Get(), 0, desc._mipLevels, 0, desc._arrayLayers);
-				}
-				if ((desc._bindFlags & BindFlags::UnorderedAccess) != 0)
-				{
-					_texture->CreateUnorderedAccessView(m_Device.Get(), 0, 0, desc._arrayLayers);
-				}
+				_texture->UpdateSubresource(
+							m_Context.Get(),
+							0,
+							0,
+							desc._arrayLayers,
+							D3D11_BOX{0, 0, 0, desc._extend._width, desc._extend._height, desc._extend._depth },
+							*imageDesc
+						);
 			}
-			else
+
+			if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
 			{
-				_texture->CreateTextureFromFile(m_Device.Get(), *imageDesc);
+				_texture->CreateShaderResourceView(m_Device.Get(), 0, desc._mipLevels, 0, desc._arrayLayers);
+			}
+			if ((desc._bindFlags & BindFlags::UnorderedAccess) != 0)
+			{
+				_texture->CreateUnorderedAccessView(m_Device.Get(), 0, 0, desc._arrayLayers);
 			}
 
 			return _texture;

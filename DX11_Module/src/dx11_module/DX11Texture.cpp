@@ -12,12 +12,12 @@ namespace graphics
 	namespace DX11
 	{
 
-		DX11Texture::DX11Texture(/*ID3D11Device* device, */const TextureDesc& desc)
+		DX11Texture::DX11Texture(ID3D11Device* device, const TextureDesc& desc)
 			: Texture{ desc._textureType, desc._bindFlags }
 			, m_TextureDesc(desc)
 			, m_Format(DXGI_FORMAT_UNKNOWN)
 		{
-			/*switch (desc._textureType)
+			switch (desc._textureType)
 			{
 				case TextureType::Texture1D:
 				case TextureType::Texture1DArray:
@@ -44,7 +44,7 @@ namespace graphics
 					assert(false);
 					break;
 				}
-			}*/
+			}
 		}
 
 		DX11Texture::~DX11Texture()
@@ -165,22 +165,62 @@ namespace graphics
 			return _tex3D;
 		}
 
-		void DX11Texture::UpdateSubresource(ID3D11DeviceContext* context, UINT mipLevel, UINT arrayLayer, const D3D11_BOX& region, const ImageDesc& imageDesc)
+		// Returns true if the specified texture type contains an array layer for D3D11 textures
+		static bool HasArrayLayer(const TextureType type)
 		{
+			switch (type)
+			{
+			case TextureType::Texture1DArray:
+			case TextureType::TextureCube:
+			case TextureType::Texture2DArray:
+			case TextureType::Texture2DMSArray:
+			case TextureType::TextureCubeArray:
+				return true;
+			default:
+				return false;
+			}
+		}
+
+		UINT DX11Texture::CalcSubresource(UINT mipLevel, UINT arrayLayer) const
+		{
+			if (HasArrayLayer(GetType()))
+				return D3D11CalcSubresource(mipLevel, arrayLayer, m_NumMipLevels);
+			else
+				return D3D11CalcSubresource(mipLevel, 0, m_NumMipLevels);
+		}
+
+		void DX11Texture::UpdateSubresource(ID3D11DeviceContext* context, UINT mipLevel, UINT baseArrayLayer, UINT numArrayLayer, const D3D11_BOX& region, const ImageDesc& imageDesc)
+		{
+			const Extent3D extent
+			{
+				region.right - region.left,
+				region.bottom - region.top,
+				region.back - region.front
+			};
+
+
+			const char* srcData = reinterpret_cast<const char*>(imageDesc._data);
+
 			/* Check if source image must be converted */
 			auto format = UnmapFormat(m_Format);
 
 			const void* initialData = imageDesc._data;
 
-			/* Update subresource with specified image data */
-			context->UpdateSubresource(
-				m_NativeTexture._resource.Get(),
-				0,
-				&region,
-				initialData,
-				0,
-				0
-			);
+			for (uint32 arrayLayer = 0; arrayLayer < numArrayLayer; arrayLayer++)
+			{
+				UINT dstSubresource = CalcSubresource(mipLevel, baseArrayLayer + arrayLayer);
+
+				context->UpdateSubresource(
+					m_NativeTexture._resource.Get(),
+					dstSubresource,
+					&region,
+					srcData,
+					imageDesc._rowStride,
+					imageDesc._layerStride
+				);
+
+				srcData += imageDesc._layerStride;
+			}
 		}
 
 		void DX11Texture::CreateSubresourceCopyWithCPUAccess(ID3D11Device* device, ID3D11DeviceContext* context, DX11NativeTexture& textureOutput, uint32 cpuAccessFlags, const TextureRegion& region)
@@ -543,103 +583,103 @@ namespace graphics
 
 		void DX11Texture::CreateTextureFromFile(ID3D11Device* device, const ImageDesc& srcDesc)
 		{
-			using namespace DirectX;
+			//using namespace DirectX;
 
-			if (srcDesc._filePath.size() <= 0)
-			{
-				AssertMessageBox(false, "filePath is not invaild");
-			}
+			//if (srcDesc._filePath.size() <= 0)
+			//{
+			//	AssertMessageBox(false, "filePath is not invaild");
+			//}
 
-			ScratchImage image;
+			//ScratchImage image;
 
-			switch (CheckFileFormat(srcDesc._filePath))
-			{
-				case FileFormat::DDS:
-				{
-					LoadFromDDSFile(srcDesc._filePath.c_str(), DDS_FLAGS_NONE, nullptr, image);
-					break;
-				}
-				case FileFormat::TGA:
-				{
-					LoadFromTGAFile(srcDesc._filePath.c_str(), TGA_FLAGS_NONE, nullptr, image);
-					break;
-				}
-				case FileFormat::HDR:
-				{
-					LoadFromHDRFile(srcDesc._filePath.c_str(), nullptr, image);
-					break;
-				}
-				case FileFormat::WIC:
-				default:
-				{
-					LoadFromWICFile(srcDesc._filePath.c_str(), WIC_FLAGS_NONE, nullptr, image);
-					break;
-				}
-			}
+			//switch (CheckFileFormat(srcDesc._filePath))
+			//{
+			//	case FileFormat::DDS:
+			//	{
+			//		LoadFromDDSFile(srcDesc._filePath.c_str(), DDS_FLAGS_NONE, nullptr, image);
+			//		break;
+			//	}
+			//	case FileFormat::TGA:
+			//	{
+			//		LoadFromTGAFile(srcDesc._filePath.c_str(), TGA_FLAGS_NONE, nullptr, image);
+			//		break;
+			//	}
+			//	case FileFormat::HDR:
+			//	{
+			//		LoadFromHDRFile(srcDesc._filePath.c_str(), nullptr, image);
+			//		break;
+			//	}
+			//	case FileFormat::WIC:
+			//	default:
+			//	{
+			//		LoadFromWICFile(srcDesc._filePath.c_str(), WIC_FLAGS_NONE, nullptr, image);
+			//		break;
+			//	}
+			//}
 
-			AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
+			//AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
 
-			HR(CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf())
-				, "failed to load D3D11 cube texture");
+			//HR(CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf())
+			//	, "failed to load D3D11 cube texture");
 
-			bool isCubeMap = image.GetMetadata().IsCubemap();
+			//bool isCubeMap = image.GetMetadata().IsCubemap();
 
-			/*ScratchImage _compressImage;
-			DirectX::Compress(device
-				, image.GetImages()
-				, image.GetImageCount()
-				, image.GetMetadata()
-				, DXGI_FORMAT_BC1_UNORM
-				, TEX_COMPRESS_DEFAULT
-				, 0.0
-				, _compressImage);*/
+			///*ScratchImage _compressImage;
+			//DirectX::Compress(device
+			//	, image.GetImages()
+			//	, image.GetImageCount()
+			//	, image.GetMetadata()
+			//	, DXGI_FORMAT_BC1_UNORM
+			//	, TEX_COMPRESS_DEFAULT
+			//	, 0.0
+			//	, _compressImage);*/
 
-			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-			ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
+			//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+			//ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 
-			if (image.GetMetadata().IsVolumemap())
-			{
-				D3D11_TEXTURE3D_DESC textureDesc;
-				m_NativeTexture._tex3D->GetDesc(&textureDesc);
+			//if (image.GetMetadata().IsVolumemap())
+			//{
+			//	D3D11_TEXTURE3D_DESC textureDesc;
+			//	m_NativeTexture._tex3D->GetDesc(&textureDesc);
 
-				srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
-				srvDesc.Format = textureDesc.Format;
-				srvDesc.Format = textureDesc.Format;
-				srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
-				srvDesc.Texture2D.MostDetailedMip = 0;
+			//	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
+			//	srvDesc.Format = textureDesc.Format;
+			//	srvDesc.Format = textureDesc.Format;
+			//	srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
+			//	srvDesc.Texture2D.MostDetailedMip = 0;
 
-				m_TextureDesc._textureType = TextureType::Texture3D;
+			//	m_TextureDesc._textureType = TextureType::Texture3D;
 
-				m_TextureDesc._format = UnmapFormat(textureDesc.Format);
-				m_TextureDesc._extend = { textureDesc.Width, textureDesc.Height, 0 };
-				m_TextureDesc._mipLevels = textureDesc.MipLevels;
-				m_TextureDesc._bindFlags = textureDesc.BindFlags;
-			}
-			else
-			{
-				D3D11_TEXTURE2D_DESC textureDesc;
-				m_NativeTexture._tex2D->GetDesc(&textureDesc);
+			//	m_TextureDesc._format = UnmapFormat(textureDesc.Format);
+			//	m_TextureDesc._extend = { textureDesc.Width, textureDesc.Height, 0 };
+			//	m_TextureDesc._mipLevels = textureDesc.MipLevels;
+			//	m_TextureDesc._bindFlags = textureDesc.BindFlags;
+			//}
+			//else
+			//{
+			//	D3D11_TEXTURE2D_DESC textureDesc;
+			//	m_NativeTexture._tex2D->GetDesc(&textureDesc);
 
-				if (isCubeMap)
-				{
-					srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-					m_TextureDesc._textureType = TextureType::TextureCube;
-				}
-				else
-				{
-					srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-					m_TextureDesc._textureType = TextureType::Texture2D;
-				}
+			//	if (isCubeMap)
+			//	{
+			//		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+			//		m_TextureDesc._textureType = TextureType::TextureCube;
+			//	}
+			//	else
+			//	{
+			//		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			//		m_TextureDesc._textureType = TextureType::Texture2D;
+			//	}
 
-				srvDesc.Format = textureDesc.Format;
-				srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
-				srvDesc.Texture2D.MostDetailedMip = 0;
+			//	srvDesc.Format = textureDesc.Format;
+			//	srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
+			//	srvDesc.Texture2D.MostDetailedMip = 0;
 
-				m_TextureDesc._format = UnmapFormat(textureDesc.Format);
-			}
+			//	m_TextureDesc._format = UnmapFormat(textureDesc.Format);
+			//}
 
-			HR(device->CreateShaderResourceView(m_NativeTexture._resource.Get(), &srvDesc, m_ShaderResourceView.ReleaseAndGetAddressOf())
-			, "failed to load shader-resource-view");
+			//HR(device->CreateShaderResourceView(m_NativeTexture._resource.Get(), &srvDesc, m_ShaderResourceView.ReleaseAndGetAddressOf())
+			//, "failed to load shader-resource-view");
 		}
 
 		void DX11Texture::SetName(const char* name)

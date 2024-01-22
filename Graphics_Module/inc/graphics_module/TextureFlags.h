@@ -42,8 +42,10 @@ namespace graphics
 
 	struct ImageDesc
 	{
-		tstring _filePath;
 		void* _data = nullptr;
+
+		uint32 _rowStride = 0;
+		uint32 _layerStride = 0;
 	};
 
 	struct TextureSubresource

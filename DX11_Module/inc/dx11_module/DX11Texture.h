@@ -41,8 +41,8 @@ namespace graphics
 		class DX11Texture : public Texture
 		{
 		public:
-			DX11Texture(const TextureDesc& desc);
-			//DX11Texture(ID3D11Device* device, const TextureDesc& desc);
+			//DX11Texture(const TextureDesc& desc);
+			DX11Texture(ID3D11Device* device, const TextureDesc& desc);
 			~DX11Texture() override;
 
 			void* GetTextureID() override
@@ -56,18 +56,21 @@ namespace graphics
 			inline ID3D11UnorderedAccessView* GetUAV() const { return m_UnorderedAccessView.Get(); }
 
 			inline auto& GetDesc() { return m_TextureDesc; }
-			TextureType GetType() { return m_TextureDesc._textureType; }
+			TextureType GetType() const { return m_TextureDesc._textureType; }
 
 			void CreateTexture1D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
 			void CreateTexture2D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
 			void CreateTexture3D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
 
+			UINT CalcSubresource(UINT mipLevel, UINT arrayLayer) const;
+
 			void UpdateSubresource(
-				ID3D11DeviceContext* context,
-				UINT                        mipLevel,
-				UINT                        arrayLayer,
-				const D3D11_BOX& region,
-				const ImageDesc& imageDesc
+				ID3D11DeviceContext*	context,
+				UINT					mipLevel,
+				UINT					baseArrayLayer,
+				UINT					numArrayLayer,
+				const D3D11_BOX&		region,
+				const ImageDesc&		imageDesc
 			);
 
 			/**

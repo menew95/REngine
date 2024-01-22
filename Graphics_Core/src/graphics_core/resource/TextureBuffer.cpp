@@ -1,11 +1,43 @@
 ﻿#include <graphics_core\resource\TextureBuffer.h>
 
-#include <graphics_module\texture.h>
+#include <graphics_module\Texture.h>
 
 #include <graphics_core\ResourceManager.h>
 
+#include <DirectXTex\DirectXTex.h>
+
+
 namespace graphics
 {
+	FileFormat CheckFileFormat(const tstring& path)
+	{
+		if (static_cast<uint32>(path.length()) > 1)
+		{
+			size_t extensionStartPoint = path.find_last_of('.') + (size_t)1;
+
+			auto fileFormat = path.substr(extensionStartPoint);
+
+			if (fileFormat == TEXT("dds") || fileFormat == TEXT("DDS"))
+			{
+				return FileFormat::DDS;
+			}
+			else if (fileFormat == TEXT("tga") || fileFormat == TEXT("TGA"))
+			{
+				return FileFormat::TGA;
+			}
+			else if (fileFormat == TEXT("hdr") || fileFormat == TEXT("HDR"))
+			{
+				return FileFormat::HDR;
+			}
+			else
+			{
+				return FileFormat::WIC;
+			}
+		}
+
+		return FileFormat::WIC;
+	}
+
 	TextureBuffer::TextureBuffer()
 	: ResourceBuffer()
 	{
@@ -37,11 +69,79 @@ namespace graphics
 
 	void TextureBuffer::LoadTexture(uuid uuid, const tstring& path)
 	{
+		using namespace DirectX;
+
+		ScratchImage image;
+
+		switch (CheckFileFormat(path))
+		{
+			case FileFormat::DDS:
+			{
+				LoadFromDDSFile(path.c_str(), DDS_FLAGS_NONE, nullptr, image);
+				break;
+			}
+			case FileFormat::TGA:
+			{
+				LoadFromTGAFile(path.c_str(), TGA_FLAGS_NONE, nullptr, image);
+				break;
+			}
+			case FileFormat::HDR:
+			{
+				LoadFromHDRFile(path.c_str(), nullptr, image);
+				break;
+			}
+			case FileFormat::WIC:
+			default:
+			{
+				LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, image);
+				break;
+			}
+		}
+
 		TextureDesc _texDesc;
+		_texDesc._extend = { 
+			static_cast<uint32>(image.GetMetadata().width), 
+			static_cast<uint32>(image.GetMetadata().height),
+			static_cast<uint32>(image.GetMetadata().depth)
+		};
+		_texDesc._arrayLayers = image.GetMetadata().arraySize;
+		_texDesc._mipLevels = image.GetMetadata().mipLevels;
+		
+		_texDesc._format = (graphics::Format)image.GetMetadata().format;
+
+		//_texDesc._samples = 1;
+		//_texDesc._bindFlags;
+		//_texDesc._miscFlags;
+
+		switch (image.GetMetadata().dimension)
+		{
+		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE1D:
+		{
+			_texDesc._textureType = TextureType::Texture1D;
+			break;
+		}
+		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE2D:
+		{
+			_texDesc._textureType = TextureType::Texture2D;
+			break;
+		}
+		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE3D:
+		{
+			_texDesc._textureType = TextureType::Texture3D;
+			break;
+		}
+		}
+
+		image.GetImage(0, 0, 0)->rowPitch;
+		image.GetImage(0, 0, 0)->slicePitch;
+
+		AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
 
 		ImageDesc _imageDesc;
 
-		_imageDesc._filePath = path;
+		_imageDesc._data = image.GetPixels();
+		_imageDesc._rowStride = image.GetImage(0, 0, 0)->rowPitch;
+		_imageDesc._layerStride = image.GetImage(0, 0, 0)->slicePitch;
 
 		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, &_imageDesc);
 	}
