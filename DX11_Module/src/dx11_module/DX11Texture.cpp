@@ -12,11 +12,39 @@ namespace graphics
 	namespace DX11
 	{
 
-		DX11Texture::DX11Texture(const TextureDesc& desc)
+		DX11Texture::DX11Texture(/*ID3D11Device* device, */const TextureDesc& desc)
 			: Texture{ desc._textureType, desc._bindFlags }
 			, m_TextureDesc(desc)
 			, m_Format(DXGI_FORMAT_UNKNOWN)
 		{
+			/*switch (desc._textureType)
+			{
+				case TextureType::Texture1D:
+				case TextureType::Texture1DArray:
+				{
+					CreateTexture1D(device, desc);
+				}
+				case TextureType::Texture2D:
+				case TextureType::Texture2DArray:
+				case TextureType::TextureCube:
+				case TextureType::TextureCubeArray:
+				case TextureType::Texture2DMS:
+				case TextureType::Texture2DMSArray:
+				{
+					CreateTexture2D(device, desc);
+					break;
+				}
+				case TextureType::Texture3D:
+				{
+					CreateTexture3D(device, desc);
+					break;
+				}
+				default:
+				{
+					assert(false);
+					break;
+				}
+			}*/
 		}
 
 		DX11Texture::~DX11Texture()
@@ -141,7 +169,6 @@ namespace graphics
 		{
 			/* Check if source image must be converted */
 			auto format = UnmapFormat(m_Format);
-
 
 			const void* initialData = imageDesc._data;
 
@@ -552,59 +579,67 @@ namespace graphics
 
 			AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
 
-			bool isCubeMap = image.GetMetadata().IsCubemap();
-
-			if (isCubeMap)
-			{
-				DirectX::ScratchImage mipChain;
-
-				HR(CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf())
+			HR(CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf())
 				, "failed to load D3D11 cube texture");
 
-			}
-			else
-			{
-				HR(CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf())
-				, "failed to load D3D11 2D texture");
-
-			}
+			bool isCubeMap = image.GetMetadata().IsCubemap();
 
 			/*ScratchImage _compressImage;
 			DirectX::Compress(device
-				, *image.GetImages()
-				, DXGI_FORMAT_BC1_TYPELESS
+				, image.GetImages()
+				, image.GetImageCount()
+				, image.GetMetadata()
+				, DXGI_FORMAT_BC1_UNORM
 				, TEX_COMPRESS_DEFAULT
 				, 0.0
 				, _compressImage);*/
 
-			D3D11_TEXTURE2D_DESC textureDesc;
-			m_NativeTexture._tex2D->GetDesc(&textureDesc);
-
 			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
 			ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
 
-			srvDesc.Format = textureDesc.Format;
-			srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
-			srvDesc.Texture2D.MostDetailedMip = 0;
-
-			if (isCubeMap)
+			if (image.GetMetadata().IsVolumemap())
 			{
-				srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-				m_TextureDesc._textureType = TextureType::TextureCube;
+				D3D11_TEXTURE3D_DESC textureDesc;
+				m_NativeTexture._tex3D->GetDesc(&textureDesc);
+
+				srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE3D;
+				srvDesc.Format = textureDesc.Format;
+				srvDesc.Format = textureDesc.Format;
+				srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
+				srvDesc.Texture2D.MostDetailedMip = 0;
+
+				m_TextureDesc._textureType = TextureType::Texture3D;
+
+				m_TextureDesc._format = UnmapFormat(textureDesc.Format);
+				m_TextureDesc._extend = { textureDesc.Width, textureDesc.Height, 0 };
+				m_TextureDesc._mipLevels = textureDesc.MipLevels;
+				m_TextureDesc._bindFlags = textureDesc.BindFlags;
 			}
 			else
 			{
-				srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-				m_TextureDesc._textureType = TextureType::Texture2D;
+				D3D11_TEXTURE2D_DESC textureDesc;
+				m_NativeTexture._tex2D->GetDesc(&textureDesc);
+
+				if (isCubeMap)
+				{
+					srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+					m_TextureDesc._textureType = TextureType::TextureCube;
+				}
+				else
+				{
+					srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+					m_TextureDesc._textureType = TextureType::Texture2D;
+				}
+
+				srvDesc.Format = textureDesc.Format;
+				srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
+				srvDesc.Texture2D.MostDetailedMip = 0;
+
+				m_TextureDesc._format = UnmapFormat(textureDesc.Format);
 			}
 
 			HR(device->CreateShaderResourceView(m_NativeTexture._resource.Get(), &srvDesc, m_ShaderResourceView.ReleaseAndGetAddressOf())
 			, "failed to load shader-resource-view");
-
-			m_TextureDesc._format = UnmapFormat(textureDesc.Format);
-			m_TextureDesc._extend = { textureDesc.Width, textureDesc.Height, 0 };
-			m_TextureDesc._mipLevels = textureDesc.MipLevels;
-			m_TextureDesc._bindFlags = textureDesc.BindFlags;
 		}
 
 		void DX11Texture::SetName(const char* name)

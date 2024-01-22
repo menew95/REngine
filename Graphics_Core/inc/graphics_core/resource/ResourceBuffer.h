@@ -32,6 +32,12 @@ namespace graphics
 
         virtual ~ResourceBuffer();
 
+        /*GRAPHICS_API virtual bool CreateBuffer() abstract;
+
+        GRAPHICS_API virtual bool ReleaseBuffer() abstract;*/
+
+        GRAPHICS_API virtual void SetName(const char* name) abstract;
+
         GRAPHICS_API virtual BufferType GetBufferType() abstract;
     };
 }

@@ -11,4 +11,7 @@ namespace graphics
 	{
 
 	}
+	void LightBuffer::SetName(const char* name)
+	{
+	}
 }

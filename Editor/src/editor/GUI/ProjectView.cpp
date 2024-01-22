@@ -36,6 +36,61 @@ Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_folderSrv;
 Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_fileSrv;
 
 map<string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> g_iconMap; // extension, srv
+map<string, rengine::Texture*> g_iconTextureMap; // extension, texture
+
+//void BitmapToSrv(LPCTSTR path, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv)
+//{
+//	HDC hdcScreen = GetDC(NULL);
+//	HDC hdc = CreateCompatibleDC(hdcScreen);
+//
+//	HICON hicon = GetFileTypeIcon(path);
+//
+//	HBITMAP hbmp = icon_to_bitmap(hicon);
+//
+//	int _width = 0, _height = 0, _pitch = 0;
+//
+//	auto _pixel = ToPixels(hbmp, _width, _height, _pitch);
+//
+//	D3D11_TEXTURE2D_DESC screenshot_desc = CD3D11_TEXTURE2D_DESC(
+//		DXGI_FORMAT_B8G8R8A8_UNORM,     // format
+//		_width,							// width
+//		_height,						// height
+//		1,                              // arraySize
+//		1,                              // mipLevels
+//		D3D11_BIND_SHADER_RESOURCE,     // bindFlags
+//		D3D11_USAGE_DEFAULT,            // usage
+//		D3D11_CPU_ACCESS_WRITE,         // cpuaccessFlags
+//		1,                              // sampleCount
+//		0,                              // sampleQuality
+//		0                               // miscFlags
+//	);
+//
+//	D3D11_SUBRESOURCE_DATA data;
+//	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
+//	data.pSysMem = _pixel.data();
+//	data.SysMemPitch = _pitch;
+//	data.SysMemSlicePitch = _pitch * _height;
+//
+//	auto* device = (ID3D11Device*)GetEditor()->GetDevice();
+//
+//	bool hr = device->CreateTexture2D(
+//		&screenshot_desc,
+//		&data,
+//		m_NativeTexture._tex2D.GetAddressOf()
+//	);
+//
+//	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+//	srvDesc.Format = screenshot_desc.Format;
+//	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+//	srvDesc.Texture2D.MostDetailedMip = 0;
+//	srvDesc.Texture2D.MostDetailedMip = screenshot_desc.MipLevels;
+//
+//	device->CreateShaderResourceView(m_NativeTexture._tex2D.Get(), NULL, srv.ReleaseAndGetAddressOf());
+//
+//	shared_ptr<rengine::Texture> _tex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
+//
+//}
+
 
 HICON GetFileTypeIcon(LPCTSTR path/*, LPWSTR szTypeName*/)
 { 
@@ -422,28 +477,72 @@ namespace editor
 
 			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _srv;
 
+			ImTextureID _texId = _srv.Get();//_directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
+
+			ImVec2 _top = {1, 1}, _bot = {0, 0};
+
 			if (_path.has_extension())
 			{
-				auto _iter = g_iconMap.find(_path.extension().string());
+				tstring _extension = _path.extension().wstring();
 
-				if (_iter != g_iconMap.end())
+				std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+				/*if (_extension == TEXT(".mat"))
 				{
-					_srv = _iter->second;
+
+				}
+				else if (_extension == TEXT(".mesh"))
+				{
+
+				}
+				else if (_extension == TEXT(".anim"))
+				{
+
+				}
+				else */
+
+				if (_extension == TEXT(".png") || _extension == TEXT(".bmp") || _extension == TEXT(".jpeg") || _extension == TEXT(".jpg")
+					|| _extension == TEXT(".dds") || _extension == TEXT(".tga") || _extension == TEXT(".hdr"))
+				{
+					uuid _uuid;
+
+					auto _metaInfo = utility::Serializer::SerializeMetaInfo(_path);
+
+					shared_ptr<rengine::Texture> _tex = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(_metaInfo._guid);
+
+					_texId = _tex->GetTextureID();
+
+					_top = { 0, 0 };
+					_bot = { 1, 1 };
 				}
 				else
 				{
-					BitmapToSrv(_path.wstring().c_str(), _srv);
+					auto _iter = g_iconMap.find(_path.extension().string());
 
-					g_iconMap.insert(make_pair(_path.extension().string(), _srv));
+					if (_iter != g_iconMap.end())
+					{
+						_srv = _iter->second;
+					}
+					else
+					{
+						BitmapToSrv(_path.wstring().c_str(), _srv);
+
+						g_iconMap.insert(make_pair(_path.extension().string(), _srv));
+					}
+
+					_texId = _srv.Get();
+
+					//_top = { 1, 1 };
+					//_bot = { 0, 0 };
 				}
 			}
 			else
 			{
-				_srv = _directoryEntry.is_directory() ? g_folderSrv : g_fileSrv;
+				_texId = _directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
+
+				_top = { 0, 0 };
+				_bot = { 1, 1 };
 			}
-
-			ImTextureID _texId = _srv.Get();//_directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
-
 
 			if (m_selected.end() != std::find(m_selected.begin(), m_selected.end(), _path.wstring()))
 			{
@@ -454,7 +553,7 @@ namespace editor
 				ImGui::PushStyleColor(ImGuiCol_Button, EditorStyle::GetColor(ImGuiCol_Button));
 			}
 
-			ImGui::ImageButton(_texId, { _thumnailSize, _thumnailSize }, {0, 0}, {1, 1});
+			ImGui::ImageButton(_texId, { _thumnailSize, _thumnailSize }, _top, _bot);
 
 			ImGui::PopStyleColor(1);
 

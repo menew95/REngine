@@ -14,6 +14,10 @@ namespace graphics
 
 	}
 
+	void MaterialBuffer::SetName(const char* name)
+	{
+	}
+
 	void MaterialBuffer::AddRenderObject(RenderObject* obj)
 	{
 		m_pRenderPass->AddRenderObject(obj);

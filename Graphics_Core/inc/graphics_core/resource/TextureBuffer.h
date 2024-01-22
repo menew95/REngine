@@ -16,12 +16,33 @@ namespace graphics
 {
     class Texture;
 
+    struct TextureImportSetting
+    {
+        bool _bIsSRGB = false;
+        bool _mipmaps = false;
+        uint32 _format = 0;
+        uint32 _comperssion = 0;
+        uint32 _arrayLayers = 1;
+        uint32 _mipLevels = 0;
+        uint32 _samples = 1;
+
+        uint32 _flags = 0;
+
+        Extent3D _extent = {1, 1, 1};
+    };
+
     class TextureBuffer : public ResourceBuffer
     {
     public:
         TextureBuffer();
 
         ~TextureBuffer();
+
+        GRAPHICS_API void CreateTexture(uuid uuid, const TextureImportSetting& setting);
+
+        GRAPHICS_API void LoadTexture(uuid uuid, const tstring& path);
+
+        GRAPHICS_API virtual void SetName(const char* name);
 
         GRAPHICS_API BufferType GetBufferType()
         {

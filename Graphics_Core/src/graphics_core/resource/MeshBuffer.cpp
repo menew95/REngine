@@ -16,6 +16,18 @@ namespace graphics
 		ResourceManager::GetInstance()->ReleaseBuffer(m_pIndexBuffer);
 	}
 
+	void SubMeshBuffer::CreateIndexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)
+	{
+		BufferDesc _desc;
+
+		_desc._bindFlags = BindFlags::IndexBuffer;
+		_desc._size = size;
+		_desc._format = Format::R32_UINT;
+		_desc._stride = stride;
+
+		m_pIndexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Index_") + uuid, _desc, data);
+	}
+
 	MeshBuffer::MeshBuffer()
 	{
 
@@ -34,6 +46,29 @@ namespace graphics
 		_desc._size = size;
 		_desc._stride = stride;
 
-		m_pVertexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("V_") + uuid, _desc, data);
+		m_pVertexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Vertex_") + uuid, _desc, data);
+	}
+
+	void MeshBuffer::CreateSubMeshBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)
+	{
+		SubMeshBuffer _subMeshBuf;
+
+		_subMeshBuf.CreateIndexBuffer(uuid, data, size, stride);
+
+		m_subMeshBuffers.emplace_back(_subMeshBuf);
+	}
+
+	void MeshBuffer::SetName(const char* name)
+	{
+		assert(m_pVertexBuffer != nullptr);
+
+		string _name(name);
+
+		m_pVertexBuffer->SetName((_name + "_vertex").c_str());
+
+		for (size_t i = 0; i < m_subMeshBuffers.size(); i++)
+		{
+			m_subMeshBuffers[i].GetBuffer()->SetName((_name + "_index" + std::to_string(i)).c_str());
+		}
 	}
 }

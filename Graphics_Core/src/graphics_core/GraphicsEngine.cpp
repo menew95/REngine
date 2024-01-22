@@ -2,6 +2,7 @@
 #include <common/Module.h>
 
 #include <graphics_core/GraphicsEngine.h>
+#include <graphics_core/ResourceManager.h>
 
 #include <graphics_module/Module.h>
 #include <graphics_module/RenderSystem.h>
@@ -17,6 +18,8 @@ namespace graphics
 		LoadModule(desc);
 
 		CreateSwapChainAndCommandBuffer(desc);
+
+		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
 	}
 
 	void GraphicsEngine::Release()

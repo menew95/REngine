@@ -90,12 +90,14 @@ namespace rengine
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
-		shared_ptr<Resource> _res;
+		shared_ptr<Mesh> _res;
 
-		if(!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
+		if(!(_obj || (_res = dynamic_pointer_cast<Mesh>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
 			return nullptr;
 
-		return nullptr;
+		m_meshMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		return _res;
 	}
 
 	template<>
@@ -105,12 +107,14 @@ namespace rengine
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
-		shared_ptr<Resource> _res;
+		shared_ptr<Material> _res;
 
-		if (!(_obj || (_res = dynamic_pointer_cast<Resource>(_obj)) || _res->GetResourceType() != ResourceType::MATERIAL))
+		if (!(_obj || (_res = dynamic_pointer_cast<Material>(_obj)) || _res->GetResourceType() != ResourceType::MATERIAL))
 			return nullptr;
 
-		return nullptr;
+		m_materialMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		return _res;
 	}
 
 	template<>
@@ -120,12 +124,16 @@ namespace rengine
 			return nullptr;
 
 		auto _obj = utility::Serializer::DeSerialize(path);
-		shared_ptr<Resource> _res;
+		shared_ptr<Texture> _res;
 
-		if (_obj == nullptr|| (_res = dynamic_pointer_cast<Resource>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::TEXTURE)
+		if (_obj == nullptr|| (_res = dynamic_pointer_cast<Texture>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::TEXTURE)
 			return nullptr;
 
-		return nullptr;
+		_res->LoadMemory();
+
+		m_textureMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		return _res;
 	}
 
 	template<>
@@ -189,6 +197,42 @@ namespace rengine
 	shared_ptr<Texture> Resources::CreateResource()
 	{
 		auto _ret = ObjectFactory::GetInstance()->CreateObject<Texture>();
+
+		assert(_ret != nullptr);
+
+		m_textureMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Mesh> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_meshMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Material> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Material>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_materialMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Texture> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Texture>(uuid);
 
 		assert(_ret != nullptr);
 

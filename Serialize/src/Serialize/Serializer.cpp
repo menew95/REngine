@@ -120,6 +120,13 @@ namespace utility
 		return true;
 	}
 
+	SERIALIZE_API rengine::MetaInfo Serializer::SerializeMetaInfo(const tstring& path)
+	{
+		boost::property_tree::ptree _pt;
+
+		return ReadMetaFile(path, _pt);
+	}
+
 	bool Serializer::Serialize(const tstring& path, rengine::Object* object)
 	{
 		boost::property_tree::ptree _pt;

@@ -54,7 +54,7 @@ namespace rengine
 	{
 		if (m_bIsLoad)
 		{
-
+			UnLoadMemory();
 		}
 	}
 	void* Texture::GetTextureID()
@@ -65,6 +65,8 @@ namespace rengine
 	bool Texture::LoadMemory()
 	{
 		m_pTextureBuffer = graphics::ResourceManager::GetInstance()->CreateTextureBuffer(GetUUID());
+
+		m_pTextureBuffer->LoadTexture(GetUUID(), m_path);
 
 		m_bIsLoad = true;
 

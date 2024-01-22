@@ -30,6 +30,8 @@ namespace utility
 		**/
 		SERIALIZE_API static bool CreateMetaInfo(const tstring& path, rengine::Object* object);
 
+		SERIALIZE_API static rengine::MetaInfo SerializeMetaInfo(const tstring& path);
+
 		/**
 		    @brief  오브젝트를 직렬화
 		    @param  path   - 직렬화된 파일의 위치

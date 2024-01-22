@@ -20,15 +20,12 @@ namespace graphics
         MaterialBuffer();
         ~MaterialBuffer();
 
-        BufferType GetBufferType()
-        {
-            return BufferType::MATERIAL;
-        }
+        GRAPHICS_API virtual void SetName(const char* name);
 
         void SetRenderPass(class RenderPass* pass) { m_pRenderPass = pass; }
 
         /**
-            @brief pass에 render object 등록 
+            @brief pass에 render object 등록
             @param obj - render object ptr
         **/
         void AddRenderObject(class RenderObject* obj);
@@ -38,6 +35,11 @@ namespace graphics
             @param obj - render object ptr
         **/
         void RemoveRenderObject(class RenderObject* obj);
+
+        BufferType GetBufferType()
+        {
+            return BufferType::MATERIAL;
+        }
 
     private:
         class RenderPass* m_pRenderPass = nullptr;

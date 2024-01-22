@@ -33,16 +33,16 @@ namespace utility
 	{
 		shared_ptr<rengine::Object> _object = object;
 
-		auto _typeIter = node.second.get_child("m_typeName");
-
-		rttr::type _objType = rttr::type::get_by_name(_typeIter.data());
-
 		if (_object == nullptr)
 		{
+			auto _typeIter = node.second.get_child("m_typeName");
+
 			uuid _uuid = StringHelper::StringToWString(node.first);
 
 			_object = rengine::ObjectFactory::GetInstance()->CreateObject(_typeIter.data(), _uuid);
 		}
+
+		rttr::type _objType = rttr::type::get_by_name(_object->GetTypeStr());
 
 		for (auto& _property_node : node.second)
 		{

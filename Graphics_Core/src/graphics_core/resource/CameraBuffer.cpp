@@ -14,6 +14,10 @@ namespace graphics
 
 	}
 
+	void CameraBuffer::SetName(const char* name)
+	{
+	}
+
 	void CameraBuffer::UpdateBuffer(CommandBuffer* command, Buffer* buffer)
 	{
 		command->UpdateBuffer(*buffer, 0, &m_cameraInfo, sizeof(CameraInfo));

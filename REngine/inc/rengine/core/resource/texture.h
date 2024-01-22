@@ -58,8 +58,8 @@ namespace rengine
         inline void SetSRGB(bool val)           { m_textureImportSetting._bIsSRGB = val; }
         inline void SetMipMap(bool val)         { m_textureImportSetting._mipmaps = val; }
         inline void SetFormat(uint32 val)       { m_textureImportSetting._format = val; }
-        inline void SetComperssion(uint32 val)  { m_textureImportSetting._comperssion= val; }
-        inline void SetArrayLayers(uint32 val)  { m_textureImportSetting._arrayLayers= val; }
+        inline void SetComperssion(uint32 val)  { m_textureImportSetting._comperssion = val; }
+        inline void SetArrayLayers(uint32 val)  { m_textureImportSetting._arrayLayers = val; }
         inline void SetMipLevels(uint32 val)    { m_textureImportSetting._mipLevels = val; }
         inline void SetSamples(uint32 val)      { m_textureImportSetting._samples = val; }
 

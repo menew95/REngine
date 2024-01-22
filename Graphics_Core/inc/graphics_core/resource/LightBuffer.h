@@ -20,6 +20,8 @@ namespace graphics
         LightBuffer();
         ~LightBuffer();
 
+        GRAPHICS_API virtual void SetName(const char* name);
+
         BufferType GetBufferType()
         {
             return BufferType::LIGHT;

@@ -53,10 +53,7 @@ namespace graphics
         CameraBuffer();
         ~CameraBuffer();
 
-        BufferType GetBufferType()
-        {
-            return BufferType::CAMERA;
-        }
+        GRAPHICS_API virtual void SetName(const char* name);
 
         void Update(CameraInfo& info)
         {
@@ -66,6 +63,11 @@ namespace graphics
         void UpdateBuffer(CommandBuffer* command, Buffer* buffer);
 
         void UpdateCascadeShadow(math::Vector3 directionalLightDir);
+
+        BufferType GetBufferType()
+        {
+            return BufferType::CAMERA;
+        }
 
     private:
         CameraInfo m_cameraInfo;

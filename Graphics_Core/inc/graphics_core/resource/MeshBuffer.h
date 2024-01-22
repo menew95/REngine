@@ -22,6 +22,8 @@ namespace graphics
         SubMeshBuffer();
         ~SubMeshBuffer();
 
+        void CreateIndexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride);
+
         inline uint32 GetIndexCount() const
         {
             return m_indexCount;
@@ -43,6 +45,12 @@ namespace graphics
         MeshBuffer();
         ~MeshBuffer();
 
+        GRAPHICS_API void CreateVertexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride = 0);
+
+        GRAPHICS_API void CreateSubMeshBuffer(uuid uuid, const void* data, uint32 size, uint32 stride = 0);
+
+        GRAPHICS_API virtual void SetName(const char* name);
+
         BufferType GetBufferType()
         {
             return BufferType::MESH;
@@ -62,8 +70,6 @@ namespace graphics
         {
             return m_subMeshBuffers[index];
         }
-
-        void CreateVertexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride);
 
     private:
         Buffer* m_pVertexBuffer = nullptr;

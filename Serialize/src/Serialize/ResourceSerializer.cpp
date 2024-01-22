@@ -5,11 +5,19 @@
 
 #include <rengine\system\ObjectFactory.h>
 #include <rengine\core\Resources.h>
+#include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\texture.h>
+#include <rengine\core\resource\texture.h>
+#include <rengine\core\resource\texture.h>
 
 //#include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 //#include <boost/iostreams/filtering_stream.hpp>
 //#include <boost/iostreams/filter/zlib.hpp>
+
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 bool ReadBinary_Mesh(const tstring& path)
 {
@@ -144,13 +152,19 @@ namespace utility
 		{
 			if (_iter->first == "TextureImporter")
 			{
-				//auto _tex = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid));
+				_object = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid);
 				//_object _tex;
 
 				auto _node = (*_iter);
 				ObjectSerializer::DeSerialize(_node, _object);
 			}
 		}
+
+		fs::path _path(path);
+
+		_object->SetName(_path.stem().wstring());
+
+		_object->SetPath(path);
 
 		return _object;
 	}
