@@ -46,7 +46,10 @@ namespace editor
 			{
 				rengine::GameObject** _dropGO = reinterpret_cast<rengine::GameObject**>(_payload->Data);
 
-				(*_dropGO)->GetTransform()->SetParent(nullptr);
+				if ((*_dropGO)->GetTransform()->GetParent() != nullptr)
+				{
+					(*_dropGO)->GetTransform()->SetParent(nullptr);
+				}
 			}
 
 			ImGui::EndDragDropTarget();
@@ -142,13 +145,6 @@ namespace editor
 			ImGui::EndDragDropTarget();
 		}
 
-		ImGui::PushID(gameObj->GetUUID().c_str());
-		if (ImGui::BeginPopupContextItem()) {
-			// Some processing...
-			ImGui::EndPopup();
-		}
-		ImGui::PopID();
-
 		if (open)
 		{
 			for (uint32 i = 0; i < gameObj->GetTransform()->GetChildSize(); i++)
@@ -235,6 +231,7 @@ namespace editor
 
 		if (m_bPopUpMenu == true)
 		{
+			ImGui::PushID("HierarchyView Popup");
 			if (ImGui::BeginPopupContextItem())
 			{
 				rengine::GameObject* _test = nullptr;
@@ -246,8 +243,6 @@ namespace editor
 					_newGO->SetName(L"Game Object");
 
 					m_bPopUpMenu = false;
-
-					ImGui::GetCurrentWindow();
 				}
 
 				if (ImGui::MenuItem("Delete Object"))
@@ -258,6 +253,7 @@ namespace editor
 
 				ImGui::EndPopup();
 			}
+			ImGui::PopID();
 		}
 	}
 }
