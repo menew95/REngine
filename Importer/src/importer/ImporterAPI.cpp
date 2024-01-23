@@ -1,9 +1,8 @@
 ﻿// Importer.cpp : DLL을 위해 내보낸 함수를 정의합니다.
 //
 
-#include "pch.h"
-#include "framework.h"
-#include "Importer.h"
+#include <Importer_pch.h>
+#include <importer\ImporterAPI.h>
 
 
 // 내보낸 변수의 예제입니다.

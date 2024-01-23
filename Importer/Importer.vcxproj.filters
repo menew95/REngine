@@ -18,24 +18,27 @@
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
+    <ClInclude Include="inc\importer\ImporterAPI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Importer.h">
+    <ClInclude Include="src\Importer_pch.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="inc\importer\Importer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Importer.cpp">
+    <ClCompile Include="src\importer\ImporterAPI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="dllmain.cpp">
+    <ClCompile Include="src\dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\Importer_pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\importer\Importer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

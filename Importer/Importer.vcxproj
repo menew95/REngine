@@ -71,16 +71,32 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>Importer</TargetName>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>Importer</TargetName>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>Importer</TargetName>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>Importer</TargetName>
+    <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -89,13 +105,21 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;IMPORTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Importer_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -106,7 +130,8 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;IMPORTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Importer_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,7 +139,14 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -123,13 +155,21 @@
       <PreprocessorDefinitions>_DEBUG;IMPORTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Importer_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -140,7 +180,8 @@
       <PreprocessorDefinitions>NDEBUG;IMPORTER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Importer_pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,25 +189,38 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.pdb" "$(OutputPath)..\Client\*"
+xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="Importer.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="inc\importer\Importer.h" />
+    <ClInclude Include="inc\importer\ImporterAPI.h" />
+    <ClInclude Include="src\Importer_pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="Importer.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="src\dllmain.cpp" />
+    <ClCompile Include="src\importer\ImporterAPI.cpp" />
+    <ClCompile Include="src\Importer_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\importer\Importer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{9d40d96d-8233-4822-8fb7-fa6155c0da9d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,7 @@
 #include <rengine\core\resource\Mesh.h>
 
 #include <serialize\Serializer.h>
+#include <importer\Importer.h>
 
 namespace fs = std::filesystem;
 
@@ -648,35 +649,13 @@ namespace editor
 
 			if(_extension == ".meta")
 				return;
+
 			fs::path _metaPath(path + TEXT(".meta"));
 
 			if (fs::exists(_metaPath))
 				return;
 
-			std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
-
-			shared_ptr<rengine::Object> _object;
-
-			if (_extension == ".mat")
-			{
-				_object = std::static_pointer_cast<rengine::Object>(rengine::Resources::GetInstance()->CreateResource<rengine::Material>());
-			}
-			else if (_extension == ".mesh")
-			{
-				_object = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>());
-			}
-			else if (_extension == ".anim")
-			{
-
-			}
-			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
-				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
-			{
-				_object = std::static_pointer_cast<rengine::Resource>(rengine::Resources::GetInstance()->CreateResource<rengine::Texture>());
-			}
-
-			if(_object != nullptr)
-				utility::Serializer::CreateMetaInfo(path, _object.get());
+			utility::Importer::Import(path);
 		}
 	}
 }

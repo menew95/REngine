@@ -59,6 +59,9 @@ namespace rengine
 	}
 	void* Texture::GetTextureID()
 	{
+		if(!m_bIsLoad)
+			LoadMemory();
+
 		return m_pTextureBuffer->GetTextureID();
 	}
 
