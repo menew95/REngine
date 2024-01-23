@@ -36,10 +36,7 @@ namespace rengine
 
         RENGINE_API std::vector<std::shared_ptr<GameObject>>& GetRootGameObjects() { return m_rootGameObjects; }
 
-        RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go)
-        {
-            m_rootGameObjects.push_back(go);
-        }
+        RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go);
 
         RENGINE_API bool GetIsDirty() { return m_bIsDirty; }
         RENGINE_API bool GetIsLoaded() { return m_bIsLoaded; }

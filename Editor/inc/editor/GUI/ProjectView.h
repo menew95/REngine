@@ -51,6 +51,8 @@ namespace editor
         **/
         void CheckMetaFile(const tstring& path);
 
+        bool m_bDrawMetaFile = false;
+
         tstring m_currPath;
 
         vector<tstring> m_selected;

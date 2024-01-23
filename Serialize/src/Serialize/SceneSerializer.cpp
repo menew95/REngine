@@ -77,11 +77,16 @@ namespace utility
 
 			auto _typeIter = _node.second.get_child("m_typeName");
 
-			if (_typeIter.data() == "Transform" && _node.second.get_child("m_parent").data() == "")
+			if (_typeIter.data() == "Transform")
 			{
 				auto _trans_comp = std::static_pointer_cast<rengine::Component>(_list[_idx]);
 
-				reinterpret_cast<rengine::Scene*>(_scene.get())->AddRootGameObject(_trans_comp->GetGameObject().lock());
+				auto _go = _trans_comp->GetGameObject().lock();
+
+				_go->SetScene(_scene);
+
+				if(_node.second.get_child("m_parent").data() == "")
+					_scene->AddRootGameObject(_go);
 			}
 
 			ObjectSerializer::DeSerialize(_node, _list[_idx++]);

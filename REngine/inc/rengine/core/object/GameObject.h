@@ -55,7 +55,9 @@ namespace rengine
 
         inline std::vector<std::weak_ptr<Component>> GetComponents() { return m_Components; }
         inline std::shared_ptr<Transform> GetTransform() { return m_pTransform.lock(); }
+
         inline std::shared_ptr<Scene> GetScene() { return m_pScene.lock(); }
+        inline void SetScene(const std::shared_ptr<Scene>& scene) { m_pScene = scene; }
 
         inline void SetComponents(std::vector<std::weak_ptr<Component>> comps);
         // 일단 GetTransform을 기존에 shared_ptr<Transform> ref를 받아서 Instantiate 할시에 설정이 가능했으나 지금은 안됨

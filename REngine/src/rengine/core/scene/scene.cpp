@@ -1,6 +1,7 @@
 ﻿#include <rengine\core\scene\Scene.h>
 
 #include <rengine\core\object\GameObject.h>
+#include <rengine\core\component\Transform.h>
 
 #include <rengine\core\component\Camera.h>
 
@@ -24,47 +25,11 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	/*Scene::Scene()
-	: Object()
-	{
-		auto _camGO = GameObject::Instantiate();
-		_camGO->SetName(L"Main Camera");
-
-		_camGO->AddComponent<Camera>();
-
-		auto _lightGO = GameObject::Instantiate();
-		_lightGO->SetName(L"Directional Light");
-
-		m_rootGameObjects.push_back(_camGO);
-		m_rootGameObjects.push_back(_lightGO);
-	}*/
-
 	Scene::Scene(uuid uuid)
 		: Object(uuid, TEXT("Scene"), TEXT("Scene"))
 	{
 
 	}
-
-	/*Scene::Scene(uuid uuid, tstring name)
-		: Object(uuid, name, TEXT("Scene"))
-	{
-		auto _camGO = GameObject::Instantiate();
-		_camGO->SetName(L"Main Camera");
-
-		_camGO->AddComponent<Camera>();
-
-		auto _lightGO = GameObject::Instantiate();
-		_lightGO->SetName(L"Directional Light");
-
-		m_rootGameObjects.push_back(_camGO);
-		m_rootGameObjects.push_back(_lightGO);
-	}*/
-
-	/*Scene::Scene(uuid uuid, tstring name, tstring type)
-		: Object(uuid, name, type)
-	{
-
-	}*/
 
 	Scene::~Scene()
 	{
@@ -87,5 +52,25 @@ namespace rengine
 		}
 
 		return nullptr;
+	}
+
+	void Scene::AddRootGameObject(std::shared_ptr<GameObject> go)
+	{
+		m_rootGameObjects.push_back(go);
+
+		/*for (auto& trans : go->GetTransform()->GetChilds())
+		{
+			auto _transform = trans.lock();
+
+			if(_transform == nullptr)
+				continue;
+
+			auto _childObj = _transform->GetGameObject().lock();
+
+			if(_childObj == nullptr)
+				continue;
+
+			_childObj->SetScene(shared_from_this());
+		}*/
 	}
 }

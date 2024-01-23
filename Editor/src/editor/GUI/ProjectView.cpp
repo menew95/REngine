@@ -471,14 +471,10 @@ namespace editor
 			auto _relativePath = fs::relative(_path, _assetPath);
 
 			std::string _fileName = _relativePath.filename().string();
-			
-			ImGui::PushID(_fileName.c_str());
-
-			//tstring _test = StringHelper::StringToWString(_relativePath.wstring().c_str());
 
 			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _srv;
 
-			ImTextureID _texId = _srv.Get();//_directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
+			ImTextureID _texId = _srv.Get();
 
 			ImVec2 _top = {1, 1}, _bot = {0, 0};
 
@@ -487,6 +483,9 @@ namespace editor
 				tstring _extension = _path.extension().wstring();
 
 				std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+				if(_extension == TEXT(".meta") && !m_bDrawMetaFile)
+					continue;
 
 				/*if (_extension == TEXT(".mat"))
 				{
@@ -554,6 +553,8 @@ namespace editor
 				ImGui::PushStyleColor(ImGuiCol_Button, EditorStyle::GetColor(ImGuiCol_Button));
 			}
 
+			ImGui::PushID(_fileName.c_str());
+
 			ImGui::ImageButton(_texId, { _thumnailSize, _thumnailSize }, _top, _bot);
 
 			ImGui::PopStyleColor(1);
@@ -611,7 +612,8 @@ namespace editor
 				}
 			}
 
-			ImGui::TextWrapped(_fileName.c_str());
+			//ImGui::TextWrapped(_fileName.c_str());
+			ImGui::TextWrapped(_relativePath.stem().string().c_str());
 
 			ImGui::NextColumn();
 

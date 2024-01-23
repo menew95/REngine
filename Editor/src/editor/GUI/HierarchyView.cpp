@@ -34,28 +34,29 @@ namespace editor
 	{
 		__super::Render();
 
+		auto& g = *ImGui::GetCurrentContext();
+
+		ImVec2 pos = ImGui::GetCursorPos();
+		ImGui::Dummy(ImGui::GetContentRegionAvail());
+		if (ImGui::BeginDragDropTarget())
+		{
+			auto* _payload = ImGui::AcceptDragDropPayload("HIERARCHY_ITEM");
+
+			if (_payload != nullptr)
+			{
+				rengine::GameObject** _dropGO = reinterpret_cast<rengine::GameObject**>(_payload->Data);
+
+				(*_dropGO)->GetTransform()->SetParent(nullptr);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+		ImGui::SetCursorPos(pos);
+
 		for (auto& _root : rengine::SceneManager::GetInstance()->GetCurrentScene()->GetRootGameObjects())
 		{
 			DrawTreeNode(_root.get());
 		}
-		//CalculateBlank();
-
-		//m_prevYcursor = ImGui::GetCursorPosY() + ImGui::GetWindowPos().y - 5;
-
-		//RightClick();
-
-		std::vector<rengine::GameObject*> tempVec;
-		//m_ObjectList.swap(tempVec);
-
-		std::vector<int> tempInt;
-		//m_IndexList.swap(tempInt);
-
-		//DebugManager::GetInstance()->DrawDebugText("Mouse : %f, %f", ImGui::GetMousePos().x - ImGui::GetWindowPos().x - ImGui::GetCursorStartPos().x, ImGui::GetMousePos().y - ImGui::GetWindowPos().y - ImGui::GetCursorStartPos().y);
-		//DebugManager::GetInstance()->DrawDebugText("Region : %f, %f", ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y);
-		//DebugManager::GetInstance()->DrawDebugText("Dragging : %d", m_bIsOnDrag);
-		//if (m_pDragItem != nullptr)
-			//DebugManager::GetInstance()->DrawDebugText("Drag target: %s", m_pDragItem->getName().c_str());
-
 	}
 
 	void HierarchyView::End()
