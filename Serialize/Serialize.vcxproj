@@ -113,7 +113,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;libboost_serialization-vc143-mt-gd-x64-1_83.lib;libboost_iostreams-vc143-mt-gd-x32-1_83.lib;libboost_zlib-vc143-mt-gd-x32-1_83.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -140,7 +140,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;libboost_serialization-vc143-mt-gd-x64-1_83.lib;libboost_iostreams-vc143-mt-gd-x32-1_83.lib;libboost_zlib-vc143-mt-gd-x32-1_83.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -163,7 +163,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;libboost_serialization-vc143-mt-gd-x64-1_83.lib;libboost_iostreams-vc143-mt-gd-x32-1_83.lib;libboost_zlib-vc143-mt-gd-x32-1_83.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -190,7 +190,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rttr_core_$(PlatformTarget)_$(Configuration).lib;REngine_$(PlatformTarget)_$(Configuration).lib;libboost_serialization-vc143-mt-gd-x64-1_83.lib;libboost_iostreams-vc143-mt-gd-x32-1_83.lib;libboost_zlib-vc143-mt-gd-x32-1_83.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"

@@ -27,6 +27,9 @@
     <ClInclude Include="inc\importer\Importer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\importer\FBXImporter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\importer\ImporterAPI.cpp">
@@ -39,6 +42,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\importer\Importer.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\importer\FBXImporter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

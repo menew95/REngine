@@ -10,10 +10,9 @@
 #include <rengine\core\resource\texture.h>
 #include <rengine\core\resource\texture.h>
 
-//#include <boost/archive/text_iarchive.hpp>
-#include <boost/serialization/vector.hpp>
-//#include <boost/iostreams/filtering_stream.hpp>
-//#include <boost/iostreams/filter/zlib.hpp>
+#include <boost\archive\binary_iarchive.hpp>
+#include <boost\iostreams\filtering_streambuf.hpp>
+#include <boost\iostreams\filter\zlib.hpp>
 
 #include <filesystem>
 
@@ -26,12 +25,12 @@ bool ReadBinary_Mesh(const tstring& path)
 	if (!ifs.is_open())
 		return false;
 
-	/*boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
+	boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
 	_buffer.push(boost::iostreams::zlib_decompressor());
 	_buffer.push(ifs);
 	boost::archive::binary_iarchive _iaMat(_buffer);
 
-	MeshBinary _mesh_bin;
+	/*MeshBinary _mesh_bin;
 
 	_iaMat >> _mat_bin;*/
 
