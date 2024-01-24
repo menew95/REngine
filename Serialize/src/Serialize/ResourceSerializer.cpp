@@ -44,12 +44,12 @@ bool ReadBinary_Anim(const tstring& path)
 	if (!ifs.is_open())
 		return false;
 
-	/*boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
+	boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
 	_buffer.push(boost::iostreams::zlib_decompressor());
 	_buffer.push(ifs);
 	boost::archive::binary_iarchive _iaMat(_buffer);
 
-	AnimBinary _anim_bin;
+	/*AnimBinary _anim_bin;
 
 	_iaMat >> _anim_bin;*/
 
