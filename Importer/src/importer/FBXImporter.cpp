@@ -222,10 +222,10 @@ namespace utility
 
 		bool _result;
 
-		if (!_path.IsEmpty())
-		{
-			_result = LoadScene(_path.Buffer());
-		}
+		if (_path.IsEmpty())
+			return;
+		
+		_result = LoadScene(_path.Buffer());
 
 		fbxsdk::FbxSystemUnit lFbxFileSystemUnit = g_pFbxScene->GetGlobalSettings().GetSystemUnit();
 		fbxsdk::FbxSystemUnit lFbxOriginSystemUnit = g_pFbxScene->GetGlobalSettings().GetOriginalSystemUnit();
