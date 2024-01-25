@@ -10,82 +10,81 @@
 #include <rengine\core\resource\texture.h>
 #include <rengine\core\resource\texture.h>
 
+#include <serialize\binary\AnimBin.h>
+#include <serialize\binary\MaterialBin.h>
+#include <serialize\binary\MeshBin.h>
+
+#include <boost\serialization\vector.hpp>
+#include <boost\archive\binary_oarchive.hpp>
 #include <boost\archive\binary_iarchive.hpp>
-#include <boost\iostreams\filtering_streambuf.hpp>
+#include <boost\iostreams\filtering_stream.hpp>
 #include <boost\iostreams\filter\zlib.hpp>
 
 #include <filesystem>
 
 namespace fs = std::filesystem;
 
-bool ReadBinary_Mesh(const tstring& path)
-{
-	std::ifstream ifs(path, std::ios_base::binary);
-
-	if (!ifs.is_open())
-		return false;
-
-	boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
-	_buffer.push(boost::iostreams::zlib_decompressor());
-	_buffer.push(ifs);
-	boost::archive::binary_iarchive _iaMat(_buffer);
-
-	/*MeshBinary _mesh_bin;
-
-	_iaMat >> _mat_bin;*/
-
-	return true;
-}
-
-bool ReadBinary_Anim(const tstring& path)
-{
-	std::ifstream ifs(path, std::ios_base::binary);
-
-	if (!ifs.is_open())
-		return false;
-
-	boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
-	_buffer.push(boost::iostreams::zlib_decompressor());
-	_buffer.push(ifs);
-	boost::archive::binary_iarchive _iaMat(_buffer);
-
-	/*AnimBinary _anim_bin;
-
-	_iaMat >> _anim_bin;*/
-
-	return true;
-}
-
-void TextureSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
-{
-	if (res == nullptr)
-		return;
-
-	boost::property_tree::ptree _obj_pt;
-
-	string _type = StringHelper::ToString(res->GetType());
-
-	const rttr::type _obj_type = rttr::type::get_by_name(_type);
-
-	for (rttr::property _prop : _obj_type.get_properties())
-	{
-		if (!_prop.is_valid())
-			continue;
-
-		auto _dec_ty = _prop.get_declaring_type();
-
-		if(_dec_ty.get_name() != "Texture")
-			continue;
-
-
-		utility::GetProperty(_obj_pt, _prop, res);
-	}
-
-	pt.push_back(make_pair("TextureImporter", _obj_pt));
-}
-
 namespace utility
 {
+	template<typename T>
+	void Deserialize(const tstring& path)
+	{
+		std::ifstream _ifs(path, std::ios_base::binary);
+
+		if (!_ifs.is_open())
+			return false;
+
+		boost::iostreams::filtering_stream<boost::iostreams::input> _buffer;
+		_buffer.push(boost::iostreams::zlib_decompressor());
+		_buffer.push(_ifs);
+		boost::archive::binary_iarchive _ia(_buffer);
+
+		T _bin;
+		_ia >> _bin;
+
+		return true;
+	}
+
+	template<typename T>
+	void Serialize(const tstring& path, T& resource)
+	{
+		std::ofstream _ofs(path, std::ios_base::binary);
+		boost::iostreams::filtering_stream<boost::iostreams::output> _buffer;
+		_buffer.push(boost::iostreams::zlib_compressor());
+		_buffer.push(_ofs);
+
+		boost::archive::binary_oarchive _oa(_buffer);
+		_oa << resource;
+	}
+
+	void TextureSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
+	{
+		if (res == nullptr)
+			return;
+
+		boost::property_tree::ptree _obj_pt;
+
+		string _type = StringHelper::ToString(res->GetType());
+
+		const rttr::type _obj_type = rttr::type::get_by_name(_type);
+
+		for (rttr::property _prop : _obj_type.get_properties())
+		{
+			if (!_prop.is_valid())
+				continue;
+
+			auto _dec_ty = _prop.get_declaring_type();
+
+			if (_dec_ty.get_name() != "Texture")
+				continue;
+
+
+			GetProperty(_obj_pt, _prop, res);
+		}
+
+		pt.push_back(make_pair("TextureImporter", _obj_pt));
+	}
+
 	void ResourceSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
 		shared_ptr<rengine::Resource> _object;

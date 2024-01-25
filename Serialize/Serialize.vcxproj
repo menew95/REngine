@@ -199,6 +199,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\serialize\binary\AnimBin.h" />
+    <ClInclude Include="inc\serialize\binary\MaterialBin.h" />
+    <ClInclude Include="inc\serialize\binary\MeshBin.h" />
     <ClInclude Include="inc\serialize\ComponentSerializer.h" />
     <ClInclude Include="inc\serialize\GameObjectSerializer.h" />
     <ClInclude Include="inc\serialize\ObjectSerializer.h" />
