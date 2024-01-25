@@ -78,7 +78,6 @@ namespace utility
 			if (_dec_ty.get_name() != "Texture")
 				continue;
 
-
 			GetProperty(_obj_pt, _prop, res);
 		}
 
@@ -100,7 +99,6 @@ namespace utility
 			case rengine::ResourceType::TEXTURE:
 			{
 				TextureSerialize(_resource, pt);
-				//ObjectSerializer::Serialize(object, pt);
 				break;
 			}
 			case rengine::ResourceType::MESH:

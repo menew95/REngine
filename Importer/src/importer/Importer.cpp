@@ -1,6 +1,8 @@
 ﻿#include <Importer_pch.h>
 #include <importer\Importer.h>
 
+#include <importer\FBXImporter.h>
+
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Texture.h>
@@ -29,7 +31,7 @@ namespace utility
 
 		if (_extension == ".fbx")
 		{
-
+			FBXImporter::Import(path);
 		}
 		if (_extension == ".mat")
 		{

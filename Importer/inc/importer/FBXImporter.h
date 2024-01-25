@@ -15,7 +15,8 @@
 namespace utility
 {
     class FBXImporter
-    {	
+    {
+    public:
 		static void Import(const tstring& path);
     };
 }

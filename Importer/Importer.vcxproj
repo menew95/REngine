@@ -74,28 +74,28 @@
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_include\fbx;$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_include\fbx;$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_include\fbx;$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)_include\fbx;$(SolutionDir)_include;$(SolutionDir)Common\inc;$(SolutionDir)REngine\inc;$(SolutionDir)Serialize\inc;$(ProjectDir)inc;$(ProjectDir)src;$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -113,7 +113,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;fbxsdk\$(Configuration)\libxml2-mt.lib;fbxsdk\$(Configuration)\zlib-mt.lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -140,7 +140,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;fbxsdk\$(Configuration)\libxml2-mt.lib;fbxsdk\$(Configuration)\zlib-mt.lib;Serializer_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -163,7 +163,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;fbxsdk\$(Configuration)\libxml2-md.lib;fbxsdk\$(Configuration)\zlib-md.lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -190,7 +190,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>REngine_$(PlatformTarget)_$(Configuration).lib;fbxsdk\$(Configuration)\libfbxsdk.lib;fbxsdk\$(Configuration)\libxml2-mt.lib;fbxsdk\$(Configuration)\zlib-mt.lib;fbxsdk\$(Configuration)\libxml2-mt.lib;fbxsdk\$(Configuration)\zlib-mt.lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -203,6 +203,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\importer\FBXImporter.h" />
+    <ClInclude Include="inc\importer\FBXModel.h" />
     <ClInclude Include="inc\importer\Importer.h" />
     <ClInclude Include="inc\importer\ImporterAPI.h" />
     <ClInclude Include="src\Importer_pch.h" />
