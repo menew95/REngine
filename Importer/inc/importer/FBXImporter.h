@@ -17,6 +17,10 @@ namespace utility
     class FBXImporter
     {
     public:
+        /**
+            @brief 해당 경로의 fbx 파일로 mesh, anim, material를 생성
+            @param path - fbx 파일 경로
+        **/
 		static void Import(const tstring& path);
     };
 }

@@ -33,7 +33,7 @@ namespace utility
 		{
 			FBXImporter::Import(path);
 		}
-		if (_extension == ".mat")
+		else if (_extension == ".mat")
 		{
 			auto _importMat = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
 

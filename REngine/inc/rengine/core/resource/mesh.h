@@ -12,6 +12,8 @@
 
 #include <rengine\core\resource\Resource.h>
 
+#include <common\vertex_attribute.h>
+
 namespace graphics
 {
     class MeshBuffer;
@@ -47,8 +49,31 @@ namespace rengine
         **/
         bool UnLoadMemory();
 
+        auto& GetVertices() { return m_vertices; }
+        auto& Getindices() { return m_indices; }
+        auto& GetBoundingBoxMin() { return m_boundingBoxMin; }
+        auto& GetBoundingBoxMax() { return m_boundingBoxMax; }
+        auto& GetIsSkinned() { return m_bIsSkinned; }
+        auto& GetBoneName() { return m_boneName; }
+
+        void SetVertices(const auto& val) { m_vertices = val; }
+        void Setindices(const auto& val) { m_indices = val; }
+        void SetBoundingBoxMin(const auto& val) { m_boundingBoxMin = val; }
+        void SetBoundingBoxMax(const auto& val) { m_boundingBoxMax = val; }
+        void SetIsSkinned(const auto& val) { m_bIsSkinned = val; }
+        void SetBoneName(const auto& val) { m_boneName = val; }
+
     private:
-        bool m_bIsSkinned = false;
+
+        // mesh bin
+        std::vector<VertexAttribute>		m_vertices;
+        std::vector<std::vector<uint32>>	m_indices;
+        math::Vector3                       m_boundingBoxMin;
+        math::Vector3                       m_boundingBoxMax;
+
+        // skinning
+        bool    m_bIsSkinned = false;
+        tstring m_boneName;
 
         graphics::MeshBuffer* m_pMeshBuffer = nullptr;
 

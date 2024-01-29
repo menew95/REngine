@@ -15,10 +15,8 @@
 #include <boost\serialization\access.hpp>
 #include <common\vertex_attribute.h>
 
-
 namespace utility
 {
-
 	struct MeshBin
 	{
 		friend boost::serialization::access;
@@ -27,9 +25,9 @@ namespace utility
 
 		MeshBin(std::string _meshName, std::vector<VertexAttribute> _meshVertexList
 			, std::vector<std::vector<uint32>> _indices, math::Vector3 boundingMin, math::Vector3 boundingMax)
-			: meshName(std::move(_meshName))
-			, meshVertexList(std::move(_meshVertexList))
-			, indices(std::move(_indices))
+			: _name(std::move(_meshName))
+			, _vertices(std::move(_meshVertexList))
+			, _indices(std::move(_indices))
 			, _boundingMinBox(boundingMin)
 			, _boundingMaxBox(boundingMax)
 			, _isSkinned(false)
@@ -37,18 +35,18 @@ namespace utility
 
 		MeshBin(std::string _meshName, std::vector<VertexAttribute> _meshVertexList
 			, std::vector<std::vector<uint32>> _indices, math::Vector3 boundingMin, math::Vector3 boundingMax, std::string bone)
-			: meshName(std::move(_meshName))
-			, meshVertexList(std::move(_meshVertexList))
-			, indices(std::move(_indices))
+			: _name(std::move(_meshName))
+			, _vertices(std::move(_meshVertexList))
+			, _indices(std::move(_indices))
 			, _boundingMinBox(boundingMin)
 			, _boundingMaxBox(boundingMax)
 			, _isSkinned(true)
 			, _boneName(std::move(bone))
 		{}
 
-		std::string								meshName = "";
-		std::vector<VertexAttribute>	meshVertexList;
-		std::vector<std::vector<uint32>>		indices;
+		std::string							_name = "";
+		std::vector<VertexAttribute>		_vertices;
+		std::vector<std::vector<uint32>>	_indices;
 
 		math::Vector3 _boundingMinBox;
 		math::Vector3 _boundingMaxBox;
@@ -59,9 +57,9 @@ namespace utility
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
 		{
-			ar& meshName;
-			ar& meshVertexList;
-			ar& indices;
+			ar& _name;
+			ar& _vertices;
+			ar& _indices;
 			ar& _boundingMinBox;
 			ar& _boundingMaxBox;
 			ar& _isSkinned;

@@ -46,12 +46,12 @@ namespace utility
 
         std::vector<Node> _nodes;
 
-        std::vector<BoneBin> _boneDatas;
+        std::vector<BoneBin> _bones;
 
-        std::map<string, MeshBin> _meshDataMap;
+        std::map<string, MeshBin> _meshMap;
 
-        std::map<string, MateriaBin> _materialDataMap;
+        std::map<string, MaterialBin> _materialMap;
 
-        std::vector<AnimationClipBin> _animationClipDatas;
+        std::vector<AnimationClipBin> _animationClips;
     };
 }

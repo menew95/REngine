@@ -6,9 +6,8 @@
 #include <rengine\system\ObjectFactory.h>
 #include <rengine\core\Resources.h>
 #include <rengine\core\resource\Texture.h>
-#include <rengine\core\resource\texture.h>
-#include <rengine\core\resource\texture.h>
-#include <rengine\core\resource\texture.h>
+#include <rengine\core\resource\Mesh.h>
+#include <rengine\core\resource\Material.h>
 
 #include <serialize\binary\AnimBin.h>
 #include <serialize\binary\MaterialBin.h>
@@ -27,7 +26,7 @@ namespace fs = std::filesystem;
 namespace utility
 {
 	template<typename T>
-	void Deserialize(const tstring& path)
+	void DeserializeBinary(const tstring& path)
 	{
 		std::ifstream _ifs(path, std::ios_base::binary);
 
@@ -46,7 +45,7 @@ namespace utility
 	}
 
 	template<typename T>
-	void Serialize(const tstring& path, T& resource)
+	void SerializeBinary(const tstring& path, T& resource)
 	{
 		std::ofstream _ofs(path, std::ios_base::binary);
 		boost::iostreams::filtering_stream<boost::iostreams::output> _buffer;
@@ -102,11 +101,23 @@ namespace utility
 				break;
 			}
 			case rengine::ResourceType::MESH:
-			{
-				break;
-			}
 			case rengine::ResourceType::SKINNED_MESH:
 			{
+				rengine::Mesh* _mesh = reinterpret_cast<rengine::Mesh*>(object);
+
+				MeshBin _bin;
+
+				_bin._name = _mesh->GetNameStr();
+
+				_bin._vertices = _mesh->GetVertices();
+				_bin._indices = _mesh->Getindices();
+				_bin._boundingMinBox = _mesh->GetBoundingBoxMin();
+				_bin._boundingMaxBox = _mesh->GetBoundingBoxMax();
+
+				_bin._boneName = StringHelper::WStringToString(_mesh->GetBoneName());
+				_bin._isSkinned = _mesh->GetIsSkinned();
+
+				SerializeBinary<MeshBin>(_resource->GetPath(), _bin);
 				break;
 			}
 			case rengine::ResourceType::ANMATOR_CONTROLLER:
