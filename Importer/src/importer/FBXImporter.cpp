@@ -8,6 +8,7 @@
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\AnimationClip.h>
 
 #include <serialize\Serializer.h>
 
@@ -1002,25 +1003,53 @@ namespace utility
 		{
 			auto _bin = _iter.second;
 
-			tstring _meshPath = g_assetPath + TEXT("bin\\mesh\\") + StringHelper::StringToWString(_iter.first) + TEXT(".mesh");
+			tstring _binPath = g_assetPath + TEXT("bin\\mesh\\") + StringHelper::StringToWString(_iter.first) + TEXT(".mesh");
 
-			auto _importMesh = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>();
+			auto _resource = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>();
 
-			_importMesh->SetNameStr(_iter.first);
+			_resource->SetNameStr(_iter.first);
 
-			_importMesh->SetPath(_meshPath);
+			_resource->SetPath(_binPath);
 
-			_importMesh->SetVertices(_bin._vertices);
-			_importMesh->Setindices(_bin._indices);
-			_importMesh->SetBoundingBoxMin(_bin._boundingMinBox);
-			_importMesh->SetBoundingBoxMax(_bin._boundingMaxBox);
+			_resource->SetVertices(_bin._vertices);
+			_resource->Setindices(_bin._indices);
+			_resource->SetBoundingBoxMin(_bin._boundingMinBox);
+			_resource->SetBoundingBoxMax(_bin._boundingMaxBox);
 
-			_importMesh->SetBoneName(StringHelper::StringToWString(_bin._boneName));
-			_importMesh->SetIsSkinned(_bin._isSkinned);
+			_resource->SetBoneName(StringHelper::StringToWString(_bin._boneName));
+			_resource->SetIsSkinned(_bin._isSkinned);
 
-			utility::Serializer::CreateMetaInfo(_importMesh->GetPath(), _importMesh.get());
+			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 
-			utility::Serializer::Serialize(_importMesh->GetPath(), _importMesh.get());
+			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
+		}
+
+		for (auto& _bin : _model._animationClips)
+		{
+			tstring _binPath = g_assetPath + TEXT("bin\\anim\\") + StringHelper::StringToWString(_bin._clipName) + TEXT(".anim");
+
+			auto _resource = rengine::Resources::GetInstance()->CreateResource<rengine::AnimationClip>();
+
+			_resource->SetNameStr(_bin._clipName);
+
+			_resource->SetPath(_binPath);
+
+			float _totalTime = (float)(_bin._totalKeyFrame - 1) / _bin._frameRate;
+
+			vector<rengine::AnimationSnap> _snaps;
+
+			for (auto& _snapBin : _bin._snapList)
+			{
+				rengine::AnimationSnap _newSnap;
+
+				_newSnap._target = StringHelper::StringToWString(_snapBin._nodeName);
+				_newSnap._maxFrameRate = _totalTime;
+
+			}
+
+			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
+
+			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 		}
 	}
 }

@@ -16,6 +16,8 @@
 
 #include <boost\serialization\access.hpp>
 
+#include <rengine\core\resource\AnimationClip.h>
+
 namespace utility
 {
 	struct KeyFrameBin
@@ -58,6 +60,15 @@ namespace utility
 			ar& _parentNodeName;
 			ar& _keyFrameList;
 		}
+
+		rengine::AnimationSnap Convert()
+		{
+			rengine::AnimationSnap _snap;
+
+			_snap._target = StringHelper::StringToWString(_nodeName);
+			//_newSnap._maxFrameRate = _totalTime;
+
+		}
 	};
 
 	struct AnimationClipBin
@@ -96,6 +107,11 @@ namespace utility
 			ar& _totalKeyFrame;
 			ar& _startKeyFrame;
 			ar& _endKeyFrame;
+		}
+
+		AnimationClipBin Convert(const rengine::AnimationClip& clip)
+		{
+
 		}
 	};
 

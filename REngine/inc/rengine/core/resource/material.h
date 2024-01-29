@@ -24,9 +24,9 @@ namespace rengine
     public:
         Material(uuid uuid);
 
-        Material(const Material& mat) = default;
+        Material(const Material& mat) = delete;
 
-        Material(Material&& mat) = default;
+        Material(Material&& mat) = delete;
 
         virtual ~Material();
 

@@ -208,6 +208,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\object\object_impl.h" />
     <ClInclude Include="inc\rengine\core\Resources.h" />
+    <ClInclude Include="inc\rengine\core\resource\AnimationClip.h" />
     <ClInclude Include="inc\rengine\core\resource\Material.h" />
     <ClInclude Include="inc\rengine\core\resource\Mesh.h" />
     <ClInclude Include="inc\rengine\core\resource\Resource.h" />
@@ -227,6 +228,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   <ItemGroup>
     <ClCompile Include="src\rengine\core\Components.cpp" />
     <ClCompile Include="src\rengine\core\Resources.cpp" />
+    <ClCompile Include="src\rengine\core\resource\AnimationClip.cpp" />
     <ClCompile Include="src\rengine\core\resource\Material.cpp" />
     <ClCompile Include="inc\rengine\system\ObjectFactory.h">
       <FileType>CppHeader</FileType>

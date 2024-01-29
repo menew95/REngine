@@ -99,6 +99,9 @@
     <ClInclude Include="inc\rengine\core\object\MetaFile.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\core\resource\AnimationClip.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
@@ -162,6 +165,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\system\Input.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\AnimationClip.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
