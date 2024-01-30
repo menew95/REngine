@@ -6,6 +6,7 @@
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\AnimationClip.h>
 #include <rengine\core\Resources.h>
 
 #include <serialize\Serializer.h>
@@ -51,11 +52,11 @@ namespace utility
 		}
 		else if (_extension == ".anim")
 		{
-			/*auto _importClip = rengine::Resources::GetInstance()->CreateResource<rengine::AnimationClip>();
+			auto _importClip = rengine::Resources::GetInstance()->CreateResource<rengine::AnimationClip>();
 
 			_importClip->SetPath(path);
 
-			_object = _importClip;*/
+			_object = _importClip;
 		}
 		else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")

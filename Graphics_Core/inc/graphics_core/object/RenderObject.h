@@ -24,10 +24,12 @@ namespace graphics
         virtual ~RenderObject() {}
 
         GRAPHICS_API inline uuid GetUUID() { return m_uuid; }
+        GRAPHICS_API inline bool GetEnable() { return m_bEnable; }
         GRAPHICS_API inline bool GetStatic() { return m_bIsStatic; }
         GRAPHICS_API inline bool GetCulling() { return m_bIsCull; }
         GRAPHICS_API inline math::Matrix GetWorld() { return m_world; }
 
+        GRAPHICS_API inline void SetEnable(bool val) { m_bEnable = val; }
         GRAPHICS_API inline void SetStatic(bool val) { m_bIsStatic = val; }
         GRAPHICS_API inline void SetCulling(bool val) { m_bIsCull = val; }
         GRAPHICS_API inline void SetWorld(math::Matrix val) { m_world = val; }
@@ -35,6 +37,8 @@ namespace graphics
     protected:
         uuid m_uuid;
         
+        bool m_bEnable = false;
+
         bool m_bIsStatic = false;
 
         bool m_bIsCull = false;

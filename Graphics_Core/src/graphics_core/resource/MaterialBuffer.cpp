@@ -2,6 +2,8 @@
 
 #include <graphics_core\RenderPass.h>
 
+#include <graphics_module\CommandBuffer.h>
+
 namespace graphics
 {
 	MaterialBuffer::MaterialBuffer()
@@ -16,6 +18,7 @@ namespace graphics
 
 	void MaterialBuffer::SetName(const char* name)
 	{
+
 	}
 
 	void MaterialBuffer::AddRenderObject(RenderObject* obj)
@@ -26,5 +29,13 @@ namespace graphics
 	void MaterialBuffer::RemoveRenderObject(RenderObject* obj)
 	{
 		m_pRenderPass->RemoveRenderObject(obj);
+	}
+
+	void MaterialBuffer::BindResource(CommandBuffer* command)
+	{
+		if(m_pPipelineLayout == nullptr)
+			return;
+
+		command->SetResources(*m_pPipelineLayout);
 	}
 }

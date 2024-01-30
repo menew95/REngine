@@ -12,7 +12,7 @@
 
 #include <graphics_core\object\RenderObject.h>
 
-namespace Graphics
+namespace graphics
 {
     class MeshObject : public RenderObject
     {

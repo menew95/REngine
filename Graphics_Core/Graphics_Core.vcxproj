@@ -204,7 +204,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\GraphicsEngineFlags.h" />
     <ClInclude Include="inc\graphics_core\Graphics_core_dllexport.h" />
     <ClInclude Include="inc\graphics_core\object\MeshObject.h" />
+    <ClInclude Include="inc\graphics_core\object\ParticleObject.h" />
     <ClInclude Include="inc\graphics_core\object\RenderObject.h" />
+    <ClInclude Include="inc\graphics_core\object\UpdateResourceData.h" />
     <ClInclude Include="inc\graphics_core\renderer\Renderer.h" />
     <ClInclude Include="inc\graphics_core\RenderPass.h" />
     <ClInclude Include="inc\graphics_core\RenderPassFlags.h" />

@@ -3,6 +3,11 @@
 #include <graphics_module\CommandBuffer.h>
 
 #include <graphics_core\object\RenderObject.h>
+#include <graphics_core\object\MeshObject.h>
+
+
+#include <graphics_core\resource\MeshBuffer.h>
+#include <graphics_core\resource\MaterialBuffer.h>
 
 namespace graphics
 {
@@ -22,6 +27,28 @@ namespace graphics
 		command->SetPipelineState(*m_pPipelineState);
 
 		command->SetResources(*m_pPipelineLayout);
+	}
+
+	void RenderPass::BeginExcute(CommandBuffer* command)
+	{
+		Bind(command);
+
+		command->BeginEvent(m_passName.c_str());
+	}
+
+	void RenderPass::Excute(CommandBuffer* command)
+	{
+		for (auto* renderObj : m_renderObjects)
+		{
+			if(!renderObj->GetEnable() || !renderObj->GetCulling())
+				continue;
+
+		}
+	}
+
+	void RenderPass::EndExcute(CommandBuffer* command)
+	{
+		command->EndEvent();
 	}
 
 	void RenderPass::AddRenderObject(RenderObject* obj)

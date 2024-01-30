@@ -126,6 +126,27 @@ namespace utility
 			}
 			case rengine::ResourceType::ANIMATION_CLIP:
 			{
+				rengine::AnimationClip* _clip = reinterpret_cast<rengine::AnimationClip*>(object);
+
+				AnimationClipBin _bin;
+
+				_bin._clipName = _clip->GetNameStr();
+
+				_bin._frameRate = _clip->GetFrameRate();
+				_bin._tickPerFrame = _clip->GetTickPerFrame();
+				_bin._totalKeyFrame = _clip->GetTotalKeyFrame();
+				_bin._startKeyFrame = _clip->GetStartKeyFrame();
+				_bin._endKeyFrame = _clip->GetEndKeyFrame();
+
+				_bin._snapList.resize(_clip->GetSnaps().size());
+
+				for (size_t i = 0; i < _bin._snapList.size(); i++)
+				{
+					_bin._snapList[i] = _clip->GetSnaps()[i];
+				}
+
+				SerializeBinary<AnimationClipBin>(_resource->GetPath(), _bin);
+
 				break;
 			}
 			case rengine::ResourceType::AUDIO_CLIP:

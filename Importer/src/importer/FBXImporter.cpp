@@ -339,7 +339,9 @@ namespace utility
 
 			for (FbxLongLong frame = 0; frame < model._animationClips[animIdx]._totalKeyFrame; frame++)
 			{
-				KeyFrameBin keyFrameInfo;
+				KeyFrameBin _posKeyFrameInfo;
+				KeyFrameBin _rotKeyFrameInfo;
+				KeyFrameBin _scaleKeyFrameInfo;
 
 				FbxTime fbxTime = 0;
 
@@ -368,11 +370,22 @@ namespace utility
 					localTM = Convert(localTransform);
 				}
 
-				localTM.Decompose(keyFrameInfo._scale, keyFrameInfo._rot, keyFrameInfo._pos);
+				math::Vector3 _pos, _scale;
+				math::Quaternion _rot;
 
-				keyFrameInfo._time = static_cast<float>(fbxTime.GetSecondDouble());
+				localTM.Decompose(_scale, _rot, _pos);
 
-				_snap._keyFrameList.push_back(keyFrameInfo);
+				_posKeyFrameInfo._frameRate = static_cast<float>(fbxTime.GetSecondDouble());
+				_rotKeyFrameInfo._frameRate = static_cast<float>(fbxTime.GetSecondDouble());
+				_scaleKeyFrameInfo._frameRate = static_cast<float>(fbxTime.GetSecondDouble());
+
+				_posKeyFrameInfo._data = math::Vector4(_pos);
+				_rotKeyFrameInfo._data = _rot;
+				_scaleKeyFrameInfo._data = math::Vector4(_scale);
+
+				_snap._posKeyFrameList.push_back(_posKeyFrameInfo);
+				_snap._rotKeyFrameList.push_back(_rotKeyFrameInfo);
+				_snap._scaleKeyFrameList.push_back(_scaleKeyFrameInfo);
 			}
 
 			model._animationClips[animIdx]._snapList.push_back(_snap);
@@ -1034,18 +1047,37 @@ namespace utility
 
 			_resource->SetPath(_binPath);
 
+			_resource->SetFrameRate(_bin._frameRate);
+			_resource->SetTickPerFrame(_bin._tickPerFrame);
+			_resource->SetTotalKeyFrame(_bin._totalKeyFrame);
+			_resource->SetStartKeyFrame(_bin._startKeyFrame);
+			_resource->SetEndKeyFrame(_bin._endKeyFrame);
+
 			float _totalTime = (float)(_bin._totalKeyFrame - 1) / _bin._frameRate;
 
 			vector<rengine::AnimationSnap> _snaps;
 
 			for (auto& _snapBin : _bin._snapList)
 			{
-				rengine::AnimationSnap _newSnap;
-
-				_newSnap._target = StringHelper::StringToWString(_snapBin._nodeName);
-				_newSnap._maxFrameRate = _totalTime;
-
+				_snaps.push_back(_snapBin.Convert());
 			}
+
+			_resource->SetSnaps(_snaps);
+
+			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
+
+			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
+		}
+
+		for (auto& _bin : _model._materialMap)
+		{
+			tstring _binPath = g_assetPath + TEXT("bin\\mat\\") + StringHelper::StringToWString(_bin.first) + TEXT(".mat");
+
+			auto _resource = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
+
+			_resource->SetNameStr(_bin.first);
+
+			_resource->SetPath(_binPath);
 
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 

@@ -10,6 +10,8 @@
 **/
 #pragma once
 
+#include <common\math.h>
+
 #include <rengine\core\resource\Resource.h>
 
 namespace graphics
@@ -19,14 +21,50 @@ namespace graphics
 
 namespace rengine
 {
+    class MaterialProperty
+    {
+    public:
+        MaterialProperty() = default;
+        ~MaterialProperty() = default;
+
+    private:
+        enum class PropType
+        {
+            Color   = 0,
+            Vector  = 1,
+            Float   = 3,
+            Range   = 4,
+            Texture = 5,
+            Int     = 6,
+        };
+
+        /**
+            @brief  material propery 타입
+        **/
+        PropType m_type;
+
+        tstring m_name;
+
+        /**
+            @brief  material propery 타입에 따른 값
+        **/
+        math::Vector4 m_colorValue;
+        math::Vector4 m_vectorValue;
+        float m_floatValue;
+        math::Vector2 m_rangeLimits;
+        weak_ptr<class Texture> m_textureValue;
+        int m_intValue;
+
+    };
+
     class RENGINE_API Material : public Resource
     {
     public:
         Material(uuid uuid);
 
-        Material(const Material& mat) = delete;
+        Material(const Material& mat) = default;
 
-        Material(Material&& mat) = delete;
+        Material(Material&& mat) = default;
 
         virtual ~Material();
 
@@ -47,7 +85,12 @@ namespace rengine
         **/
         bool UnLoadMemory();
 
+        vector<MaterialProperty> GetProperties() { return m_properties; }
+        void SetProperties(vector<MaterialProperty> val) { m_properties = val; }
+
     private:
+        vector<MaterialProperty> m_properties;
+
         graphics::MaterialBuffer* m_pMaterialBuffer = nullptr;
 
         RTTR_ENABLE(Resource);

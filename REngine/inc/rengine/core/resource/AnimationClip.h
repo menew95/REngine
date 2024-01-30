@@ -121,12 +121,12 @@ namespace rengine
             return ResourceType::ANIMATION_CLIP;
         };
 
-        auto& GetSnaps()            { return m_Snaps; }
-        auto& GetFrameRate()        { return m_frameRate; }
-        auto& GetTickPerFrame()     { return m_tickPerFrame; }
-        auto& GetTotalKeyFrame()    { return m_totalKeyFrame; }
-        auto& GetStartKeyFrame()    { return m_startKeyFrame; }
-        auto& GetEndKeyFrame()      { return m_endKeyFrame; }
+        const auto& GetSnaps()            { return m_Snaps; }
+        const auto& GetFrameRate()        { return m_frameRate; }
+        const auto& GetTickPerFrame()     { return m_tickPerFrame; }
+        const auto& GetTotalKeyFrame()    { return m_totalKeyFrame; }
+        const auto& GetStartKeyFrame()    { return m_startKeyFrame; }
+        const auto& GetEndKeyFrame()      { return m_endKeyFrame; }
 
         void SetSnaps(const auto& val) { m_Snaps  = val; }
         void SetFrameRate(const auto& val) { m_frameRate  = val; }

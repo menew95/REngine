@@ -22,19 +22,32 @@ namespace utility
 {
 	struct KeyFrameBin
 	{
-		float _time;
-
-		math::Vector3 _pos;
-		math::Quaternion _rot;
-		math::Vector3 _scale;
+		float _frameRate;
+		math::Vector4 _data;
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
 		{
-			ar& _time;
-			ar& _pos;
-			ar& _rot;
-			ar& _scale;
+			ar& _frameRate;
+			ar& _data;
+		}
+
+		rengine::KeyFrame Convert()
+		{
+			rengine::KeyFrame _snap;
+
+			_snap.m_FrameRate = _frameRate;
+			_snap.m_Data = _data;
+
+			return std::move(_snap);
+		}
+
+		auto& operator=(const rengine::KeyFrame& frame)
+		{
+			_frameRate = frame.m_FrameRate;
+			_data = frame.m_Data;
+
+			return *this;
 		}
 	};
 
@@ -42,23 +55,32 @@ namespace utility
 	{
 		AnimationSnapBin() = default;
 
-		AnimationSnapBin(std::string name, std::string parent, std::vector<KeyFrameBin> keyFrameList)
+		AnimationSnapBin(std::string name, std::string parent
+		, std::vector<KeyFrameBin> posKeyFrameList
+		, std::vector<KeyFrameBin> rotKeyFrameList
+		, std::vector<KeyFrameBin> scaleKeyFrameList)
 			: _nodeName(std::move(name))
 			, _parentNodeName(std::move(parent))
-			, _keyFrameList(std::move(keyFrameList))
+			, _posKeyFrameList(std::move(posKeyFrameList))
+			, _rotKeyFrameList(std::move(rotKeyFrameList))
+			, _scaleKeyFrameList(std::move(scaleKeyFrameList))
 		{}
 
 		std::string _nodeName;
 		std::string _parentNodeName;
 
-		std::vector<KeyFrameBin> _keyFrameList;
+		std::vector<KeyFrameBin> _posKeyFrameList;
+		std::vector<KeyFrameBin> _rotKeyFrameList;
+		std::vector<KeyFrameBin> _scaleKeyFrameList;
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
 		{
 			ar& _nodeName;
 			ar& _parentNodeName;
-			ar& _keyFrameList;
+			ar& _posKeyFrameList;
+			ar& _rotKeyFrameList;
+			ar& _scaleKeyFrameList;
 		}
 
 		rengine::AnimationSnap Convert()
@@ -66,8 +88,51 @@ namespace utility
 			rengine::AnimationSnap _snap;
 
 			_snap._target = StringHelper::StringToWString(_nodeName);
-			//_newSnap._maxFrameRate = _totalTime;
 
+			_snap._posKeyFrameList.resize(_posKeyFrameList.size());
+			_snap._rotKeyFrameList.resize(_rotKeyFrameList.size());
+			_snap._scaleKeyFrameList.resize(_scaleKeyFrameList.size());
+
+			for (size_t i = 0; i < _posKeyFrameList.size(); i++)
+			{
+				_snap._posKeyFrameList[i] = _posKeyFrameList[i].Convert();
+			}
+			for (size_t i = 0; i < _rotKeyFrameList.size(); i++)
+			{
+				_snap._rotKeyFrameList[i] = _rotKeyFrameList[i].Convert();
+			}
+			for (size_t i = 0; i < _scaleKeyFrameList.size(); i++)
+			{
+				_snap._scaleKeyFrameList[i] = _scaleKeyFrameList[i].Convert();
+			}
+
+			return _snap;
+		}
+
+		auto& operator=(const rengine::AnimationSnap& snap)
+		{
+			rengine::AnimationSnap _snap;
+
+			_snap._target = StringHelper::StringToWString(_nodeName);
+
+			_posKeyFrameList.resize(snap._posKeyFrameList.size());
+			_rotKeyFrameList.resize(snap._rotKeyFrameList.size());
+			_scaleKeyFrameList.resize(snap._scaleKeyFrameList.size());
+
+			for (size_t i = 0; i < _posKeyFrameList.size(); i++)
+			{
+				_posKeyFrameList[i] = snap._posKeyFrameList[i];
+			}
+			for (size_t i = 0; i < _rotKeyFrameList.size(); i++)
+			{
+				_rotKeyFrameList[i] = snap._rotKeyFrameList[i];
+			}
+			for (size_t i = 0; i < _scaleKeyFrameList.size(); i++)
+			{
+				_scaleKeyFrameList[i] = snap._scaleKeyFrameList[i];
+			}
+
+			return *this;
 		}
 	};
 
@@ -109,9 +174,10 @@ namespace utility
 			ar& _endKeyFrame;
 		}
 
-		AnimationClipBin Convert(const rengine::AnimationClip& clip)
+		auto& operator=(const rengine::AnimationClip& clip)
 		{
-
+			assert(false);
+			return *this;
 		}
 	};
 

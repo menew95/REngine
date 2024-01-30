@@ -28,6 +28,12 @@ namespace graphics
         **/
         virtual void Bind(class CommandBuffer* command);
 
+        virtual void BeginExcute(class CommandBuffer* command);
+
+        virtual void Excute(class CommandBuffer* command);
+
+        virtual void EndExcute(class CommandBuffer* command);
+
         /**
             @brief pass에 render object 등록
             @param obj - render object ptr

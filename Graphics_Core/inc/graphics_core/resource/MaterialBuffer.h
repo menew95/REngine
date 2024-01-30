@@ -36,6 +36,8 @@ namespace graphics
         **/
         void RemoveRenderObject(class RenderObject* obj);
 
+        void BindResource(class CommandBuffer* command);
+
         BufferType GetBufferType()
         {
             return BufferType::MATERIAL;
@@ -43,5 +45,7 @@ namespace graphics
 
     private:
         class RenderPass* m_pRenderPass = nullptr;
+
+        class PipelineLayout* m_pPipelineLayout = nullptr;
     };
 }

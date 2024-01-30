@@ -21,6 +21,12 @@ namespace graphics
 
         void RenderMesh(vector<class RenderObject*>& renderObjects, vector<class RenderPass*>& renderPassList);
 
+        void RenderMesh(class MeshObject* meshObject);
+
+        void RenderShadow(class MeshObject* meshObject);
+
+        void RenderParticle(class ParticleObject* particleObject);
+
         void RenderSkyBox(class RenderPass* renderPass);
 
     protected:

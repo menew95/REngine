@@ -4,6 +4,16 @@
 
 #include <graphics_core\ResourceManager.h>
 
+#include <rttr\registration.h>
+
+RTTR_REGISTRATION
+{
+	rttr::registration::class_<rengine::Material>("Material")
+	.constructor<tstring>()
+	.property("Properties", &rengine::Material::GetProperties, &rengine::Material::SetProperties)
+	;
+}
+
 namespace rengine
 {
 	Material::Material(uuid uuid)
