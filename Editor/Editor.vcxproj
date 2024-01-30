@@ -342,9 +342,6 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ProjectReference Include="..\Importer\Importer.vcxproj">
       <Project>{f9c193eb-97b3-42e1-a1e4-ff380ee538ae}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Log\Log.vcxproj">
-      <Project>{86fad86b-3691-4047-b71e-331eeb6fdb0f}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\REngine\REngine.vcxproj">
       <Project>{9daf3503-6920-4c29-9c63-2d4a20e1ebc7}</Project>
     </ProjectReference>

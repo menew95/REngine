@@ -5,6 +5,8 @@
 
 #include <rttr\registration.h>
 
+#include <rengine\core\sceneManager.h>
+
 std::weak_ptr<rengine::GameObject> converter_func(const weak_ptr<rengine::Object>& value, bool& ok)
 {
 	ok = true;
@@ -54,11 +56,13 @@ namespace rengine
 		
 		auto _newGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
 
+		_newGO->SetScene(rengine::SceneManager::GetInstance()->GetCurrentScene());
+
 		auto _trans = _newGO->AddComponent<Transform>();
 
-		if(parent != nullptr) _trans->SetParent(parent);
-
 		_newGO->SetTransform(_trans);
+
+		if(parent != nullptr) _trans->SetParent(parent);
 
 		return _newGO;
 	}

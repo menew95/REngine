@@ -106,6 +106,10 @@ namespace rengine
 		{
 			_parent->DetachChild(shared_from_this());
 		}
+		else
+		{
+			GetGameObject().lock()->GetScene()->RemoveRootGameObject(GetGameObject().lock());
+		}
 
 		m_parent = parent;
 

@@ -906,7 +906,7 @@ namespace utility
 
 		_material._albedoMapTexture = GetTextureRelativeName(surfaceMaterial, fbxsdk::FbxSurfaceMaterial::sDiffuse);
 		_material._normalMapTexture = GetTextureRelativeName(surfaceMaterial, fbxsdk::FbxSurfaceMaterial::sNormalMap);
-		_material._metalicRoughnessMapTexture = GetTextureRelativeName(surfaceMaterial, fbxsdk::FbxSurfaceMaterial::sShininess);
+		_material._metallicRoughnessMapTexture = GetTextureRelativeName(surfaceMaterial, fbxsdk::FbxSurfaceMaterial::sShininess);
 		_material._emissiveMapTexture = GetTextureRelativeName(surfaceMaterial, fbxsdk::FbxSurfaceMaterial::sEmissive);
 
 		// 머터리얼 리스트에 추가
@@ -1078,6 +1078,34 @@ namespace utility
 			_resource->SetNameStr(_bin.first);
 
 			_resource->SetPath(_binPath);
+
+			auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._albedoMapTexture));
+			auto _normalMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._normalMapTexture));
+			auto _metallicRougnessMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._metallicRoughnessMapTexture));
+			auto _emissiveMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._emissiveMapTexture));
+			auto _ambientMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._ambientMapTexture));
+			auto _specularMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._specularMapTexture));
+
+			vector<rengine::MaterialProperty> _properties =
+			{
+				{ TEXT("Albedo Map"),				_albedoMapTex },
+				{ TEXT("Normal Map"),				_normalMapTex },
+				{ TEXT("Metallic Rougness Map"),	_metallicRougnessMapTex },
+				{ TEXT("Emissive Map"),				_emissiveMapTex },
+				{ TEXT("Ambient Map"),				_ambientMapTex },
+				{ TEXT("Specular Map"),				_specularMapTex },
+				{ TEXT("Albedo"),					_bin.second._diffuse },
+				{ TEXT("Ambient"),					_bin.second._ambient },
+				{ TEXT("Specular"),					_bin.second._specular },
+				{ TEXT("Emissive"),					_bin.second._emissive },
+				{ TEXT("Metallic"),					_bin.second._metallic },
+				{ TEXT("Roughness"),				_bin.second._roughness },
+				{ TEXT("EmissionFactor"),			_bin.second._emissionFactor },
+				{ TEXT("Transparency"),				_bin.second._transparency },
+				{ TEXT("Reflectivity"),				_bin.second._reflectivity }
+			};
+			
+			_resource->SetProperties(_properties);
 
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 

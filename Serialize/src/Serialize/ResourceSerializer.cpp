@@ -83,6 +83,77 @@ namespace utility
 		pt.push_back(make_pair("TextureImporter", _obj_pt));
 	}
 
+	void MaterialSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
+	{
+		if (res == nullptr)
+			return;
+
+		rengine::Material* _mat = reinterpret_cast<rengine::Material*>(res);
+
+		boost::property_tree::ptree _obj_pt;
+
+		for (auto& _property : _mat->GetProperties())
+		{
+			boost::property_tree::ptree _pt;
+
+			auto _propName = StringHelper::WStringToString(_property.GetName());
+
+			switch (_property.GetPropType())
+			{
+				case rengine::MaterialProperty::PropType::Color:
+				{
+					math::Color _val = _property.GetColor();
+
+					serializeConfig(_val, _propName,_obj_pt);
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Float:
+				{
+					_obj_pt.put(_propName, _property.GetFloat());
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Int:
+				{
+					_obj_pt.put(_propName, _property.GetInt());
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Range:
+				{
+					auto _val = _property.GetRange();
+
+					serializeConfig(_val, _propName, _obj_pt);
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Texture:
+				{
+					auto _val = _property.GetTexture().lock();
+
+					string _uuid = _val != nullptr ? _val->GetUUIDStr() : "";
+
+					_obj_pt.put(_propName, _uuid);
+
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Vector:
+				{
+					auto _val = _property.GetVector4();
+
+					serializeConfig(_val, _propName, _obj_pt);
+					break;
+				}
+				default:
+				{
+					assert(false);
+					break;
+				}
+			}
+
+			//_obj_pt.push_back(make_pair(_propName, _pt));
+		}
+
+		pt.push_back(make_pair("MaterialImporter", _obj_pt));
+	}
+
 	void ResourceSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
 		shared_ptr<rengine::Resource> _object;
@@ -93,6 +164,7 @@ namespace utility
 		{
 			case rengine::ResourceType::MATERIAL:
 			{
+				MaterialSerialize(_resource, pt);
 				break;
 			}
 			case rengine::ResourceType::TEXTURE:

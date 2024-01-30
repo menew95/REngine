@@ -44,6 +44,19 @@ namespace utility
 	}
 
 	template<>
+	void serializeConfig(math::Color& v, std::string& valueName, boost::property_tree::ptree& pt)
+	{
+		boost::property_tree::ptree _vec;
+
+		_vec.put("r", v.x);
+		_vec.put("g", v.y);
+		_vec.put("b", v.z);
+		_vec.put("a", v.w);
+
+		pt.push_back(std::make_pair(valueName, _vec));
+	}
+
+	template<>
 	void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _matrix;

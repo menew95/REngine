@@ -23,6 +23,9 @@ namespace rengine
     class Mesh;
     class Texture;
     class Material;
+    class AnimationClip;
+    class AnimationController;
+    class AudioClip;
 
     class Resources
     {
@@ -48,6 +51,9 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<Texture> Load(tstring path);
 
+        template<>
+        RENGINE_API shared_ptr<AnimationClip> Load(tstring path);
+
         template<class T>
         shared_ptr<T> GetResource(uuid uuid)
         {
@@ -64,6 +70,9 @@ namespace rengine
 
         template<>
         RENGINE_API shared_ptr<Texture> GetResource(uuid uuid);
+
+        template<>
+        RENGINE_API shared_ptr<AnimationClip> GetResource(uuid uuid);
 
         template<class T>
         shared_ptr<T> CreateResource()
@@ -82,6 +91,9 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<Texture> CreateResource();
 
+        template<>
+        RENGINE_API shared_ptr<AnimationClip> CreateResource();
+
         template<class T>
         shared_ptr<T> CreateResource(uuid uuid)
         {
@@ -99,6 +111,9 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<Texture> CreateResource(uuid uuid);
 
+        template<>
+        RENGINE_API shared_ptr<AnimationClip> CreateResource(uuid uuid);
+
     private:
         void LoadAllAsset();
 
@@ -109,5 +124,7 @@ namespace rengine
         map<uuid, shared_ptr<Texture>>  m_textureMap;
 
         map<uuid, shared_ptr<Material>> m_materialMap;
+
+        map<uuid, shared_ptr<AnimationClip>> m_animationClipMap;
     };
 }

@@ -38,6 +38,8 @@ namespace rengine
 
         RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go);
 
+        RENGINE_API void RemoveRootGameObject(std::shared_ptr<GameObject> go);
+
         RENGINE_API bool GetIsDirty() { return m_bIsDirty; }
         RENGINE_API bool GetIsLoaded() { return m_bIsLoaded; }
         RENGINE_API tstring GetPath() { return m_path; }

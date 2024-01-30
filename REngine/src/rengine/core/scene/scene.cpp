@@ -57,20 +57,18 @@ namespace rengine
 	void Scene::AddRootGameObject(std::shared_ptr<GameObject> go)
 	{
 		m_rootGameObjects.push_back(go);
+	}
 
-		/*for (auto& trans : go->GetTransform()->GetChilds())
-		{
-			auto _transform = trans.lock();
+	void Scene::RemoveRootGameObject(std::shared_ptr<GameObject> go)
+	{
+		auto _iter = std::ranges::find_if(m_rootGameObjects.begin(), m_rootGameObjects.end()
+			, [&go](auto& item)
+			{
+				return item->GetUUID() == go->GetUUID();
+			}
+		);
 
-			if(_transform == nullptr)
-				continue;
-
-			auto _childObj = _transform->GetGameObject().lock();
-
-			if(_childObj == nullptr)
-				continue;
-
-			_childObj->SetScene(shared_from_this());
-		}*/
+		if(_iter != m_rootGameObjects.end())
+			m_rootGameObjects.erase(_iter);
 	}
 }

@@ -34,7 +34,7 @@ namespace utility
 
 			, _albedoMapTexture(std::move(albedoMap))
 			, _normalMapTexture(std::move(normalMap))
-			, _metalicRoughnessMapTexture(std::move(metalicRoughnessMap))
+			, _metallicRoughnessMapTexture(std::move(metalicRoughnessMap))
 			, _emissiveMapTexture(std::move(emissiveMap))
 			, _ambientMapTexture(std::move(ambientMap))
 			, _specularMapTexture(std::move(specularMap))
@@ -55,15 +55,15 @@ namespace utility
 
 		std::string _albedoMapTexture = "";
 		std::string _normalMapTexture = "";
-		std::string _metalicRoughnessMapTexture = "";
+		std::string _metallicRoughnessMapTexture = "";
 		std::string _emissiveMapTexture = "";
 		std::string _ambientMapTexture = "";
 		std::string _specularMapTexture = "";
 
-		math::Vector4 _ambient = { 0.f, 0.f, 0.f, 0.f };
-		math::Vector4 _diffuse = { 0.f, 0.f, 0.f, 0.f };
-		math::Vector4 _specular = { 0.f, 0.f, 0.f, 0.f };
-		math::Vector4 _emissive = { 0.f, 0.f, 0.f, 0.f };
+		math::Color _ambient = { 0.f, 0.f, 0.f, 0.f };
+		math::Color _diffuse = { 0.f, 0.f, 0.f, 0.f };
+		math::Color _specular = { 0.f, 0.f, 0.f, 0.f };
+		math::Color _emissive = { 0.f, 0.f, 0.f, 0.f };
 
 		float _emissionFactor = 0.f;
 		float _transparency = 0.f;
@@ -79,7 +79,7 @@ namespace utility
 
 			ar& _albedoMapTexture;
 			ar& _normalMapTexture;
-			ar& _metalicRoughnessMapTexture;
+			ar& _metallicRoughnessMapTexture;
 			ar& _ambientMapTexture;
 			ar& _emissiveMapTexture;
 			ar& _specularMapTexture;

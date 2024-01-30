@@ -3,6 +3,7 @@
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\AnimationClip.h>
 
 #include <rengine\system\ObjectFactory.h>
 
@@ -137,6 +138,25 @@ namespace rengine
 	}
 
 	template<>
+	shared_ptr<AnimationClip> Resources::Load(tstring path)
+	{
+		if (!CheckPathExist(path))
+			return nullptr;
+
+		auto _obj = utility::Serializer::DeSerialize(path);
+		shared_ptr<AnimationClip> _res;
+
+		if (_obj == nullptr || (_res = dynamic_pointer_cast<AnimationClip>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::TEXTURE)
+			return nullptr;
+
+		_res->LoadMemory();
+
+		m_animationClipMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		return _res;
+	}
+
+	template<>
 	shared_ptr<Mesh> Resources::GetResource(uuid uuid)
 	{
 		auto _iter = m_meshMap.find(uuid);
@@ -164,6 +184,17 @@ namespace rengine
 		auto _iter = m_textureMap.find(uuid);
 
 		if (_iter == m_textureMap.end())
+			return nullptr;
+
+		return _iter->second;
+	}
+
+	template<>
+	shared_ptr<AnimationClip> Resources::GetResource(uuid uuid)
+	{
+		auto _iter = m_animationClipMap.find(uuid);
+
+		if (_iter == m_animationClipMap.end())
 			return nullptr;
 
 		return _iter->second;
@@ -206,6 +237,18 @@ namespace rengine
 	}
 
 	template<>
+	shared_ptr<AnimationClip> Resources::CreateResource()
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<AnimationClip>();
+
+		assert(_ret != nullptr);
+
+		m_animationClipMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
 	shared_ptr<Mesh> Resources::CreateResource(uuid uuid)
 	{
 		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>(uuid);
@@ -237,6 +280,18 @@ namespace rengine
 		assert(_ret != nullptr);
 
 		m_textureMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<AnimationClip> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<AnimationClip>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_animationClipMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}

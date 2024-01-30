@@ -37,6 +37,9 @@ namespace utility
 	void serializeConfig(math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<>
+	void serializeConfig(math::Color& m, std::string& valueName, boost::property_tree::ptree& pt);
+	
+	template<>
 	void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<typename T>
@@ -53,6 +56,9 @@ namespace utility
 
 	template<>
 	math::Vector4 parseConfig(boost::property_tree::ptree& pt);
+
+	template<>
+	math::Color parseConfig(boost::property_tree::ptree& pt);
 
 	template<>
 	math::Matrix parseConfig(boost::property_tree::ptree& pt);

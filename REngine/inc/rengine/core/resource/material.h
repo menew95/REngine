@@ -24,20 +24,66 @@ namespace rengine
     class MaterialProperty
     {
     public:
+        enum class PropType
+        {
+            Color = 0,
+            Vector = 1,
+            Float = 3,
+            Range = 4,
+            Texture = 5,
+            Int = 6,
+        };
+
         MaterialProperty() = default;
         ~MaterialProperty() = default;
 
-    private:
-        enum class PropType
-        {
-            Color   = 0,
-            Vector  = 1,
-            Float   = 3,
-            Range   = 4,
-            Texture = 5,
-            Int     = 6,
-        };
+        MaterialProperty(tstring name, math::Color val)
+            : m_type(PropType::Color)
+            , m_name(name)
+            , m_colorValue(val)
+        {}
 
+        MaterialProperty(tstring name, math::Vector4 val)
+            : m_type(PropType::Vector)
+            , m_name(name)
+            , m_vectorValue(val)
+        {}
+
+        MaterialProperty(tstring name, float val)
+            : m_type(PropType::Float)
+            , m_name(name)
+            , m_floatValue(val)
+        {}
+
+        MaterialProperty(tstring name, math::Vector2 val)
+            : m_type(PropType::Range)
+            , m_name(name)
+            , m_rangeLimits(val)
+        {}
+
+        MaterialProperty(tstring name, shared_ptr<class Texture> val)
+            : m_type(PropType::Texture)
+            , m_name(name)
+            , m_textureValue(val)
+        {}
+
+        MaterialProperty(tstring name, int val)
+            : m_type(PropType::Int)
+            , m_name(name)
+            , m_intValue(val)
+        {}
+
+        tstring GetName() { return m_name; }
+        PropType GetPropType() { return m_type; }
+
+        math::Color             GetColor()      { return m_colorValue; }
+        math::Vector4           GetVector4()    { return m_vectorValue; }
+        float                   GetFloat()      { return m_floatValue; }
+        math::Vector2           GetRange()      { return m_rangeLimits; }
+        weak_ptr<class Texture> GetTexture()    { return m_textureValue; }
+        int                     GetInt()        { return m_intValue; }
+
+    private:
         /**
             @brief  material propery 타입
         **/
@@ -48,12 +94,12 @@ namespace rengine
         /**
             @brief  material propery 타입에 따른 값
         **/
-        math::Vector4 m_colorValue;
+        math::Color m_colorValue;
         math::Vector4 m_vectorValue;
-        float m_floatValue;
+        float m_floatValue = 0.f;
         math::Vector2 m_rangeLimits;
         weak_ptr<class Texture> m_textureValue;
-        int m_intValue;
+        int m_intValue = 0;
 
     };
 

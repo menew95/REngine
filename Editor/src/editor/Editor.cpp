@@ -24,6 +24,7 @@ namespace editor
 		m_pDevice = rengine::GraphicsSystem::GetInstance()->GetDevice();
 		m_pContext = rengine::GraphicsSystem::GetInstance()->GetContext();
 
+
 		InitImGui();
 
 		m_pEditorDocment = new EditorDocument();
