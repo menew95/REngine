@@ -28,5 +28,11 @@ namespace rengine
         MeshRenderer(MeshRenderer&& renderer) = default;
 
         virtual ~MeshRenderer();
+
+    protected:
+
+        RTTR_ENABLE(Renderer);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

@@ -16,14 +16,10 @@ namespace rengine
 {
     class Material;
 
-    class RENGINE_API Renderer : public Component
+    class RENGINE_API Renderer : public Component, public enable_shared_from_this<Renderer>
     {
     public:
-        //Renderer(std::shared_ptr<GameObject>& gameObj);
-
-        Renderer(uuid uuid);
-
-        //Renderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
+        Renderer(uuid uuid, tstring type);
 
         Renderer(const Renderer& renderer) = default;
 
@@ -31,13 +27,20 @@ namespace rengine
 
         virtual ~Renderer();
 
+        vector<weak_ptr<Material>> GetMaterials() { return m_materials; }
+        void SetMaterials(vector<weak_ptr<Material>> val) { m_materials = val; }
+
     private:
-        vector<shared_ptr<Material>> m_materials;
+        vector<weak_ptr<Material>> m_materials;
 
         struct RenderInfo
         {
             bool _isVisible;
             uint32 _shadowCastingMode;
         };
+
+        RTTR_ENABLE(Component);
+
+        RTTR_REGISTRATION_FRIEND;
     };
 }

@@ -227,6 +227,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\Components.cpp" />
+    <ClCompile Include="src\rengine\core\component\MeshFilter.cpp" />
+    <ClCompile Include="src\rengine\core\component\MeshRenderer.cpp" />
+    <ClCompile Include="src\rengine\core\component\Renderer.cpp" />
     <ClCompile Include="src\rengine\core\Resources.cpp" />
     <ClCompile Include="src\rengine\core\resource\AnimationClip.cpp" />
     <ClCompile Include="src\rengine\core\resource\Material.cpp" />
