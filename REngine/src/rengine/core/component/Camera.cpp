@@ -40,6 +40,8 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
+std::weak_ptr<Camera> Camera::m_MainCamera;
+
 	/*Camera::Camera(std::shared_ptr<GameObject>& gameObj)
 		: Component(gameObj)
 	{

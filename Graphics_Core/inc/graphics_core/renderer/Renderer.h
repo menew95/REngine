@@ -19,6 +19,10 @@ namespace graphics
     public:
         Renderer(class CommandBuffer* command);
 
+        ~Renderer();
+
+        void SetCamera(class CameraBuffer* cameraBuffer);
+
         void RenderMesh(vector<class RenderObject*>& renderObjects, vector<class RenderPass*>& renderPassList);
 
         void RenderMesh(class MeshObject* meshObject);
@@ -31,5 +35,7 @@ namespace graphics
 
     protected:
         class CommandBuffer* m_pCommandBuffer = nullptr;
+
+        class Buffer* m_pFrameBuffer = nullptr;
     };
 }
