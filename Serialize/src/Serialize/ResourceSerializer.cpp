@@ -195,6 +195,15 @@ namespace utility
 			case rengine::ResourceType::MATERIAL:
 			{
 				MaterialSerialize(_resource, pt);
+
+				std::ofstream file(_resource->GetPath());
+
+				assert(file.is_open());
+
+				boost::property_tree::write_json(file, pt);
+
+				file.close();
+
 				break;
 			}
 			case rengine::ResourceType::TEXTURE:
