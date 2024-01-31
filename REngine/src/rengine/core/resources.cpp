@@ -66,11 +66,11 @@ namespace rengine
 
 			if (_extension == ".mat")
 			{
-
+				Load<Material>(_path.wstring());
 			}
 			else if (_extension == ".mesh")
 			{
-
+				Load<Mesh>(_path.wstring());
 			}
 			else if (_extension == ".anim")
 			{

@@ -1105,7 +1105,7 @@ namespace utility
 				{ TEXT("Reflectivity"),				_bin.second._reflectivity }
 			};
 			
-			_resource->SetProperties(_properties);
+			_resource->AddProperties(_properties);
 
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 

@@ -138,6 +138,16 @@ namespace utility
 			case rengine::SerializableType::SCENE:
 			{
 				SceneSerializer::Serialize(object, _pt);
+
+				std::ofstream file(StringHelper::WStringToString(path));
+
+				if (!file.is_open())
+					return false;
+
+				boost::property_tree::write_json(file, _pt);
+
+				file.close();
+
 				break;
 			}
 			case rengine::SerializableType::RESOURCE:
@@ -156,15 +166,6 @@ namespace utility
 				break;
 			}
 		}
-
-		std::ofstream file(StringHelper::WStringToString(path));
-
-		if (!file.is_open())
-			return false;
-
-		boost::property_tree::write_json(file, _pt);
-
-		file.close();
 
 		return true;
 	}

@@ -28,10 +28,10 @@ namespace rengine
         {
             Color = 0,
             Vector = 1,
-            Float = 3,
-            Range = 4,
-            Texture = 5,
-            Int = 6,
+            Float = 2,
+            Range = 3,
+            Texture = 4,
+            Int = 5,
         };
 
         MaterialProperty() = default;
@@ -131,11 +131,13 @@ namespace rengine
         **/
         bool UnLoadMemory();
 
-        vector<MaterialProperty> GetProperties() { return m_properties; }
-        void SetProperties(vector<MaterialProperty> val) { m_properties = val; }
+        map<MaterialProperty::PropType, vector<MaterialProperty>> GetProperties() { return m_properties; }
+        void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>> val) { m_properties = val; }
+
+        void AddProperties(vector<MaterialProperty> val);
 
     private:
-        vector<MaterialProperty> m_properties;
+        map<MaterialProperty::PropType, vector<MaterialProperty>> m_properties;
 
         graphics::MaterialBuffer* m_pMaterialBuffer = nullptr;
 

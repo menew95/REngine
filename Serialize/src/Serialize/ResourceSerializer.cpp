@@ -26,25 +26,6 @@ namespace fs = std::filesystem;
 namespace utility
 {
 	template<typename T>
-	void DeserializeBinary(const tstring& path)
-	{
-		std::ifstream _ifs(path, std::ios_base::binary);
-
-		if (!_ifs.is_open())
-			return false;
-
-		boost::iostreams::filtering_stream<boost::iostreams::input> _buffer;
-		_buffer.push(boost::iostreams::zlib_decompressor());
-		_buffer.push(_ifs);
-		boost::archive::binary_iarchive _ia(_buffer);
-
-		T _bin;
-		_ia >> _bin;
-
-		return true;
-	}
-
-	template<typename T>
 	void SerializeBinary(const tstring& path, T& resource)
 	{
 		std::ofstream _ofs(path, std::ios_base::binary);
@@ -83,6 +64,61 @@ namespace utility
 		pt.push_back(make_pair("TextureImporter", _obj_pt));
 	}
 
+	void PropertySerialize(rengine::MaterialProperty& prop, boost::property_tree::ptree& pt)
+	{
+		auto _propName = StringHelper::WStringToString(prop.GetName());
+
+		switch (prop.GetPropType())
+		{
+			case rengine::MaterialProperty::PropType::Color:
+			{
+				math::Color _val = prop.GetColor();
+
+				serializeConfig(_val, _propName, pt);
+				break;
+			}
+			case rengine::MaterialProperty::PropType::Float:
+			{
+				pt.put(_propName, prop.GetFloat());
+				break;
+			}
+			case rengine::MaterialProperty::PropType::Int:
+			{
+				pt.put(_propName, prop.GetInt());
+				break;
+			}
+			case rengine::MaterialProperty::PropType::Range:
+			{
+				auto _val = prop.GetRange();
+
+				serializeConfig(_val, _propName, pt);
+				break;
+			}
+			case rengine::MaterialProperty::PropType::Texture:
+			{
+				auto _val = prop.GetTexture().lock();
+
+				string _uuid = _val != nullptr ? _val->GetUUIDStr() : "";
+
+				pt.put(_propName, _uuid);
+
+				break;
+			}
+			case rengine::MaterialProperty::PropType::Vector:
+			{
+				auto _val = prop.GetVector4();
+
+				serializeConfig(_val, _propName, pt);
+				break;
+			}
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
+	}
+
 	void MaterialSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
 	{
 		if (res == nullptr)
@@ -92,53 +128,47 @@ namespace utility
 
 		boost::property_tree::ptree _obj_pt;
 
-		for (auto& _property : _mat->GetProperties())
+		for (auto& _pair : _mat->GetProperties())
 		{
-			boost::property_tree::ptree _pt;
+			boost::property_tree::ptree _property_pt;
 
-			auto _propName = StringHelper::WStringToString(_property.GetName());
+			for (auto& _prop : _pair.second)
+			{
+				PropertySerialize(_prop, _property_pt);
+			}
 
-			switch (_property.GetPropType())
+			string _type;
+
+			switch (_pair.first)
 			{
 				case rengine::MaterialProperty::PropType::Color:
 				{
-					math::Color _val = _property.GetColor();
-
-					serializeConfig(_val, _propName,_obj_pt);
+					_type = "m_Colors";
 					break;
 				}
 				case rengine::MaterialProperty::PropType::Float:
 				{
-					_obj_pt.put(_propName, _property.GetFloat());
+					_type = "m_Floats";
 					break;
 				}
 				case rengine::MaterialProperty::PropType::Int:
 				{
-					_obj_pt.put(_propName, _property.GetInt());
+					_type = "m_Ints";
 					break;
 				}
 				case rengine::MaterialProperty::PropType::Range:
 				{
-					auto _val = _property.GetRange();
-
-					serializeConfig(_val, _propName, _obj_pt);
+					_type = "m_Ranges";
 					break;
 				}
 				case rengine::MaterialProperty::PropType::Texture:
 				{
-					auto _val = _property.GetTexture().lock();
-
-					string _uuid = _val != nullptr ? _val->GetUUIDStr() : "";
-
-					_obj_pt.put(_propName, _uuid);
-
+					_type = "m_TexEnvs";
 					break;
 				}
 				case rengine::MaterialProperty::PropType::Vector:
 				{
-					auto _val = _property.GetVector4();
-
-					serializeConfig(_val, _propName, _obj_pt);
+					_type = "m_Vectors";
 					break;
 				}
 				default:
@@ -148,7 +178,7 @@ namespace utility
 				}
 			}
 
-			//_obj_pt.push_back(make_pair(_propName, _pt));
+			_obj_pt.push_back(make_pair(_type, _property_pt));
 		}
 
 		pt.push_back(make_pair("MaterialImporter", _obj_pt));
@@ -234,33 +264,186 @@ namespace utility
 		}
 	}
 
-	std::shared_ptr<rengine::Object> TextureDeSerialize(const boost::property_tree::ptree& pt)
+	template<typename T>
+	T DeserializeBinary(const tstring& path)
 	{
-		return nullptr;
+		std::ifstream _ifs(path, std::ios_base::binary);
+
+		assert(_ifs.is_open());
+
+		boost::iostreams::filtering_streambuf<boost::iostreams::input> _buffer;
+		_buffer.push(boost::iostreams::zlib_decompressor());
+		_buffer.push(_ifs);
+
+		T _bin;
+
+		boost::archive::binary_iarchive _ia(_buffer);
+
+		_ia >> _bin;
+
+		_ifs.close();
+
+		return _bin;
+	}
+
+	rengine::MaterialProperty MaterialPropertyDeserialize(rengine::MaterialProperty::PropType type, tstring name, boost::property_tree::ptree& pt)
+	{
+		switch (type)
+		{
+			case rengine::MaterialProperty::PropType::Color:
+			{
+				math::Color _val;// = parseConfig<math::Color>(pt);
+				return rengine::MaterialProperty(name, _val);
+			}
+			case rengine::MaterialProperty::PropType::Float:
+			{
+				float _val = pt.get<float>("");
+
+				return rengine::MaterialProperty(name, _val);
+			}
+			case rengine::MaterialProperty::PropType::Int:
+			{
+				int _val = pt.get<int>("");
+
+				return rengine::MaterialProperty(name, _val);
+			}
+			case rengine::MaterialProperty::PropType::Range:
+			{
+				math::Vector2 _val = parseConfig<math::Vector2>(pt);
+				return rengine::MaterialProperty(name, _val);
+			}
+			case rengine::MaterialProperty::PropType::Texture:
+			{
+				uuid _uuid = StringHelper::StringToWString(pt.get<string>(""));
+
+				auto _tex = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(_uuid);
+
+				return rengine::MaterialProperty(name, _tex);
+			}
+			case rengine::MaterialProperty::PropType::Vector:
+			{
+				math::Vector4 _val = parseConfig<math::Vector4>(pt);
+				return rengine::MaterialProperty(name, _val);
+			}
+			default:
+			{
+				assert(false);
+				break;
+			}
+		}
+
+		return rengine::MaterialProperty();
+	}
+
+	std::shared_ptr<rengine::Material> MaterialDeserialize(const rengine::MetaInfo& info, const boost::property_tree::ptree& pt)
+	{
+		shared_ptr<rengine::Material> _resource;
+
+		_resource = rengine::Resources::GetInstance()->CreateResource<rengine::Material>(info._guid);
+
+		auto _iter = pt.find("MaterialImporter");
+
+		map<rengine::MaterialProperty::PropType, vector<rengine::MaterialProperty>> _properties;
+
+		for (auto& _pair : _iter->second)
+		{
+			rengine::MaterialProperty::PropType _type;
+
+			if (_pair.first == "m_Colors")			_type = rengine::MaterialProperty::PropType::Color;
+			else if(_pair.first == "m_Vectors")		_type = rengine::MaterialProperty::PropType::Vector;
+			else if (_pair.first == "m_Floats")		_type = rengine::MaterialProperty::PropType::Float;
+			else if (_pair.first == "m_Ranges")		_type = rengine::MaterialProperty::PropType::Range;
+			else if (_pair.first == "m_TexEnvs")	_type = rengine::MaterialProperty::PropType::Texture;
+			else if (_pair.first == "m_Ints")		_type = rengine::MaterialProperty::PropType::Int;
+
+			for (auto _propPair : _pair.second)
+			{
+				tstring _propName = StringHelper::StringToWString(_propPair.first);
+
+				_properties[_type].push_back(
+					MaterialPropertyDeserialize(_type, _propName, _propPair.second));
+			}
+		}
+
+		_resource->SetProperties(_properties);
+
+		return _resource;
+	}
+
+	std::shared_ptr<rengine::Texture> TextureDeSerialize(const rengine::MetaInfo& info, const boost::property_tree::ptree& pt)
+	{
+		shared_ptr<rengine::Texture> _resource;
+
+		auto _iter = pt.find("TextureImporter");
+
+		_resource = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(info._guid);
+
+		auto _node = (*_iter);
+		ObjectSerializer::DeSerialize(_node, _resource);
+
+		return _resource;
 	}
 
 	std::shared_ptr<rengine::Object> ResourceSerializer::DeSerialize(const tstring& path, const rengine::MetaInfo& metaInfo, const boost::property_tree::ptree& pt)
 	{
 		std::ifstream file(path);
 
-		if (!file.good())
-			return nullptr;
-
 		shared_ptr<rengine::Resource> _object;
 
-		for (auto _iter = pt.begin(); _iter != pt.end(); _iter++)
-		{
-			if (_iter->first == "TextureImporter")
-			{
-				_object = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(metaInfo._guid);
-				//_object _tex;
-
-				auto _node = (*_iter);
-				ObjectSerializer::DeSerialize(_node, _object);
-			}
-		}
+		if (!file.good())
+			return _object;
 
 		fs::path _path(path);
+
+		if (!_path.has_extension())
+			return _object;
+
+		std::string _extension = _path.extension().string();
+
+		std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+		if (_extension == ".mat")
+		{
+			boost::property_tree::ptree _pt;
+
+			std::ifstream file(path);
+
+			assert(file.good());
+
+			try
+			{
+				boost::property_tree::read_json(file, _pt);
+
+				file.close();
+			}
+			catch (const boost::property_tree::json_parser_error& e)
+			{
+				auto error = e.what();
+			}
+
+			_object = MaterialDeserialize(metaInfo, _pt);
+		}
+		else if (_extension == ".mesh")
+		{
+			MeshBin _bin = DeserializeBinary<MeshBin>(path);
+
+			auto _mesh = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>(metaInfo._guid);
+
+			_object = _mesh;
+		}
+		else if (_extension == ".anim")
+		{
+			AnimationClipBin _bin = DeserializeBinary<AnimationClipBin>(path);
+
+			auto _anim = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>(metaInfo._guid);
+
+			_object = _anim;
+		}
+		else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
+			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
+		{
+			_object = TextureDeSerialize(metaInfo, pt);
+		}
 
 		_object->SetName(_path.stem().wstring());
 

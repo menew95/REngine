@@ -1,41 +1,47 @@
 {
-    "guid": "825517b7-6988-45f7-9534-292e08b3fdce",
+    "guid": "d45c9f63-1291-4b52-bab3-048ffb245c96",
     "serializable type": "1",
     "MaterialImporter": {
-        "Albedo Map": "",
-        "Normal Map": "",
-        "Metallic Rougness Map": "",
-        "Emissive Map": "",
-        "Ambient Map": "",
-        "Specular Map": "",
-        "Albedo": {
-            "r": "1",
-            "g": "1",
-            "b": "1",
-            "a": "1"
+        "m_Colors": {
+            "Albedo": {
+                "r": "1",
+                "g": "1",
+                "b": "1",
+                "a": "1"
+            },
+            "Ambient": {
+                "r": "0.50876087",
+                "g": "0.50876087",
+                "b": "0.50876087",
+                "a": "1"
+            },
+            "Specular": {
+                "r": "1",
+                "g": "1",
+                "b": "1",
+                "a": "1"
+            },
+            "Emissive": {
+                "r": "0",
+                "g": "0",
+                "b": "0",
+                "a": "1"
+            }
         },
-        "Ambient": {
-            "r": "0.50876087",
-            "g": "0.50876087",
-            "b": "0.50876087",
-            "a": "1"
+        "m_Floats": {
+            "Metallic": "0",
+            "Roughness": "0.55278641",
+            "EmissionFactor": "1",
+            "Transparency": "0",
+            "Reflectivity": "0"
         },
-        "Specular": {
-            "r": "1",
-            "g": "1",
-            "b": "1",
-            "a": "1"
-        },
-        "Emissive": {
-            "r": "0",
-            "g": "0",
-            "b": "0",
-            "a": "1"
-        },
-        "Metallic": "0",
-        "Roughness": "0.55278641",
-        "EmissionFactor": "1",
-        "Transparency": "0",
-        "Reflectivity": "0"
+        "m_TexEnvs": {
+            "Albedo Map": "",
+            "Normal Map": "",
+            "Metallic Rougness Map": "",
+            "Emissive Map": "",
+            "Ambient Map": "",
+            "Specular Map": ""
+        }
     }
 }

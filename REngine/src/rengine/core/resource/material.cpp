@@ -49,4 +49,11 @@ namespace rengine
 		return _ret;
 	}
 
+	void Material::AddProperties(vector<MaterialProperty> properties)
+	{
+		for (auto& _prop : properties)
+		{
+			m_properties[_prop.GetPropType()].push_back(_prop);
+		}
+	}
 }
