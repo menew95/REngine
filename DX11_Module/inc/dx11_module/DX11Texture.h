@@ -103,7 +103,7 @@ namespace graphics
 			void CreateUnorderedAccessView(ID3D11Device* device, uint32 baseMipLevel, uint32 baseArrayLayer, uint32 numArrayLayers);
 			
 			void CreateSubresourceUAV(ID3D11Device* device, ID3D11Resource* resource, ID3D11UnorderedAccessView** uav, const TextureType type, const DXGI_FORMAT format, uint32 baseMipLevel, uint32 baseArrayLayer, uint32 numArrayLayers);
-			
+
 			void CreateTextureFromFile(ID3D11Device* device, const ImageDesc& srcDesc);
 
 			void SetName(const char* name) override;
@@ -124,6 +124,10 @@ namespace graphics
 			}
 
 		private:
+			void CreateDefaultResourceViews(ID3D11Device* device, long bindFlags);
+			void CreateDefaultSRV(ID3D11Device* device);
+			void CreateDefaultUAV(ID3D11Device* device);
+
 			void SetResourceParams(DXGI_FORMAT format, const Extent3D& extent, UINT mipLevels, UINT arraySize);
 
 			uint32 GetTextureMiscFlags(const TextureDesc& desc);

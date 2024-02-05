@@ -67,6 +67,10 @@ std::weak_ptr<Camera> Camera::m_MainCamera;
 		}
 
 		m_pCameraBuffer = graphics::ResourceManager::GetInstance()->CreateCameraBuffer(GetUUID());
+
+		m_pCameraBuffer->Init();
+
+		m_pCameraBuffer->SetName(GetNameStr().c_str());
 	}
 
 	void Camera::Update()
@@ -106,5 +110,12 @@ std::weak_ptr<Camera> Camera::m_MainCamera;
 		assert(graphics::ResourceManager::GetInstance()->RelaseTextureBuffer(GetUUID()));
 
 		m_pCameraBuffer = nullptr;
+	}
+
+	void* Camera::GetMainTextureID()
+	{
+		auto _main = m_MainCamera.lock();
+
+		return _main == nullptr ? nullptr : _main->m_pCameraBuffer->GetTextureID();
 	}
 }

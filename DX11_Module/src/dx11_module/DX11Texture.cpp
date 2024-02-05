@@ -86,6 +86,8 @@ namespace graphics
 			m_NativeTexture._tex1D = DXCreateTexture1D(device, _desc, initialData);
 
 			SetResourceParams(_desc.Format, Extent3D{ _desc.Width, 1u, 1u }, _desc.MipLevels, _desc.ArraySize);
+
+			CreateDefaultResourceViews(device, desc._bindFlags);
 		}
 
 		void DX11Texture::CreateTexture2D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData /*= nullptr*/)
@@ -107,6 +109,8 @@ namespace graphics
 			m_NativeTexture._tex2D = DXCreateTexture2D(device, _desc, initialData);
 
 			SetResourceParams(_desc.Format, Extent3D{ _desc.Width, _desc.Height, 1u }, _desc.MipLevels, _desc.ArraySize);
+
+			CreateDefaultResourceViews(device, desc._bindFlags);
 		}
 
 		void DX11Texture::CreateTexture3D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData /*= nullptr*/)
@@ -126,6 +130,48 @@ namespace graphics
 			m_NativeTexture._tex3D = DXCreateTexture3D(device, _desc, initialData);
 
 			SetResourceParams(_desc.Format, Extent3D{ _desc.Width, _desc.Height, _desc.Depth }, _desc.MipLevels, 1);
+
+			CreateDefaultResourceViews(device, desc._bindFlags);
+		}
+
+		void DX11Texture::CreateDefaultResourceViews(ID3D11Device* device, long bindFlags)
+		{
+			if ((bindFlags & BindFlags::ShaderResource) != 0)
+				CreateDefaultSRV(device);
+			if ((bindFlags & BindFlags::UnorderedAccess) != 0)
+				CreateDefaultUAV(device);
+		}
+
+		void DX11Texture::CreateDefaultSRV(ID3D11Device* device)
+		{
+			const bool hasTypelessFormat = IsTypelessDXGIFormat(GetDXFormat());
+
+			if (hasTypelessFormat)
+			{
+				/* Create SRV with parameters for entire texture resource */
+				CreateSubresourceSRV(device, m_NativeTexture._resource.Get(), m_ShaderResourceView.ReleaseAndGetAddressOf(), GetType(), GetDXFormat(), 0, GetNumMipLevels(), 0, GetNumArrayLayers());
+			}
+			else
+			{
+				/* Create SRV with D3D default descriptor */
+				HRESULT hr = device->CreateShaderResourceView(m_NativeTexture._resource.Get(), nullptr, m_ShaderResourceView.ReleaseAndGetAddressOf());
+			}
+		}
+
+		void DX11Texture::CreateDefaultUAV(ID3D11Device* device)
+		{
+			const bool hasTypelessFormat = IsTypelessDXGIFormat(GetDXFormat());
+
+			if (hasTypelessFormat)
+			{
+				/* Create UAV with parameters for entire texture resource */
+				CreateSubresourceUAV(device, m_NativeTexture._resource.Get(), m_UnorderedAccessView.ReleaseAndGetAddressOf(), GetType(), GetDXFormat(), 0, 0, GetNumArrayLayers());
+			}
+			else
+			{
+				/* Create UAV with D3D default descriptor */
+				HRESULT hr = device->CreateUnorderedAccessView(m_NativeTexture._resource.Get(), nullptr, m_UnorderedAccessView.ReleaseAndGetAddressOf());
+			}
 		}
 
 		void DX11Texture::SetResourceParams(DXGI_FORMAT format, const Extent3D& extent, UINT mipLevels, UINT arraySize)

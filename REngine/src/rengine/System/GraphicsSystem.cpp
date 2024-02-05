@@ -36,9 +36,7 @@ namespace rengine
 
 		GraphicsEngineDesc _desc;
 		_desc._module = API::DirectX11;
-		_desc._hwnd = wininfo._hWnd;
-		_desc._extent._height = wininfo._height;
-		_desc._extent._width = wininfo._width;
+		_desc._info = wininfo;
 
 		m_pGraphicsEngine->Init(_desc);
 	}

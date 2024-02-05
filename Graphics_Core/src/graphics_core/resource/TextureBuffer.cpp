@@ -104,8 +104,8 @@ namespace graphics
 			static_cast<uint32>(image.GetMetadata().height),
 			static_cast<uint32>(image.GetMetadata().depth)
 		};
-		_texDesc._arrayLayers = image.GetMetadata().arraySize;
-		_texDesc._mipLevels = image.GetMetadata().mipLevels;
+		_texDesc._arrayLayers = static_cast<uint32>(image.GetMetadata().arraySize);
+		_texDesc._mipLevels = static_cast<uint32>(image.GetMetadata().mipLevels);
 		
 		_texDesc._format = (graphics::Format)image.GetMetadata().format;
 
@@ -140,8 +140,8 @@ namespace graphics
 		ImageDesc _imageDesc;
 
 		_imageDesc._data = image.GetPixels();
-		_imageDesc._rowStride = image.GetImage(0, 0, 0)->rowPitch;
-		_imageDesc._layerStride = image.GetImage(0, 0, 0)->slicePitch;
+		_imageDesc._rowStride = static_cast<uint32>(image.GetImage(0, 0, 0)->rowPitch);
+		_imageDesc._layerStride = static_cast<uint32>(image.GetImage(0, 0, 0)->slicePitch);
 
 		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, &_imageDesc);
 	}

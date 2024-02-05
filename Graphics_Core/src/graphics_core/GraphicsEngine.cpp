@@ -18,6 +18,8 @@ namespace graphics
 		LoadModule(desc);
 
 		CreateSwapChainAndCommandBuffer(desc);
+		
+		m_windowInfo = desc._info;
 
 		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
 	}
@@ -92,8 +94,8 @@ namespace graphics
 	{
 		SwapChainDesc _swapChainDesc;
 		_swapChainDesc._fullScreen = false;
-		_swapChainDesc._resolution = desc._extent;
-		_swapChainDesc._windowDesc._hwnd = desc._hwnd;
+		_swapChainDesc._resolution = { desc._info._width, desc._info._height } ;
+		_swapChainDesc._windowDesc._hwnd = desc._info._hWnd;
 
 		m_pSwapChain = m_pRenderSystem->CreateSwapChain(TEXT("MainSwapChain"), _swapChainDesc);
 

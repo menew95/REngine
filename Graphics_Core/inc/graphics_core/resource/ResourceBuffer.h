@@ -39,5 +39,10 @@ namespace graphics
         GRAPHICS_API virtual void SetName(const char* name) abstract;
 
         GRAPHICS_API virtual BufferType GetBufferType() abstract;
+
+        friend class ResourceManager;
+
+    protected:
+        uuid m_uuid;
     };
 }

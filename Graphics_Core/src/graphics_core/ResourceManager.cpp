@@ -60,6 +60,8 @@ namespace graphics
 	{
 		auto* _buffer = new MeshBuffer();
 
+		_buffer->m_uuid = uuid;
+
 		m_meshBuffers.insert(make_pair(uuid, _buffer));
 
 		return _buffer;
@@ -68,6 +70,8 @@ namespace graphics
 	MaterialBuffer* ResourceManager::CreateMaterialBuffer(uuid uuid)
 	{
 		auto* _buffer = new MaterialBuffer();
+
+		_buffer->m_uuid = uuid;
 
 		m_materialBuffers.insert(make_pair(uuid, _buffer));
 
@@ -78,6 +82,8 @@ namespace graphics
 	{
 		auto* _buffer = new TextureBuffer();
 
+		_buffer->m_uuid = uuid;
+
 		m_textureBuffers.insert(make_pair(uuid, _buffer));
 
 		return _buffer;
@@ -86,6 +92,8 @@ namespace graphics
 	CameraBuffer* ResourceManager::CreateCameraBuffer(uuid uuid)
 	{
 		auto* _buffer = new CameraBuffer();
+
+		_buffer->m_uuid = uuid;
 
 		m_cameraBuffers.insert(make_pair(uuid, _buffer));
 
@@ -135,12 +143,16 @@ namespace graphics
 	{
 		auto* _buffer = m_pRenderSystem->CreateBuffer(uuid, desc, init);
 
+		m_bufferMap.insert(make_pair(uuid, _buffer));
+
 		return _buffer;
 	}
 
 	Shader* ResourceManager::CreateShader(uuid uuid, ShaderDesc& desc)
 	{
 		auto* _shader = m_pRenderSystem->CreateShader(uuid, desc);
+
+		m_shaderMap.insert(make_pair(uuid, _shader));
 
 		return _shader;
 	}
@@ -149,12 +161,16 @@ namespace graphics
 	{
 		auto _sampler = m_pRenderSystem->CreateSampler(uuid, desc);
 
+		m_samplerMap.insert(make_pair(uuid, _sampler));
+
 		return _sampler;
 	}
 
 	Texture* ResourceManager::CreateTexture(uuid uuid, TextureDesc& desc, const struct ImageDesc* image)
 	{
 		auto* _tex = m_pRenderSystem->CreateTexture(uuid, desc, image);
+
+		m_textureMap.insert(make_pair(uuid, _tex));
 
 		return _tex;
 	}
@@ -163,12 +179,16 @@ namespace graphics
 	{
 		auto * _rt = m_pRenderSystem->CreateRenderTarget(uuid, desc);
 
+		m_renderTargetMap.insert(make_pair(uuid, _rt));
+
 		return _rt;
 	}
 
 	ResourceView* ResourceManager::CreateResourceView(uuid uuid, ResourceViewDesc& desc)
 	{
 		auto * _rv = m_pRenderSystem->CreateResoureView(uuid, desc);
+
+		m_resourceViewMap.insert(make_pair(uuid, _rv));
 
 		return _rv;
 	}
@@ -177,6 +197,8 @@ namespace graphics
 	{
 		auto* _state = m_pRenderSystem->CreatePipelineState(uuid, desc);
 
+		m_pipelineStateMap.insert(make_pair(uuid, _state));
+
 		return _state;
 	}
 
@@ -184,12 +206,16 @@ namespace graphics
 	{
 		auto* _state = m_pRenderSystem->CreatePipelineState(uuid, desc);
 
+		m_pipelineStateMap.insert(make_pair(uuid, _state));
+
 		return _state;
 	}
 
 	PipelineLayout* ResourceManager::CreatePipelineLayout(uuid uuid, PipelineLayoutDesc& desc)
 	{
 		auto* _layout = m_pRenderSystem->CreatePipelineLayout(uuid, desc);
+
+		m_pipelineLayoutMap.insert(make_pair(uuid, _layout));
 
 		return _layout;
 	}

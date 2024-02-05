@@ -53,6 +53,10 @@ namespace graphics
         CameraBuffer();
         ~CameraBuffer();
 
+        GRAPHICS_API void Init();
+
+        GRAPHICS_API void OnResize(const Extent2D& resolution);
+
         GRAPHICS_API virtual void SetName(const char* name);
 
         void Update(CameraInfo& info)
@@ -69,9 +73,17 @@ namespace graphics
             return BufferType::CAMERA;
         }
 
+        auto* GetRenderTarget() const { return m_pRenderTarget; }
+
+        GRAPHICS_API void* GetTextureID();
+
     private:
         CameraInfo m_cameraInfo;
 
         CascadedInfo m_cascadedInfo;
+
+        class RenderTarget* m_pRenderTarget = nullptr;
+
+        class Texture* m_pTexture = nullptr;
     };
 }

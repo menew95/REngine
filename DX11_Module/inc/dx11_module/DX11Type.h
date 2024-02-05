@@ -38,6 +38,10 @@ namespace graphics
 		DXGI_FORMAT                 ToDXGIFormatUAV(const DXGI_FORMAT format);
 		DXGI_FORMAT					ToDXGIFormatUINT(const DXGI_FORMAT format);
 
+		bool IsTypelessDXGIFormat(const DXGI_FORMAT format);
+
+		bool IsDepthStencilDXGIFormat(const DXGI_FORMAT format);
+
 		void Convert(D3D11_DEPTH_STENCIL_DESC& dst, const DepthDesc& srcDepth, const StencilDesc& srcStencil);
 
 		void Convert(D3D11_RASTERIZER_DESC& dst, const RasterizerDesc& src);

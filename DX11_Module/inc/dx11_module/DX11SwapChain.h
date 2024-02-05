@@ -49,6 +49,7 @@ namespace graphics
 			void BindFramebufferView(DX11CommandBuffer* commandBuffer);
 
 			void SetName(const char* name) override;
+
 		private:
 			void ResizeBackBuffer(const Extent2D& resolution);
 			// Create SwapChain

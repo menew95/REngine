@@ -25,8 +25,6 @@ namespace graphics
 	{
 		API _module = API::DirectX11;
 
-		void* _hwnd = nullptr;
-		
-		Extent2D _extent;
+		WindowInfo _info;
 	};
 }

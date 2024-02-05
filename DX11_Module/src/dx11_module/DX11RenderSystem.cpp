@@ -263,14 +263,14 @@ namespace graphics
 						);
 			}
 
-			if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
+			/*if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
 			{
 				_texture->CreateShaderResourceView(m_Device.Get(), 0, desc._mipLevels, 0, desc._arrayLayers);
 			}
 			if ((desc._bindFlags & BindFlags::UnorderedAccess) != 0)
 			{
 				_texture->CreateUnorderedAccessView(m_Device.Get(), 0, 0, desc._arrayLayers);
-			}
+			}*/
 
 			return _texture;
 		}

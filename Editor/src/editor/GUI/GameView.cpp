@@ -2,6 +2,10 @@
 
 #include <editor\GUI\GameView.h>
 
+#include <rengine\core\component\Camera.h>
+#include <rengine\core\resources.h>
+#include <rengine\core\resource\texture.h>
+
 namespace editor
 {
 	GameView::GameView()
@@ -24,6 +28,9 @@ namespace editor
 	{
 		__super::Render();
 
+		auto _mainCam = rengine::Camera::GetMainTextureID();
+
+		ImGui::Image(_mainCam, ImGui::GetCurrentWindow()->Size);
 	}
 	void EDITOR_API GameView::End()
 	{

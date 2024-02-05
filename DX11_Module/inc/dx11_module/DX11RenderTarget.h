@@ -37,7 +37,6 @@ namespace graphics
 			
 			RenderTargetDesc GetDesc() { return m_RenderTargetDesc; }
 
-
 			void ClearRenderTarget(ID3D11DeviceContext* context, uint32 numAttachments, const struct AttachmentClear* attachments);
 
 			void SetName(const char* name) override;

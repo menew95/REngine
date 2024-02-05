@@ -52,6 +52,8 @@ namespace rengine
 
         void OnDestroy() override;
 
+        static void* GetMainTextureID();
+
     private:
         bool m_bIsDirty = false;
 
