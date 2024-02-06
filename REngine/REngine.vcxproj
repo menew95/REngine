@@ -223,6 +223,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
     <ClInclude Include="inc\rengine\system\Input.h" />
     <ClInclude Include="inc\rengine\system\Time.h" />
+    <ClInclude Include="inc\rengine\utility\DefaultResourceBuilder.h" />
     <ClInclude Include="inc\rengine\utility\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -253,6 +254,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\rengine_api.cpp" />
     <ClCompile Include="src\rengine\core\object\object.cpp" />
     <ClCompile Include="src\rengine\system\Time.cpp" />
+    <ClCompile Include="src\rengine\utility\DefaultResourceBuilder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

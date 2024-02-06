@@ -93,8 +93,10 @@ namespace rengine
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Mesh> _res;
 
-		if(!(_obj || (_res = dynamic_pointer_cast<Mesh>(_obj)) || _res->GetResourceType() != ResourceType::MESH))
+		if(!_obj || !(_res = dynamic_pointer_cast<Mesh>(_obj)) || (_res->GetResourceType() != ResourceType::MESH && _res->GetResourceType() != ResourceType::SKINNED_MESH))
 			return nullptr;
+
+		_res->LoadMemory();
 
 		m_meshMap.insert(make_pair(_obj->GetUUID(), _res));
 
@@ -110,8 +112,10 @@ namespace rengine
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Material> _res;
 
-		if (!(_obj || (_res = dynamic_pointer_cast<Material>(_obj)) || _res->GetResourceType() != ResourceType::MATERIAL))
+		if (!_obj || !(_res = dynamic_pointer_cast<Material>(_obj)) || _res->GetResourceType() != ResourceType::MATERIAL)
 			return nullptr;
+
+		_res->LoadMemory();
 
 		m_materialMap.insert(make_pair(_obj->GetUUID(), _res));
 

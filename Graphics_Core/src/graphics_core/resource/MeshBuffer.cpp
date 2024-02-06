@@ -13,7 +13,6 @@ namespace graphics
 
 	SubMeshBuffer::~SubMeshBuffer()
 	{
-		ResourceManager::GetInstance()->ReleaseBuffer(m_pIndexBuffer);
 	}
 
 	void SubMeshBuffer::CreateIndexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)
@@ -36,6 +35,11 @@ namespace graphics
 	MeshBuffer::~MeshBuffer()
 	{
 		ResourceManager::GetInstance()->ReleaseBuffer(m_pVertexBuffer);
+
+		for (auto& _subMesh : m_subMeshBuffers)
+		{
+			ResourceManager::GetInstance()->ReleaseBuffer(_subMesh.GetBuffer());
+		}
 	}
 
 	void MeshBuffer::CreateVertexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)
