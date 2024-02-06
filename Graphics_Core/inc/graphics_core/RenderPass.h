@@ -53,7 +53,7 @@ namespace graphics
         void SetPipelineState(class PipelineState* state) { m_pPipelineState = state; }
         void SetPipelineLayout(class PipelineLayout* layout) { m_pPipelineLayout = layout; }
     
-    private:
+    protected:
         tstring m_passName;
 
         class PipelineState* m_pPipelineState = nullptr;

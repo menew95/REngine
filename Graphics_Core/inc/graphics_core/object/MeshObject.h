@@ -20,6 +20,10 @@ namespace graphics
         MeshObject(uuid  uuid) : RenderObject(uuid) {}
         ~MeshObject() {}
 
+        GRAPHICS_API void SetMaterialBuffers(vector<class MaterialBuffer*> val) { m_materialBuffers = val; }
+
+        RenderType GetRenderType() override { return RenderType::MESH; }
+
         GRAPHICS_API inline class MeshBuffer* GetMeshBuffer() { return m_pMeshBuffer; }
         GRAPHICS_API inline vector<class MaterialBuffer*>& GetMaterialBuffers() { return m_materialBuffers; }
 

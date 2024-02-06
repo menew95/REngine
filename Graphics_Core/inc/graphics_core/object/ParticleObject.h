@@ -24,6 +24,8 @@ namespace graphics
 
         auto* GetStreamBuffer() { return m_pParticleStreamBuffer; }
 
+        RenderType GetRenderType() override { return RenderType::PARTICLE; }
+
     private:
         Buffer* m_pParticleStreamBuffer = nullptr;
     };

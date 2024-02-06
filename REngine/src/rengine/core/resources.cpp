@@ -11,6 +11,8 @@
 
 #include <serialize\Serializer.h>
 
+#include <rengine\utility\DefaultResourceBuilder.h>
+
 namespace fs = std::filesystem;
 
 inline bool CheckPathExist(tstring& path)
@@ -36,6 +38,8 @@ namespace rengine
 	bool Resources::Initialize()
 	{
 		LoadAllAsset();
+
+		DefaultResourceBuilder::DefaultMeshBuild();
 
 		return true;
 	}

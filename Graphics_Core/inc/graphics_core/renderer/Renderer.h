@@ -12,6 +12,8 @@
 
 #include <common\common.h>
 
+#include <common\singleton.h>
+
 namespace graphics
 {
     class Renderer

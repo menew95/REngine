@@ -438,6 +438,16 @@ namespace utility
 
 			auto _mesh = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>(metaInfo._guid);
 
+			_mesh->SetNameStr(_bin._name);
+
+			_mesh->SetVertices(_bin._vertices);
+			_mesh->Setindices(_bin._indices);
+			_mesh->SetBoundingBoxMin(_bin._boundingMinBox);
+			_mesh->SetBoundingBoxMax(_bin._boundingMaxBox);
+
+			_mesh->SetBoneName(StringHelper::StringToWString(_bin._boneName));
+			_mesh->SetIsSkinned(_bin._isSkinned);
+
 			_object = _mesh;
 		}
 		else if (_extension == ".anim")

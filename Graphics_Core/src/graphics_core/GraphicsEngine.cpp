@@ -44,9 +44,9 @@ namespace graphics
 
 	void GraphicsEngine::Excute()
 	{
-		AttachmentClear _clear{math::Color::Black, 0};
+		AttachmentClear _clear{ math::Color::Black, 0 };
 
-		m_pCommandBuffer->SetViewport({0, 0, static_cast<float>(m_windowInfo._width), static_cast<float>(m_windowInfo._height), 0, 1});
+		m_pCommandBuffer->SetViewport({ 0, 0, static_cast<float>(m_windowInfo._width), static_cast<float>(m_windowInfo._height), 0, 1 });
 
 		m_pCommandBuffer->SetRenderTarget(*m_pSwapChain, 1, &_clear);
 

@@ -17,6 +17,12 @@
 
 namespace graphics
 {
+    enum class RenderType
+    {
+        MESH = 0,
+        PARTICLE = 1,
+    };
+
     class RenderObject
     {
     public:
@@ -33,6 +39,8 @@ namespace graphics
         GRAPHICS_API inline void SetStatic(bool val) { m_bIsStatic = val; }
         GRAPHICS_API inline void SetCulling(bool val) { m_bIsCull = val; }
         GRAPHICS_API inline void SetWorld(math::Matrix val) { m_world = val; }
+
+        virtual RenderType GetRenderType() abstract;
 
     protected:
         uuid m_uuid;

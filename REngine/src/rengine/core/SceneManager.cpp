@@ -5,8 +5,8 @@
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Camera.h>
 
-#include <common\AssetPath.h>
 #include <serialize\Serializer.h>
+#include <common\AssetPath.h>
 
 namespace rengine
 {

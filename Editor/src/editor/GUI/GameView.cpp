@@ -3,8 +3,8 @@
 #include <editor\GUI\GameView.h>
 
 #include <rengine\core\component\Camera.h>
-#include <rengine\core\resources.h>
-#include <rengine\core\resource\texture.h>
+#include <rengine\core\Resources.h>
+#include <rengine\core\resource\Texture.h>
 
 namespace editor
 {

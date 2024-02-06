@@ -12,6 +12,11 @@
 
 #include <rengine\core\component\Component.h>
 
+namespace graphics
+{
+    class RenderObject;
+}
+
 namespace rengine
 {
     class Material;
@@ -38,6 +43,8 @@ namespace rengine
             bool _isVisible;
             uint32 _shadowCastingMode;
         };
+
+        graphics::RenderObject* m_pRenderObject = nullptr;
 
         RTTR_ENABLE(Component);
 
