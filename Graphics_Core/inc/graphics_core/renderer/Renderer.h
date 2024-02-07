@@ -19,6 +19,10 @@ namespace graphics
     class Renderer
     {
     public:
+        static Renderer* s_pRenderer;
+
+        Renderer* GetInstance() { return s_pRenderer; }
+
         Renderer(class CommandBuffer* command);
 
         ~Renderer();

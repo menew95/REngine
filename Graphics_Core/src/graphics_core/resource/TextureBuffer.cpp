@@ -113,23 +113,30 @@ namespace graphics
 		//_texDesc._bindFlags;
 		//_texDesc._miscFlags;
 
-		switch (image.GetMetadata().dimension)
+		if (image.GetMetadata().IsCubemap())
 		{
-		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE1D:
-		{
-			_texDesc._textureType = TextureType::Texture1D;
-			break;
+			_texDesc._textureType = TextureType::TextureCube;
 		}
-		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE2D:
+		else
 		{
-			_texDesc._textureType = TextureType::Texture2D;
-			break;
-		}
-		case TEX_DIMENSION::TEX_DIMENSION_TEXTURE3D:
-		{
-			_texDesc._textureType = TextureType::Texture3D;
-			break;
-		}
+			switch (image.GetMetadata().dimension)
+			{
+				case TEX_DIMENSION::TEX_DIMENSION_TEXTURE1D:
+				{
+					_texDesc._textureType = TextureType::Texture1D;
+					break;
+				}
+				case TEX_DIMENSION::TEX_DIMENSION_TEXTURE2D:
+				{
+					_texDesc._textureType = TextureType::Texture2D;
+					break;
+				}
+				case TEX_DIMENSION::TEX_DIMENSION_TEXTURE3D:
+				{
+					_texDesc._textureType = TextureType::Texture3D;
+					break;
+				}
+			}
 		}
 
 		image.GetImage(0, 0, 0)->rowPitch;

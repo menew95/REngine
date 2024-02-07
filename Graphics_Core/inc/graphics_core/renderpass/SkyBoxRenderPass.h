@@ -5,7 +5,7 @@
     @details   ~
     @author    Cool Guy
     @date      6.02.2024
-    @copyright © Cool Guy, 2024. All right reserved.
+    @copyright © LWT, 2024. All right reserved.
 
 **/
 #pragma once

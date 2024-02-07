@@ -134,6 +134,56 @@ namespace graphics
 		return RemoveFromUnorderedMap(m_lightBuffers, uuid);
 	}
 
+	MeshBuffer* graphics::ResourceManager::GetMeshBuffer(uuid uuid)
+	{
+		auto _iter = m_meshBuffers.find(uuid);
+
+		if (_iter != m_meshBuffers.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
+	MaterialBuffer* graphics::ResourceManager::GetMaterialBuffer(uuid uuid)
+	{
+		auto _iter = m_materialBuffers.find(uuid);
+
+		if (_iter != m_materialBuffers.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
+	TextureBuffer* graphics::ResourceManager::GetTextureBuffer(uuid uuid)
+	{
+		auto _iter = m_textureBuffers.find(uuid);
+
+		if (_iter != m_textureBuffers.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
+	CameraBuffer* graphics::ResourceManager::GetCameraBuffer(uuid uuid)
+	{
+		auto _iter = m_cameraBuffers.find(uuid);
+
+		if (_iter != m_cameraBuffers.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
+	LightBuffer* graphics::ResourceManager::GetLightBuffer(uuid uuid)
+	{
+		auto _iter = m_lightBuffers.find(uuid);
+
+		if(_iter != m_lightBuffers.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
 	RenderPass* ResourceManager::CreateRenderPass(uuid uuid, RenderPassDesc& desc)
 	{
 		return nullptr;

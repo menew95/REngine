@@ -13,14 +13,21 @@
 
 namespace graphics
 {
+	Renderer* Renderer::s_pRenderer = nullptr;
+
 	Renderer::Renderer(CommandBuffer* command)
 	: m_pCommandBuffer(command)
 	{
-		m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("Frame Buffer"));
+		assert(s_pRenderer == nullptr);
+
+		s_pRenderer = this;
+
+		//m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("Frame Buffer"));
 	}
 
 	Renderer::~Renderer()
 	{
+		s_pRenderer = nullptr;
 	}
 
 	void Renderer::SetCamera(CameraBuffer* cameraBuffer)

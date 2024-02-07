@@ -1,11 +1,14 @@
 ﻿#include <common/common.h>
 #include <common/Module.h>
 
-#include <graphics_core/GraphicsEngine.h>
-#include <graphics_core/ResourceManager.h>
+#include <graphics_core\GraphicsEngine.h>
+#include <graphics_core\ResourceManager.h>
+#include <graphics_core\renderer\Renderer.h>
+#include <graphics_core\renderpass\SkyBoxRenderPass.h>
 
-#include <graphics_module/Module.h>
-#include <graphics_module/RenderSystem.h>
+#include <graphics_module\Module.h>
+#include <graphics_module\RenderSystem.h>
+
 
 #include <errhandlingapi.h>
 
@@ -22,6 +25,12 @@ namespace graphics
 		m_windowInfo = desc._info;
 
 		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
+
+		m_pRenderer = new Renderer(m_pCommandBuffer);
+
+		SkyBoxRenderPass _test;
+
+		_test.Init();
 	}
 
 	void GraphicsEngine::Release()
@@ -29,6 +38,8 @@ namespace graphics
 		if (m_pGraphicsModule != nullptr)
 		{
 			m_pGraphicsModule.reset();
+
+			delete m_pRenderer;
 		}
 	}
 

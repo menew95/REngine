@@ -42,7 +42,7 @@ struct VSOutput
 #endif
 };
 
-struct PSOut
+struct PSOutput
 {
 	float4 Albedo	: SV_TARGET0;
 	float4 Normal	: SV_TARGET1;

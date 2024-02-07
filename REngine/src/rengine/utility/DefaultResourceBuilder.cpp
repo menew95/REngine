@@ -132,7 +132,7 @@ namespace rengine
 		}
 
 
-		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>();
+		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>(TEXT("00000000-0000-0000-0000-300000000000"));
 
 		_mesh->SetVertices(_vertices);
 		_mesh->Setindices(_indices);
@@ -165,7 +165,7 @@ namespace rengine
 		_indices[0][3] = 1, _indices[0][4] = 3, _indices[0][5] = 2;
 
 
-		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>();
+		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>(TEXT("00000000-0000-0000-0000-200000000000"));
 
 		_mesh->SetVertices(_vertices);
 		_mesh->Setindices(_indices);
@@ -237,7 +237,7 @@ namespace rengine
 		_indices[0][30] = 20; _indices[0][31] = 21; _indices[0][32] = 22;
 		_indices[0][33] = 20; _indices[0][34] = 22; _indices[0][35] = 23;
 
-		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>();
+		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>(TEXT("00000000-0000-0000-0000-100000000000"));
 
 		_mesh->SetVertices(_vertices);
 		_mesh->Setindices(_indices);

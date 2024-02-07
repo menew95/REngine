@@ -69,6 +69,8 @@ namespace graphics
 
 		class CommandBuffer* m_pCommandBuffer = nullptr;
 
+		class Renderer* m_pRenderer = nullptr;
+
 		WindowInfo m_windowInfo;
 	};
 }

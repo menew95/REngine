@@ -88,8 +88,12 @@ namespace utility
 		else
 		{
 			_pt.put("serializable type", (uint32)rengine::SerializableType::RESOURCE);
+			
+			if (_extension == ".fbx")
+			{
 
-			if (_extension == ".mat")
+			}
+			else if (_extension == ".mat")
 			{
 
 			}

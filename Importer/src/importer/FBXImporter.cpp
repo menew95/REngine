@@ -1111,5 +1111,7 @@ namespace utility
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 		}
+
+
 	}
 }

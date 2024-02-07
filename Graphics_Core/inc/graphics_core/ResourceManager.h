@@ -36,6 +36,12 @@ namespace graphics
         GRAPHICS_API bool RelaseTextureBuffer(uuid uuid);
         GRAPHICS_API bool RelaseCameraBuffer(uuid uuid);
         GRAPHICS_API bool RelaseLightBuffer(uuid uuid);
+
+        GRAPHICS_API class MeshBuffer* GetMeshBuffer(uuid uuid);
+        GRAPHICS_API class MaterialBuffer* GetMaterialBuffer(uuid uuid);
+        GRAPHICS_API class TextureBuffer* GetTextureBuffer(uuid uuid);
+        GRAPHICS_API class CameraBuffer* GetCameraBuffer(uuid uuid);
+        GRAPHICS_API class LightBuffer* GetLightBuffer(uuid uuid);
         /*GRAPHICS_API bool RelaseMeshBuffer(class MeshBuffer* meshBuffer);
         GRAPHICS_API bool RelaseMaterialBuffer(class MaterialBuffer* materialBuffer);
         GRAPHICS_API bool RelaseTextureBuffer(class TextureBuffer* textureBuffer);

@@ -3,16 +3,16 @@
 
 struct Camera
 {
-    float3 _world           : packoffset(c0.xyz);
+    float3 _world;
 
-    matrix _view            : packoffset(c1);
-    matrix _proj            : packoffset(c5);
-    matrix _projInv         : packoffset(c9);
-    matrix _viewToTexSapce  : packoffset(c13);
-    matrix _worldViewProj   : packoffset(c17);
+    matrix _view;
+    matrix _proj;
+    matrix _projInv;
+    matrix _viewToTexSapce;
+    matrix _worldViewProj;
 
-    float _near             : packoffset(c18.x);
-    float _far              : packoffset(c18.y);
+    float _near;
+    float _far;
 };
 
 struct Material
@@ -26,19 +26,19 @@ struct Material
 
 struct Light
 {
-	uint Type           : packoffset(c0.x);
+	uint Type;
 
-	float Range         : packoffset(c0.y);		// Point, Spot
-	float FallOff       : packoffset(c0.z);		// Point, Spot
+	float Range;		// Point, Spot
+	float FallOff;		// Point, Spot
 
-	float3 Position     : packoffset(c1.xyz);	// Point, Spot
-	float SpotAngle     : packoffset(c1.w);	    // Spot
+	float3 Position;	// Point, Spot
+	float SpotAngle;	    // Spot
 
-	float3 Direction    : packoffset(c2.xyz);	// Directional, Spot
-	float FallOffAngle  : packoffset(c2.w);	    // Spot
+	float3 Direction;	// Directional, Spot
+	float FallOffAngle;	    // Spot
 
-	float3 Color        : packoffset(c3.xyz);
-	float Power         : packoffset(c3.w);
+	float3 Color;
+	float Power;
 	matrix ShadowTransform;
 };
 
@@ -50,7 +50,7 @@ struct CascadedLight
 	// float3 _color;
 	// float _power;
 
-	float _cascadeEndClipSpace[4] : packoffset(c0.xyzw);
+	float _cascadeEndClipSpace[4];
 	matrix _lightTransform[4];
 };
 

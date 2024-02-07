@@ -1,4 +1,4 @@
-#include "header/H_Struct.hlsli"
+#include "header\H_Struct.hlsli"
 
 #if !defined(H_CONST)
 #define H_CONST
@@ -15,4 +15,8 @@ cbuffer PerObject : register(b1)
     matrix _worldInvTranspose;
 }
 
+cbuffer PerMaterial : register(b2)
+{
+    Material _material;
+}
 #endif

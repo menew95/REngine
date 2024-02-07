@@ -117,7 +117,7 @@ namespace rengine
     private:
         void LoadAllAsset();
 
-        void LoadAssert(const tstring& path);
+        void LoadAsset(const tstring& path);
 
         map<uuid, shared_ptr<Mesh>>     m_meshMap;
 

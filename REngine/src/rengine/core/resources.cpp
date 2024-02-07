@@ -48,10 +48,10 @@ namespace rengine
 	{
 		tstring _assetPath = TEXT("..\\..\\..\\..\\Assets");
 
-		LoadAssert(_assetPath);
+		LoadAsset(_assetPath);
 	}
 
-	void Resources::LoadAssert(const tstring& path)
+	void Resources::LoadAsset(const tstring& path)
 	{
 		fs::path _path(path);
 
@@ -59,7 +59,7 @@ namespace rengine
 		{
 			for (auto& _p : fs::directory_iterator(_path, fs::directory_options::skip_permission_denied))
 			{
-				LoadAssert(_p.path().wstring());
+				LoadAsset(_p.path().wstring());
 			}
 		}
 		else if (_path.has_extension())
@@ -78,7 +78,7 @@ namespace rengine
 			}
 			else if (_extension == ".anim")
 			{
-
+				Load<AnimationClip>(_path.wstring());
 			}
 			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
@@ -93,6 +93,11 @@ namespace rengine
 	{
 		if(!CheckPathExist(path))
 			return nullptr;
+
+		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
+
+		if (m_meshMap.find(_metaInfo._guid) != m_meshMap.end())
+			return m_meshMap[_metaInfo._guid];
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Mesh> _res;
@@ -113,6 +118,11 @@ namespace rengine
 		if (!CheckPathExist(path))
 			return nullptr;
 
+		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
+
+		if (m_materialMap.find(_metaInfo._guid) != m_materialMap.end())
+			return m_materialMap[_metaInfo._guid];
+
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Material> _res;
 
@@ -132,6 +142,11 @@ namespace rengine
 		if (!CheckPathExist(path))
 			return nullptr;
 
+		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
+
+		if (m_textureMap.find(_metaInfo._guid) != m_textureMap.end())
+			return m_textureMap[_metaInfo._guid];
+
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Texture> _res;
 
@@ -150,6 +165,11 @@ namespace rengine
 	{
 		if (!CheckPathExist(path))
 			return nullptr;
+
+		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
+
+		if(m_animationClipMap.find(_metaInfo._guid) != m_animationClipMap.end())
+			return m_animationClipMap[_metaInfo._guid];
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<AnimationClip> _res;
