@@ -23,20 +23,18 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _renderTargetTable = _jsonReader->LoadJson(g_assetPath + TEXT("graphics/RenderTargetTable.json"));
-
+		auto _renderTargetTable = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RenderTargetTable.json"));
 
 		const TCHAR* UUID = _T("UUID");
 		const TCHAR* sample = _T("Sample");
-		const TCHAR* arrayLayer = _T("ArrayLayer");
-		const TCHAR* arraySize = _T("ArraySize");
-		const TCHAR* mipLevels = _T("MipLevel");
 		const TCHAR* extent = _T("Extent");
 		const TCHAR* attachmentsCount = _T("AttachmentsCount");
 
 		const TCHAR* renderTargetType = _T("RenderTargetType");
-		const TCHAR* attachments = _T("Attachments");
 		const TCHAR* resourceID = _T("ResourceID");
+		const TCHAR* arrayLayer = _T("ArrayLayer");
+		const TCHAR* arraySize = _T("ArraySize");
+		const TCHAR* mipLevels = _T("MipLevel");
 
 		auto _rtArray = _renderTargetTable->GetArray();
 		uint32 _attachCount;
@@ -56,6 +54,10 @@ namespace graphics
 				uint32 _width = _rtArray[_tableIdx][extent][0].GetInt();
 				uint32 _height = _rtArray[_tableIdx][extent][1].GetInt();
 				_renderTargetDesc._extend = { static_cast<float>(_width), static_cast<float>(_height) };
+			}
+			else
+			{
+				_renderTargetDesc._extend = { screenSize.x, screenSize.y };
 			}
 
 			if (_rtArray[_tableIdx].HasMember(sample))
@@ -112,7 +114,7 @@ namespace graphics
 			resourceManager->CreateRenderTarget(_uuid, _renderTargetDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/RenderTargetTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RenderTargetTable.json"));
 
 		return true;
 	}
@@ -121,12 +123,12 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _shaderTables = _jsonReader->LoadJson(TEXT("graphics/ShaderTable.json"));
+		auto _shaderTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/ShaderTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* shaderType = TEXT("ShaderType");
 		const TCHAR* shaderSourceType = TEXT("ShaderSourceType");
-		const TCHAR* filePath = TEXT("Path");
+		const TCHAR* filePath = TEXT("FilePath");
 		const TCHAR* sourceSize = TEXT("SourceSize");
 		const TCHAR* entryPoint = TEXT("EntryPoint");
 		const TCHAR* profile = TEXT("Profile");
@@ -161,7 +163,7 @@ namespace graphics
 
 			if (_shaderTable.HasMember(filePath))
 			{
-				_shaderDesc._filePath = _shaderTable[filePath].GetString();
+				_shaderDesc._filePath = g_assetPath + _shaderTable[filePath].GetString();
 			}
 
 			if (_shaderTable.HasMember(sourceSize))
@@ -223,23 +225,81 @@ namespace graphics
 			resourceManager->CreateShader(_uuid, _shaderDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/ShaderTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/ShaderTable.json"));
 
 		return true;
 	}
 
 	bool TableLoader::LoadPipelineStateTable(ResourceManager* resourceManager)
 	{
-
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
+		std::map<uuid, ShaderProgram> _shaderProgramMap;
 		std::map<uuid, DepthDesc> _depthDescMap;
 		std::map<uuid, StencilDesc> _stencilDescMap;
 		std::map<uuid, RasterizerDesc> _rasterizerDescMap;
 		std::map<uuid, BlendDesc> _blendDescMap;
 
 		{
-			auto _depthStencilTables = _jsonReader->LoadJson(TEXT("graphics/DepthStencilStateTable.json"));
+			auto _shaderProgramTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/ShaderProgramTable.json"));
+
+			const TCHAR* UUID = TEXT("UUID");
+
+			const TCHAR* vertex = TEXT("Vertex");
+			const TCHAR* pixel = TEXT("Pixel");
+			const TCHAR* grometry = TEXT("Geometry");
+			const TCHAR* hull = TEXT("Hull");
+			const TCHAR* domain = TEXT("Domain");
+			const TCHAR* compute = TEXT("Compute");
+
+			for (auto& _shaderProgramTable : _shaderProgramTables->GetArray())
+			{
+				ShaderProgram _program;
+				uuid _uuid;
+
+				if (_shaderProgramTable.HasMember(UUID))
+				{
+					_uuid = _shaderProgramTable[UUID].GetString();
+				}
+
+				if (_shaderProgramTable.HasMember(vertex))
+				{
+					_program._vertexShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[vertex].GetString());
+				}
+
+				if (_shaderProgramTable.HasMember(pixel))
+				{
+					_program._pixelShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[pixel].GetString());
+				}
+
+				if (_shaderProgramTable.HasMember(grometry))
+				{
+					_program._geometryShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[grometry].GetString());
+				}
+
+				if (_shaderProgramTable.HasMember(hull))
+				{
+					_program._hullShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[hull].GetString());
+				}
+
+				if (_shaderProgramTable.HasMember(domain))
+				{
+					_program._domainShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[domain].GetString());
+				}
+
+				if (_shaderProgramTable.HasMember(compute))
+				{
+					_program._computeShader = ResourceManager::GetInstance()->GetShader(_shaderProgramTable[compute].GetString());
+				}
+
+				_shaderProgramMap.insert(make_pair(_uuid, _program));
+			}
+
+			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/ShaderProgramTable.json"));
+		}
+
+		{
+			auto _depthStencilTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 
@@ -379,11 +439,11 @@ namespace graphics
 				_stencilDescMap.insert(std::make_pair(_uuid, _stencilDesc));
 			}
 
-			_jsonReader->UnloadJson(TEXT("graphics/DepthStencilStateTable.json"));
+			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
 		}
 
 		{
-			auto _rasterizerTables = _jsonReader->LoadJson(TEXT("graphics/RasterizerStateTable.json"));
+			auto _rasterizerTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RasterizerStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			const TCHAR* fillMode = TEXT("FillMode");
@@ -470,11 +530,11 @@ namespace graphics
 				_rasterizerDescMap.insert(std::make_pair(_uuid, _rasterizerDesc));
 			}
 
-			_jsonReader->UnloadJson(TEXT("graphics/RasterizerStateTable.json"));
+			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RasterizerStateTable.json"));
 		}
 
 		{
-			auto _blendTables = _jsonReader->LoadJson(TEXT("graphics/BlendStateTable.json"));
+			auto _blendTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/BlendStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			const TCHAR* alphaToCoverageEnable = TEXT("AlphaToCoverageEnable");
@@ -597,11 +657,11 @@ namespace graphics
 				_blendDescMap.insert(std::make_pair(_uuid, _blendDesc));
 			}
 
-			_jsonReader->UnloadJson(TEXT("graphics/BlendStateTable.json"));
+			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/BlendStateTable.json"));
 		}
 
 		{
-			auto _pipelineStateTables = _jsonReader->LoadJson(TEXT("graphics/PipelineStateTable.json"));
+			auto _pipelineStateTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/PipelineStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			//const TCHAR* pipelineLayoutUUID = TEXT("PipelineLayout");
@@ -636,20 +696,11 @@ namespace graphics
 
 				if (_pipelineStateTable.HasMember(shaderProgram))
 				{
-					for (uint32 i = 0; i < _pipelineStateTable[shaderProgram].Size(); i++)
-					{
-						uuid _shaderID = _pipelineStateTable[shaderProgram][i].GetString();
+					tstring _programID = _pipelineStateTable[shaderProgram].GetString();
 
-						if (_shaderID != TEXT("NULL"))
-						{
-							if (i == 0) _pipelineStateDesc._shaderProgram._vertexShader = resourceManager->GetShader(_shaderID);
-							if (i == 1) _pipelineStateDesc._shaderProgram._pixelShader = resourceManager->GetShader(_shaderID);
-							if (i == 2) _pipelineStateDesc._shaderProgram._geometryShader = resourceManager->GetShader(_shaderID);
-							if (i == 3) _pipelineStateDesc._shaderProgram._hullShader = resourceManager->GetShader(_shaderID);
-							if (i == 4) _pipelineStateDesc._shaderProgram._domainShader = resourceManager->GetShader(_shaderID);
-							if (i == 5) _pipelineStateDesc._shaderProgram._computeShader = resourceManager->GetShader(_shaderID);
-						}
-					}
+					assert(_shaderProgramMap.find(_programID) != _shaderProgramMap.end());
+
+					_pipelineStateDesc._shaderProgram = _shaderProgramMap[_programID];
 				}
 
 				if (_pipelineStateTable.HasMember(primitiveTopology))
@@ -764,18 +815,18 @@ namespace graphics
 				resourceManager->CreatePipelineState(_uuid, _pipelineStateDesc);
 			}
 
-			_jsonReader->UnloadJson(TEXT("graphics/PipelineStateTable.json"));
+			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/PipelineStateTable.json"));
 		}
 
 
 		return true;
 	}
 
-	bool TableLoader::LoadRenderingPipelineTable(ResourceManager* resourceManager)
+	bool TableLoader::LoadPipelineLayoutTable(ResourceManager* resourceManager)
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _pipelineLayoutTables = _jsonReader->LoadJson(TEXT("graphics/PipelineLayoutTable.json"));
+		auto _pipelineLayoutTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* count = TEXT("Count");
@@ -831,21 +882,21 @@ namespace graphics
 
 						switch (_bindingDesc._type)
 						{
-						case ResourceType::Buffer:
-						{
-							_resource = resourceManager->GetBuffer(_bindingDesc._name);
-							break;
-						}
-						case ResourceType::Texture:
-						{
-							_resource = resourceManager->GetTexture(_bindingDesc._name);
-							break;
-						}
-						case ResourceType::Sampler:
-						{
-							_resource = resourceManager->GetSampler(_bindingDesc._name);
-							break;
-						}
+							case ResourceType::Buffer:
+							{
+								_resource = resourceManager->GetBuffer(_bindingDesc._name);
+								break;
+							}
+							case ResourceType::Texture:
+							{
+								_resource = resourceManager->GetTexture(_bindingDesc._name);
+								break;
+							}
+							case ResourceType::Sampler:
+							{
+								_resource = resourceManager->GetSampler(_bindingDesc._name);
+								break;
+							}
 						}
 
 						_pipelineLayoutDesc._resources.push_back(_resource);
@@ -911,7 +962,7 @@ namespace graphics
 			resourceManager->CreatePipelineLayout(_uuid, _pipelineLayoutDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/PipelineLayoutTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
 
 		return true;
 	}
@@ -920,7 +971,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _textureTables = _jsonReader->LoadJson(TEXT("graphics/TextureTable.json"));
+		auto _textureTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/TextureTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* imageDesc = TEXT("ImageDesc");
@@ -1028,7 +1079,7 @@ namespace graphics
 			resourceManager->CreateTexture(_uuid, _textureDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/TextureTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/TextureTable.json"));
 
 		return true;
 	}
@@ -1037,7 +1088,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _samplerTables = _jsonReader->LoadJson(TEXT("graphics/SamplerTable.json"));
+		auto _samplerTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/SamplerTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* filter = TEXT("Filter");
@@ -1141,7 +1192,7 @@ namespace graphics
 			resourceManager->CreateSampler(_uuid, _samplerDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/SamplerTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/SamplerTable.json"));
 
 		return true;
 	}
@@ -1150,7 +1201,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _bufferTables = _jsonReader->LoadJson(TEXT("graphics/BufferTable.json"));
+		auto _bufferTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/BufferTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* size = TEXT("Size");
@@ -1235,7 +1286,7 @@ namespace graphics
 			resourceManager->CreateBuffer(_uuid, _bufferDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/BufferTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/BufferTable.json"));
 
 		return true;
 	}
@@ -1244,7 +1295,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _renderPassTables = _jsonReader->LoadJson(TEXT("graphics/RenderPassTable.json"));
+		auto _renderPassTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RenderPassTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* pipelineStateUUID = TEXT("PipelineStateUUID");
@@ -1335,7 +1386,7 @@ namespace graphics
 			resourceManager->CreateRenderPass(_uuid, _renderPassDesc);
 		}
 
-		_jsonReader->UnloadJson(TEXT("graphics/RenderPassTable.json"));
+		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RenderPassTable.json"));
 
 		return true;
 	}

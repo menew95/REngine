@@ -25,9 +25,7 @@ namespace rengine
 			Log::Initialize();
 		}
 
-		m_pGraphicsSystem = GraphicsSystem::GetInstance();
-
-		m_pGraphicsSystem->Initialize(m_desc._windowInfo);
+		GraphicsSystem::GetInstance()->Initialize(m_desc._windowInfo);
 
 		Log::Core_Info("Graphics System init succeed");
 
@@ -69,9 +67,9 @@ namespace rengine
 		auto _gameTick = _timer.Lap().AsMillis();
 
 		{
-			m_pGraphicsSystem->Present();
+			GraphicsSystem::GetInstance()->Present();
 
-			m_pGraphicsSystem->Render();
+			GraphicsSystem::GetInstance()->Render();
 		}
 		_timer.Lap();
 

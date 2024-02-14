@@ -22,7 +22,7 @@ namespace graphics
 
 		s_pRenderer = this;
 
-		//m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("Frame Buffer"));
+		m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
 	}
 
 	Renderer::~Renderer()

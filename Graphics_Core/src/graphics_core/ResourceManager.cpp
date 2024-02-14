@@ -9,6 +9,10 @@
 #include <graphics_core\resource\TextureBuffer.h>
 #include <graphics_core\resource\MaterialBuffer.h>
 
+#include <graphics_core\table\JsonTable.h>
+
+#include <graphics_core\renderpass\SkyBoxRenderPass.h>
+
 template <typename T>
 bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, uuid uuid)
 {
@@ -51,9 +55,34 @@ namespace graphics
 			ResourceManager::GetInstance()->ReleaseAll();
 		});
 	
+	void LoadGraphicsTable()
+	{
+		TableLoader::LoadTextureTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadSamplerTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadBufferTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadRenderTargetTable(ResourceManager::GetInstance(), {1280, 720});
+
+		TableLoader::LoadPipelineLayoutTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadShaderTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadPipelineStateTable(ResourceManager::GetInstance());
+	}
+
 	void ResourceManager::Initialze(RenderSystem* renderSystem)
 	{
 		m_pRenderSystem = renderSystem;
+
+		LoadGraphicsTable();
+
+		auto _skyBox = new SkyBoxRenderPass();
+
+		_skyBox->Init();
+
+		m_renderPassMap.insert(make_pair(TEXT("SkyBox"), _skyBox));
 	}
 
 	MeshBuffer* ResourceManager::CreateMeshBuffer(uuid uuid)
@@ -184,9 +213,33 @@ namespace graphics
 		return nullptr;
 	}
 
+	RenderPass* graphics::ResourceManager::GetRenderPass(uuid uuid)
+	{
+		auto _iter = m_renderPassMap.find(uuid);
+
+		if (_iter != m_renderPassMap.end())
+			return _iter->second;
+
+		return nullptr;
+	}
+
 	RenderPass* ResourceManager::CreateRenderPass(uuid uuid, RenderPassDesc& desc)
 	{
 		return nullptr;
+	}
+
+	bool graphics::ResourceManager::ReleaseRenderPass(RenderPass* renderPass)
+	{
+		auto it = find_if(std::begin(m_renderPassMap), std::end(m_renderPassMap), [renderPass](pair<const uuid, RenderPass*>& p)
+			{
+				return p.second == renderPass;
+			});
+
+		if (it == std::end(m_renderPassMap))
+			return false;
+
+		m_renderPassMap.erase(it);
+		return true;
 	}
 
 	Buffer* ResourceManager::CreateBuffer(uuid uuid, BufferDesc& desc, const void* init)

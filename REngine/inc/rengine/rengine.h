@@ -30,7 +30,6 @@ namespace rengine
         RENGINE_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
     private:
-        class GraphicsSystem* m_pGraphicsSystem = nullptr;
 
         REngineDesc m_desc;
 

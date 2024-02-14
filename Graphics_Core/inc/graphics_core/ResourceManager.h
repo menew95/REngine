@@ -48,7 +48,9 @@ namespace graphics
         GRAPHICS_API bool RelaseCameraBuffer(class CameraBuffer* cameraBuffer);
         GRAPHICS_API bool RelaseLightBuffer(class LightBuffer* lightBuffer);*/
 
-        class RenderPass*     CreateRenderPass(uuid uuid, struct RenderPassDesc& desc);
+        class RenderPass*       GetRenderPass(uuid uuid);
+        class RenderPass*       CreateRenderPass(uuid uuid, struct RenderPassDesc& desc);
+        bool                    ReleaseRenderPass(class RenderPass* renderPass);
 
         class Buffer*         CreateBuffer(uuid uuid, struct BufferDesc& desc, const void* init = nullptr);
         class Shader*         CreateShader(uuid uuid, struct ShaderDesc& desc);

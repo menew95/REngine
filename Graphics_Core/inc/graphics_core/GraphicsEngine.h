@@ -9,6 +9,8 @@
 **/
 #pragma once
 
+#include <common\singleton.h>
+
 #include <graphics_core\Graphics_core_dllexport.h>
 #include <graphics_core\GraphicsEngineFlags.h>
 
@@ -16,6 +18,7 @@ namespace graphics
 {
 	class GRAPHICS_API GraphicsEngine
 	{
+		DECLARE_SINGLETON_CLASS(GraphicsEngine);
 	public:
 		/**
 			@brief 렌더링 모듈을 로드하고 초기화
@@ -26,7 +29,7 @@ namespace graphics
 		/**
 		    @brief graphics engine 종료
 		**/
-		void Release();
+		void ReleaseEngine();
 
 		/**
 		    @brief  device를 반환
@@ -49,6 +52,10 @@ namespace graphics
 
 		void ResizeSwapchain(const Extent2D& resolution);
 
+		const WindowInfo& GetWindowInfo() { return m_windowInfo; }
+
+		void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
+
 	private:
 		
 		/**
@@ -70,6 +77,8 @@ namespace graphics
 		class CommandBuffer* m_pCommandBuffer = nullptr;
 
 		class Renderer* m_pRenderer = nullptr;
+
+		vector<class CameraBuffer*> m_cameraBuffers;
 
 		WindowInfo m_windowInfo;
 	};

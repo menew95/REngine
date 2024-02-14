@@ -64,6 +64,11 @@ namespace rengine
 	{
 	}
 
+	/*inline auto Component::GetTransform()
+	{
+		return m_pGameObject.lock()->GetTransform();
+	}*/
+
 	void Component::SetEnable(bool value)
 	{
 		if (/*m_pGameObject->GetActiveInHierarchy() &&*/ m_bEnable != value)

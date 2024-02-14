@@ -10,6 +10,7 @@ namespace graphics
 {
 	class GraphicsEngine;
 	class Texture;
+	class CameraBuffer;
 }
 
 namespace rengine
@@ -48,5 +49,7 @@ namespace rengine
 
 	private:
 		graphics::GraphicsEngine* m_pGraphicsEngine = nullptr;
+
+		//queue<CameraBuffer*> m_cameraQueue;
 	};
 }

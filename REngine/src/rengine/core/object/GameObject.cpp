@@ -86,6 +86,7 @@ namespace rengine
 	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)
 	{
 		m_Components = comps;
+
 		for(auto& _comp : m_Components)
 		{
 			if (auto _ptr = _comp.lock())
@@ -96,6 +97,14 @@ namespace rengine
 				{
 					SetTransform(std::static_pointer_cast<Transform>(_ptr));
 				}
+			}
+		}
+
+		for (auto& _comp : m_Components)
+		{
+			if (auto _ptr = _comp.lock())
+			{
+				_ptr->SetTransform(m_pTransform);
 			}
 		}
 	}

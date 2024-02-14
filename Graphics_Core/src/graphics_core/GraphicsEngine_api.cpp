@@ -2,16 +2,14 @@
 
 namespace graphics
 {
-	static GraphicsEngine g_pEngine;
-
 	GRAPHICS_API GraphicsEngine* CreateGraphicsEngine()
 	{
-		return &g_pEngine;
+		return GraphicsEngine::GetInstance();
 	}
 
 	GRAPHICS_API void ReleaseGraphicsEngine(GraphicsEngine* engine)
 	{
-		engine->Release();
+		GraphicsEngine::Release();
 	}
 
 	GRAPHICS_API bool UpdateApplication()

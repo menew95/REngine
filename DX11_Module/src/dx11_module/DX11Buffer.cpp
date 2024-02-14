@@ -45,7 +45,7 @@ namespace graphics
 			{
 				if ((m_BufferDesc._bindFlags & BindFlags::ConstantBuffer) != 0)
 				{
-					if (dataSize == GetSize())
+					if (dataSize <= GetSize())
 					{
 						context->UpdateSubresource(GetBuffer(), 0, nullptr, data, 0, 0);
 					}

@@ -4,11 +4,11 @@
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\renderer\Renderer.h>
+#include <graphics_core\resource\CameraBuffer.h>
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
 
 #include <graphics_module\Module.h>
 #include <graphics_module\RenderSystem.h>
-
 
 #include <errhandlingapi.h>
 
@@ -16,6 +16,22 @@ std::unique_ptr<Module> m_pGraphicsModule;
 
 namespace graphics
 {
+	DEFINE_SINGLETON_CLASS(GraphicsEngine,
+		{
+
+		},
+		{
+
+		},
+		{
+			if (m_pGraphicsModule != nullptr)
+			{
+				m_pGraphicsModule.reset();
+
+				GraphicsEngine::GetInstance()->ReleaseEngine();
+			}
+		});
+
 	void GraphicsEngine::Init(const GraphicsEngineDesc& desc)
 	{
 		LoadModule(desc);
@@ -27,20 +43,11 @@ namespace graphics
 		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
 
 		m_pRenderer = new Renderer(m_pCommandBuffer);
-
-		SkyBoxRenderPass _test;
-
-		_test.Init();
 	}
 
-	void GraphicsEngine::Release()
+	void GraphicsEngine::ReleaseEngine()
 	{
-		if (m_pGraphicsModule != nullptr)
-		{
-			m_pGraphicsModule.reset();
-
-			delete m_pRenderer;
-		}
+		delete m_pRenderer;
 	}
 
 	void* GraphicsEngine::GetDevice()
@@ -55,13 +62,26 @@ namespace graphics
 
 	void GraphicsEngine::Excute()
 	{
+		for (auto* _camBuf : m_cameraBuffers)
+		{
+			Renderer::GetInstance()->SetCamera(_camBuf);
+
+			auto* _skyBox = ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox"));
+
+			_skyBox->BeginExcute(m_pCommandBuffer);
+
+			_skyBox->Excute(m_pCommandBuffer);
+
+			_skyBox->EndExcute(m_pCommandBuffer);
+		}
+
 		AttachmentClear _clear{ math::Color::Black, 0 };
 
 		m_pCommandBuffer->SetViewport({ 0, 0, static_cast<float>(m_windowInfo._width), static_cast<float>(m_windowInfo._height), 0, 1 });
 
 		m_pCommandBuffer->SetRenderTarget(*m_pSwapChain, 1, &_clear);
 
-		//m_pCommandBuffer->ClearState();
+		m_cameraBuffers.clear();
 	}
 
 	void GraphicsEngine::Present()
@@ -81,13 +101,13 @@ namespace graphics
 	{
 		switch (desc._module)
 		{
-		case API::DirectX11:
-		{
-			m_pGraphicsModule = Module::Load(Module::GetModuleFilename("DX11_Module").c_str());
-			break;
-		}
-		default:
-			break;
+			case API::DirectX11:
+			{
+				m_pGraphicsModule = Module::Load(Module::GetModuleFilename("DX11_Module").c_str());
+				break;
+			}
+			default:
+				break;
 		}
 
 		auto _renderSystemAlloc = (RenderSystemAlloc)m_pGraphicsModule->LoadProcedure("RenderSystem_Alloc");
@@ -101,6 +121,7 @@ namespace graphics
 
 		m_pRenderSystem = reinterpret_cast<RenderSystem*>(_renderSystemAlloc(&_renderSystemDesc, 0));
 	}
+
 	void GraphicsEngine::CreateSwapChainAndCommandBuffer(const GraphicsEngineDesc& desc)
 	{
 		SwapChainDesc _swapChainDesc;

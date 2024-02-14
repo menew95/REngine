@@ -4,6 +4,7 @@
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\scene\Scene.h>
 
+#include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
 
 #include <graphics_core\resource\CameraBuffer.h>
@@ -103,6 +104,8 @@ std::weak_ptr<Camera> Camera::m_MainCamera;
 		_info._worldViewProj = m_camWorld * _info._view * _info._proj;
 
 		m_pCameraBuffer->Update(_info);
+
+		graphics::GraphicsEngine::GetInstance()->PushCameraBuffer(m_pCameraBuffer);
 	}
 
 	void Camera::OnDestroy()

@@ -37,6 +37,7 @@ namespace rengine
         }
 
         inline RENGINE_API auto GetTransform() { return m_pTransform; }
+        inline RENGINE_API void SetTransform(auto transform) { m_pTransform = transform; }
 
         bool GetEnable() { return m_bEnable; }
         void SetEnable(bool value);

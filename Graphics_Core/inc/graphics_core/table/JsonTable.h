@@ -23,15 +23,15 @@ namespace graphics
 
 		static bool LoadShaderTable(ResourceManager* resourceManager);
 
-		static bool LoadPipelineStateTable(ResourceManager* resourceManager);
-
-		static bool LoadRenderingPipelineTable(ResourceManager* resourceManager);
-
 		static bool LoadTextureTable(ResourceManager* resourceManager);
 
 		static bool LoadSamplerTable(ResourceManager* resourceManager);
 
 		static bool LoadBufferTable(ResourceManager* resourceManager);
+
+		static bool LoadPipelineStateTable(ResourceManager* resourceManager);
+
+		static bool LoadPipelineLayoutTable(ResourceManager* resourceManager);
 
 		static bool LoadRenderPassTable(ResourceManager* resourceManager);
 	};
