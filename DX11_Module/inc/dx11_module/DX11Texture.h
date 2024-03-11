@@ -65,6 +65,15 @@ namespace graphics
 			UINT CalcSubresource(UINT mipLevel, UINT arrayLayer) const;
 
 			void UpdateSubresource(
+				ID3D11DeviceContext* context,
+				UINT					mipLevel,
+				UINT					baseArrayLayer,
+				UINT					numArrayLayer,
+				const D3D11_BOX& region,
+				const ImageDesc* imageDesc
+			);
+
+			void UpdateSubresource(
 				ID3D11DeviceContext*	context,
 				UINT					mipLevel,
 				UINT					baseArrayLayer,

@@ -235,6 +235,26 @@ namespace graphics
 				return D3D11CalcSubresource(mipLevel, 0, m_NumMipLevels);
 		}
 
+		void DX11Texture::UpdateSubresource(ID3D11DeviceContext* context, UINT mipLevel, UINT baseArrayLayer, UINT numArrayLayer, const D3D11_BOX& region, const ImageDesc* imageDesc)
+		{
+			/* Check if source image must be converted */
+			auto format = UnmapFormat(m_Format);
+
+			for (uint32 arrayLayer = 0; arrayLayer < numArrayLayer; arrayLayer++)
+			{
+				UINT dstSubresource = CalcSubresource(mipLevel, baseArrayLayer + arrayLayer);
+
+				context->UpdateSubresource(
+					m_NativeTexture._resource.Get(),
+					dstSubresource,
+					&region,
+					imageDesc[arrayLayer]._data,
+					imageDesc[arrayLayer]._rowStride,
+					imageDesc[arrayLayer]._layerStride
+				);
+			}
+		}
+
 		void DX11Texture::UpdateSubresource(ID3D11DeviceContext* context, UINT mipLevel, UINT baseArrayLayer, UINT numArrayLayer, const D3D11_BOX& region, const ImageDesc& imageDesc)
 		{
 			const Extent3D extent

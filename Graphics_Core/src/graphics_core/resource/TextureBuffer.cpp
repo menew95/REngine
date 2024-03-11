@@ -144,13 +144,23 @@ namespace graphics
 
 		AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
 
-		ImageDesc _imageDesc;
+		vector<ImageDesc> _imageDescs;
 
-		_imageDesc._data = image.GetPixels();
-		_imageDesc._rowStride = static_cast<uint32>(image.GetImage(0, 0, 0)->rowPitch);
-		_imageDesc._layerStride = static_cast<uint32>(image.GetImage(0, 0, 0)->slicePitch);
+		for (size_t _mip = 0; _mip < image.GetMetadata().mipLevels; _mip++)
+		{
+			for (size_t _slice = 0; _slice < image.GetMetadata().arraySize; _slice++)
+			{
+				ImageDesc _imageDesc;
 
-		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, &_imageDesc);
+				_imageDesc._data = image.GetImage(_mip, _slice, 0)->pixels;
+				_imageDesc._rowStride = static_cast<uint32>(image.GetImage(_mip, _slice, 0)->rowPitch);
+				_imageDesc._layerStride = static_cast<uint32>(image.GetImage(_mip, _slice, 0)->slicePitch);
+
+				_imageDescs.emplace_back(_imageDesc);
+			}
+		}
+
+		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, _imageDescs.data());
 	}
 
 	void TextureBuffer::SetName(const char* name)

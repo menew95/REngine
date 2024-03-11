@@ -253,14 +253,25 @@ namespace graphics
 
 			if (imageDesc != nullptr)
 			{
-				_texture->UpdateSubresource(
-							m_Context.Get(),
-							0,
-							0,
-							desc._arrayLayers,
-							D3D11_BOX{0, 0, 0, desc._extend._width, desc._extend._height, desc._extend._depth },
-							*imageDesc
-						);
+				D3D11_BOX _region{ 0, 0, 0, desc._extend._width, desc._extend._height, desc._extend._depth};
+
+				for (size_t i = 0; i < desc._mipLevels; i++)
+				{
+					_texture->UpdateSubresource(
+						m_Context.Get(),
+						i,
+						0,
+						desc._arrayLayers,
+						_region,
+						&imageDesc[i * desc._arrayLayers]
+					);
+
+					_region.right /= 2;
+					_region.bottom /= 2;
+
+					if(desc._textureType == TextureType::Texture3D)
+						_region.back /= 2;
+				}
 			}
 
 			/*if ((desc._bindFlags & BindFlags::ShaderResource) != 0)
