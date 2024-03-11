@@ -1,0 +1,55 @@
+﻿[
+  {
+    "UUID": "MainFrame",
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "MainFrame",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "UUID": "Deferred",
+    "AttachmentsCount": 6,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "Albedo",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "Normal",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "World",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "Emissive",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "Flag",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "DepthStencil",
+    "ResourceID": "Depth",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  }
+]

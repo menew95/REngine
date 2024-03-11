@@ -27,6 +27,11 @@ namespace graphics
 		void Init(const GraphicsEngineDesc& desc);
 
 		/**
+			@brief graphics resource load
+		**/
+		void LoadGraphicsResource();
+
+		/**
 		    @brief graphics engine 종료
 		**/
 		void ReleaseEngine();

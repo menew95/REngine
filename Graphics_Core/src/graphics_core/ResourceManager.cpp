@@ -75,7 +75,10 @@ namespace graphics
 	void ResourceManager::Initialze(RenderSystem* renderSystem)
 	{
 		m_pRenderSystem = renderSystem;
+	}
 
+	void ResourceManager::LoadGraphicsResource()
+	{
 		LoadGraphicsTable();
 
 		auto _skyBox = new SkyBoxRenderPass();

@@ -41,6 +41,11 @@ namespace rengine
 		m_pGraphicsEngine->Init(_desc);
 	}
 
+	void GraphicsSystem::LoadGraphicsResource()
+	{
+		m_pGraphicsEngine->LoadGraphicsResource();
+	}
+
 	void* GraphicsSystem::GetDevice()
 	{
 		return m_pGraphicsEngine->GetDevice();

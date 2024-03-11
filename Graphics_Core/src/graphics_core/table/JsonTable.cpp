@@ -111,7 +111,7 @@ namespace graphics
 				_renderTargetDesc._attachments.push_back(_attachmentDesc);
 			}
 
-			resourceManager->CreateRenderTarget(_uuid, _renderTargetDesc);
+			resourceManager->CreateRenderTarget(_uuid, _renderTargetDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
 		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RenderTargetTable.json"));
@@ -222,7 +222,7 @@ namespace graphics
 				_shaderDesc._flags = flags;
 			}
 
-			resourceManager->CreateShader(_uuid, _shaderDesc);
+			resourceManager->CreateShader(_uuid, _shaderDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
 		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/ShaderTable.json"));
@@ -1076,7 +1076,7 @@ namespace graphics
 				_textureDesc._samples = _textureTable[samples].GetInt();
 			}
 
-			resourceManager->CreateTexture(_uuid, _textureDesc);
+			resourceManager->CreateTexture(_uuid, _textureDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
 		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/TextureTable.json"));
@@ -1189,7 +1189,7 @@ namespace graphics
 				_samplerDesc._maxLOD = _samplerTable[maxLOD].GetFloat();
 			}
 
-			resourceManager->CreateSampler(_uuid, _samplerDesc);
+			resourceManager->CreateSampler(_uuid, _samplerDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
 		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/SamplerTable.json"));
@@ -1283,7 +1283,7 @@ namespace graphics
 				_bufferDesc._miscFlags = _flag;
 			}
 
-			resourceManager->CreateBuffer(_uuid, _bufferDesc);
+			resourceManager->CreateBuffer(_uuid, _bufferDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
 		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/BufferTable.json"));

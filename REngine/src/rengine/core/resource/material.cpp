@@ -4,6 +4,8 @@
 
 #include <graphics_core\ResourceManager.h>
 
+#include <graphics_core\resource\MaterialBuffer.h>
+
 #include <rttr\registration.h>
 
 RTTR_REGISTRATION
@@ -29,6 +31,8 @@ namespace rengine
 	bool Material::LoadMemory()
 	{
 		m_pMaterialBuffer = graphics::ResourceManager::GetInstance()->CreateMaterialBuffer(GetUUID());
+
+		m_pMaterialBuffer->SetName(GetNameStr().c_str());
 
 		m_bIsLoad = true;
 

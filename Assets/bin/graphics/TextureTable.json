@@ -1,5 +1,15 @@
 ﻿[
   {
+    "UUID": "MainFrame",
+    "TextureType": "Texture2D",
+    "BindFlags": [ "ShaderResource", "RenderTarget" ],
+    "Format": "R8G8B8A8_UNORM",
+    "Extend": [ 1280, 720 ],
+    "ArrayLayers": 1,
+    "MipLevels": 1,
+    "Samples": 1
+  },
+  {
     "UUID": "Albedo",
     "TextureType": "Texture2D",
     "BindFlags": [ "ShaderResource", "RenderTarget" ],

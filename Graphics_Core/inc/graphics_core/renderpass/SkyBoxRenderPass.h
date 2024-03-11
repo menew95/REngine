@@ -28,7 +28,7 @@ namespace graphics
         **/
         void Bind(class CommandBuffer* command) override;
 
-        void BeginExcute(class CommandBuffer* command) override;
+        void BeginExcute(class CommandBuffer* command, class CameraBuffer* camBuffer) override;
 
         void Excute(class CommandBuffer* command) override;
 
@@ -36,5 +36,9 @@ namespace graphics
 
     private:
         class MeshObject* m_pSkyBoxMesh = nullptr;
+
+        class Buffer* m_pTransBuffer = nullptr;
+
+        class RenderTarget* m_pRenderTarget = nullptr;
     };
 }

@@ -1,0 +1,11 @@
+﻿[
+  {
+    "UUID": "SkyBox",
+    "ShaderProgram": "SkyBox",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "Default",
+    "StencilDesc": "Default",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "Default"
+  }
+]

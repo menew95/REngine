@@ -136,6 +136,8 @@ namespace graphics
 				_desc.BufferCount = (desc._swapBuffers >= 3 ? 2 : 1);
 				_desc.OutputWindow = _window.GetHwnd();
 				_desc.Windowed = true;//(fullscreen ? FALSE : TRUE);
+
+				// FLIP이 아닌경우는 백버퍼에서 그려진 내용을 화면 버퍼와 바꾸는 것이 아닌 복사하여 화면에 나타낸다
 				_desc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 				_desc.Flags = 0;
 			}

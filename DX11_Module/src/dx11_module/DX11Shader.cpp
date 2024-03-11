@@ -69,7 +69,7 @@ namespace graphics
 			{
 				auto error = (char*)m_Errors->GetBufferPointer();
 
-				int a = 0;
+				assert(false);
 			}
 
 			if (m_Blob.Get() != nullptr && m_Blob->GetBufferSize() > 0)
@@ -210,6 +210,8 @@ namespace graphics
 			reflection->GetDesc(&_shaderDesc);
 
 			ReflectInputLayout(device, reflection.Get(), _shaderDesc);
+
+			ReflectBuffer(device, reflection.Get(), _shaderDesc);
 		}
 
 		void DX11Shader::ReflectInputLayout(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc)
@@ -284,5 +286,33 @@ namespace graphics
 
 			HR(_hr, "Faild to create inputlayout");
 		}
+
+		void DX11Shader::ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc)
+		{
+			std::vector<ConstantBufferDesc> bufferInfo;
+
+			for (UINT i = 0; i < desc.ConstantBuffers; ++i) 
+			{
+				ID3D11ShaderReflectionConstantBuffer* buffer = reflection->GetConstantBufferByIndex(i);
+				D3D11_SHADER_BUFFER_DESC bufferDesc;
+				buffer->GetDesc(&bufferDesc);
+
+				for (UINT j = 0; j < bufferDesc.Variables; ++j) 
+				{
+					ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);
+					D3D11_SHADER_VARIABLE_DESC varDesc;
+					var->GetDesc(&varDesc);
+
+					ConstantBufferDesc info;
+					info.name = varDesc.Name;
+					info.size = varDesc.Size;
+					info.offset = varDesc.StartOffset;
+					bufferInfo.push_back(info);
+				}
+			}
+
+			return;
+		}
+
 	}
 }

@@ -41,6 +41,10 @@ namespace rengine
 
 		Log::Core_Info("Resources init succeed");
 
+		GraphicsSystem::GetInstance()->LoadGraphicsResource();
+
+		Log::Core_Info("Load Graphics Resource succeed");
+
 		SceneManager::GetInstance()->Initialize();
 
 		Log::Core_Info("Scene Manager Init succeed");
@@ -55,6 +59,9 @@ namespace rengine
 
 	bool REngine::Update()
 	{
+		Time::GetInstance()->PreTick();
+		Input::GetInstance()->PreTick();
+
 		Timer _timer;
 
 		_timer.Lap();

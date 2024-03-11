@@ -62,6 +62,7 @@ namespace graphics
 
 			void Reflect(ID3D11Device* device);
 			void ReflectInputLayout(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
+			void ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
 
 			ShaderDesc m_ShaderDesc;
 

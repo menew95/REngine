@@ -5,6 +5,7 @@
 VSOutput main(VSInput input)
 {
     VSOutput _output;
+
 #if defined(SCREEN)
     _output.posH = float4(input.posL.xy, 1.0f, 1.0f);
     _output.normal = float4(1.0f, 1.0f, 1.0f, 1.0f);

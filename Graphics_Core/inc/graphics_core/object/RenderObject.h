@@ -25,7 +25,10 @@ namespace graphics
 
     class RenderObject
     {
+    protected:
+        struct PerObject;
     public:
+
         RenderObject(uuid uuid) : m_uuid(uuid) {}
         virtual ~RenderObject() {}
 
@@ -33,12 +36,18 @@ namespace graphics
         GRAPHICS_API inline bool GetEnable() { return m_bEnable; }
         GRAPHICS_API inline bool GetStatic() { return m_bIsStatic; }
         GRAPHICS_API inline bool GetCulling() { return m_bIsCull; }
-        GRAPHICS_API inline math::Matrix GetWorld() { return m_world; }
+        GRAPHICS_API inline const struct PerObject& GetTrans() { return m_perObject; }
+        GRAPHICS_API inline const math::Matrix& GetWorld() { return m_perObject._world; }
+        GRAPHICS_API inline const math::Matrix& GetWorldInv() { return m_perObject._worldInv; }
 
         GRAPHICS_API inline void SetEnable(bool val) { m_bEnable = val; }
         GRAPHICS_API inline void SetStatic(bool val) { m_bIsStatic = val; }
         GRAPHICS_API inline void SetCulling(bool val) { m_bIsCull = val; }
-        GRAPHICS_API inline void SetWorld(math::Matrix val) { m_world = val; }
+        GRAPHICS_API inline void SetWorld(math::Matrix val) 
+        {
+            m_perObject._world = val;
+            m_perObject._worldInv = val.Invert();
+        }
 
         virtual RenderType GetRenderType() abstract;
 
@@ -51,6 +60,12 @@ namespace graphics
 
         bool m_bIsCull = false;
 
-        math::Matrix m_world = math::Matrix::Identity;
+        struct PerObject
+        {
+            math::Matrix _world = math::Matrix::Identity;
+            math::Matrix _worldInv = math::Matrix::Identity;
+        };
+
+        PerObject m_perObject;
     };
 }

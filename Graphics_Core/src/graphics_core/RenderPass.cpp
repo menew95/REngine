@@ -29,7 +29,7 @@ namespace graphics
 		command->SetResources(*m_pPipelineLayout);
 	}
 
-	void RenderPass::BeginExcute(CommandBuffer* command)
+	void RenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		Bind(command);
 

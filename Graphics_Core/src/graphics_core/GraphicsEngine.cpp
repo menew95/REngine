@@ -41,6 +41,11 @@ namespace graphics
 		m_windowInfo = desc._info;
 
 		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
+	}
+
+	void GraphicsEngine::LoadGraphicsResource()
+	{
+		ResourceManager::GetInstance()->LoadGraphicsResource();
 
 		m_pRenderer = new Renderer(m_pCommandBuffer);
 	}
@@ -62,13 +67,21 @@ namespace graphics
 
 	void GraphicsEngine::Excute()
 	{
+		m_pCommandBuffer->SetViewport({0, 0, (float)m_windowInfo._width , (float)m_windowInfo._height });
+
+		m_pRenderer->SetFrameResource();
+
 		for (auto* _camBuf : m_cameraBuffers)
 		{
+			// 카메라가 꺼져 있을 경우 렌더링을 하지 않음
+			if(!_camBuf->GetEnable())
+				continue;
+
 			Renderer::GetInstance()->SetCamera(_camBuf);
 
 			auto* _skyBox = ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox"));
 
-			_skyBox->BeginExcute(m_pCommandBuffer);
+			_skyBox->BeginExcute(m_pCommandBuffer, _camBuf);
 
 			_skyBox->Excute(m_pCommandBuffer);
 
@@ -87,6 +100,8 @@ namespace graphics
 	void GraphicsEngine::Present()
 	{
 		m_pSwapChain->Present();
+
+		m_pCommandBuffer->ClearState();
 	}
 
 	void GraphicsEngine::ResizeSwapchain(const Extent2D& resolution)
@@ -130,6 +145,8 @@ namespace graphics
 		_swapChainDesc._windowDesc._hwnd = desc._info._hWnd;
 
 		m_pSwapChain = m_pRenderSystem->CreateSwapChain(TEXT("MainSwapChain"), _swapChainDesc);
+
+		m_pSwapChain->SetName("MainSwapChain");
 
 		assert(m_pSwapChain != nullptr);
 

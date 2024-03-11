@@ -1,0 +1,30 @@
+﻿[
+  {
+    "UUID": "PerFrame",
+    "Size": 512,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 0
+  },
+  {
+    "UUID": "PerObject",
+    "Size": 256,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 1
+  },
+  {
+    "UUID": "PerMaterial",
+    "Size": 256,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 2
+  },
+  {
+    "UUID": "PerSkin",
+    "Size": 8192,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 4
+  }
+]

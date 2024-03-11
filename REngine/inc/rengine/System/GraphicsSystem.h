@@ -27,6 +27,11 @@ namespace rengine
 		void Initialize(const WindowInfo& wininfo);
 
 		/**
+			@brief 그래픽스 파이프라인에서 사용될 그래픽스 리소스들을 로드
+		**/
+		void LoadGraphicsResource();
+		
+		/**
 		    @brief  Module로부터 생성한 Device를 반환
 		    @retval  - Device pointer
 		**/

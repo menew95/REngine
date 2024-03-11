@@ -25,6 +25,11 @@ namespace graphics
     public:
         void Initialze(class RenderSystem* renderSystem);
 
+        void LoadGraphicsResource();
+
+        /**
+            Graphics Engine Resource
+        **/
         GRAPHICS_API class MeshBuffer*        CreateMeshBuffer(uuid uuid);
         GRAPHICS_API class MaterialBuffer*    CreateMaterialBuffer(uuid uuid);
         GRAPHICS_API class TextureBuffer*     CreateTextureBuffer(uuid uuid);
@@ -42,12 +47,16 @@ namespace graphics
         GRAPHICS_API class TextureBuffer* GetTextureBuffer(uuid uuid);
         GRAPHICS_API class CameraBuffer* GetCameraBuffer(uuid uuid);
         GRAPHICS_API class LightBuffer* GetLightBuffer(uuid uuid);
+
         /*GRAPHICS_API bool RelaseMeshBuffer(class MeshBuffer* meshBuffer);
         GRAPHICS_API bool RelaseMaterialBuffer(class MaterialBuffer* materialBuffer);
         GRAPHICS_API bool RelaseTextureBuffer(class TextureBuffer* textureBuffer);
         GRAPHICS_API bool RelaseCameraBuffer(class CameraBuffer* cameraBuffer);
         GRAPHICS_API bool RelaseLightBuffer(class LightBuffer* lightBuffer);*/
 
+        /**
+            Graphics Module Resource
+        **/
         class RenderPass*       GetRenderPass(uuid uuid);
         class RenderPass*       CreateRenderPass(uuid uuid, struct RenderPassDesc& desc);
         bool                    ReleaseRenderPass(class RenderPass* renderPass);

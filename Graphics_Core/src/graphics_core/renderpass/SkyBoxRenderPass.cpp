@@ -3,6 +3,7 @@
 #include <graphics_core\object\MeshObject.h>
 
 #include <graphics_core\ResourceManager.h>
+#include <graphics_core\resource\CameraBuffer.h>
 
 #include <graphics_core\renderer\Renderer.h>
 
@@ -36,50 +37,37 @@ namespace graphics
 
 		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));
 
-		/*GraphicsPipelineDesc _lineDesc;
+		m_pSkyBoxMesh = new MeshObject(TEXT("SkyBox Object"));
 
-		_lineDesc._shaderProgram._vertexShader = ResourceManager::GetInstance()->GetShader(TEXT("00000000-0000-0000-1000-000000000000"));
-		_lineDesc._shaderProgram._pixelShader = ResourceManager::GetInstance()->GetShader(TEXT("00000000-0000-0000-2000-000000000000"));
+		m_pSkyBoxMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-100000000000")));
 
-		_lineDesc._hasDSS = false;
-		_lineDesc._hasBS = false;
+		m_renderObjects.push_back(m_pSkyBoxMesh);
 
-		m_pPipelineState = ResourceManager::GetInstance()->CreatePipelineState(TEXT("SkyBox"), _lineDesc);
+		//m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 
-		SamplerDesc _samDesc;
-		_samDesc._filter = Filter::MIN_MAG_MIP_LINEAR;
-
-		Sampler* _sampler = ResourceManager::GetInstance()->CreateSampler(TEXT("WrapLinear"), _samDesc);
-
-		Texture* _texture = ResourceManager::GetInstance()->GetTexture(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
-
-		PipelineLayoutDesc _layoutDesc;
-
-		_layoutDesc._bindings.push_back({ResourceType::Sampler, 0, StageFlags::PS, 0});
-		_layoutDesc._bindings.push_back({ ResourceType::Texture, 0, StageFlags::PS, 0 });
-		_layoutDesc._resources.push_back(_sampler);
-		_layoutDesc._resources.push_back(_texture);
-
-		m_pPipelineLayout = ResourceManager::GetInstance()->CreatePipelineLayout(TEXT("SkyBox"), _layoutDesc);*/
+		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 	}
 	
 	void SkyBoxRenderPass::Bind(CommandBuffer* command)
 	{
+		//command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
+
 		__super::Bind(command);
 	}
 	
-	void SkyBoxRenderPass::BeginExcute(CommandBuffer* command)
+	void SkyBoxRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
-		__super::BeginExcute(command);
+		__super::BeginExcute(command, camBuffer);
 
-		if (m_pSkyBoxMesh == nullptr)
-		{
-			m_pSkyBoxMesh = new MeshObject(TEXT("SkyBox Object"));
+		auto& _camInfo = camBuffer->GetCameraInfo();
 
-			m_pSkyBoxMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-100000000000")));
+		math::Matrix _camWorld = math::Matrix::CreateTranslation(_camInfo._cameraWorldPos);
 
-			m_renderObjects.push_back(m_pSkyBoxMesh);
-		}
+		m_pSkyBoxMesh->SetWorld(_camWorld);
+		
+		command->UpdateBuffer(*m_pTransBuffer, 0, &m_pSkyBoxMesh->GetTrans(), sizeof(math::Matrix) * 2);
+
+		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
 	}
 	
 	void SkyBoxRenderPass::Excute(CommandBuffer* command)

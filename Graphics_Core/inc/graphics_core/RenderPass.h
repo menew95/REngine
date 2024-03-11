@@ -28,7 +28,7 @@ namespace graphics
         **/
         virtual void Bind(class CommandBuffer* command);
 
-        virtual void BeginExcute(class CommandBuffer* command);
+        virtual void BeginExcute(class CommandBuffer* command, class CameraBuffer* camBuffer);
 
         virtual void Excute(class CommandBuffer* command);
 

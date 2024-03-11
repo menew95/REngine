@@ -363,7 +363,7 @@ namespace rengine
          * @brief 현재 키가 눌려있는지에 대한 상태를 반환합니다.
          * 다른 말로, 키의 상태가 Down 또는 Hold일 때 true를 반환합니다.
          */
-        static bool GetKeyPress(EVirtualKey _vKey);
+        RENGINE_API static bool GetKeyPress(EVirtualKey _vKey);
 
         /**
          * @brief 이전 프레임에서 키를 누르지 않다가 이번 프레임에 키를 누르기 시작했는지에 대한 여부를 반환합니다.

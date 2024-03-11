@@ -75,9 +75,17 @@ namespace graphics
 
         auto* GetRenderTarget() const { return m_pRenderTarget; }
 
+        const auto& GetCameraInfo() { return m_cameraInfo; }
+
+        const bool& GetEnable() { return m_bIsEnable; }
+
         GRAPHICS_API void* GetTextureID();
 
+        void SetEnable(auto& val) { m_bIsEnable = val; }
+
     private:
+        bool m_bIsEnable = true;
+
         CameraInfo m_cameraInfo;
 
         CascadedInfo m_cascadedInfo;

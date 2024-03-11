@@ -27,6 +27,8 @@ namespace graphics
 
         ~Renderer();
 
+        void SetFrameResource();
+
         void SetCamera(class CameraBuffer* cameraBuffer);
 
         void RenderMesh(vector<class RenderObject*>& renderObjects, vector<class RenderPass*>& renderPassList);
@@ -43,5 +45,6 @@ namespace graphics
         class CommandBuffer* m_pCommandBuffer = nullptr;
 
         class Buffer* m_pFrameBuffer = nullptr;
+        class Buffer* m_pTransBuffer = nullptr;
     };
 }

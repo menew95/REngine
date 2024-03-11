@@ -1,0 +1,29 @@
+﻿[
+  {
+    "UUID": "00000000-0000-0000-1000-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\VS_Mesh.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "vs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-2000-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\VS_SkyBox.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "vs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-3000-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_SkyBox.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
+  }
+]

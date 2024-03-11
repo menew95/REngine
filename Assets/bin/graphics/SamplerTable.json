@@ -1,0 +1,16 @@
+﻿[
+  {
+    "UUID": "WrapLinear",
+    "Filter": "MIN_MAG_MIP_POINT",
+    "AddressU": "Wrap",
+    "AddressV": "Wrap",
+    "AddressW": "Wrap",
+    "MipLODBias": 0.0,
+    "MaxAnisotropy": 1,
+    "ComparisonOp": "Less",
+    "BorderColor": [ 0.0, 0.0, 0.0, 0.0 ],
+    "MipMapping": true,
+    "MinLOD": 0.0,
+    "MaxLOD": 1000.0
+  }
+]

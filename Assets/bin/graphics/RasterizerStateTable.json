@@ -1,0 +1,16 @@
+﻿[
+  {
+    "UUID": "Default",
+    "FillMode": "Solid",
+    "CullMode": "None",
+    "ConstantFactor": 0.0,
+    "SlopeFactor": 0.0,
+    "Clamp": 0.0,
+    "FrontCCW": false,
+    "DepthClampEnabled": false,
+    "ScissorTestEnabled": false,
+    "MultiSampleEnabled": false,
+    "AntiAliasedLineEnabled": false,
+    "ConservativeRasterization": false
+  }
+]

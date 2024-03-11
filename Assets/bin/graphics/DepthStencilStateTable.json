@@ -1,0 +1,19 @@
+﻿[
+  {
+    "UUID": "Default",
+    "DepthEnable": false,
+    "WriteEnabled": false,
+    "CompareOp": "Less",
+    "StencilEnable": false,
+    "ReadMask": 0,
+    "WriteMask": 0,
+    "Front/StencilFailOp": "Keep",
+    "Front/DepthFailOp": "Keep",
+    "Front/DepthPassOp": "Keep",
+    "Front/CompareOp": "Less",
+    "Back/StencilFailOp": "Keep",
+    "Back/DepthFailOp": "Keep",
+    "Back/DepthPassOp": "Keep",
+    "Back/CompareOp": "Less"
+  }
+]

@@ -12,6 +12,11 @@
 
 #include <editor\GUI\View.h>
 
+namespace graphics
+{
+    class CameraBuffer;
+}
+
 namespace editor
 {
     class GameView : public View
@@ -26,5 +31,15 @@ namespace editor
         void EDITOR_API Render() override;
 
         void EDITOR_API End() override;
+
+    private:
+        /**
+            @brief 게임 뷰 카메라 움직임 제어
+        **/
+        void GameViewCameraControl();
+
+        float m_fSpeed = 1.0f;
+
+        graphics::CameraBuffer* m_pGameViewCameraBuffer = nullptr;
     };
 }

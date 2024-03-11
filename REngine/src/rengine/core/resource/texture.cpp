@@ -71,6 +71,8 @@ namespace rengine
 
 		m_pTextureBuffer->LoadTexture(GetUUID(), m_path);
 
+		m_pTextureBuffer->SetName(GetNameStr().c_str());
+
 		m_bIsLoad = true;
 
 		return true;

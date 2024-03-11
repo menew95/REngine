@@ -1,0 +1,19 @@
+﻿[
+  {
+    "UUID": "SkyBox",
+    "Count": 2,
+    "Description": "fe6f153f-d693-4675-9b0e-65b8be91f35b",
+    "ResourceType": "Texture",
+    "BindFlags": [ "ShaderResource" ],
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
+  },
+  {
+    "Description": "WrapLinear",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
+  }
+]

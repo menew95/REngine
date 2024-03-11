@@ -73,6 +73,13 @@ namespace graphics
 		uint32 _flags = 0;
 	};
 
+	// Constant Buffer 정보를 저장하는 구조체
+	struct ConstantBufferDesc
+	{
+		std::string name;
+		UINT size;
+		UINT offset;
+	};
 
 	struct ShaderProgramDesc
 	{

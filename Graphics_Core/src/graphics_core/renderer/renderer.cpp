@@ -23,11 +23,18 @@ namespace graphics
 		s_pRenderer = this;
 
 		m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
+		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 	}
 
 	Renderer::~Renderer()
 	{
 		s_pRenderer = nullptr;
+	}
+
+	void Renderer::SetFrameResource()
+	{
+		m_pCommandBuffer->SetResource(*m_pFrameBuffer, 0, BindFlags::ConstantBuffer, StageFlags::AllStages);
+		m_pCommandBuffer->SetResource(*m_pTransBuffer, 1, BindFlags::ConstantBuffer, StageFlags::AllStages);
 	}
 
 	void Renderer::SetCamera(CameraBuffer* cameraBuffer)
@@ -51,8 +58,8 @@ namespace graphics
 		{
 			auto& _subMeshBuf = _meshBuf->GetSubMesh(i);
 
-			if (i < meshObject->GetMaterialBuffers().size() || meshObject->GetMaterialBuffers()[i] != nullptr)
-				continue;
+			/*if (i < meshObject->GetMaterialBuffers().size() || meshObject->GetMaterialBuffers()[i] != nullptr)
+				continue;*/
 			
 			m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 

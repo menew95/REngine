@@ -25,6 +25,8 @@ namespace graphics
 		_desc._stride = stride;
 
 		m_pIndexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Index_") + uuid, _desc, data);
+
+		m_indexCount = size / stride;
 	}
 
 	MeshBuffer::MeshBuffer()
