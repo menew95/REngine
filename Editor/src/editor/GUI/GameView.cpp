@@ -125,6 +125,12 @@ namespace editor
 					_forwardDir.x, _forwardDir.y, _forwardDir.z, 0.f,
 					_nextPosition.x, _nextPosition.y, _nextPosition.z, 1.f
 					};
+				/*_camWorld = Matrix{
+					_rightDir.x, _rightDir.y, _rightDir.z, 0.f,
+					_upDir.x, _upDir.y, _upDir.z, 0.f,
+					_forwardDir.x, _forwardDir.y, _forwardDir.z, 0.f,
+					0.f, 0.f, 0.f, 1.f
+					} * Matrix::CreateTranslation(_nextPosition);*/
 			}
 		}
 
@@ -135,7 +141,7 @@ namespace editor
 		_info._far = 1000.f;
 
 		_info._view = math::Matrix::CreateLookAt(_info._cameraWorldPos, _info._cameraWorldPos + _camWorld.Forward(), _camWorld.Up());
-		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(90.f, 1.0f, 0.1f, 1000.f);
+		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(90.f * math::Deg2Rad, 1.0f, 0.1f, 1000.f);
 		_info._projInv = _info._proj.Invert();
 		_info._viewToTexSpace = _info._view * _info._proj * math::Matrix(
 			0.5f, 0.0f, 0.0f, 0.0f,

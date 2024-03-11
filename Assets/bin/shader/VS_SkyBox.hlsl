@@ -7,7 +7,7 @@ VSOutput main(VSInput input)
 
     _output.posW = float4(input.posL, 1.0f);
     _output.posV = mul(_output.posW, _camera._view);
-    _output.posH = mul(_output.posV, _camera._worldViewProj);
+    _output.posH = mul(float4(input.posL, 1.0f), _camera._worldViewProj);
 
     // _output.posV = mul(_output.posW, _camera._view);
     // _output.posH = mul(_output.posV, _camera._proj);

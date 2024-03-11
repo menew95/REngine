@@ -1,10 +1,10 @@
 ﻿[
   {
     "UUID": "WrapLinear",
-    "Filter": "MIN_MAG_MIP_POINT",
-    "AddressU": "Wrap",
-    "AddressV": "Wrap",
-    "AddressW": "Wrap",
+    "Filter": "MIN_MAG_MIP_LINEAR",
+    "AddressU": "Clamp",
+    "AddressV": "Clamp",
+    "AddressW": "Clamp",
     "MipLODBias": 0.0,
     "MaxAnisotropy": 1,
     "ComparisonOp": "Less",

@@ -93,7 +93,7 @@ std::weak_ptr<Camera> Camera::m_MainCamera;
 		_info._far = m_fFar;
 
 		_info._view = math::Matrix::CreateLookAt(_info._cameraWorldPos, _info._cameraWorldPos + m_camWorld.Forward(), m_camWorld.Up());
-		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(m_fFieldOfView, m_fAspectRadio, m_fNear, m_fFar);
+		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(m_fFieldOfView * math::Deg2Rad, m_fAspectRadio, m_fNear, m_fFar);
 		_info._projInv = _info._proj.Invert();
 		_info._viewToTexSpace = _info._view * _info._proj * math::Matrix(
 			0.5f, 0.0f, 0.0f, 0.0f,
