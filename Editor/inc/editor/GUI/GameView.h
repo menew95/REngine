@@ -33,6 +33,8 @@ namespace editor
         void EDITOR_API End() override;
 
     private:
+        void CreateGameViewCamera();
+
         /**
             @brief 게임 뷰 카메라 움직임 제어
         **/

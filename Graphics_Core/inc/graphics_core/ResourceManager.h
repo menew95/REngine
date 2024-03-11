@@ -57,7 +57,7 @@ namespace graphics
         /**
             Graphics Module Resource
         **/
-        class RenderPass*       GetRenderPass(uuid uuid);
+        GRAPHICS_API class RenderPass* GetRenderPass(uuid uuid);
         class RenderPass*       CreateRenderPass(uuid uuid, struct RenderPassDesc& desc);
         bool                    ReleaseRenderPass(class RenderPass* renderPass);
 

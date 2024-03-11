@@ -83,6 +83,11 @@ namespace graphics
 
         void SetEnable(auto& val) { m_bIsEnable = val; }
 
+        const auto& GetRenderPassList() { return m_renderPassList; }
+
+        void PushRenderPass(auto* pass) { m_renderPassList.push_back(pass); }
+        void RemoveRenderPass(auto idx) { m_renderPassList.erase(idx); }
+
     private:
         bool m_bIsEnable = true;
 
@@ -93,5 +98,7 @@ namespace graphics
         class RenderTarget* m_pRenderTarget = nullptr;
 
         class Texture* m_pTexture = nullptr;
+
+        vector<class RenderPass*> m_renderPassList;
     };
 }
