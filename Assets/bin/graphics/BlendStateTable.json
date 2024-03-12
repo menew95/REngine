@@ -1,5 +1,28 @@
 ﻿[
   {
-    "UUID": "Default"
+    "UUID": "Default",
+    "AlphaToCoverageEnable": false,
+    "IndependentBlendEnable": false,
+    "BlendEnable": false,
+    "SrcBlend": "One",
+    "DestBlend": "Zero",
+    "BlendOp": "Add",
+    "SrcBlendAlpha": "One",
+    "DestBlendAlpha": "Zero",
+    "BlendOpAlpha": "Add",
+    "RenderTargetWriteMask": 15
+  },
+  {
+    "UUID": "AlphaBlend",
+    "AlphaToCoverageEnable": false,
+    "IndependentBlendEnable": false,
+    "BlendEnable": true,
+    "SrcBlend": "SrcAlpha",
+    "DestBlend": "InvSrcAlpha",
+    "BlendOp": "Add",
+    "SrcBlendAlpha": "One",
+    "DestBlendAlpha": "One",
+    "BlendOpAlpha": "Add",
+    "RenderTargetWriteMask": 15
   }
 ]

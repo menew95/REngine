@@ -24,7 +24,7 @@ namespace editor
 
 	GameView::~GameView()
 	{
-		graphics::ResourceManager::GetInstance()->RelaseCameraBuffer(TEXT("SkyBox"));
+		graphics::ResourceManager::GetInstance()->RelaseCameraBuffer(TEXT("Game View Camera"));
 	}
 
 	void EDITOR_API GameView::Begin()
@@ -55,9 +55,9 @@ namespace editor
 
 		m_pGameViewCameraBuffer->SetName("Game View Camera");
 
-		auto* _skyBox = graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox"));
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox Pass")));
 
-		m_pGameViewCameraBuffer->PushRenderPass(_skyBox);
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Grid Pass")));
 	}
 
 	void GameView::GameViewCameraControl()

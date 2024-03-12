@@ -28,7 +28,7 @@ namespace graphics
 
 	SkyBoxRenderPass::~SkyBoxRenderPass()
 	{
-
+		delete m_pSkyBoxMesh;
 	}
 
 	void SkyBoxRenderPass::Init()

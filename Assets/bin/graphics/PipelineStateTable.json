@@ -7,5 +7,14 @@
     "StencilDesc": "Default",
     "RasterizerDesc": "Default",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Grid Debug",
+    "ShaderProgram": "Grid Debug",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "Default",
+    "StencilDesc": "Default",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "AlphaBlend"
   }
 ]

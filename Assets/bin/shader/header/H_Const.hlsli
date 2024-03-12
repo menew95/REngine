@@ -19,4 +19,11 @@ cbuffer PerMaterial : register(b2)
 {
     Material _material;
 }
+
+cbuffer Debug : register(b5)
+{
+    // 격자 두께 설정
+    float _gridThickness;
+    float3 _gridColor;
+}
 #endif

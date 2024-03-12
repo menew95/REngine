@@ -15,5 +15,15 @@
     "StageFlags": [ "PS" ],
     "Slot": 0,
     "ArraySize": 1
+  },
+  {
+    "UUID": "Grid Debug",
+    "Count": 1,
+    "Description": "PerDebug",
+    "ResourceType": "Buffer",
+    "BindFlags": [ "ConstantBuffer" ],
+    "StageFlags": [ "PS" ],
+    "Slot": 5,
+    "ArraySize": 1
   }
 ]

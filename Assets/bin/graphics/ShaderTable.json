@@ -25,5 +25,23 @@
     "SourceSize": 0,
     "EntryPoint": "main",
     "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-4000-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\VS_Grid.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "vs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-5000-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_Grid.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
   }
 ]

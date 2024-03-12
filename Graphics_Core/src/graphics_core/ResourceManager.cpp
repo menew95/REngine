@@ -12,6 +12,8 @@
 #include <graphics_core\table\JsonTable.h>
 
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
+#include <graphics_core\renderpass\DeferredRenderPass.h>
+#include <graphics_core\renderpass\GridRenderPass.h>
 
 template <typename T>
 bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, uuid uuid)
@@ -81,11 +83,29 @@ namespace graphics
 	{
 		LoadGraphicsTable();
 
-		auto _skyBox = new SkyBoxRenderPass();
+		{
+			auto _renderPass = new SkyBoxRenderPass();
 
-		_skyBox->Init();
+			_renderPass->Init();
 
-		m_renderPassMap.insert(make_pair(TEXT("SkyBox"), _skyBox));
+			m_renderPassMap.insert(make_pair(TEXT("SkyBox Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new DeferredRenderPass();
+
+			_renderPass->Init();
+
+			m_renderPassMap.insert(make_pair(TEXT("Deferred Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new GridRenderPass();
+
+			_renderPass->Init();
+
+			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
+		}
 	}
 
 	MeshBuffer* ResourceManager::CreateMeshBuffer(uuid uuid)

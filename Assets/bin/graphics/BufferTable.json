@@ -26,5 +26,12 @@
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
     "Slot": 4
+  },
+  {
+    "UUID": "PerDebug",
+    "Size": 256,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 5
   }
 ]
