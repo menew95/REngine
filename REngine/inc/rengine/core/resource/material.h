@@ -136,6 +136,8 @@ namespace rengine
 
         void AddProperties(vector<MaterialProperty> val);
 
+        graphics::MaterialBuffer* GetMaterialBuffer() { return m_pMaterialBuffer; }
+
     private:
         map<MaterialProperty::PropType, vector<MaterialProperty>> m_properties;
 

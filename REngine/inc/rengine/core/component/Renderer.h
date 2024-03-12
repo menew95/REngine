@@ -35,7 +35,11 @@ namespace rengine
         vector<weak_ptr<Material>> GetMaterials() { return m_materials; }
         void SetMaterials(vector<weak_ptr<Material>> val) { m_materials = val; }
 
-    private:
+        virtual void Render();
+
+        void OnDisable() override;
+
+    protected:
         vector<weak_ptr<Material>> m_materials;
 
         struct RenderInfo

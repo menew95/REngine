@@ -1,6 +1,9 @@
 ﻿#include <rengine\core\component\Renderer.h>
+#include <rengine\core\component\Transform.h>
 
 #include <rengine\core\resource\Material.h>
+
+#include <graphics_core\RenderQueue.h>
 
 #include <rttr\registration.h>
 
@@ -43,5 +46,20 @@ namespace rengine
 	Renderer::~Renderer()
 	{
 
+	}
+
+	void Renderer::Render()
+	{
+		auto _trans = GetTransform().lock();
+
+		if(_trans == nullptr)
+			return;
+
+		m_pRenderObject->SetWorld(_trans->GetWorld());
+	}
+
+	void Renderer::OnDisable()
+	{
+		graphics::RenderQueue::GetInstance()->DeleteObject(m_pRenderObject);
 	}
 }

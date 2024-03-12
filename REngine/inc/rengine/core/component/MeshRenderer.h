@@ -29,6 +29,10 @@ namespace rengine
 
         virtual ~MeshRenderer();
 
+        void Awake() override;
+
+        void Render() override;
+
     protected:
 
         RTTR_ENABLE(Renderer);

@@ -63,6 +63,8 @@ namespace rengine
         void SetIsSkinned(const auto& val) { m_bIsSkinned = val; }
         void SetBoneName(const auto& val) { m_boneName = val; }
 
+        graphics::MeshBuffer* GetMeshBuffer() { return m_pMeshBuffer; }
+
     private:
 
         // mesh bin

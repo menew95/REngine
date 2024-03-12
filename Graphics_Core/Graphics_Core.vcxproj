@@ -213,6 +213,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\renderpass\DeferredRenderPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\GridRenderPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\SkyBoxRenderPass.h" />
+    <ClInclude Include="inc\graphics_core\RenderQueue.h" />
     <ClInclude Include="inc\graphics_core\resource\CameraBuffer.h" />
     <ClInclude Include="inc\graphics_core\resource\LightBuffer.h" />
     <ClInclude Include="inc\graphics_core\resource\MaterialBuffer.h" />
@@ -227,6 +228,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\graphics_core\renderpass\DeferredRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\GridRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\SkyBoxRenderPass.cpp" />
+    <ClCompile Include="src\graphics_core\RenderQueue.cpp" />
     <ClCompile Include="src\graphics_core\table\JsonTable.cpp" />
     <ClCompile Include="src\graphics_core\GraphicsEngine.cpp" />
     <ClCompile Include="src\graphics_core\GraphicsEngine_api.cpp" />
