@@ -200,6 +200,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\editor\Core\AssetManager.h" />
     <ClInclude Include="inc\editor\Core\Event.h" />
     <ClInclude Include="inc\editor\Core\EventManager.h" />
     <ClInclude Include="inc\editor\Core\EnginePlugin.h" />
@@ -247,6 +248,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="src\Editor_pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\Core\AssetManager.cpp" />
     <ClCompile Include="src\editor\GUI\Document.cpp" />
     <ClCompile Include="src\editor\GUI\SceneView.cpp" />
     <ClCompile Include="src\editor\Widget\CheckBox.cpp" />

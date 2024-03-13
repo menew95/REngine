@@ -37,11 +37,11 @@ namespace editor
 		void ClearCollapsWidget();
 		void ClearTreeNodeWidget();
 
-		Widget* GetColumnWidget(string name);
+		Widget* GetColumnWidget(string name, uint32 flags = 0);
 
-		TreeNode* GetTreeNodeWidget(string name);
+		TreeNode* GetTreeNodeWidget(string name, uint32 flags = 0);
 
-		CollapsingHeader* GetCollapsWidget(string name);
+		CollapsingHeader* GetCollapsWidget(string name, uint32 flags = 0);
 
 		template<typename T, typename ... Args>
 		T* CreateWidget(string name, Args... args)

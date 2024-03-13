@@ -31,7 +31,7 @@ namespace editor
 
         EDITOR_API uint32 GetFlags() { return m_flags; }
 
-    private:
+    protected:
         string m_widgetName;
 
         uint32 m_flags;

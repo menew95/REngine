@@ -4,6 +4,8 @@
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Material.h>
 
+#include <rengine\core\component\Transform.h>
+
 #include <rttr\registration.h>
 
 #include <graphics_core\RenderQueue.h>
@@ -34,7 +36,9 @@ namespace rengine
 
 		graphics::MeshObject* _meshObj = reinterpret_cast<graphics::MeshObject*>(m_pRenderObject);
 
-		auto _meshFilter = GetGameObject().lock()->GetComponent<MeshFilter>();
+		GetGameObject().lock()->GetComponent<Transform>();
+
+		/*auto _meshFilter = GetGameObject().lock()->GetComponent<MeshFilter>();
 
 		if(_meshFilter == nullptr)
 			return;
@@ -58,11 +62,12 @@ namespace rengine
 			_mats.push_back(_material->GetMaterialBuffer());
 		}
 
-		_meshObj->SetMaterialBuffers(_mats);
+		_meshObj->SetMaterialBuffers(_mats);*/
 	}
 
 	void MeshRenderer::Awake()
 	{
-		m_pRenderObject = graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
+		m_pRenderObject = (graphics::MeshObject*)graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
+
 	}
 }

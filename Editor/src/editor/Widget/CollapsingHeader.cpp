@@ -17,7 +17,7 @@ namespace editor
 
 	void CollapsingHeader::Render()
 	{
-		if (ImGui::CollapsingHeader(GetWidgetName().c_str()))
+		if (ImGui::CollapsingHeader(GetWidgetName().c_str(), m_flags))
 		{
 			for (auto& _widget : GetChilds())
 			{

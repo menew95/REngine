@@ -47,6 +47,13 @@ namespace editor
                 DrawComponent(_comp.lock().get());
             }
         }
+
+		DrawAddComponent();
+
+		if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			EventManager::GetInstance()->SetFocusObject(nullptr);
+
+
     }
     void InspectorView::End()
     {
@@ -269,7 +276,12 @@ namespace editor
     {
         const rttr::type component_type = rttr::type::get_by_name(StringHelper::ToString(comp->GetTypeStr()));
 
-		auto* _componentWidget = WidgetManager::GetInstance()->GetCollapsWidget(comp->GetTypeStr());
+		auto* _componentWidget = WidgetManager::GetInstance()->GetCollapsWidget(comp->GetTypeStr()
+		, ImGuiTreeNodeFlags_DefaultOpen
+			| ImGuiTreeNodeFlags_Framed
+			| ImGuiTreeNodeFlags_SpanAvailWidth
+			| ImGuiTreeNodeFlags_AllowOverlap
+			| ImGuiTreeNodeFlags_FramePadding);
 
         for (rttr::property _prop : component_type.get_properties())
         {
@@ -301,5 +313,41 @@ namespace editor
 		_componentWidget->Render();
     }
 
+	int FindComponent(ImGuiInputTextCallbackData* data)
+	{
+		string _componentName = data->Buf;
 
+		string _temp[] = {
+				"Mesh Renderer",
+				"Transform",
+				"Camera"
+		};
+
+		return 0;
+	}
+
+	void InspectorView::DrawAddComponent()
+	{
+		static char _buf[256];
+		
+
+		if (ImGui::Button("Add Component"))
+		{
+			ImGui::OpenPopup("Add Component");
+
+			memset(_buf, 0, sizeof(_buf));
+		}
+
+		if (ImGui::BeginPopup("Add Component"))
+		{
+			if (ImGui::InputTextEx("Add Component", "Component Name", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindComponent))
+			{
+				int a= 0;
+			}
+
+
+
+			ImGui::EndPopup();
+		}
+	}
 }

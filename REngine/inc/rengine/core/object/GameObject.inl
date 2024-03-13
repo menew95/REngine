@@ -24,7 +24,7 @@ namespace rengine
 	template<typename T>
 	inline std::shared_ptr<T> GameObject::GetComponent()
 	{
-		for (std::weak_ptr<T>& component : m_Components)
+		for (auto& component : m_Components)
 		{
 			if (typeid(*(component.lock().get())).name() == typeid(T).name())
 			{

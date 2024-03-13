@@ -34,6 +34,9 @@ namespace rengine
         void Render() override;
 
     protected:
+        weak_ptr<Mesh> m_mesh;
+
+        vector<weak_ptr<Material>> m_materials;
 
         RTTR_ENABLE(Renderer);
 

@@ -46,6 +46,11 @@ namespace editor
 		  @param comp - component pointer
 		**/
 		void DrawComponent(rengine::Component* comp);
+
+		/**
+		    @brief Add Component ui
+		**/
+		void DrawAddComponent();
 	};
 
 }

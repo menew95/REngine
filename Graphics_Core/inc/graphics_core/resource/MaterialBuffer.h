@@ -28,13 +28,13 @@ namespace graphics
             @brief pass에 render object 등록
             @param obj - render object ptr
         **/
-        void AddRenderObject(class RenderObject* obj);
+        GRAPHICS_API void AddRenderObject(class RenderObject* obj);
 
         /**
             @brief pass에 등록 된 render object 제거
             @param obj - render object ptr
         **/
-        void RemoveRenderObject(class RenderObject* obj);
+        GRAPHICS_API void RemoveRenderObject(class RenderObject* obj);
 
         void BindResource(class CommandBuffer* command);
 

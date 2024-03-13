@@ -14,11 +14,12 @@
 
 namespace graphics
 {
-    class RenderObject;
+    class MeshObject;
 }
 
 namespace rengine
 {
+    class Mesh;
     class Material;
 
     class RENGINE_API Renderer : public Component, public enable_shared_from_this<Renderer>
@@ -33,13 +34,20 @@ namespace rengine
         virtual ~Renderer();
 
         vector<weak_ptr<Material>> GetMaterials() { return m_materials; }
-        void SetMaterials(vector<weak_ptr<Material>> val) { m_materials = val; }
+        void SetMaterials(vector<weak_ptr<Material>> val);
+
+        void SetMaterial(size_t i, shared_ptr<Material>& mat);
+
+        shared_ptr<Mesh> GetMesh() { return m_mesh.lock(); }
+        void SetMesh(shared_ptr<Mesh> mesh);
 
         virtual void Render();
 
         void OnDisable() override;
 
     protected:
+        weak_ptr<Mesh> m_mesh;
+        
         vector<weak_ptr<Material>> m_materials;
 
         struct RenderInfo
@@ -48,7 +56,7 @@ namespace rengine
             uint32 _shadowCastingMode;
         };
 
-        graphics::RenderObject* m_pRenderObject = nullptr;
+        graphics::MeshObject* m_pRenderObject = nullptr;
 
         RTTR_ENABLE(Component);
 

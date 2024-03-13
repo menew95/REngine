@@ -55,19 +55,19 @@ namespace editor
 		m_columnWidgets.clear();
 	}
 
-	Widget* WidgetManager::GetColumnWidget(string name)
+	Widget* WidgetManager::GetColumnWidget(string name, uint32 flags)
 	{
 		return nullptr;
 	}
 
-	TreeNode* WidgetManager::GetTreeNodeWidget(string name)
+	TreeNode* WidgetManager::GetTreeNodeWidget(string name, uint32 flags)
 	{
 		auto _find = m_treeNodeWidgets.find(name);
 
 		if (_find != m_treeNodeWidgets.end())
 			return reinterpret_cast<TreeNode*>(_find->second);
 
-		if (TreeNode* _ret = CreateWidget<TreeNode>(name))
+		if (TreeNode* _ret = CreateWidget<TreeNode>(name, flags))
 		{
 			return _ret;
 		}
@@ -75,14 +75,14 @@ namespace editor
 		return nullptr;
 	}
 
-	CollapsingHeader* WidgetManager::GetCollapsWidget(string name)
+	CollapsingHeader* WidgetManager::GetCollapsWidget(string name, uint32 flags)
 	{
 		auto _find = m_collapsWidgets.find(name);
 
 		if (_find != m_collapsWidgets.end())
 			return reinterpret_cast<CollapsingHeader*>(_find->second);
 
-		if (CollapsingHeader* _ret = CreateWidget<CollapsingHeader>(name))
+		if (CollapsingHeader* _ret = CreateWidget<CollapsingHeader>(name, flags))
 		{
 			return _ret;
 		}

@@ -32,13 +32,13 @@ namespace graphics
             @param uuid - 렌더 오브젝트에 할당할 uuid
             @retval  - 추가한 render object pointer
         **/
-        RenderObject* CreateRenderObject(const RenderType type, uuid uuid);
+        GRAPHICS_API RenderObject* CreateRenderObject(const RenderType type, uuid uuid);
 
         /**
             @brief 저장되어있는 render object를 삭제
             @param object - 삭제할 render object pointer
         **/
-        void DeleteObject(RenderObject* object);
+        GRAPHICS_API void DeleteObject(RenderObject* object);
 
 
     private:
