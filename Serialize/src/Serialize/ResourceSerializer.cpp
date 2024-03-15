@@ -432,6 +432,26 @@ namespace utility
 
 			_object = MaterialDeserialize(metaInfo, _pt);
 		}
+		else if (_extension == ".fbx")
+		{
+			boost::property_tree::ptree _pt;
+
+			std::ifstream file(path);
+
+			assert(file.good());
+
+			try
+			{
+				boost::property_tree::read_json(file, _pt);
+
+				file.close();
+			}
+			catch (const boost::property_tree::json_parser_error& e)
+			{
+				auto error = e.what();
+			}
+
+		}
 		else if (_extension == ".mesh")
 		{
 			MeshBin _bin = DeserializeBinary<MeshBin>(path);

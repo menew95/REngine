@@ -91,7 +91,7 @@ namespace utility
 			
 			if (_extension == ".fbx")
 			{
-
+				
 			}
 			else if (_extension == ".mat")
 			{

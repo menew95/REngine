@@ -13,3 +13,5 @@
 #include <common\common.h>
 
 const tstring g_assetPath = TEXT("..\\..\\..\\..\\Assets\\");
+
+const tstring g_editorPath = TEXT("..\\..\\..\\..\\");

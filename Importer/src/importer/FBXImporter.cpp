@@ -1011,6 +1011,8 @@ namespace utility
 		fbxsdk::FbxNode* _rootNode = g_pFbxScene->GetRootNode();
 
 		TraversalNode(_rootNode, _model);
+
+		vector<pair<uuid, tstring>> _assets;
 		
 		for (auto& _iter : _model._meshMap)
 		{
@@ -1035,6 +1037,8 @@ namespace utility
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
+
+			_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
 		}
 
 		for (auto& _bin : _model._animationClips)
@@ -1067,6 +1071,8 @@ namespace utility
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
+
+			_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
 		}
 
 		for (auto& _bin : _model._materialMap)
@@ -1110,8 +1116,11 @@ namespace utility
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
+
+			_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
 		}
 
+		utility::Serializer::CreateMetaInfo(path, _object.get());
 
 	}
 }

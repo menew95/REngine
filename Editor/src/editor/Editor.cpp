@@ -6,6 +6,8 @@
 
 #include <editor\GUI\EditorDocument.h>
 
+#include <editor\Core\AssetManager.h>
+
 #include <rengine\System\GraphicsSystem.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
@@ -28,6 +30,8 @@ namespace editor
 		InitImGui();
 
 		m_pEditorDocment = new EditorDocument();
+
+		AssetManager::GetInstance()->Initialze();
 	}
 
 	bool Editor::Update()

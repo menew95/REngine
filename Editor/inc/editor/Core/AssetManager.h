@@ -45,6 +45,12 @@ namespace editor
 
         /**
             @brief 
+            @param path - 
+        **/
+        void LoadAsset(const tstring& path);
+
+        /**
+            @brief 
             @param oldPath - 
             @param newPath - 
         **/
@@ -68,9 +74,19 @@ namespace editor
             @param path - 경로
         **/
         void CheckMetaFile(const tstring& path);
-        
-        vector<string> m_componentList;
 
-        unordered_map<uuid, string> m_assetList;
+        /**
+            @brief asset data를 읽고 에셋 리스트에 할당
+        **/
+        void LoadAssetData();
+
+        /**
+            @brief asset list를 asset data에 저장
+        **/
+        void SaveAssetData();
+        
+        vector<tstring> m_componentList;
+
+        unordered_map<uuid, tstring> m_assetList;
     };
 }
