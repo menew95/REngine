@@ -35,7 +35,7 @@ namespace editor
             @param objec - 
             @param path  - 
         **/
-        void CreateAsset(rengine::Object* objec, const tstring& path);
+        void CreateAsset(rengine::Object* object, const tstring& path);
 
         /**
             @brief 

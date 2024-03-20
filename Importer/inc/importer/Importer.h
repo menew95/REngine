@@ -14,11 +14,16 @@
 
 #include <importer\ImporterAPI.h>
 
+namespace rengine
+{
+    class Object;
+}
+
 namespace utility
 {
     class Importer
     {
     public:
-        IMPORTER_API static void Import(const tstring& path);
+        IMPORTER_API static shared_ptr<rengine::Object> Import(const tstring& path);
     };
 }

@@ -17,12 +17,12 @@ namespace fs = std::filesystem;
 
 namespace utility
 {
-	void Importer::Import(const tstring& path)
+	shared_ptr<rengine::Object> Importer::Import(const tstring& path)
 	{
 		fs::path _path(path);
 
 		if(!fs::exists(_path) || !_path.has_extension())
-			return;
+			return nullptr;
 
 		auto _extension = _path.extension().string();
 
@@ -70,5 +70,7 @@ namespace utility
 
 		if (_object != nullptr)
 			utility::Serializer::CreateMetaInfo(path, _object.get());
+
+		return _object;
 	}
 }

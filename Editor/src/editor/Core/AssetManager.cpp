@@ -3,7 +3,7 @@
 #include <common\AssetPath.h>
 #include <importer\Importer.h>
 #include <rengine\core\resources.h>
-
+#include <Serialize\Serializer.h>
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -26,19 +26,27 @@ namespace editor
 	{
 		LoadAssetData();
 
-		//Refresh();
+		Refresh();
 	}
 	
-	void AssetManager::CreateAsset(rengine::Object* objec, const tstring& path)
+	void AssetManager::CreateAsset(rengine::Object* object, const tstring& path)
 	{
 	
 	}
 	
 	void AssetManager::ImportAsset(const tstring& path)
 	{
-		utility::Importer::Import(path);
+		auto _obj = utility::Importer::Import(path);
 
+		if(_obj == nullptr)
+			return;
 
+		auto _resource = static_pointer_cast<rengine::Resource>(_obj);
+
+		if(_resource == nullptr)
+			return;
+
+		m_assetList.insert(make_pair(_resource->GetUUID(), _resource->GetPath()));
 	}
 
 	void AssetManager::LoadAsset(const tstring& path)
@@ -81,6 +89,8 @@ namespace editor
 	void AssetManager::Refresh()
 	{
 		CheckMetaFile(g_assetPath);
+
+		SaveAssetData();
 	}
 
 	void AssetManager::CheckMetaFile(const tstring& path)
@@ -104,7 +114,19 @@ namespace editor
 			fs::path _metaPath(path + TEXT(".meta"));
 
 			if (fs::exists(_metaPath))
+			{
+				// asset list에 등록이 되어있는지 확인후 안되어 있으면 추가
+				auto _iter = m_assetList.find(_path);
+
+				if(_iter != m_assetList.end())
+					return;
+
+				auto _metainfo = utility::Serializer::SerializeMetaInfo(path);
+
+				m_assetList.insert(make_pair(_metainfo._guid, fs::absolute(_path)));
+
 				return;
+			}
 
 			ImportAsset(path);
 		}

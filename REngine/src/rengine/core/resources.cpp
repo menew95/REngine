@@ -174,7 +174,7 @@ namespace rengine
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<AnimationClip> _res;
 
-		if (_obj == nullptr || (_res = dynamic_pointer_cast<AnimationClip>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::TEXTURE)
+		if (_obj == nullptr || (_res = dynamic_pointer_cast<AnimationClip>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::ANIMATION_CLIP)
 			return nullptr;
 
 		_res->LoadMemory();

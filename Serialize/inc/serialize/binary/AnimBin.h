@@ -111,9 +111,7 @@ namespace utility
 
 		auto& operator=(const rengine::AnimationSnap& snap)
 		{
-			rengine::AnimationSnap _snap;
-
-			_snap._target = StringHelper::StringToWString(_nodeName);
+			_nodeName = StringHelper::WStringToString(snap._target);
 
 			_posKeyFrameList.resize(snap._posKeyFrameList.size());
 			_rotKeyFrameList.resize(snap._rotKeyFrameList.size());

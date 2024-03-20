@@ -29,6 +29,7 @@ namespace utility
 	void SerializeBinary(const tstring& path, T& resource)
 	{
 		std::ofstream _ofs(path, std::ios_base::binary);
+
 		boost::iostreams::filtering_stream<boost::iostreams::output> _buffer;
 		_buffer.push(boost::iostreams::zlib_compressor());
 		_buffer.push(_ofs);
@@ -474,9 +475,26 @@ namespace utility
 		{
 			AnimationClipBin _bin = DeserializeBinary<AnimationClipBin>(path);
 
-			auto _anim = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>(metaInfo._guid);
+			auto _clip = rengine::Resources::GetInstance()->CreateResource<rengine::AnimationClip>(metaInfo._guid);
 
-			_object = _anim;
+			_clip->SetNameStr(_bin._clipName);
+
+			_clip->SetFrameRate(_bin._frameRate);
+			_clip->SetTickPerFrame(_bin._tickPerFrame);
+			_clip->SetTotalKeyFrame(_bin._totalKeyFrame);
+			_clip->SetStartKeyFrame(_bin._startKeyFrame);
+			_clip->SetEndKeyFrame(_bin._endKeyFrame);
+
+			vector<rengine::AnimationSnap> _snaps(_bin._snapList.size());
+
+			for (size_t i = 0; i < _bin._snapList.size(); i++)
+			{
+				_snaps[i] = _bin._snapList[i].Convert();
+			}
+
+			_clip->SetSnaps(_snaps);
+
+			_object = _clip;
 		}
 		else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
