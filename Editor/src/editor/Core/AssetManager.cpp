@@ -134,16 +134,19 @@ namespace editor
 		{
 			tstring _buf;
 			std::getline(_ifs, _buf, L':');
-
 			if (_buf.find(TEXT("UUID")) != wstring::npos)
 			{
 				std::getline(_ifs, _buf);
+
+				_buf.erase(0, 1);
 
 				_pa.first = _buf;
 			}
 			else if (_buf.find(TEXT("Path")) != wstring::npos)
 			{
 				std::getline(_ifs, _buf);
+
+				_buf.erase(0, 1);
 
 				_pa.second = _buf;
 
