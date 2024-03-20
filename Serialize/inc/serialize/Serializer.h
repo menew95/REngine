@@ -30,6 +30,14 @@ namespace utility
 		**/
 		SERIALIZE_API static bool CreateMetaInfo(const tstring& path, rengine::Object* object);
 
+		/**
+		    @brief  fbx와 같은 모델 파일의 meta info들을 생성
+		    @param  path   - 파일 위치
+		    @param  assets - 해당 파일에 해당하는 객체
+		    @retval        - .meta 파일 생성 여부
+		**/
+		SERIALIZE_API static bool CreateMetaInfoModel(const tstring& path, vector<rengine::Object*>& assets);
+
 		SERIALIZE_API static rengine::MetaInfo SerializeMetaInfo(const tstring& path);
 
 		/**

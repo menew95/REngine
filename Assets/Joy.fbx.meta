@@ -1,0 +1,25 @@
+{
+    "guid": "",
+    "serializable type": "1",
+    "mesh": [
+        "8fee237b-95f0-4409-9482-0787806e5cfc",
+        "78f5c566-0fff-4364-8e06-9b848f91c7d8",
+        "672ff76b-35ed-4183-9bc5-2f33c1fa5f46",
+        "b55e9e89-f2ea-48e8-9455-ba194cdd5552",
+        "386bae08-d7c1-4aef-a7a3-9be889317f11",
+        "0a695399-3c1a-4ebb-a85f-8f3f62c2be5d",
+        "d9dfef5c-cbbe-4302-92b8-46e5282ac84a"
+    ],
+    "material": [
+        "f30f6359-8803-4d00-bac7-728f0c41cad1",
+        "8b7b568a-9e11-4209-9ed3-d808c791b8ef",
+        "a991f46d-7938-417f-b721-a829220d7322",
+        "27210cfe-3436-4d5e-b272-f170aa4d4a54",
+        "53ceb92c-e67a-4d31-be0e-2d5eb85f0c25",
+        "a1410a1d-e0a6-4d33-b5ee-c59f143b68b2",
+        "ac562437-2bb7-46cf-98f1-eac8d50bbe68"
+    ],
+    "animation": [
+        "d206233f-eb4f-468a-a11c-bd710ecc42c7"
+    ]
+}

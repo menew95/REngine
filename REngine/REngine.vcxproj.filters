@@ -105,6 +105,9 @@
     <ClInclude Include="inc\rengine\utility\DefaultResourceBuilder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\core\resource\Prefab.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">

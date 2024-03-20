@@ -211,6 +211,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\resource\AnimationClip.h" />
     <ClInclude Include="inc\rengine\core\resource\Material.h" />
     <ClInclude Include="inc\rengine\core\resource\Mesh.h" />
+    <ClInclude Include="inc\rengine\core\resource\Prefab.h" />
     <ClInclude Include="inc\rengine\core\resource\Resource.h" />
     <ClInclude Include="inc\rengine\core\resource\Texture.h" />
     <ClInclude Include="inc\rengine\core\SceneManager.h" />
