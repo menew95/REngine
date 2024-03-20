@@ -44,6 +44,55 @@ namespace rengine
 		return true;
 	}
 
+	bool Resources::DeleteResource(shared_ptr<Resource>& res)
+	{
+		assert(res != nullptr);
+
+		if (res->GetIsLoad() && !res->UnLoadMemory())
+			assert(false);
+
+		switch (res->GetResourceType())
+		{
+			case ResourceType::MATERIAL:
+			{
+				m_materialMap.erase(res->GetUUID());
+				break;
+			}
+			case ResourceType::TEXTURE:
+			{
+				m_textureMap.erase(res->GetUUID());
+				break;
+			}
+			case ResourceType::MESH:
+			case ResourceType::SKINNED_MESH:
+			{
+				m_meshMap.erase(res->GetUUID());
+				break;
+			}
+			case ResourceType::ANIMATOR_CONTROLLER:
+			{
+				break;
+			}
+			case ResourceType::ANIMATION_CLIP:
+			{
+				m_animationClipMap.erase(res->GetUUID());
+				break;
+			}
+			case ResourceType::AUDIO_CLIP:
+			{
+				break;
+			}
+			case ResourceType::UNKNOWN:
+			default:
+			{
+				assert(false);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	void Resources::LoadAllAsset()
 	{
 		tstring _assetPath = TEXT("..\\..\\..\\..\\Assets");

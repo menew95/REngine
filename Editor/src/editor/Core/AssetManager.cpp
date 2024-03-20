@@ -24,6 +24,11 @@ namespace editor
 
 	void AssetManager::Initialze()
 	{
+		// 지금은 마땅히 하드 코딩 말곤 생각이 안난다.
+		m_componentList.push_back("Camera");
+		m_componentList.push_back("MeshRenderer");
+		m_componentList.push_back("Transform");
+
 		LoadAssetData();
 
 		Refresh();
@@ -31,7 +36,7 @@ namespace editor
 	
 	void AssetManager::CreateAsset(rengine::Object* object, const tstring& path)
 	{
-	
+		
 	}
 	
 	void AssetManager::ImportAsset(const tstring& path)
@@ -78,7 +83,11 @@ namespace editor
 	
 	void AssetManager::MoveAsset(const tstring& oldPath, const tstring& newPath)
 	{
-	
+		fs::path _oldPath(oldPath);
+
+		fs::path _newPath(newPath);
+
+		fs::rename(_oldPath, _newPath);
 	}
 	
 	void AssetManager::FindAsset(const tstring& filter)
@@ -187,6 +196,8 @@ namespace editor
 	void AssetManager::SaveAssetData()
 	{
 		std::wofstream _ofs(g_editorPath + TEXT("Library\\AssetData"));
+
+		_ofs << TEXT("Assets:\n");
 
 		for (auto& _pair : m_assetList)
 		{

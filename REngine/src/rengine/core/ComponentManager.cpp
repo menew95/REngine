@@ -1,6 +1,7 @@
 ﻿#include <rengine\core\ComponentManager.h>
 
 #include <rengine\core\component\Component.h>
+#include <rengine\core\object\GameObject.h>
 
 namespace rengine
 {
@@ -50,6 +51,8 @@ namespace rengine
 		);
 
 		assert(_iter != m_componentsList.end());
+
+		component->GetGameObject().lock()->RemoveComponent(component);
 
 		(*_iter).second.DeleteComponent(component);
 	}

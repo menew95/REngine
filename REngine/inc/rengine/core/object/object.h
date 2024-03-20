@@ -44,6 +44,8 @@ namespace rengine
 		string GetTypeStr();
 		void SetType(tstring val);
 		void SetTypeStr(string val);
+		
+		static void Destroy(shared_ptr<Object> obj, float t);
 
 	private:
 		class Impl* m_pImpl;

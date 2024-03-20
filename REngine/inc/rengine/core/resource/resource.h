@@ -21,7 +21,7 @@ namespace rengine
         MESH = 3,
         SKINNED_MESH = 4,
 
-        ANMATOR_CONTROLLER = 5,
+        ANIMATOR_CONTROLLER = 5,
         ANIMATION_CLIP = 6,
 
         AUDIO_CLIP = 7,

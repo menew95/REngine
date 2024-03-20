@@ -114,6 +114,8 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<AnimationClip> CreateResource(uuid uuid);
 
+        RENGINE_API bool DeleteResource(shared_ptr<Resource>& res);
+
     private:
         void LoadAllAsset();
 

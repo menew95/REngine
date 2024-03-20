@@ -38,6 +38,8 @@ namespace rengine
         template<typename T>
         std::shared_ptr<T> AddComponent();
 
+        void AddComponent(string type);
+
         template<typename T>
         std::shared_ptr<T> GetComponent();
 
@@ -75,6 +77,10 @@ namespace rengine
         inline void SetLayer(uint32 val)            { m_layer = val; }
 
     private:
+        template<typename T>
+        bool RemoveComponent(shared_ptr<T> comp);
+
+        bool RemoveComponent(tstring type);
 
         std::vector<std::weak_ptr<Component>>  m_Components;
         
@@ -89,6 +95,8 @@ namespace rengine
         tstring m_tag;
 
         uint32 m_layer = 0;
+        
+        friend ComponentManager;
 
         RTTR_ENABLE(rengine::Object);
 

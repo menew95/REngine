@@ -1,6 +1,9 @@
 ﻿#include <rengine\system\ObjectFactory.h>
 
 #include <rengine\core\ComponentManager.h>
+#include <rengine\core\Resources.h>
+
+#include <rengine\System\Time.h>
 
 #include <rttr\type.h>
 
@@ -14,9 +17,48 @@ namespace rengine
 
 		},
 		{
-
+			ObjectFactory::GetInstance()->DeleteAllObjects();
 		});
 
+
+	void ObjectFactory::Update()
+	{
+		for (auto& _pair : m_reserveDestroyObjectsQueue)
+		{
+			for (auto _iter = _pair.second.begin(); _iter != _pair.second.end(); )
+			{
+				_iter->first -= static_cast<float>(Time::GetDeltaTime());
+				
+				if (_iter->first < 0.001f)
+				{
+					rttr::variant _var = _iter->second;
+
+					auto _b = _var.can_convert(rttr::type::get_by_name("Component"));
+
+					rttr::instance obj = _var;
+					rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
+
+					if (_derived_type.is_derived_from(rttr::type::get_by_name("Component")))
+					{
+						auto _comp = static_pointer_cast<Component>(_iter->second);
+
+						ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+					}
+					else if(_derived_type.is_derived_from(rttr::type::get_by_name("Resource")))
+					{
+						auto _resource = static_pointer_cast<Resource>(_iter->second);
+
+						Resources::GetInstance()->DeleteResource(_resource);
+					}
+
+					m_objectsMap[_iter->second->GetType()].erase(_iter->second->GetUUID());
+
+					_iter = _pair.second.erase(_iter);
+				}
+				else _iter++;
+			}
+		}
+	}
 
 	shared_ptr<Object> ObjectFactory::CreateObject(string type, uuid _uuid)
 	{
@@ -49,16 +91,16 @@ namespace rengine
 		return _object;
 	}
 
-	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject)
+	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject, float t)
 	{
 		auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
 
 		if (_delMapIter != m_reserveDestroyObjectsQueue.end()
-			&& _delMapIter->second.end() == std::ranges::find_if(_delMapIter->second.begin()
+			&& _delMapIter->second.end() != std::ranges::find_if(_delMapIter->second.begin()
 			, _delMapIter->second.end(), 
 			[deleteObject](auto _pair)
 				{
-					return true;
+					return _pair.second == deleteObject;
 				}))
 		{
 			// 이미 삭제 대기중임
@@ -73,11 +115,11 @@ namespace rengine
 
 		assert(_objIter != _mapIter->second.end());
 
-		//auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
+		m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(t, deleteObject));
 
-		m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(0, deleteObject));
+		/*auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
 
-		/*if (_delMapIter != m_reserveDestroyObjectsQueue.end())
+		if (_delMapIter != m_reserveDestroyObjectsQueue.end())
 		{
 			m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(0, deleteObject));
 		}
@@ -100,5 +142,33 @@ namespace rengine
 		}
 
 		return nullptr;
+	}
+	
+	void ObjectFactory::DeleteAllObjects()
+	{
+		for (auto& _pair : m_objectsMap)
+		{
+			for (auto& _objPair : _pair.second)
+			{
+				rttr::variant _var = _objPair.second;
+
+				rttr::type _objType = _var.get_type();
+
+				if (_objType.is_derived_from(rttr::type::get_by_name("Component")))
+				{
+					auto _comp = static_pointer_cast<Component>(_objPair.second);
+
+					ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+				}
+				else if (_objType.is_derived_from(rttr::type::get_by_name("Resource")))
+				{
+					auto _resource = static_pointer_cast<Resource>(_objPair.second);
+
+					Resources::GetInstance()->DeleteResource(_resource);
+				}
+
+				m_objectsMap[_objPair.second->GetType()].erase(_objPair.second->GetUUID());
+			}
+		}
 	}
 }

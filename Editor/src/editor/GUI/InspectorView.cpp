@@ -1,10 +1,11 @@
 ﻿#include <Editor_pch.h>
 
 #include <editor\Core\EventManager.h>
+#include <editor\Core\AssetManager.h>
 
 #include <editor/GUI/InspectorView.h>
 
-#include <editor/Widget/WidgetManager.h>
+#include <editor\Widget\WidgetManager.h>
 
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
@@ -46,9 +47,9 @@ namespace editor
             {
                 DrawComponent(_comp.lock().get());
             }
-        }
 
-		DrawAddComponent();
+			DrawAddComponent();
+        }
 
 		if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
 			EventManager::GetInstance()->SetFocusObject(nullptr);
@@ -313,29 +314,35 @@ namespace editor
 		_componentWidget->Render();
     }
 
-	int FindComponent(ImGuiInputTextCallbackData* data)
-	{
-		string _componentName = data->Buf;
-
-		string _temp[] = {
-				"Mesh Renderer",
-				"Transform",
-				"Camera"
-		};
-
-		return 0;
-	}
-
 	void InspectorView::DrawAddComponent()
 	{
 		static char _buf[256];
-		
+		static vector<string> _componentList;
+
+		int (*FindComponent)(ImGuiInputTextCallbackData*)
+		 = [](ImGuiInputTextCallbackData* data)
+		{
+			string _componentName = data->Buf;
+
+			_componentList.clear();
+
+			for (auto& _comp : AssetManager::GetInstance()->GetComponentList())
+			{
+				if (_comp.find(_componentName) != string::npos)
+				{
+					_componentList.push_back(_comp);
+				}
+			}
+
+			return 0;
+		};
 
 		if (ImGui::Button("Add Component"))
 		{
 			ImGui::OpenPopup("Add Component");
 
 			memset(_buf, 0, sizeof(_buf));
+			_componentList = AssetManager::GetInstance()->GetComponentList();
 		}
 
 		if (ImGui::BeginPopup("Add Component"))
@@ -345,7 +352,20 @@ namespace editor
 				int a= 0;
 			}
 
+			ImGui::PushID("Add Component");
 
+			for (auto _comp : _componentList)
+			{
+				if (ImGui::Button(_comp.c_str()))
+				{
+					auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
+					
+					_go->AddComponent(_comp);
+
+					ImGui::CloseCurrentPopup();
+				}
+			}
+			ImGui::PopID();
 
 			ImGui::EndPopup();
 		}

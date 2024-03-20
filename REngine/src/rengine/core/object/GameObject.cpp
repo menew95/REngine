@@ -83,6 +83,50 @@ namespace rengine
 	{
 	}
 
+	void GameObject::AddComponent(string type)
+	{
+		// 이미 소유한 컴포넌트를 다시 추가하지 못하게 막음
+		for (auto& _weak : m_Components)
+		{
+			auto _comp = _weak.lock();
+
+			if(_comp == nullptr)
+				continue;
+
+			if(_comp->GetTypeStr() == type)
+				return;
+		}
+
+		auto _obj = ObjectFactory::GetInstance()->CreateObject(type, UUIDGenerator::Generate());
+
+		assert(_obj != nullptr);
+
+		auto _newComponent = static_pointer_cast<Component>(_obj);
+
+		assert(_newComponent != nullptr);
+
+		auto _this = shared_from_this();
+
+		_newComponent->SetGameObject(_this);
+
+		m_Components.emplace_back(_newComponent);
+	}
+
+	bool GameObject::RemoveComponent(tstring type)
+	{
+		for (size_t i = 0; i < m_Components.size(); i++)
+		{
+			if (type == m_Components[i].lock()->GetType())
+			{
+				m_Components.erase(m_Components.begin() + i);
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)
 	{
 		m_Components = comps;

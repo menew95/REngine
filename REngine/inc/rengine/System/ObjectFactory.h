@@ -29,7 +29,7 @@ namespace rengine
         DECLARE_SINGLETON_CLASS_EXPORT(RENGINE_API, ObjectFactory);
 
     public:
-
+        
         template<typename T>
         shared_ptr<T> Instantiate()
         {
@@ -68,6 +68,11 @@ namespace rengine
         }
 
         /**
+            @brief 삭제 예약된 오브젝트를 삭제
+        **/
+        void Update();
+
+        /**
             @brief  rttr를 이용하여 오브젝트 생성하고 반환
             @param  type  - rttr type name
             @param  uuid  - object uuid 
@@ -79,11 +84,15 @@ namespace rengine
             @brief 오브젝트를 삭제 예약을 걸어둔다. 오브젝트 맵에 있는 오브젝트를 찾고, 삭제 대기 큐에 푸쉬, 만약 이미 삭제 예약 대기중이면 무시
             @param deleteObject - 삭제할 오브젝트
         **/
-        RENGINE_API void ReserveDestroyObject(shared_ptr<Object> deleteObject);
+        RENGINE_API void ReserveDestroyObject(shared_ptr<Object> deleteObject, float t = 0.f);
 
         RENGINE_API shared_ptr<Object> Find(uuid uuid);
 
     private:
+        /**
+            @brief 종료전에 모든 오브젝트를 삭제
+        **/
+        void DeleteAllObjects();
 
         template<typename T>
         void ReserveComponent(shared_ptr<T> component) requires (!is_base_of_v<Component, T>)
@@ -99,7 +108,7 @@ namespace rengine
 
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
 
-        map<tstring, vector<pair<uint32, shared_ptr<Object>>>> m_reserveDestroyObjectsQueue;
+        map<tstring, vector<pair<float, shared_ptr<Object>>>> m_reserveDestroyObjectsQueue;
 
 
     };

@@ -112,5 +112,7 @@ namespace rengine
 			}
 #endif
 		}
+
+		m_reserveDeleteComponents.clear();
 	}
 }

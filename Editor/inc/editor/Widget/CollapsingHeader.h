@@ -25,6 +25,6 @@ namespace editor
         EDITOR_API void Render() override;
 
     private:
-        
+        bool m_bPopUpMenu = false;
     };
 }

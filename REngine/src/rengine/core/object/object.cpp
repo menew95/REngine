@@ -1,5 +1,5 @@
 ﻿#include <rengine\core\object\object_impl.h>
-
+#include <rengine\System\ObjectFactory.h>
 #include <rttr\registration.h>
 
 RTTR_REGISTRATION
@@ -109,5 +109,10 @@ namespace rengine
 	void Object::SetTypeStr(string val)
 	{
 		m_pImpl->SetType(StringHelper::StringToWString(val));
+	}
+
+	void Object::Destroy(shared_ptr<Object> obj, float t)
+	{
+		ObjectFactory::GetInstance()->ReserveDestroyObject(obj, t);
 	}
 }

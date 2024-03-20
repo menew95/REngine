@@ -67,6 +67,7 @@ namespace editor
         **/
         void Refresh();
 
+        const auto& GetComponentList() { return m_componentList; }
 
     private:
         /**
@@ -85,7 +86,7 @@ namespace editor
         **/
         void SaveAssetData();
         
-        vector<tstring> m_componentList;
+        vector<string> m_componentList;
 
         unordered_map<uuid, tstring> m_assetList;
     };

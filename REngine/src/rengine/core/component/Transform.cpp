@@ -166,7 +166,7 @@ namespace rengine
 	{
 		for (auto& _child : m_childs)
 		{
-			if(_child.lock())
+			if(_child.lock() == nullptr)
 				continue;
 
 			_child.lock()->SetParent(nullptr);

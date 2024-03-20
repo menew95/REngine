@@ -3,6 +3,7 @@
 #include <rengine\system\GraphicsSystem.h>
 #include <rengine\system\Time.h>
 #include <rengine\system\Input.h>
+#include <rengine\system\ObjectFactory.h>
 
 #include <rengine\core\SceneManager.h>
 #include <rengine\core\ComponentManager.h>
@@ -61,6 +62,8 @@ namespace rengine
 	{
 		Time::GetInstance()->PreTick();
 		Input::GetInstance()->PreTick();
+
+		ObjectFactory::GetInstance()->Update();
 
 		Timer _timer;
 

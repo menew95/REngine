@@ -1,11 +1,12 @@
-  -	UUID: 53ceb92c-e67a-4d31-be0e-2d5eb85f0c25
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Scarf_MAT.mat
-  -	UUID: 8b7b568a-9e11-4209-9ed3-d808c791b8ef
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Hands_MAT.mat
+Assets:
   -	UUID: 65600228-744e-4113-9803-5eae18a7844e
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Hair_diffuse.png
   -	UUID: f30f6359-8803-4d00-bac7-728f0c41cad1
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Hair_MAT.mat
+  -	UUID: 8b7b568a-9e11-4209-9ed3-d808c791b8ef
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Hands_MAT.mat
+  -	UUID: 53ceb92c-e67a-4d31-be0e-2d5eb85f0c25
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Scarf_MAT.mat
   -	UUID: 5d18939b-4d09-4ec8-b7fd-9838cb1c4fda
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Hands_diffuse.png
   -	UUID: d206233f-eb4f-468a-a11c-bd710ecc42c7
@@ -14,16 +15,16 @@
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_UpperBody_Geo.mesh
   -	UUID: 27210cfe-3436-4d5e-b272-f170aa4d4a54
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_LowerBody_MAT.mat
-  -	UUID: 5161489f-dbda-4916-b832-9598f07657cd
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_LowerBody_diffuse.png
   -	UUID: a991f46d-7938-417f-b721-a829220d7322
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Head_MAT.mat
+  -	UUID: 5161489f-dbda-4916-b832-9598f07657cd
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_LowerBody_diffuse.png
   -	UUID: a1410a1d-e0a6-4d33-b5ee-c59f143b68b2
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Shoes_MAT.mat
-  -	UUID: 777c0518-825f-4ec5-a49d-be3470d25c47
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Scarf_diffuse.png
   -	UUID: ac562437-2bb7-46cf-98f1-eac8d50bbe68
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_UpperBody_MAT.mat
+  -	UUID: 777c0518-825f-4ec5-a49d-be3470d25c47
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Scarf_diffuse.png
   -	UUID: 8fee237b-95f0-4409-9482-0787806e5cfc
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Hair_Geo.mesh
   -	UUID: 78f5c566-0fff-4364-8e06-9b848f91c7d8
@@ -42,20 +43,20 @@
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Quard.mesh
   -	UUID: 00000000-0000-0000-0000-300000000000
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Sphere.mesh
-  -	UUID: 6d1f5217-65b5-4016-8bdd-91ea64570d8f
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Shoes_diffuse.png
   -	UUID: 1410ae65-4084-42f5-9657-2e045703c2be
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Head_diffuse.png
+  -	UUID: 6d1f5217-65b5-4016-8bdd-91ea64570d8f
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Shoes_diffuse.png
   -	UUID: ceabbf67-ac46-480d-ad03-4862b53724f7
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_UpperBody_diffuse.png
   -	UUID: ffaa3510-714b-4fef-8676-347cf5c32eba
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\file_icon.png
   -	UUID: e53f8216-46e4-4ddc-b28a-12ee3a7c1870
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\folder_icon.png
-  -	UUID: 66780df0-a99c-4359-97ed-43b420f80815
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Main Scene.scene
   -	UUID: 8e7d7f0d-38dd-4737-adba-d4673b2f4542
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\material_icon.png
+  -	UUID: 66780df0-a99c-4359-97ed-43b420f80815
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Main Scene.scene
   -	UUID: 
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Joy.fbx
   -	UUID: fe6f153f-d693-4675-9b0e-65b8be91f35b

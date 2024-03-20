@@ -232,7 +232,7 @@ namespace utility
 				SerializeBinary<MeshBin>(_resource->GetPath(), _bin);
 				break;
 			}
-			case rengine::ResourceType::ANMATOR_CONTROLLER:
+			case rengine::ResourceType::ANIMATOR_CONTROLLER:
 			{
 				break;
 			}
