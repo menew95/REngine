@@ -96,7 +96,7 @@ namespace rengine
 
         uint32 m_layer = 0;
         
-        friend ComponentManager;
+        friend class ComponentManager;
 
         RTTR_ENABLE(rengine::Object);
 
