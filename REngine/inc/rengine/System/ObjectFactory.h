@@ -88,6 +88,8 @@ namespace rengine
 
         RENGINE_API shared_ptr<Object> Find(uuid uuid);
 
+        RENGINE_API vector<shared_ptr<Object>> FindObjectOfType();
+
     private:
         /**
             @brief 종료전에 모든 오브젝트를 삭제

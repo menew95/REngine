@@ -22,6 +22,7 @@
 #include <editor\Widget\InputFloat2.h>
 #include <editor\Widget\InputFloat3.h>
 #include <editor\Widget\InputFloat4.h>
+#include <editor\Widget\ObjectButton.h>
 #include <editor\Widget\CollapsingHeader.h>
 
 #include <log/log.h>

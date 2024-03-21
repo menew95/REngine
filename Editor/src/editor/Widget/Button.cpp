@@ -1,6 +1,7 @@
 ﻿#include <Editor_pch.h>
 #include <editor\Widget\Button.h>
 
+#include <rengine/core/component/Component.h>
 namespace editor
 {
 	Button::Button(string name, rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)

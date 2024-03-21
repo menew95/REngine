@@ -151,6 +151,18 @@ namespace editor
 			case rengine::MetaDataType::UUID:
 			{
 				auto _uuid = var.convert<uuid>();
+
+				if (ObjectButton* _widget = reinterpret_cast<ObjectButton*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName, component, prop);
+
+					header.AddWidget(_widget);
+				}
+
 				break;
 			}
 			case rengine::MetaDataType::BOOL:
@@ -295,17 +307,17 @@ namespace editor
 
             rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
 
-            if (_value.is_sequential_container())
-            {
-                auto _seq = _value.create_sequential_view();
+            //if (_value.is_sequential_container())
+            //{
+            //    auto _seq = _value.create_sequential_view();
 
-                for (const auto& item : _seq) // iterates over all elements of the std::vector<T>
-                {
-                    auto _extractVar = item.extract_wrapped_value();
-                    //GetProperty(_metaDataType, _comp, component_type, _extractVar, _prop, _item, true);
-                }
-            }
-            else
+            //    for (const auto& item : _seq)
+            //    {
+            //        auto _extractVar = item.extract_wrapped_value();
+            //        //GetProperty(*_componentWidget, _metaDataType, comp, _value, _prop);
+            //    }
+            //}
+            //else
             {
                 GetProperty(*_componentWidget, _metaDataType, comp, _value, _prop);
             }

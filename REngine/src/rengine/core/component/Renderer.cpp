@@ -31,10 +31,12 @@ RTTR_REGISTRATION
 	.constructor<tstring, tstring>()
 	.property("Mesh", &rengine::Renderer::GetMesh, &rengine::Renderer::SetMesh)
 	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::UUID),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	)
 	.property("Materials", &rengine::Renderer::GetMaterials, &rengine::Renderer::SetMaterials)
 	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::UUID),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
 	)
 	;
