@@ -83,6 +83,11 @@ namespace rengine
 	{
 	}
 
+	GameObject::~GameObject()
+	{
+		
+	}
+
 	void GameObject::AddComponent(string type)
 	{
 		// 이미 소유한 컴포넌트를 다시 추가하지 못하게 막음
@@ -125,6 +130,26 @@ namespace rengine
 		}
 
 		return false;
+	}
+
+	void GameObject::DestroyGameObject()
+	{
+		// 자식 게임오브젝트 먼저 삭제 예약을 한다음 소유하고있는 컴포넌트를 삭제 예약
+		for (auto& _ptr : m_pTransform.lock()->GetChilds())
+		{
+			auto _childs = _ptr.lock();
+
+			Destroy(_childs->GetGameObject().lock());
+		}
+
+		for (auto& _ptr : m_Components)
+		{
+			auto _comp = _ptr.lock();
+			if (_comp == nullptr)
+				continue;
+
+			Destroy(_comp);
+		}
 	}
 
 	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)

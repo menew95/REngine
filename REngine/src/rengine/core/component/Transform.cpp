@@ -92,7 +92,23 @@ namespace rengine
 
 	Transform::~Transform()
 	{
+
+	}
+
+	void Transform::OnDestroy()
+	{
 		DetachChildren();
+
+		if (m_parent.lock() == nullptr)
+		{
+			auto _go = GetGameObject().lock();
+
+			_go->GetScene()->RemoveRootGameObject(_go);
+		}
+		else
+		{
+			m_parent.lock()->DetachChild(shared_from_this());
+		}
 	}
 
 	void Transform::SetParent(shared_ptr<Transform> parent)

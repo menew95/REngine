@@ -63,6 +63,13 @@ namespace rengine
 		{
 			_comps.second.StartComponents();
 			_comps.second.UpdateComponents();
+		}
+	}
+
+	void ComponentManager::DestoryComponent()
+	{
+		for (auto& _comps : m_componentsList)
+		{
 			_comps.second.DestroyComponents();
 		}
 	}

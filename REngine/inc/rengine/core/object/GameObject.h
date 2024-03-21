@@ -33,7 +33,7 @@ namespace rengine
 
         GameObject(GameObject&& object) = default;
 
-        ~GameObject() = default;
+        ~GameObject();
 
         template<typename T>
         std::shared_ptr<T> AddComponent();
@@ -76,11 +76,18 @@ namespace rengine
         inline void SetTag(tstring val)             { m_tag = val; }
         inline void SetLayer(uint32 val)            { m_layer = val; }
 
+        shared_ptr<GameObject> GetShared() { return shared_from_this(); }
+
     private:
         template<typename T>
         bool RemoveComponent(shared_ptr<T> comp);
 
         bool RemoveComponent(tstring type);
+
+        /**
+            @brief 모든 컴포넌트를 삭제 대기에 걸고 자식 게임 오브젝트 또한 삭제 대기한다.
+        **/
+        void DestroyGameObject();
 
         std::vector<std::weak_ptr<Component>>  m_Components;
         
@@ -96,6 +103,7 @@ namespace rengine
 
         uint32 m_layer = 0;
         
+        friend class ObjectFactory;
         friend class ComponentManager;
 
         RTTR_ENABLE(rengine::Object);

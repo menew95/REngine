@@ -31,6 +31,8 @@ namespace rengine
 
         void UpdateComponent();
 
+        void DestoryComponent();
+
         void RenderComponent();
 
         void ClearComponentsList();

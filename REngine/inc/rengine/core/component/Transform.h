@@ -30,6 +30,8 @@ namespace rengine
 
         virtual ~Transform();
 
+        void OnDestroy() override;
+
         RENGINE_API shared_ptr<Transform> GetParent() { return m_parent.lock(); }
         RENGINE_API vector<weak_ptr<Transform>> GetChilds() { return m_childs; }
         RENGINE_API void SetChilds(vector<weak_ptr<Transform>> childs) { m_childs = childs; }

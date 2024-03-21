@@ -2,6 +2,7 @@
 
 #include <rengine\core\ComponentManager.h>
 #include <rengine\core\Resources.h>
+#include <rengine\core\object\GameObject.h>
 
 #include <rengine\System\Time.h>
 
@@ -25,6 +26,8 @@ namespace rengine
 	{
 		for (auto& _pair : m_reserveDestroyObjectsQueue)
 		{
+			if(_pair.first == TEXT("GameObject"))	continue;
+			
 			for (auto _iter = _pair.second.begin(); _iter != _pair.second.end(); )
 			{
 				_iter->first -= static_cast<float>(Time::GetDeltaTime());
@@ -32,8 +35,6 @@ namespace rengine
 				if (_iter->first < 0.001f)
 				{
 					rttr::variant _var = _iter->second;
-
-					auto _b = _var.can_convert(rttr::type::get_by_name("Component"));
 
 					rttr::instance obj = _var;
 					rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
@@ -57,6 +58,25 @@ namespace rengine
 				}
 				else _iter++;
 			}
+		}
+
+		// 게임 오브젝트는 가장 나중에 파괴가 되어야한다. 그래야 OnDestroy에서 GameObject를 사용 할 수가 있다.
+		// 구조 개선이 필요해보임 일단은 이대로 진행
+		ComponentManager::GetInstance()->DestoryComponent();
+
+		auto _reserveDestoryGO = m_reserveDestroyObjectsQueue[TEXT("GameObject")];
+
+		for (auto _iter = _reserveDestoryGO.begin(); _iter != _reserveDestoryGO.end(); )
+		{
+			_iter->first -= static_cast<float>(Time::GetDeltaTime());
+
+			if (_iter->first < 0.001f)
+			{
+				m_objectsMap[_iter->second->GetType()].erase(_iter->second->GetUUID());
+
+				_iter = _reserveDestoryGO.erase(_iter);
+			}
+			else _iter++;
 		}
 	}
 
@@ -114,6 +134,11 @@ namespace rengine
 		auto _objIter = _mapIter->second.find(deleteObject->GetUUID());
 
 		assert(_objIter != _mapIter->second.end());
+
+		if (deleteObject->GetType() == TEXT("GameObject"))
+		{
+			reinterpret_cast<GameObject*>(deleteObject.get())->DestroyGameObject();
+		}
 
 		m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(t, deleteObject));
 

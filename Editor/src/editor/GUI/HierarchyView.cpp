@@ -225,6 +225,7 @@ namespace editor
 	{
 		if (ImGui::IsItemClicked(1))
 		{
+			EventManager::GetInstance()->SetFocusObject(gameObj);
 			m_pFocusGameObject = gameObj;
 			m_bPopUpMenu = true;
 		}
@@ -247,8 +248,7 @@ namespace editor
 
 				if (ImGui::MenuItem("Delete Object"))
 				{
-					//SelectManager::GetInstance()->DeleteHierarchyList(obj);
-					//DeleteObject(obj);
+					rengine::Object::Destroy(m_pFocusGameObject->GetShared());
 				}
 
 				ImGui::EndPopup();

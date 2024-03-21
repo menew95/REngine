@@ -63,7 +63,6 @@ namespace rengine
 		Time::GetInstance()->PreTick();
 		Input::GetInstance()->PreTick();
 
-		ObjectFactory::GetInstance()->Update();
 
 		Timer _timer;
 
@@ -73,6 +72,9 @@ namespace rengine
 
 			ComponentManager::GetInstance()->RenderComponent();
 		}
+
+		// rendering 전에 오브젝트들을 삭제
+		ObjectFactory::GetInstance()->Update();
 
 		auto _gameTick = _timer.Lap().AsMillis();
 
