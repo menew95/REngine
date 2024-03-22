@@ -17,7 +17,7 @@ namespace editor
     class ObjectButton : public Button
     {
     public:
-        ObjectButton(string name, rengine::Object* handler, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
+        ObjectButton(string widgetName, rengine::Object* handler, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
 
         ~ObjectButton();
 
@@ -26,6 +26,7 @@ namespace editor
         void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
 
     private:
+
         ImVec2 m_rectSize;
 
         // component handler;

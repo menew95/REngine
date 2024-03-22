@@ -88,7 +88,10 @@ namespace rengine
 
         RENGINE_API shared_ptr<Object> Find(uuid uuid);
 
-        RENGINE_API vector<shared_ptr<Object>> FindObjectOfType();
+        RENGINE_API const map<uuid, shared_ptr<Object>>& FindObjectsOfType(tstring type)
+        {
+            return m_objectsMap[type];
+        }
 
     private:
         /**

@@ -7,8 +7,8 @@
 
 namespace editor
 {
-	ObjectButton::ObjectButton(string name, rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
-		: Button(name, handler, prop, size, flags)
+	ObjectButton::ObjectButton(string widgetName,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
+		: Button(widgetName, handler, prop, size, flags)
 		, m_rectSize{ size.x, size.y }
 		, m_pHandler(handler)
 		, m_prop(prop)
@@ -20,15 +20,57 @@ namespace editor
 
 	}
 
+	string GetObjectName(rttr::variant& var)
+	{
+		string _objName;
+
+		auto _varType = var.get_type();
+
+		if (var.is_sequential_container())
+		{
+			auto _seq = var.create_sequential_view();
+
+			_varType = _seq.get_value_type();
+		}
+
+		if (_varType.is_wrapper())
+			_varType = _varType.get_wrapped_type();
+		if (_varType.is_pointer())
+			_varType = _varType.get_raw_type();
+
+		_objName = _varType.get_name().to_string();
+
+		return std::move(_objName);
+	}
+
+	string GetLableName(rttr::variant& var)
+	{
+		rengine::Object* _obj = nullptr;
+
+		if (var.get_type().is_wrapper())
+		{
+			auto _wrap = var.extract_wrapped_value();
+			_obj = _wrap.get_value<rengine::Object*>();
+		}
+		else
+			_obj = var.get_value<rengine::Object*>();
+
+		assert(_obj = nullptr);
+
+		return _obj->GetNameStr();
+	}
+
 	void ObjectButton::Render()
 	{
 		ImGui::Columns(2);
 		ImGui::Text(GetWidgetName().c_str());
 		ImGui::NextColumn();
 
-		string _itemName;
-
 		auto _var = m_prop.get_value(m_pHandler);
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+		string _objName = GetObjectName(_var);
+		string _lable = "None(" + _objName + ")";
 
 		if (_var.is_sequential_container())
 		{
@@ -36,26 +78,9 @@ namespace editor
 
 			if (_seq.get_size() == 0)
 			{
-				_itemName = "None";
-
-				auto _type = _var.get_type();
-
-				string _name;
-
-				if (_type.is_wrapper())
+				if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 				{
-					_name = _var.get_type().get_wrapped_type().get_name().to_string();
-				}
-				else
-				{
-					_name = _var.get_type().get_name().to_string();
-				}
-
-				_itemName += _name;
-
-				if (ImGui::ButtonEx(_itemName.c_str(), m_rectSize, GetFlags()))
-				{
-					//ImGui::OpenPopup("FindObjectPopup");
+					ImGui::OpenPopup("FindObjectPopup");
 				}
 			}
 			else
@@ -64,27 +89,10 @@ namespace editor
 				{
 					auto _extractVar = item.extract_wrapped_value();
 
-					if (_var == nullptr)
-					{
-						_itemName = "None";
+					if (_extractVar != nullptr)
+						_lable = GetLableName(_extractVar);
 
-						auto _type = _var.get_type();
-
-						string _name;
-
-						if (_type.is_wrapper())
-						{
-							_name = _var.get_type().get_wrapped_type().get_name().to_string();
-						}
-						else
-						{
-							_name = _var.get_type().get_name().to_string();
-						}
-
-						_itemName += _name;
-					}
-
-					if (ImGui::ButtonEx(_itemName.c_str(), m_rectSize, GetFlags()))
+					if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 					{
 						ImGui::OpenPopup("FindObjectPopup");
 					}
@@ -93,31 +101,15 @@ namespace editor
 		}
 		else
 		{
-			if (_var == nullptr)
-			{
-				_itemName = "None";
+			if(_var != nullptr)
+				_lable = GetLableName(_var);
 
-				auto _type = _var.get_type();
-
-				string _name;
-
-				if (_type.is_wrapper())
-				{
-					_name = _var.get_type().get_wrapped_type().get_name().to_string();
-				}
-				else
-				{
-					_name = _var.get_type().get_name().to_string();
-				}
-
-				_itemName += _name;
-			}
-
-			if (ImGui::ButtonEx(_itemName.c_str(), m_rectSize, GetFlags()))
+			if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 			{
 				ImGui::OpenPopup("FindObjectPopup");
 			}
 		}
+		
 		ImGui::EndColumns();
 
 		static char _buf[256];
@@ -143,7 +135,7 @@ namespace editor
 		// 버튼을 클릭하면 오브젝트 목록 팝업을 보여줌
 		if (ImGui::BeginPopup("FindObjectPopup"))
 		{
-			if (ImGui::InputTextEx("", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindComponent))
+			if (ImGui::InputTextEx("Object Name", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject))
 			{
 				int a = 0;
 			}
@@ -166,5 +158,8 @@ namespace editor
 
 			ImGui::EndPopup();
 		}
+
+
+		ImGui::PopStyleColor();
 	}
 }

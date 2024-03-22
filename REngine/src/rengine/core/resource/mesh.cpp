@@ -19,6 +19,9 @@ std::weak_ptr<rengine::Mesh> converter_func_weak_container(const weak_ptr<rengin
 
 RTTR_REGISTRATION
 {
+	rttr::registration::class_<rengine::Mesh>("Mesh")
+	.constructor<tstring>()
+	;
 	rttr::type::register_converter_func(converter_func_weak_container);
 }
 
