@@ -62,6 +62,9 @@ namespace editor
 
 	void GameView::GameViewCameraControl()
 	{
+		if (!ImGui::IsWindowFocused())
+			return;
+
 		static math::Matrix _camWorld;
 
 		{

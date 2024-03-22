@@ -5,6 +5,7 @@
 #include <editor\GUI\HierarchyView.h>
 #include <editor\GUI\InspectorView.h>
 #include <editor\GUI\ProjectView.h>
+#include <editor\GUI\SearchView.h>
 
 #include <rengine\core\SceneManager.h>
 
@@ -17,11 +18,13 @@ namespace editor
 		m_pInspectorView = new InspectorView();
 		m_pHierarchyView = new HierarchyView();
 		m_pProjectView = new ProjectView();
+		m_pSearchView = new SearchView();
 
 		m_childs.push_back(m_pGameView);
 		m_childs.push_back(m_pInspectorView);
 		m_childs.push_back(m_pHierarchyView);
 		m_childs.push_back(m_pProjectView);
+		m_childs.push_back(m_pSearchView);
 	}
 
 	EditorDocument::~EditorDocument()
@@ -30,6 +33,7 @@ namespace editor
 		delete m_pInspectorView;
 		delete m_pHierarchyView;
 		delete m_pProjectView;
+		delete m_pSearchView;
 	}
 
 	void EDITOR_API EditorDocument::Begin()
@@ -141,6 +145,11 @@ namespace editor
 
 			if (ImGui::BeginMenu("Layout"))
 			{
+				ImGui::BeginChild("Another WindowX", ImVec2(300, 200), true);//    Pass a pointer to our bool variable(the window will have a closing button that will clear the bool when clicked)
+					ImGui::Button("Hello from another window!");
+
+				ImGui::EndChild();
+
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();

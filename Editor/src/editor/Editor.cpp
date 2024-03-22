@@ -115,6 +115,7 @@ namespace editor
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;   // Enable Keyboard Controls
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;    // Enable Gamepad Controls
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;		// Enable Docking Controls
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Multiple Window
 		io.WantCaptureMouse = false;
 
 		io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\Arial.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesKorean());

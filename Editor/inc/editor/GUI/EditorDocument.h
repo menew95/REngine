@@ -33,5 +33,6 @@ namespace editor
         class InspectorView* m_pInspectorView;
         class HierarchyView* m_pHierarchyView;
         class ProjectView* m_pProjectView;
+        class SearchView* m_pSearchView;
     };
 }

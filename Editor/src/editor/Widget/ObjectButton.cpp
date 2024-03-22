@@ -1,10 +1,10 @@
 ﻿#include <Editor_pch.h>
+#include <editor\GUI\SearchView.h>
 #include <editor\Widget\ObjectButton.h>
 
 #include <editor\Core\AssetManager.h>
-#include <rengine/core/component/Component.h>
-
-
+#include <rengine\core\component\Component.h>
+#include <rengine\System\ObjectFactory.h>
 namespace editor
 {
 	ObjectButton::ObjectButton(string widgetName,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
@@ -72,6 +72,9 @@ namespace editor
 		string _objName = GetObjectName(_var);
 		string _lable = "None(" + _objName + ")";
 
+
+		_test = false;
+
 		if (_var.is_sequential_container())
 		{
 			auto _seq = _var.create_sequential_view();
@@ -81,6 +84,7 @@ namespace editor
 				if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 				{
 					ImGui::OpenPopup("FindObjectPopup");
+					_test = true;
 				}
 			}
 			else
@@ -95,6 +99,7 @@ namespace editor
 					if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 					{
 						ImGui::OpenPopup("FindObjectPopup");
+						_test = true;
 					}
 				}
 			}
@@ -107,59 +112,73 @@ namespace editor
 			if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 			{
 				ImGui::OpenPopup("FindObjectPopup");
+				_test = true;
 			}
 		}
 		
 		ImGui::EndColumns();
 
-		static char _buf[256];
-		static vector<string> _objectList;
-		int (*FindObject)(ImGuiInputTextCallbackData*)
-			= [](ImGuiInputTextCallbackData* data)
-			{
-				string _componentName = data->Buf;
-
-				_objectList.clear();
-
-				for (auto& _comp : AssetManager::GetInstance()->GetComponentList())
-				{
-					if (_comp.find(_componentName) != string::npos)
-					{
-						_objectList.push_back(_comp);
-					}
-				}
-
-				return 0;
-			};
-
-		// 버튼을 클릭하면 오브젝트 목록 팝업을 보여줌
-		if (ImGui::BeginPopup("FindObjectPopup"))
+		if (_test)
 		{
-			if (ImGui::InputTextEx("Object Name", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject))
-			{
-				int a = 0;
-			}
-
-			ImGui::PushID("Find Object");
-
-			for (auto _comp : _objectList)
-			{
-				if (ImGui::Button(_comp.c_str()))
-				{
-					/*auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
-
-					_go->AddComponent(_comp);*/
-
-					ImGui::CloseCurrentPopup();
-				}
-			}
-			ImGui::PopID();
-
-
-			ImGui::EndPopup();
+			SearchView::OpenSeachView(_objName);
 		}
+
+		//auto _objectMap = rengine::ObjectFactory::GetInstance()->FindObjectsOfType(StringHelper::StringToWString(_objName));
+
+		//static char _buf[256];
+		//static vector<string> _objectList;
+		//int (*FindObject)(ImGuiInputTextCallbackData*)
+		//	= [](ImGuiInputTextCallbackData* data)
+		//	{
+		//		tstring _componentName = StringHelper::ToWString(data->Buf);
+
+		//		_objectList.clear();
+
+		//		map<uuid, std::shared_ptr<rengine::Object>>* _map = (map<uuid, std::shared_ptr<rengine::Object>>*)((data->UserData));
+
+		//		for (auto& _comp : *_map)
+		//		{
+		//			/*if (_comp.find(_componentName) != tstring::npos)
+		//			{
+		//				_objectList.push_back(_comp);
+		//			}*/
+		//		}
+
+		//		return 0;
+		//	};
+
+		//// 버튼을 클릭하면 오브젝트 목록 팝업을 보여줌
+		//if (_test && ImGui::BeginPopup("FindObjectPopup"))
+		//{
+		//	if (ImGui::InputTextEx("Object Name", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject, &_objectMap))
+		//	{
+		//		int a = 0;
+		//	}
+
+		//	ImGui::PushID("Find Object");
+
+		//	for (auto _comp : _objectList)
+		//	{
+		//		if (ImGui::Button(_comp.c_str()))
+		//		{
+		//			/*auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
+
+		//			_go->AddComponent(_comp);*/
+		//			_test = false;
+		//			ImGui::CloseCurrentPopup();
+		//		}
+		//	}
+		//	ImGui::PopID();
+
+
+		//	ImGui::EndPopup();
+		//}
 
 
 		ImGui::PopStyleColor();
+	}
+	int ObjectButton::FindObjects(ImGuiInputTextCallbackData* data)
+	{
+		return 0;
 	}
 }

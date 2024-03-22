@@ -211,6 +211,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\GUI\Frame.h" />
     <ClInclude Include="inc\editor\GUI\GameView.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
+    <ClInclude Include="inc\editor\GUI\SearchView.h" />
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
     <ClInclude Include="inc\editor\GUI\SceneView.h" />
     <ClInclude Include="inc\editor\GUI\View.h" />
@@ -251,6 +252,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   <ItemGroup>
     <ClCompile Include="src\editor\Core\AssetManager.cpp" />
     <ClCompile Include="src\editor\GUI\Document.cpp" />
+    <ClCompile Include="src\editor\GUI\SearchView.cpp" />
     <ClCompile Include="src\editor\GUI\SceneView.cpp" />
     <ClCompile Include="src\editor\Widget\CheckBox.cpp" />
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp" />

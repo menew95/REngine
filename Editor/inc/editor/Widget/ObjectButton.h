@@ -26,6 +26,9 @@ namespace editor
         void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
 
     private:
+        int FindObjects(ImGuiInputTextCallbackData* data);
+
+        bool _test = false;
 
         ImVec2 m_rectSize;
 
