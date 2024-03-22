@@ -13,6 +13,8 @@ namespace editor
 		assert(g_pSearchView == nullptr);
 
 		g_pSearchView = this;
+
+		m_bOpen = false;
 	}
 	
 	SearchView::~SearchView()
@@ -22,16 +24,12 @@ namespace editor
 
 	void SearchView::Begin()
 	{
-		if(!m_bIsOpen) return;
-
 		__super::Begin();
 
 	}
 	
 	void SearchView::Render()
 	{
-		if (!m_bIsOpen) return;
-
 		__super::Render();
 
 		struct UserData
@@ -76,6 +74,7 @@ namespace editor
 			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(0.f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr)
 			{
 				m_pBtnEvent(m_pHandler, _obj);
+				m_bOpen = false;
 			}
 		}
 		ImGui::PopStyleColor(2);
@@ -84,15 +83,13 @@ namespace editor
 	
 	void SearchView::End()
 	{
-		if (!m_bIsOpen) return;
-
 		__super::End();
 
 	}
 
 	void SearchView::OpenSeachView(string searchType, void* handler, ButtonEvent buttonEvent)
 	{
-		g_pSearchView->m_bIsOpen = true;
+		g_pSearchView->m_bOpen = true;
 		g_pSearchView->m_searchType = searchType;
 
 		g_pSearchView->m_pHandler = handler;

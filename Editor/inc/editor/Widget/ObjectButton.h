@@ -26,11 +26,10 @@ namespace editor
         void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
 
     private:
-        int FindObjects(ImGuiInputTextCallbackData* data);
-
         static void SetProperty(void* _this, const shared_ptr<rengine::Object>& obj);
 
-        bool _test = false;
+        bool m_bIsArray = false;
+        size_t m_arrayIndex = false;
 
         ImVec2 m_rectSize;
 

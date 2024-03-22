@@ -13,6 +13,8 @@ namespace editor
 		, m_pHandler(handler)
 		, m_prop(prop)
 	{
+		m_flags |= ImGuiButtonFlags_PressedOnDoubleClick;
+
 	}
 
 	ObjectButton::~ObjectButton()
@@ -55,7 +57,7 @@ namespace editor
 		else
 			_obj = var.get_value<rengine::Object*>();
 
-		assert(_obj = nullptr);
+		assert(_obj != nullptr);
 
 		return _obj->GetNameStr();
 	}
@@ -78,6 +80,7 @@ namespace editor
 		if (_var.is_sequential_container())
 		{
 			auto _seq = _var.create_sequential_view();
+			m_bIsArray = true;
 
 			if (_seq.get_size() == 0)
 			{
@@ -86,20 +89,25 @@ namespace editor
 			}
 			else
 			{
-				for (const auto& item : _seq)
+				for (size_t i = 0; i < _seq.get_size(); i++)
 				{
-					auto _extractVar = item.extract_wrapped_value();
+					auto _extractVar = _seq.get_value(i).extract_wrapped_value();
 
 					if (_extractVar != nullptr)
 						_lable = GetLableName(_extractVar);
 
 					if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
+					{
 						_openSeachView = true;
+						m_arrayIndex = i;
+					}
 				}
 			}
 		}
 		else
 		{
+			m_bIsArray = false;
+
 			if(_var != nullptr)
 				_lable = GetLableName(_var);
 
@@ -121,6 +129,36 @@ namespace editor
 	{
 		ObjectButton* _this = reinterpret_cast<ObjectButton*>(thisClass);
 
-		
+
+		if (_this->m_bIsArray)
+		{
+			auto _varSeq = _this->m_prop.get_value(_this->m_pHandler);
+
+			auto _seq = _varSeq.create_sequential_view();
+
+			// shared_ptr<object> => shared_ptr<해당클래스>
+			rttr::variant _var = obj;
+
+			assert(_var.convert(_seq.get_value_type()));
+
+
+			if (_seq.get_size() == 0)
+			{
+				_seq.set_size(1);
+				_seq.set_value(0, _var);
+			}
+			else
+				_seq.set_value(_this->m_arrayIndex, _var);
+
+			assert(_this->m_prop.set_value(_this->m_pHandler, _varSeq));
+		}
+		else
+		{
+			rttr::variant _var = obj;
+
+			assert(_var.convert(_this->m_prop.get_type()));
+
+			assert(_this->m_prop.set_value(_this->m_pHandler, _var));
+		}
 	}
 }

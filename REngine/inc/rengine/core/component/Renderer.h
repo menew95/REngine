@@ -33,8 +33,8 @@ namespace rengine
 
         virtual ~Renderer();
 
-        vector<weak_ptr<Material>> GetMaterials() { return m_materials; }
-        void SetMaterials(vector<weak_ptr<Material>> val);
+        vector<shared_ptr<Material>> GetMaterials();
+        void SetMaterials(vector<shared_ptr<Material>> val);
 
         void SetMaterial(size_t i, shared_ptr<Material>& mat);
 

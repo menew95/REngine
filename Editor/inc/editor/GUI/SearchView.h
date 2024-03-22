@@ -38,8 +38,6 @@ namespace editor
         //static void OpenSeachView(string searchType,  void (*ButtonEvent)(const shared_ptr<rengine::Object>& obj) = nullptr);
 
     private:
-        bool m_bIsOpen = false;
-
         string m_searchType;
 
         void* m_pHandler = nullptr;

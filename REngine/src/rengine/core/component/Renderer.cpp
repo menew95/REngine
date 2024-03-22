@@ -19,7 +19,33 @@ std::vector<weak_ptr<rengine::Material>> converter_func_weak_container(const vec
 
 	for (auto& _ptr : value)
 	{
-		_ret.push_back(std::static_pointer_cast<rengine::Material>(_ptr.lock()));
+		if (_ptr.lock() == nullptr)
+			_ret.push_back(std::static_pointer_cast<rengine::Material>(_ptr.lock()));
+		else
+		{
+			_ret.push_back(std::static_pointer_cast<rengine::Material>(_ptr.lock()));
+			ok = _ret.back().lock() != nullptr;
+		}
+	}
+
+	return _ret;
+}
+
+std::vector<shared_ptr<rengine::Material>> converter_func_shared_container(const vector<shared_ptr<rengine::Object>>& value, bool& ok)
+{
+	ok = true;
+
+	std::vector<shared_ptr<rengine::Material>> _ret;
+
+	for (auto& _ptr : value)
+	{
+		if(_ptr == nullptr)
+			_ret.push_back(nullptr);
+		else
+		{
+			_ret.push_back(std::static_pointer_cast<rengine::Material>(_ptr));
+			ok = _ret.back() != nullptr;
+		}
 	}
 
 	return _ret;
@@ -42,6 +68,7 @@ RTTR_REGISTRATION
 	;
 
 	rttr::type::register_converter_func(converter_func_weak_container);
+	rttr::type::register_converter_func(converter_func_shared_container);
 }
 
 namespace rengine
@@ -57,8 +84,16 @@ namespace rengine
 
 	}
 
-	void Renderer::SetMaterials(vector<weak_ptr<Material>> val)
+	vector<shared_ptr<Material>> Renderer::GetMaterials()
 	{
+		vector<shared_ptr<Material>> _ret(m_materials.begin(), m_materials.end());
+
+		return std::move(_ret);
+	}
+
+	void Renderer::SetMaterials(vector<shared_ptr<Material>> val)
+	{
+		// 각 머티리얼에 할당된 렌더패스에서 등록된 오브젝트 삭제
 		for (auto& _mat : m_materials)
 		{
 			auto _material = _mat.lock();
@@ -66,11 +101,15 @@ namespace rengine
 			if (_material == nullptr)
 				continue;
 
-			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+			//_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
 		}
 
-		m_materials = val;
+		m_materials.resize(val.size());
 
+		std::copy(val.begin(), val.end(), m_materials.begin());
+
+
+		// 각 머티리얼에 할당된 렌더패스에서 오브젝트 추가 등록
 		for (auto& _mat : m_materials)
 		{
 			auto _material = _mat.lock();
@@ -78,7 +117,7 @@ namespace rengine
 			if(_material == nullptr)
 				continue;
 
-			_material->GetMaterialBuffer()->AddRenderObject(m_pRenderObject);
+			//_material->GetMaterialBuffer()->AddRenderObject(m_pRenderObject);
 		}
 	}
 

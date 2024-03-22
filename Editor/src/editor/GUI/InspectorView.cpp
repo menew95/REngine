@@ -51,8 +51,8 @@ namespace editor
 			DrawAddComponent();
         }
 
-		if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			EventManager::GetInstance()->SetFocusObject(nullptr);
+		/*if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+			EventManager::GetInstance()->SetFocusObject(nullptr);*/
 
 
     }

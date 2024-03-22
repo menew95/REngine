@@ -8,12 +8,32 @@
 
 #include <rttr\registration.h>
 
+std::weak_ptr<rengine::Material> converter_func_weak_container(const weak_ptr<rengine::Object>& value, bool& ok)
+{
+	std::weak_ptr<rengine::Material> _ret = std::static_pointer_cast<rengine::Material>(value.lock());
+
+	ok = _ret.lock() != nullptr || value.lock() == nullptr;
+
+	return _ret;
+}
+
+std::shared_ptr<rengine::Material> converter_func_shared_container(const shared_ptr<rengine::Object>& value, bool& ok)
+{
+	std::shared_ptr<rengine::Material> _ret = std::static_pointer_cast<rengine::Material>(value);
+
+	ok = _ret != nullptr || value == nullptr;
+
+	return _ret;
+}
+
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Material>("Material")
 	.constructor<tstring>()
 	.property("Properties", &rengine::Material::GetProperties, &rengine::Material::SetProperties)
 	;
+	rttr::type::register_converter_func(converter_func_weak_container);
+	rttr::type::register_converter_func(converter_func_shared_container);
 }
 
 namespace rengine
