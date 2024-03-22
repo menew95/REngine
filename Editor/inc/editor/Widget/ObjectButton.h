@@ -28,6 +28,8 @@ namespace editor
     private:
         int FindObjects(ImGuiInputTextCallbackData* data);
 
+        static void SetProperty(void* _this, const shared_ptr<rengine::Object>& obj);
+
         bool _test = false;
 
         ImVec2 m_rectSize;

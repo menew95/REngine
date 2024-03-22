@@ -19,6 +19,8 @@ namespace rengine
 
 namespace editor
 {
+    typedef void (*ButtonEvent)(void* thisClass, const shared_ptr<rengine::Object>& obj);
+
     class SearchView : public View
     {
     public:
@@ -32,15 +34,16 @@ namespace editor
         
         void EDITOR_API End() override;
 
-        static void OpenSeachView(string searchType);
+        static void OpenSeachView(string searchType, void* hander = nullptr, ButtonEvent buttonEvent = nullptr);
+        //static void OpenSeachView(string searchType,  void (*ButtonEvent)(const shared_ptr<rengine::Object>& obj) = nullptr);
 
     private:
         bool m_bIsOpen = false;
 
         string m_searchType;
 
-        rengine::Object* m_pObject = nullptr;
-
+        void* m_pHandler = nullptr;
+        ButtonEvent m_pBtnEvent = nullptr;
 
         // 람다식에서 캡처를 쓰면 함수 포인터로 사용이 불가능하기에 일단 이렇게 사용한다.
         struct ImGUiUserData

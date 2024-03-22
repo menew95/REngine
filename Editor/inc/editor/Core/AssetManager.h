@@ -86,6 +86,8 @@ namespace editor
         **/
         void SaveAssetData();
         
+        bool m_bIsDirty = false;
+
         vector<string> m_componentList;
 
         unordered_map<uuid, tstring> m_assetList;

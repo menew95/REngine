@@ -69,17 +69,16 @@ namespace editor
 		}
 
 		ImGui::PushID("Find Object");
-
-		for (auto _obj : m_userData._objectList)
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.5f, 1.0f, 1.0f));
+		for (auto& _obj : m_userData._objectList)
 		{
-			if (ImGui::Button(_obj->GetNameStr().c_str()))
+			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(0.f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr)
 			{
-				/*auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
-
-				_go->AddComponent(_comp);*/
-				ImGui::CloseCurrentPopup();
+				m_pBtnEvent(m_pHandler, _obj);
 			}
 		}
+		ImGui::PopStyleColor(2);
 		ImGui::PopID();
 	}
 	
@@ -91,10 +90,13 @@ namespace editor
 
 	}
 
-	void SearchView::OpenSeachView(string searchType)
+	void SearchView::OpenSeachView(string searchType, void* handler, ButtonEvent buttonEvent)
 	{
 		g_pSearchView->m_bIsOpen = true;
 		g_pSearchView->m_searchType = searchType;
+
+		g_pSearchView->m_pHandler = handler;
+		g_pSearchView->m_pBtnEvent = buttonEvent;
 
 		g_pSearchView->m_userData._objectMap = rengine::ObjectFactory::GetInstance()->FindObjectsOfType(StringHelper::StringToWString(searchType));
 

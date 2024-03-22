@@ -36,6 +36,7 @@ namespace editor
 	
 	void AssetManager::CreateAsset(rengine::Object* object, const tstring& path)
 	{
+		m_bIsDirty = true;
 		
 	}
 	
@@ -51,6 +52,7 @@ namespace editor
 		if(_resource == nullptr)
 			return;
 
+		m_bIsDirty = true;
 		m_assetList.insert(make_pair(_resource->GetUUID(), _resource->GetPath()));
 	}
 
@@ -83,6 +85,8 @@ namespace editor
 	
 	void AssetManager::MoveAsset(const tstring& oldPath, const tstring& newPath)
 	{
+		m_bIsDirty = true;
+
 		fs::path _oldPath(oldPath);
 
 		fs::path _newPath(newPath);
@@ -195,6 +199,8 @@ namespace editor
 
 	void AssetManager::SaveAssetData()
 	{
+		if(!m_bIsDirty) return;
+
 		std::wofstream _ofs(g_editorPath + TEXT("Library\\AssetData"));
 
 		_ofs << TEXT("Assets:\n");
