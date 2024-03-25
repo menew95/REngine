@@ -2,9 +2,9 @@
   {
     "UUID": "WrapLinear",
     "Filter": "MIN_MAG_MIP_LINEAR",
-    "AddressU": "Clamp",
-    "AddressV": "Clamp",
-    "AddressW": "Clamp",
+    "AddressU": "Wrap",
+    "AddressV": "Wrap",
+    "AddressW": "Wrap",
     "MipLODBias": 0.0,
     "MaxAnisotropy": 1,
     "ComparisonOp": "Less",
@@ -12,5 +12,19 @@
     "MipMapping": true,
     "MinLOD": 0.0,
     "MaxLOD": 1000.0
+  },
+  {
+    "UUID": "ShadowLinearBorder",
+    "Filter": "COMPARISON_MIN_MAG_LINEAR_MIP_POINT",
+    "AddressU": "Border",
+    "AddressV": "Border",
+    "AddressW": "Border",
+    "MipLODBias": 0.0,
+    "MaxAnisotropy": 1,
+    "ComparisonOp": "LessEqual",
+    "BorderColor": [ 1.0, 1.0, 1.0, 1.0 ],
+    "MipMapping": true,
+    "MinLOD": 0.0,
+    "MaxLOD": 1E+37
   }
 ]
