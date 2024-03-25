@@ -1092,9 +1092,9 @@ namespace graphics
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* filter = TEXT("Filter");
-		const TCHAR* addressModeU = TEXT("AddressModeU");
-		const TCHAR* addressModeV = TEXT("AddressModeV");
-		const TCHAR* addressModeW = TEXT("AddressModeW");
+		const TCHAR* addressModeU = TEXT("AddressU");
+		const TCHAR* addressModeV = TEXT("AddressV");
+		const TCHAR* addressModeW = TEXT("AddressW");
 		const TCHAR* mipLODBias = TEXT("MipLODBias");
 		const TCHAR* maxAnisotropy = TEXT("MaxAnisotropy");
 		const TCHAR* comparisonOp = TEXT("ComparisonOp");
