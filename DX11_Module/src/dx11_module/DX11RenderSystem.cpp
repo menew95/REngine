@@ -259,7 +259,7 @@ namespace graphics
 				{
 					_texture->UpdateSubresource(
 						m_Context.Get(),
-						i,
+						static_cast<uint32>(i),
 						0,
 						desc._arrayLayers,
 						_region,

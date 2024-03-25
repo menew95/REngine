@@ -130,15 +130,34 @@ namespace rengine
             @retval  - 해제 성공 여부
         **/
         bool UnLoadMemory();
+        
+        /**
+            @brief  머티리얼 버퍼에 적용된 파이프라인 uuid를 가져옴
+            @retval  - uuid
+        **/
+        tstring GetPipelineID();
+
+        /**
+            @brief 머티리얼 버퍼에 파이프라인 uuid에 해당하는 렌더 패스를 적용
+            @param id - 새롭게 적용할 uuid
+        **/
+        void SetPipelineID(tstring id);
+
+        /**
+            @brief 머티리얼 프로퍼티를 추가
+            @param val - 적용시킬 머티리얼 프로퍼티 리스트
+        **/
+        void AddProperties(vector<MaterialProperty> val);
 
         map<MaterialProperty::PropType, vector<MaterialProperty>> GetProperties() { return m_properties; }
         void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>> val) { m_properties = val; }
 
-        void AddProperties(vector<MaterialProperty> val);
 
         graphics::MaterialBuffer* GetMaterialBuffer() { return m_pMaterialBuffer; }
 
     private:
+        tstring m_pipelineID;
+        
         map<MaterialProperty::PropType, vector<MaterialProperty>> m_properties;
 
         graphics::MaterialBuffer* m_pMaterialBuffer = nullptr;

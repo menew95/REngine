@@ -52,6 +52,8 @@ namespace graphics
 	void DeferredRenderPass::Excute(CommandBuffer* command)
 	{
 		__super::Excute(command);
+
+
 	}
 	
 	void DeferredRenderPass::EndExcute(CommandBuffer* command)

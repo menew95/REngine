@@ -45,7 +45,7 @@ namespace graphics
 		public:
 			DX11Shader(ID3D11Device* device, const ShaderDesc& desc);
 
-			inline const DX11NativeShader& GetNativeShader() const { return m_NativeShader; }
+			inline const DX11NativeShader& GetNativeShader() const {  return m_NativeShader;  }
 			inline const ID3DBlob* GetBlob() const { return m_Blob.Get(); }
 			inline const ComPtr<ID3D11InputLayout>& GetInputLayout() const { return m_InputLayout; }
 
@@ -65,6 +65,9 @@ namespace graphics
 			void ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
 
 			ShaderDesc m_ShaderDesc;
+
+			// reflection property
+			PropertyDesc m_properties;
 
 			DX11NativeShader m_NativeShader;
 

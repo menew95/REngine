@@ -68,6 +68,8 @@ namespace rengine
         // 리소스가 메모리에 로드가 되었는지 여부
         bool m_bIsLoad = false;
 
+        bool m_bIsDirty = true;
+
         RTTR_ENABLE(Object);
 
         RTTR_REGISTRATION_FRIEND;

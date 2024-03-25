@@ -2,6 +2,7 @@
 
 #include "dx11_module\DX11Shader.h"
 #include "dx11_module\DX11Utilitys.h"
+#include "graphics_module\ResourceFlags.h"
 
 #include <d3dcommon.h>
 #include <d3dcompiler.h>
@@ -289,30 +290,115 @@ namespace graphics
 
 		void DX11Shader::ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc)
 		{
-			std::vector<ConstantBufferDesc> bufferInfo;
-
-			for (UINT i = 0; i < desc.ConstantBuffers; ++i) 
+			/*for (UINT i = 0; i < desc.ConstantBuffers; ++i) 
 			{
 				ID3D11ShaderReflectionConstantBuffer* buffer = reflection->GetConstantBufferByIndex(i);
-				D3D11_SHADER_BUFFER_DESC bufferDesc;
-				buffer->GetDesc(&bufferDesc);
+				D3D11_SHADER_BUFFER_DESC _bindDesc;
+				buffer->GetDesc(&_bindDesc);
 
-				for (UINT j = 0; j < bufferDesc.Variables; ++j) 
+				ConstantBufferDesc _constBufferDesc;
+
+				_constBufferDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+
+				for (UINT j = 0; j < _bindDesc.Variables; ++j)
 				{
 					ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);
 					D3D11_SHADER_VARIABLE_DESC varDesc;
 					var->GetDesc(&varDesc);
 
-					ConstantBufferDesc info;
-					info.name = varDesc.Name;
-					info.size = varDesc.Size;
-					info.offset = varDesc.StartOffset;
-					bufferInfo.push_back(info);
+					BufferInfo _info;
+					_info._name = StringHelper::StringToWString(varDesc.Name);
+					_info._size = varDesc.Size;
+					_info._offset = varDesc.StartOffset;
+					_constBufferDesc._info.push_back(_info);
+				}
+
+				m_properties._bindBuffers.push_back(_constBufferDesc);
+			}*/
+
+			for (UINT i = 0; i < desc.BoundResources; i++)
+			{
+				D3D11_SHADER_INPUT_BIND_DESC _bindDesc;
+				HRESULT _hr = reflection->GetResourceBindingDesc(i, &_bindDesc);
+
+				if(_hr == S_OK)
+				{
+					switch (_bindDesc.Type)
+					{
+						case D3D_SIT_TEXTURE:
+						{
+							BindResourceDesc _resourceDesc;
+
+							_resourceDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+							_resourceDesc._boundSlot = _bindDesc.BindPoint;
+							_resourceDesc._boundCount = _bindDesc.BindCount;
+
+							_resourceDesc._resourceType = (uint32)ResourceType::Texture;
+
+							m_properties._bindResources.push_back(_resourceDesc);
+							break;
+						}
+						break;
+						case D3D_SIT_SAMPLER:
+						{
+							BindResourceDesc _resourceDesc;
+
+							_resourceDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+							_resourceDesc._boundSlot = _bindDesc.BindPoint;
+							_resourceDesc._boundCount = _bindDesc.BindCount;
+
+							_resourceDesc._resourceType = (uint32)ResourceType::Sampler;
+
+							m_properties._bindResources.push_back(_resourceDesc);
+							break;
+						}
+						break;
+						case D3D_SIT_UAV_RWTYPED:
+						{
+							assert(false);
+							break;
+						}
+						case D3D_SIT_CBUFFER:
+						{
+							ID3D11ShaderReflectionConstantBuffer* buffer = reflection->GetConstantBufferByIndex(i);
+							D3D11_SHADER_BUFFER_DESC _bufferDesc;
+							buffer->GetDesc(&_bufferDesc);
+
+							ConstantBufferDesc _constBufferDesc;
+
+							_constBufferDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+							_constBufferDesc._boundSlot = _bindDesc.BindPoint;
+							_constBufferDesc._boundCount = _bindDesc.BindCount;
+							for (UINT j = 0; j < _bufferDesc.Variables; ++j)
+							{
+								ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);
+								D3D11_SHADER_VARIABLE_DESC varDesc;
+								var->GetDesc(&varDesc);
+
+								BufferInfo _info;
+								_info._name = StringHelper::StringToWString(varDesc.Name);
+								_info._size = varDesc.Size;
+								_info._offset = varDesc.StartOffset;
+								_constBufferDesc._info.push_back(_info);
+							}
+
+							m_properties._bindBuffers.push_back(_constBufferDesc);
+
+							break;
+						}
+						default:
+						{
+							// 아직 예상 하지 못한 타입이 들어왔음
+							assert(false);
+							break;
+						}
+					}
 				}
 			}
 
 			return;
 		}
+
 
 	}
 }

@@ -73,13 +73,39 @@ namespace graphics
 		uint32 _flags = 0;
 	};
 
-	// Constant Buffer 정보를 저장하는 구조체
+	struct BufferInfo
+	{
+		tstring _name;
+		uint32 _size;
+		uint32 _offset;
+	};
+
+	// Constant Buffer 정보
 	struct ConstantBufferDesc
 	{
-		std::string name;
-		UINT size;
-		UINT offset;
+		tstring _name;
+		uint32 _resourceType;
+		uint32 _boundSlot;
+		uint32 _boundCount;
+		vector<BufferInfo> _info;
 	};
+
+	// 텍스처, 샘플러 바인드 정보
+	struct BindResourceDesc
+	{
+		tstring _name;
+		uint32 _resourceType;
+		uint32 _boundSlot;
+		uint32 _boundCount;
+	};
+
+	// 파이프 라인에 바인드 되어야하는 정보
+	struct PropertyDesc
+	{
+		vector<ConstantBufferDesc> _bindBuffers;
+		vector<BindResourceDesc> _bindResources;
+	};
+
 
 	struct ShaderProgramDesc
 	{

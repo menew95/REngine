@@ -21,6 +21,16 @@ namespace graphics
 
 	}
 
+	const tstring& MaterialBuffer::GetPipelineID()
+	{
+		return m_pRenderPass->GetRenderPassName();
+	}
+
+	void MaterialBuffer::SetPipelineID(const tstring& pipelineID)
+	{
+
+	}
+
 	void MaterialBuffer::AddRenderObject(RenderObject* obj)
 	{
 		m_pRenderPass->AddRenderObject(obj);

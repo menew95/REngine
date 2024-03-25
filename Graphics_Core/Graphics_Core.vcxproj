@@ -246,9 +246,6 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{9d40d96d-8233-4822-8fb7-fa6155c0da9d}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\DX11_Module\DX11_Module.vcxproj">
-      <Project>{3c577bfa-d595-4c0c-b6f7-e27feaaf45ba}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Graphics_Module\Graphics_Module.vcxproj">
       <Project>{a416c769-7cee-4f31-9542-006de37cd822}</Project>
     </ProjectReference>

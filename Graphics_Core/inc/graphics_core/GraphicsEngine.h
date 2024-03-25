@@ -16,50 +16,50 @@
 
 namespace graphics
 {
-	class GRAPHICS_API GraphicsEngine
+	class GraphicsEngine
 	{
-		DECLARE_SINGLETON_CLASS(GraphicsEngine);
+		DECLARE_SINGLETON_CLASS_EXPORT(GRAPHICS_API, GraphicsEngine);
 	public:
 		/**
 			@brief 렌더링 모듈을 로드하고 초기화
 			@param desc - graphics engine description
 		**/
-		void Init(const GraphicsEngineDesc& desc);
+		GRAPHICS_API void Init(const GraphicsEngineDesc& desc);
 
 		/**
 			@brief graphics resource load
 		**/
-		void LoadGraphicsResource();
+		GRAPHICS_API void LoadGraphicsResource();
 
 		/**
 		    @brief graphics engine 종료
 		**/
-		void ReleaseEngine();
+		GRAPHICS_API void ReleaseEngine();
 
 		/**
 		    @brief  device를 반환
 		    @retval  - device pointer
 		**/
-		void* GetDevice();
+		GRAPHICS_API void* GetDevice();
 
 		/**
 		    @brief  device context를 반환
 		    @retval  - conetxt pointer
 		**/
-		void* GetContext();
+		GRAPHICS_API void* GetContext();
 		
 		/**
 			@brief excute render data
 		**/
-		void Excute();
+		GRAPHICS_API void Excute();
 
-		void Present();
+		GRAPHICS_API void Present();
 
-		void ResizeSwapchain(const Extent2D& resolution);
+		GRAPHICS_API void ResizeSwapchain(const Extent2D& resolution);
 
 		const WindowInfo& GetWindowInfo() { return m_windowInfo; }
 
-		void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
+		GRAPHICS_API void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
 
 	private:
 		

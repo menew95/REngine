@@ -46,6 +46,7 @@ namespace graphics
         **/
         void RemoveRenderObject(class RenderObject* obj);
 
+        const tstring& GetRenderPassName() { return m_passName; }
         class PipelineState* GetPipelineState() { return m_pPipelineState; }
         class PipelineLayout* GetPipelineLayout() { return m_pPipelineLayout; }
         vector<class RenderObject*>& GetRenderObjects() { return m_renderObjects; }

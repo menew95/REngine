@@ -22,7 +22,9 @@ namespace graphics
 
         GRAPHICS_API virtual void SetName(const char* name);
 
-        void SetRenderPass(class RenderPass* pass) { m_pRenderPass = pass; }
+        const tstring& GetPipelineID();
+        
+        void SetPipelineID(const tstring& id);
 
         /**
             @brief pass에 render object 등록

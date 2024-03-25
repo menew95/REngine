@@ -31,6 +31,7 @@ RTTR_REGISTRATION
 	rttr::registration::class_<rengine::Material>("Material")
 	.constructor<tstring>()
 	.property("Properties", &rengine::Material::GetProperties, &rengine::Material::SetProperties)
+	.property("m_pipelineID", &rengine::Material::GetPipelineID, &rengine::Material::SetPipelineID)
 	;
 	rttr::type::register_converter_func(converter_func_weak_container);
 	rttr::type::register_converter_func(converter_func_shared_container);
@@ -71,6 +72,20 @@ namespace rengine
 		}
 
 		return _ret;
+	}
+
+	tstring Material::GetPipelineID()
+	{
+		return tstring();
+	}
+
+	void Material::SetPipelineID(tstring id)
+	{
+		if(m_pMaterialBuffer == nullptr)
+		{
+			m_bIsDirty = true;
+			return;
+		}
 	}
 
 	void Material::AddProperties(vector<MaterialProperty> properties)

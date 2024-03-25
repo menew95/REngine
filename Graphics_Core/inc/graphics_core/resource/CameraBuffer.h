@@ -59,7 +59,7 @@ namespace graphics
 
         GRAPHICS_API virtual void SetName(const char* name);
 
-        void Update(CameraInfo& info)
+        GRAPHICS_API void Update(CameraInfo& info)
         {
             m_cameraInfo = info;
         }
@@ -75,15 +75,15 @@ namespace graphics
 
         auto* GetRenderTarget() const { return m_pRenderTarget; }
 
-        const auto& GetCameraInfo() { return m_cameraInfo; }
+        GRAPHICS_API const auto& GetCameraInfo() { return m_cameraInfo; }
 
-        const bool& GetEnable() { return m_bIsEnable; }
+        GRAPHICS_API const bool& GetEnable() { return m_bIsEnable; }
 
         GRAPHICS_API void* GetTextureID();
 
         void SetEnable(auto& val) { m_bIsEnable = val; }
 
-        const auto& GetRenderPassList() { return m_renderPassList; }
+        GRAPHICS_API const auto& GetRenderPassList() { return m_renderPassList; }
 
         void PushRenderPass(auto* pass) { m_renderPassList.push_back(pass); }
         void RemoveRenderPass(auto idx) { m_renderPassList.erase(idx); }
