@@ -31,9 +31,7 @@ struct VSOutput
 	float3 normal	: NORMAL;
 	float2 uv		: TEXCOORD1;
 
-#if defined(NORMAL_MAP)
-	float3 tangent	: TANGENT;
-#endif
+    float3 tangentToWorld[3] : TEXCOORD2;
 
 #if defined(INSTANCING)
 	float4 albedoColor : COLOR1;
@@ -46,9 +44,9 @@ struct PSOutput
 {
 	float4 Albedo	: SV_TARGET0;
 	float4 Normal	: SV_TARGET1;
-	float4 Depth	: SV_TARGET2;
-	float4 World	: SV_TARGET3;
-	float4 Emissive	: SV_TARGET4;
+	float4 World	: SV_TARGET2;
+	float4 Emissive	: SV_TARGET3;
+	float4 Flags	: SV_TARGET4;
 };
 
 #if defined(HARDWARE)

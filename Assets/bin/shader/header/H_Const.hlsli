@@ -15,11 +15,6 @@ cbuffer PerObject : register(b1)
     matrix _worldInvTranspose;
 }
 
-cbuffer PerMaterial : register(b2)
-{
-    Material _material;
-}
-
 cbuffer Debug : register(b5)
 {
     // 격자 두께 설정

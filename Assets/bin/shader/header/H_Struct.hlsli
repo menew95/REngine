@@ -17,11 +17,11 @@ struct Camera
 
 struct Material
 {
-	float4 _albedo;
-	float4 _emissive;
-	float _roughness;
-	float _metallic;
-	float2 _tiling;
+	float4 _albedo;// = float4(1.f, 1.f, 1.f, 1.f);
+	float _smoothness;// = 0.5f;
+	float _metallic;// = 0.f;
+	float _bumpScale;// = 1.f;
+	float3 _emissionColor;// = float3(0.f, 0.f, 0.f);
 };
 
 struct Light

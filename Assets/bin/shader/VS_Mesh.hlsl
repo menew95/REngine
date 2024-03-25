@@ -1,5 +1,6 @@
 #include "header\H_Input.hlsli"
 #include "header\H_Const.hlsli"
+#include "header\H_Utility.hlsli"
 
 #if !defined(INSTANCING)
 VSOutput main(VSInput input)

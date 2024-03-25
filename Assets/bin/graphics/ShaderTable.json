@@ -43,5 +43,33 @@
     "SourceSize": 0,
     "EntryPoint": "main",
     "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-6000-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_Deferred.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-7000-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\VS_Mesh.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "vs_5_0",
+    "Defines": [ "SCREEN", "" ]
+  },
+  {
+    "UUID": "00000000-0000-0000-8000-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_Light.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
   }
 ]
