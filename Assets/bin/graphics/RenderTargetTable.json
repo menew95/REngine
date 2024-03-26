@@ -19,6 +19,13 @@
   },
   {
     "RenderTargetType": "RenderTarget",
+    "ResourceID": "Emissive",
+    "ArrayLayer": 1,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "RenderTargetType": "RenderTarget",
     "ResourceID": "Normal",
     "ArrayLayer": 1,
     "ArraySize": 1,
@@ -27,13 +34,6 @@
   {
     "RenderTargetType": "RenderTarget",
     "ResourceID": "World",
-    "ArrayLayer": 1,
-    "ArraySize": 1,
-    "MipLevel": 0
-  },
-  {
-    "RenderTargetType": "RenderTarget",
-    "ResourceID": "Emissive",
     "ArrayLayer": 1,
     "ArraySize": 1,
     "MipLevel": 0

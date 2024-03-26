@@ -51,7 +51,20 @@ namespace graphics
 		command->EndEvent();
 	}
 
-	void RenderPass::AddRenderObject(RenderObject* obj)
+	void RenderPass::AddMaterialBuffer(MaterialBuffer* matBuffer)
+	{
+		m_materialBufferList.emplace_back(matBuffer);
+	}
+
+	void RenderPass::RemoveMaterialBuffer(MaterialBuffer* matBuffer)
+	{
+		auto _it = find(std::begin(m_materialBufferList), std::end(m_materialBufferList), matBuffer);
+
+		if (_it != std::end(m_materialBufferList))
+			m_materialBufferList.erase(_it);
+	}
+
+	/*void RenderPass::AddRenderObject(RenderObject* obj)
 	{
 		m_renderObjects.emplace_back(obj);
 	}
@@ -62,5 +75,5 @@ namespace graphics
 
 		if(_it != std::end(m_renderObjects))
 			m_renderObjects.erase(_it);
-	}
+	}*/
 }

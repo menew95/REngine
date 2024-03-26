@@ -3,11 +3,11 @@
 #include "header\H_GBuffer.hlsli"
 #include "header\H_PBR.hlsli"
 
-Texture2D _CameraGBufferTexture0    : register(t0);
-Texture2D _CameraGBufferTexture1    : register(t1);
-Texture2D _CameraGBufferTexture2    : register(t2);
-Texture2D _CameraGBufferTexture3    : register(t3);
-Texture2D _CameraGBufferTexture4	: register(t4);
+Texture2D gCameraGBufferTexture0    : register(t0);
+Texture2D gCameraGBufferTexture1    : register(t1);
+Texture2D gCameraGBufferTexture2    : register(t2);
+Texture2D gCameraGBufferTexture3    : register(t3);
+Texture2D gCameraGBufferTexture4	: register(t4);
 
 TextureCube gPreFilteredMap : register(t5);
 TextureCube gIrradianceMap : register(t6);
@@ -21,15 +21,15 @@ Texture2D gReflect : register(t11);
 
 SamplerState samWrapLinear	: register(s0);
 
-SamplerComparisonState samShadowSampler : register(s1);
+SamplerComparisonState samCompShadow : register(s1);
 
 float4 main(VSOutput input) : SV_TARGET
 {
-	float4 _gbuffer0 = _CameraGBufferTexture0.Sample(samWrapLinear, input.uv);
-	float4 _gbuffer1 = _CameraGBufferTexture1.Sample(samWrapLinear, input.uv);
-	float4 _gbuffer2 = _CameraGBufferTexture2.Sample(samWrapLinear, input.uv);
-	float4 _gbuffer3 = _CameraGBufferTexture3.Sample(samWrapLinear, input.uv);
-	float4 _gbuffer4 = _CameraGBufferTexture4.Sample(samWrapLinear, input.uv);
+	float4 _gbuffer0 = gCameraGBufferTexture0.Sample(samWrapLinear, input.uv);
+	float4 _gbuffer1 = gCameraGBufferTexture1.Sample(samWrapLinear, input.uv);
+	float4 _gbuffer2 = gCameraGBufferTexture2.Sample(samWrapLinear, input.uv);
+	float4 _gbuffer3 = gCameraGBufferTexture3.Sample(samWrapLinear, input.uv);
+	float4 _gbuffer4 = gCameraGBufferTexture4.Sample(samWrapLinear, input.uv);
 
 
 	StandardData _data = StandardDataFronGBuffer(_gbuffer0, _gbuffer1, _gbuffer2, _gbuffer3, _gbuffer4);

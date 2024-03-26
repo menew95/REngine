@@ -31,6 +31,7 @@ RTTR_REGISTRATION
 	rttr::registration::class_<rengine::Material>("Material")
 	.constructor<tstring>()
 	.property("Properties", &rengine::Material::GetProperties, &rengine::Material::SetProperties)
+	.property("m_renderPassID", &rengine::Material::GetRenderPassID, &rengine::Material::SetRenderPassID)
 	.property("m_pipelineID", &rengine::Material::GetPipelineID, &rengine::Material::SetPipelineID)
 	;
 	rttr::type::register_converter_func(converter_func_weak_container);
@@ -57,12 +58,21 @@ namespace rengine
 
 		m_bIsLoad = true;
 
+		if (m_bIsDirty)
+		{
+			m_pMaterialBuffer->SetRenderPass(m_renderPassID);
+
+			m_pMaterialBuffer->SetPipelineID(m_pipelineID);
+
+			m_bIsDirty = false;
+		}
+
 		return true;
 	}
 
 	bool Material::UnLoadMemory()
 	{
-		bool _ret = graphics::ResourceManager::GetInstance()->CreateMaterialBuffer(GetUUID());
+		bool _ret = graphics::ResourceManager::GetInstance()->RelaseMaterialBuffer(GetUUID());
 
 		if (_ret)
 		{
@@ -74,18 +84,30 @@ namespace rengine
 		return _ret;
 	}
 
-	tstring Material::GetPipelineID()
+	void Material::SetRenderPassID(const tstring& pass)
 	{
-		return tstring();
+		m_renderPassID = pass;
+
+		if (m_pMaterialBuffer == nullptr)
+		{
+			m_bIsDirty = true;
+			return;
+		}
+
+		m_pMaterialBuffer->SetRenderPass(pass);
 	}
 
-	void Material::SetPipelineID(tstring id)
+	void Material::SetPipelineID(const tstring& id)
 	{
+		m_pipelineID = id;
+
 		if(m_pMaterialBuffer == nullptr)
 		{
 			m_bIsDirty = true;
 			return;
 		}
+
+		m_pMaterialBuffer->SetPipelineID(id);
 	}
 
 	void Material::AddProperties(vector<MaterialProperty> properties)

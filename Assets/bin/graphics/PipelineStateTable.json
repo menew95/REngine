@@ -3,18 +3,27 @@
     "UUID": "SkyBox",
     "ShaderProgram": "SkyBox",
     "PrimitiveTopology": "TriangleList",
-    "DepthDesc": "Default",
-    "StencilDesc": "Default",
-    "RasterizerDesc": "Default",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
     "BlendDesc": "Default"
   },
   {
     "UUID": "Grid Debug",
     "ShaderProgram": "Grid Debug",
     "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "AlphaBlend"
+  },
+  {
+    "UUID": "Standard",
+    "ShaderProgram": "Standard",
+    "PrimitiveTopology": "TriangleList",
     "DepthDesc": "Default",
     "StencilDesc": "Default",
     "RasterizerDesc": "Default",
-    "BlendDesc": "AlphaBlend"
+    "BlendDesc": "Default"
   }
 ]

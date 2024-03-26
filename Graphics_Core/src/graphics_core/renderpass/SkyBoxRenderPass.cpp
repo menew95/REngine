@@ -4,6 +4,7 @@
 
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\CameraBuffer.h>
+#include <graphics_core\resource\MaterialBuffer.h>
 
 #include <graphics_core\renderer\Renderer.h>
 
@@ -29,23 +30,32 @@ namespace graphics
 	SkyBoxRenderPass::~SkyBoxRenderPass()
 	{
 		delete m_pSkyBoxMesh;
+
+		ResourceManager::GetInstance()->RelaseMaterialBuffer(TEXT("SkyBox"));
 	}
 
 	void SkyBoxRenderPass::Init()
 	{
-		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("SkyBox"));
+		/*m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("SkyBox"));
 
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));
+		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));*/
 
 		m_pSkyBoxMesh = new MeshObject(TEXT("SkyBox Object"));
 
 		m_pSkyBoxMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-100000000000")));
 
-		m_renderObjects.push_back(m_pSkyBoxMesh);
+		//m_renderObjects.push_back(m_pSkyBoxMesh);
 
 		//m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 
 		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+
+
+		m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox"));
+
+		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));
+
+
 	}
 	
 	void SkyBoxRenderPass::Bind(CommandBuffer* command)

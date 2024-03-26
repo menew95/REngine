@@ -34,9 +34,11 @@ namespace graphics
 	
 	void DeferredRenderPass::Init()
 	{
-		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("Deferred"));
+		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("Standard"));
 
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("Deferred"));
+		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("Standard"));
+
+		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("Deferred"));
 	}
 	
 	void DeferredRenderPass::Bind(CommandBuffer* command)
@@ -47,13 +49,20 @@ namespace graphics
 	void DeferredRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		__super::BeginExcute(command, camBuffer);
+
+		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
 	}
 	
 	void DeferredRenderPass::Excute(CommandBuffer* command)
 	{
 		__super::Excute(command);
 
+		for (auto* renderObj : m_renderObjects)
+		{
+			if (!renderObj->GetEnable() || !renderObj->GetCulling())
+				continue;
 
+		}
 	}
 	
 	void DeferredRenderPass::EndExcute(CommandBuffer* command)

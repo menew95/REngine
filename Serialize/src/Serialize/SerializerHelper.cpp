@@ -106,6 +106,19 @@ namespace utility
 	}
 
 	template<>
+	math::Color parseConfig(boost::property_tree::ptree& pt)
+	{
+		math::Color _data;
+
+		_data.x = pt.get<float>("r");
+		_data.y = pt.get<float>("g");
+		_data.z = pt.get<float>("b");
+		_data.w = pt.get<float>("a");
+
+		return _data;
+	}
+
+	template<>
 	math::Matrix parseConfig(boost::property_tree::ptree& pt)
 	{
 		math::Matrix _data;

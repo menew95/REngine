@@ -23,6 +23,7 @@ namespace graphics
         TEXTURE = 2,
         CAMERA = 3,
         LIGHT = 4,
+        BYTE = 5,
     };
 
     class ResourceBuffer

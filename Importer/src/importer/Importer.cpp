@@ -36,14 +36,20 @@ namespace utility
 		}
 		else if (_extension == ".mat")
 		{
+			// 해당 경로에 있는 파일을 역직렬화해야함
+			assert(false);
+
 			auto _importMat = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
 
 			_importMat->SetPath(path);
 
 			_object = _importMat;
+
 		}
 		else if (_extension == ".mesh")
 		{
+			// 해당 경로에 있는 파일을 역직렬화해야함
+			assert(false);
 			auto _importMesh = rengine::Resources::GetInstance()->CreateResource<rengine::Mesh>();
 
 			_importMesh->SetPath(path);
@@ -52,6 +58,8 @@ namespace utility
 		}
 		else if (_extension == ".anim")
 		{
+			// 해당 경로에 있는 파일을 역직렬화해야함
+			assert(false);
 			auto _importClip = rengine::Resources::GetInstance()->CreateResource<rengine::AnimationClip>();
 
 			_importClip->SetPath(path);
@@ -61,6 +69,9 @@ namespace utility
 		else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
 		{
+			// 해당 경로에 있는 파일을 역직렬화해야함
+			assert(false);
+
 			auto _importTex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
 
 			_importTex->SetPath(path);

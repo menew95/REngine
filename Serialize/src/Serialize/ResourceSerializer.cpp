@@ -129,6 +129,11 @@ namespace utility
 
 		boost::property_tree::ptree _obj_pt;
 
+		_mat->GetRenderPassID();
+
+		_obj_pt.put("RenderPassID", StringHelper::WStringToString(_mat->GetRenderPassID()));
+		_obj_pt.put("PipelineID", StringHelper::WStringToString(_mat->GetPipelineID()));
+
 		for (auto& _pair : _mat->GetProperties())
 		{
 			boost::property_tree::ptree _property_pt;
@@ -302,7 +307,7 @@ namespace utility
 		{
 			case rengine::MaterialProperty::PropType::Color:
 			{
-				math::Color _val;// = parseConfig<math::Color>(pt);
+				math::Color _val = parseConfig<math::Color>(pt);
 				return rengine::MaterialProperty(name, _val);
 			}
 			case rengine::MaterialProperty::PropType::Float:
@@ -320,6 +325,7 @@ namespace utility
 			case rengine::MaterialProperty::PropType::Range:
 			{
 				math::Vector2 _val = parseConfig<math::Vector2>(pt);
+
 				return rengine::MaterialProperty(name, _val);
 			}
 			case rengine::MaterialProperty::PropType::Texture:
@@ -333,6 +339,7 @@ namespace utility
 			case rengine::MaterialProperty::PropType::Vector:
 			{
 				math::Vector4 _val = parseConfig<math::Vector4>(pt);
+
 				return rengine::MaterialProperty(name, _val);
 			}
 			default:
@@ -358,6 +365,23 @@ namespace utility
 		for (auto& _pair : _iter->second)
 		{
 			rengine::MaterialProperty::PropType _type;
+
+			if (_pair.first == "m_renderPassID")
+			{
+				auto _passID = StringHelper::StringToWString(_pair.second.get<string>(""));
+
+				_resource->SetRenderPassID(_passID);
+
+				continue;
+			}
+			else if (_pair.first == "m_pipelineID")
+			{
+				auto _pipeID = StringHelper::StringToWString(_pair.second.get<string>(""));
+
+				_resource->SetPipelineID(_pipeID);
+
+				continue;
+			}
 
 			if (_pair.first == "m_Colors")			_type = rengine::MaterialProperty::PropType::Color;
 			else if(_pair.first == "m_Vectors")		_type = rengine::MaterialProperty::PropType::Vector;

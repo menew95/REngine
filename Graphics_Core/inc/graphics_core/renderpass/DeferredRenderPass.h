@@ -33,5 +33,8 @@ namespace graphics
         void Excute(class CommandBuffer* command) override;
 
         void EndExcute(class CommandBuffer* command) override;
+
+    private:
+        class RenderTarget* m_pRenderTarget = nullptr;
     };
 }

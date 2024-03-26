@@ -72,6 +72,8 @@ namespace graphics
 		TableLoader::LoadShaderTable(ResourceManager::GetInstance());
 
 		TableLoader::LoadPipelineStateTable(ResourceManager::GetInstance());
+
+		TableLoader::LoadRenderPassTable(ResourceManager::GetInstance());
 	}
 
 	void ResourceManager::Initialze(RenderSystem* renderSystem)

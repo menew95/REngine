@@ -2,6 +2,8 @@
     "guid": "a991f46d-7938-417f-b721-a829220d7322",
     "serializable type": "1",
     "MaterialImporter": {
+        "m_renderPassID":  "Deferred Pass",
+        "m_pipelineID":  "Standard",
         "m_Colors": {
             "Albedo": {
                 "r": "1",

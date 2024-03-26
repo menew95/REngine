@@ -32,7 +32,8 @@ JSON_SERIALIZE_ENUM(graphics::Format,
 	{graphics::Format::R8G8B8A8_UNORM, _T("R8G8B8A8_UNORM")},
 	{graphics::Format::R32G32B32A32_FLOAT, _T("R32G32B32A32_FLOAT")},
 	{graphics::Format::R24G8_TYPELESS, _T("R24G8_TYPELESS")},
-	{graphics::Format::R32_TYPELESS, _T("R32_TYPELESS")}
+	{graphics::Format::R32_TYPELESS, _T("R32_TYPELESS")},
+	{graphics::Format::R32_UINT, _T("R32_UINT")}
 	});
 
 

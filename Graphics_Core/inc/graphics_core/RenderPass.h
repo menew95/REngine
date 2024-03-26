@@ -35,16 +35,29 @@ namespace graphics
         virtual void EndExcute(class CommandBuffer* command);
 
         /**
-            @brief pass에 render object 등록
-            @param obj - render object ptr
+            @brief 머티리얼 버퍼에 패스가 정해지면 해당 렌더패스에 머티리얼 버퍼 캐싱
+            @param matBuffer - 등록할 머티리얼 버퍼
         **/
-        void AddRenderObject(class RenderObject* obj);
-        
+        void AddMaterialBuffer(class MaterialBuffer* matBuffer);
+
         /**
-            @brief pass에 등록 된 render object 제거
-            @param obj - render object ptr
+            @brief 머티리얼 버퍼의 패스가 달라지면 캐싱된 머티리얼 버퍼 삭제
+            @param matBuffer - 삭제할 머티리얼 버퍼
         **/
-        void RemoveRenderObject(class RenderObject* obj);
+        void RemoveMaterialBuffer(class MaterialBuffer* matBuffer);
+
+        // 머티리얼 버퍼가 렌더 오브젝트를 가지고 있도록 설계 변경
+        ///**
+        //    @brief pass에 render object 등록
+        //    @param obj - render object ptr
+        //**/
+        //void AddRenderObject(class RenderObject* obj);
+        //
+        ///**
+        //    @brief pass에 등록 된 render object 제거
+        //    @param obj - render object ptr
+        //**/
+        //void RemoveRenderObject(class RenderObject* obj);
 
         const tstring& GetRenderPassName() { return m_passName; }
         class PipelineState* GetPipelineState() { return m_pPipelineState; }
@@ -53,7 +66,7 @@ namespace graphics
 
         void SetPipelineState(class PipelineState* state) { m_pPipelineState = state; }
         void SetPipelineLayout(class PipelineLayout* layout) { m_pPipelineLayout = layout; }
-    
+
     protected:
         tstring m_passName;
 
@@ -61,5 +74,7 @@ namespace graphics
         class PipelineLayout* m_pPipelineLayout =  nullptr;
 
         vector<class RenderObject*> m_renderObjects;
+
+        vector<class MaterialBuffer*> m_materialBufferList;
     };
 }

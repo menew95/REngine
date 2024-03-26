@@ -1298,10 +1298,10 @@ namespace graphics
 		auto _renderPassTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RenderPassTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
-		const TCHAR* pipelineStateUUID = TEXT("PipelineStateUUID");
-		const TCHAR* pipelineLayoutUUID = TEXT("PipelineLayoutUUID");
-		const TCHAR* renderTargetUUID = TEXT("RenderTargetUUID");
-		const TCHAR* bufferUUID = TEXT("BufferUUID");
+		const TCHAR* pipelineStateUUID = TEXT("PipelineState");
+		const TCHAR* pipelineLayoutUUID = TEXT("PipelineLayout");
+		const TCHAR* renderTargetUUID = TEXT("RenderTarget");
+		/*const TCHAR* bufferUUID = TEXT("BufferUUID");
 
 		const TCHAR* attachmentClearCount = TEXT("AttachmentClearCount");
 		const TCHAR* attachmentClears = TEXT("AttachmentClears");
@@ -1309,7 +1309,7 @@ namespace graphics
 		const TCHAR* isClearObjects = TEXT("IsClearObjects");
 
 		const TCHAR* resourceClearCount = TEXT("ResourceClearCount");
-		const TCHAR* resourceClears = TEXT("ResourceClears");
+		const TCHAR* resourceClears = TEXT("ResourceClears");*/
 
 		for (auto& _renderPassTable : _renderPassTables->GetArray())
 		{

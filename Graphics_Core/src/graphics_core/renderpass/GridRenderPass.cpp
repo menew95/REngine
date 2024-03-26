@@ -4,6 +4,7 @@
 
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\CameraBuffer.h>
+#include <graphics_core\resource\MaterialBuffer.h>
 
 #include <graphics_core\renderer\Renderer.h>
 
@@ -45,6 +46,14 @@ namespace graphics
 		m_pDebugMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-200000000000")));
 
 		m_renderObjects.push_back(m_pDebugMesh);
+
+		/*auto* _debugMaterialBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Grid"));
+
+		_debugMaterialBuffer->SetPipelineID(TEXT("Grid Debug"));
+
+		AddMaterialBuffer(_debugMaterialBuffer);*/
+
+		//_debugMaterialBuffer->AddRenderObject(m_pDebugMesh);
 
 		//m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 	}
