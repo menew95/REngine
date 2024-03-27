@@ -63,6 +63,13 @@ namespace editor
         void FindAsset(const tstring& filter);
         
         /**
+            @brief  경로로부터 에셋 uuid를 가져옴
+            @param  path - asset absolute path
+            @retval      - asset uuid(invalid asset path return 0)
+        **/
+        uuid UUIDFromAssetPath(const tstring& path);
+
+        /**
             @brief 변경된 Asset들을 체크함
         **/
         void Refresh();

@@ -73,15 +73,24 @@ namespace rengine
             , m_intValue(val)
         {}
 
-        tstring GetName() { return m_name; }
-        PropType GetPropType() { return m_type; }
+        RENGINE_API const tstring& GetName() const { return m_name; }
+        RENGINE_API string GetNameStr() const { return StringHelper::WStringToString(m_name); }
 
-        math::Color             GetColor()      { return m_colorValue; }
-        math::Vector4           GetVector4()    { return m_vectorValue; }
-        float                   GetFloat()      { return m_floatValue; }
-        math::Vector2           GetRange()      { return m_rangeLimits; }
-        weak_ptr<class Texture> GetTexture()    { return m_textureValue; }
-        int                     GetInt()        { return m_intValue; }
+        RENGINE_API PropType GetPropType() const { return m_type; }
+
+        RENGINE_API math::Color                 GetColor()   const { return m_colorValue; }
+        RENGINE_API math::Vector4               GetVector4() const { return m_vectorValue; }
+        RENGINE_API float                       GetFloat()   const { return m_floatValue; }
+        RENGINE_API math::Vector2               GetRange()   const { return m_rangeLimits; }
+        RENGINE_API shared_ptr<class Texture>   GetTexture() const { return m_textureValue.lock(); }
+        RENGINE_API int                         GetInt()     const { return m_intValue; }
+
+        void SetColor(const math::Color& val) { m_colorValue = val; }
+        void SetVector4(const math::Vector4& val) { m_vectorValue = val; }
+        void SetFloat(float val) { m_floatValue = val; }
+        void SetRange(const math::Vector2& val) { m_rangeLimits = val; }
+        void SetTexture(const shared_ptr<class Texture>& texture) { m_textureValue = texture; }
+        void SetInt(int val) { m_intValue = val; }
 
     private:
         /**
@@ -101,6 +110,7 @@ namespace rengine
         weak_ptr<class Texture> m_textureValue;
         int m_intValue = 0;
 
+        friend class Material;
     };
 
     class RENGINE_API Material : public Resource
@@ -161,9 +171,43 @@ namespace rengine
         **/
         void AddProperties(vector<MaterialProperty> val);
 
-        map<MaterialProperty::PropType, vector<MaterialProperty>> GetProperties() { return m_properties; }
-        void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>> val) { m_properties = val; }
+        map<MaterialProperty::PropType, vector<MaterialProperty>>& GetProperties() { return m_properties; }
+        void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val) { m_properties = val; }
 
+        /**
+            @brief material의 color값 설정
+            @param name  - property name
+            @param value - color value
+        **/
+        void SetColor(const tstring& name, const Color& value);
+
+        /**
+            @brief material의 vector값 설정
+            @param name  - property name
+            @param value - vector4 value
+        **/
+        void SetVector4(const tstring& name, const Vector4& value);
+
+        /**
+            @brief material의 float 값 설정
+            @param name  - property name
+            @param value - float value
+        **/
+        void SetFloat(const tstring& name, float value);
+
+        /**
+            @brief material의 새 텍스처 할당
+            @param name    - property name
+            @param texture - texture
+        **/
+        void SetTexture(const tstring& name, const shared_ptr<Texture>& texture);
+
+        /**
+            @brief material의 int 값 설정
+            @param name  - property name
+            @param value - int value
+        **/
+        void SetInteger(const tstring& name, int value);
 
         graphics::MaterialBuffer* GetMaterialBuffer() { return m_pMaterialBuffer; }
 

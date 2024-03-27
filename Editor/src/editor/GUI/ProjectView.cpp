@@ -2,8 +2,9 @@
 
 #include <common\AssetPath.h>
 
-#include <editor\GUI\ProjectView.h>
+#include <editor\Core\AssetManager.h>
 
+#include <editor\GUI\ProjectView.h>
 #include <editor\GUI\EditorStyle.h>
 
 #include <filesystem>
@@ -596,6 +597,30 @@ namespace editor
 						m_selected.clear();
 
 						m_currPath = (fs::path(m_currPath) / _path.filename()).wstring();
+					}
+					else
+					{
+						// 디렉토리가 아닌 에셋을 더블 클릭할 경우
+
+						tstring _extension = _path.extension().wstring();
+
+						std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+						if (_extension == TEXT(".mat"))
+						{
+							// 머티리얼 일경우 인스펙터에 머티리얼 에디터 창을 띄움
+
+							uuid _asset_uuid = AssetManager::GetInstance()->UUIDFromAssetPath(fs::absolute(_path).wstring());
+
+							// 에셋 매니저에 등록되지 않은 에셋 패스임
+							assert(_asset_uuid != TEXT("0"));
+
+							const auto& _mat = rengine::Resources::GetInstance()->GetResource<rengine::Material>(_asset_uuid);
+
+							assert(_mat != nullptr);
+
+							EventManager::GetInstance()->SetFocusObject(_mat.get());
+						}
 					}
 				}
 				else if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))

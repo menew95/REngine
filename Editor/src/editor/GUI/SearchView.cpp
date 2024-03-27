@@ -71,7 +71,7 @@ namespace editor
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.5f, 1.0f, 1.0f));
 		for (auto& _obj : m_userData._objectList)
 		{
-			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(0.f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr)
+			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(0.f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
 			{
 				m_pBtnEvent(m_pHandler, _obj);
 				m_bOpen = false;

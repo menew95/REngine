@@ -96,9 +96,22 @@ namespace editor
 	
 	void AssetManager::FindAsset(const tstring& filter)
 	{
-	
+		
 	}
 	
+	uuid AssetManager::UUIDFromAssetPath(const tstring& path)
+	{
+		auto _iter = find_if(begin(m_assetList), end(m_assetList), [&path](const auto& _pair)
+			{
+				return _pair.second == path;
+			});
+
+		if(_iter == end(m_assetList))
+			return TEXT("0");
+
+		return _iter->first;
+	}
+
 	void AssetManager::Refresh()
 	{
 		CheckMetaFile(g_assetPath);

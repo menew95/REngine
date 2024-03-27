@@ -65,7 +65,7 @@ namespace utility
 		pt.push_back(make_pair("TextureImporter", _obj_pt));
 	}
 
-	void PropertySerialize(rengine::MaterialProperty& prop, boost::property_tree::ptree& pt)
+	void PropertySerialize(const rengine::MaterialProperty& prop, boost::property_tree::ptree& pt)
 	{
 		auto _propName = StringHelper::WStringToString(prop.GetName());
 
@@ -97,7 +97,7 @@ namespace utility
 			}
 			case rengine::MaterialProperty::PropType::Texture:
 			{
-				auto _val = prop.GetTexture().lock();
+				auto _val = prop.GetTexture();
 
 				string _uuid = _val != nullptr ? _val->GetUUIDStr() : "";
 

@@ -3,12 +3,16 @@
 #include <editor\Core\EventManager.h>
 #include <editor\Core\AssetManager.h>
 
-#include <editor/GUI/InspectorView.h>
+#include <editor\GUI\InspectorView.h>
+#include <editor\GUI\SearchView.h>
 
 #include <editor\Widget\WidgetManager.h>
 
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
+
+#include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\Texture.h>
 
 #include <rttr\registration.h>
 #include <rttr\type.h>
@@ -37,8 +41,14 @@ namespace editor
     {
         __super::Render();
 
-        if (EventManager::GetInstance()->GetFocusObject() != nullptr)
-        {
+        if (EventManager::GetInstance()->GetFocusObject() == nullptr)
+			return;
+        
+		rengine::Object* _object = reinterpret_cast<rengine::Object*>(EventManager::GetInstance()->GetFocusObject());
+
+		if(_object->GetType() == TEXT("GameObject"))
+		{
+			// 오브젝트가 게임 오브젝트일 경우 게임오브젝트 인스펙터창을 렌더
             auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
 
 			DrawGameObject(_go);
@@ -49,12 +59,16 @@ namespace editor
             }
 
 			DrawAddComponent();
+
+			/*if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+				EventManager::GetInstance()->SetFocusObject(nullptr);*/
         }
+		else if (_object->GetType() == TEXT("Material"))
+		{
+			// 오브젝트가 머티리얼일 경우 머티리얼 프로퍼티 인스펙터창을 렌더
 
-		/*if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-			EventManager::GetInstance()->SetFocusObject(nullptr);*/
-
-
+			DrawMaterialProperty();
+		}
     }
     void InspectorView::End()
     {
@@ -380,6 +394,137 @@ namespace editor
 			ImGui::PopID();
 
 			ImGui::EndPopup();
+		}
+	}
+
+	void InspectorView::DrawMaterialProperty()
+	{
+		auto* _material = reinterpret_cast<rengine::Material*>(EventManager::GetInstance()->GetFocusObject());
+
+		for (auto& _pair : _material->GetProperties())
+		{
+			rengine::MaterialProperty::PropType _proptype = _pair.first;
+
+			switch (_pair.first)
+			{
+				case rengine::MaterialProperty::PropType::Color:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						/*ImVec4 _color = ImVec4(_prop.GetColor().x, _prop.GetColor().y, _prop.GetColor().z, _prop.GetColor().w);
+						
+						if (ImGui::ColorButton(_prop.GetNameStr().c_str(), _color))
+						{
+							_material->SetColor(_prop.GetName(), { _color.x, _color.y, _color.z, _color.w });
+						}*/
+
+						float _cor[4] = { _prop.GetColor().x, _prop.GetColor().y, _prop.GetColor().z, _prop.GetColor().w };
+
+						if (ImGui::ColorEdit4(_prop.GetNameStr().c_str(), _cor))
+						{
+							_material->SetColor(_prop.GetName(), { _cor[0], _cor[1], _cor[2], _cor [3]} );
+						}
+					}
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Vector:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						float _val[4] = { _prop.GetVector4().x, _prop.GetVector4().y, _prop.GetVector4().z, _prop.GetVector4().w };
+
+						if (ImGui::InputFloat4(_prop.GetNameStr().c_str(), _val))
+						{
+							_material->SetVector4(_prop.GetName(), { _val[0], _val[1], _val[2], _val[3] });
+						}
+					}
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Float:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						float _val = _prop.GetFloat();
+
+						if (ImGui::InputFloat(_prop.GetNameStr().c_str(), &_val))
+						{
+							_material->SetFloat(_prop.GetName(), _val);
+						}
+					}
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Range:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						float _val[2] = { _prop.GetRange().x, _prop.GetRange().y };
+
+						if (ImGui::InputFloat4(_prop.GetNameStr().c_str(), _val))
+						{
+							assert(false);
+							//_material->SetR(_prop.GetName(), { _val[0], _val[1], _val[2], _val[3] });
+						}
+					}
+					break;
+				}
+
+				case rengine::MaterialProperty::PropType::Texture:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						void* _textureID = _prop.GetTexture() != nullptr ? _prop.GetTexture()->GetTextureID() : nullptr;
+
+						struct EventData
+						{
+							rengine::Material* _target;
+							tstring _propName;
+						};
+
+						auto _event = [](void* userData, const shared_ptr<rengine::Object>& obj)
+							{
+								tstring* _propName = reinterpret_cast<tstring*>(userData);
+
+								auto _texture = static_pointer_cast<rengine::Texture>(obj);
+
+								auto* _material = reinterpret_cast<rengine::Material*>(EventManager::GetInstance()->GetFocusObject());
+
+								_material->SetTexture(*_propName, _texture);
+							};
+						ImGui::Columns(2);
+						ImGui::Text(_prop.GetNameStr().c_str());
+						ImGui::NextColumn();
+						if (ImGui::ImageButton(_prop.GetNameStr().c_str(), _textureID, ImVec2(20, 10)))
+						{
+							m_propName = _prop.GetName();
+
+							SearchView::OpenSeachView("Texture", &m_propName, _event);
+						}
+						ImGui::EndColumns();
+
+						/*if (ImGui::InputFloat4(_prop.GetNameStr().c_str(), _val))
+						{
+							_material->SetVector4(_prop.GetName(), { _val[0], _val[1], _val[2], _val[3] });
+						}*/
+					}
+					break;
+				}
+				case rengine::MaterialProperty::PropType::Int:
+				{
+					for (auto& _prop : _pair.second)
+					{
+						int _val = _prop.GetInt();
+
+						if (ImGui::InputInt(_prop.GetNameStr().c_str(), &_val))
+						{
+							_material->SetInteger(_prop.GetName(), _val);
+						}
+					}
+					break;
+				}
+				default:
+					assert(false);
+					break;
+			}
 		}
 	}
 }

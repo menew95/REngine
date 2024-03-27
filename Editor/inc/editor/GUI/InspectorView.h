@@ -51,6 +51,13 @@ namespace editor
 		    @brief Add Component ui
 		**/
 		void DrawAddComponent();
+
+		/**
+		    @brief 
+		**/
+		void DrawMaterialProperty();
+
+		tstring m_propName;
 	};
 
 }

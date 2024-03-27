@@ -60,9 +60,9 @@ namespace rengine
 
 		if (m_bIsDirty)
 		{
-			m_pMaterialBuffer->SetRenderPass(m_renderPassID);
+			//m_pMaterialBuffer->SetRenderPass(m_renderPassID);
 
-			m_pMaterialBuffer->SetPipelineID(m_pipelineID);
+			//m_pMaterialBuffer->SetPipelineID(m_pipelineID);
 
 			m_bIsDirty = false;
 		}
@@ -116,5 +116,81 @@ namespace rengine
 		{
 			m_properties[_prop.GetPropType()].push_back(_prop);
 		}
+	}
+	
+	void Material::SetColor(const tstring& name, const Color& value)
+	{
+		auto& _props = m_properties[MaterialProperty::PropType::Color];
+
+		auto _iter = find_if(begin(_props), end(_props), [&name](const auto& prop)
+			{
+				return prop.m_name == name;
+			});
+
+		if (_iter == _props.end())
+			return;
+
+		_iter->SetColor(value);
+
+	}
+	
+	void Material::SetVector4(const tstring& name, const Vector4& value)
+	{
+		auto& _props = m_properties[MaterialProperty::PropType::Vector];
+
+		auto _iter = find_if(begin(_props), end(_props), [&name](const auto& prop)
+			{
+				return prop.m_name == name;
+			});
+
+		if (_iter == _props.end())
+			return;
+
+		_iter->SetVector4(value);
+	}
+	
+	void Material::SetFloat(const tstring& name, float value)
+	{
+		auto& _props = m_properties[MaterialProperty::PropType::Float];
+
+		auto _iter = find_if(begin(_props), end(_props), [&name](const auto& prop)
+			{
+				return prop.m_name == name;
+			});
+
+		if (_iter == _props.end())
+			return;
+
+		_iter->SetFloat(value);
+	}
+	
+	void Material::SetTexture(const tstring& name, const shared_ptr<Texture>& texture)
+	{
+		auto& _props = m_properties[MaterialProperty::PropType::Texture];
+
+		auto _iter = find_if(begin(_props), end(_props), [&name](const auto& prop)
+			{
+				return prop.m_name == name;
+			});
+
+		if (_iter == _props.end())
+			return;
+
+		_iter->SetTexture(texture);
+	}
+	
+	void Material::SetInteger(const tstring& name, int value)
+	{
+		auto& _props = m_properties[MaterialProperty::PropType::Int];
+
+		auto _iter = find_if(begin(_props), end(_props), [&name](const auto& prop)
+			{
+				return prop.m_name == name;
+			});
+
+		if (_iter == _props.end())
+			return;
+
+		_iter->SetInt(value);
 	}
 }
