@@ -73,11 +73,11 @@ namespace graphics
 		uint32 _flags = 0;
 	};
 
-	struct BufferInfo
+	struct BufferField
 	{
-		tstring _name;
-		uint32 _size;
-		uint32 _offset;
+		tstring _name;		// field name
+		uint32	_size;		// size(byte)
+		uint32	_offset;	// offset(byte) const buffer
 	};
 
 	// Constant Buffer 정보
@@ -87,7 +87,7 @@ namespace graphics
 		uint32 _resourceType;
 		uint32 _boundSlot;
 		uint32 _boundCount;
-		vector<BufferInfo> _info;
+		vector<BufferField> _fields;
 	};
 
 	// 텍스처, 샘플러 바인드 정보
@@ -99,16 +99,31 @@ namespace graphics
 		uint32 _boundCount;
 	};
 
+	// 샘플러 바인드 정보
+	struct BindSamplerDesc
+	{
+		tstring _name;
+		uint32 _resourceType;
+		uint32 _boundSlot;
+		uint32 _boundCount;
+	};
+
 	// 파이프 라인에 바인드 되어야하는 정보
 	struct PropertyDesc
 	{
-		vector<ConstantBufferDesc> _bindBuffers;
-		vector<BindResourceDesc> _bindResources;
+		vector<ConstantBufferDesc>	_bindBuffers;
+		vector<BindResourceDesc>	_bindResources;
+		/*
+		* 아직 굳이 나눠야하는지 잘 모르겠다. sampler의 경우 최대 16, 텍스처는 128개 바인드가 가능하다.
+		* 일단 안쓰도록 보류
+		*/
+		vector<BindSamplerDesc>		_bindSamplers;
 	};
-
 
 	struct ShaderProgramDesc
 	{
 		StageFlags _flags;
 	};
+
+	long GetStageFlags(const ShaderType type);
 }

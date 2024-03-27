@@ -20,6 +20,8 @@ namespace graphics
 
 			void SetShaderObjects(const ShaderProgram& shaderProgram) override;
 
+			void PipelineReflect(void* reflectData) override;
+
 		private:
 			ComPtr<ID3D11ComputeShader> m_CS;
 		};

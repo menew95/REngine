@@ -40,6 +40,20 @@ namespace graphics
 			ComPtr<ID3D11ComputeShader>		_computeShader;
 		};
 
+		struct D3D11ConstantReflection
+		{
+			std::string name;   // Name of the constant buffer field.
+			UINT        offset; // Offset (in bytes) within the constant buffer.
+			UINT        size;   // Size (in bytes) of this uniform.
+		};
+
+		struct D3D11ConstantBufferReflection
+		{
+			UINT                                    slot;
+			UINT                                    size;
+			std::vector<D3D11ConstantReflection>    fields;
+		};
+
 		class DX11Shader : public Shader
 		{
 		public:
@@ -50,6 +64,11 @@ namespace graphics
 			inline const ComPtr<ID3D11InputLayout>& GetInputLayout() const { return m_InputLayout; }
 
 			void SetName(const char* name) override;
+			ShaderType GetShaderType() { return m_ShaderDesc._shaderType; }
+
+			HRESULT ReflectShader(const PropertyDesc** propertyDesc);
+
+			void ReflectInputLayout(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
 		private:
 			// shader 파일의 종류에 따라 컴파일 혹은 로드를 해줌
 			void BuildShader(ID3D11Device* device, const ShaderDesc& desc);
@@ -61,12 +80,12 @@ namespace graphics
 			ShaderType GetDXShaderType(uint32 shaderType);
 
 			void Reflect(ID3D11Device* device);
-			void ReflectInputLayout(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
-			void ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc);
+			HRESULT ReflectShaderProperty(PropertyDesc& propertyDesc);
 
 			ShaderDesc m_ShaderDesc;
 
 			// reflection property
+			HRESULT m_ShaderReflectResult = S_FALSE;
 			PropertyDesc m_properties;
 
 			DX11NativeShader m_NativeShader;

@@ -46,6 +46,8 @@ namespace graphics
         **/
         GRAPHICS_API void RemoveRenderObject(class RenderObject* obj);
 
+        void BindPipelineState(class CommandBuffer* command);
+
         void BindResource(class CommandBuffer* command);
 
         BufferType GetBufferType()

@@ -138,6 +138,9 @@
     <ClInclude Include="inc\graphics_module\Module.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\graphics_module\PipelineStateUtilis.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="inc\graphics_module\DirectXTex\DirectXTex.inl">
@@ -188,6 +191,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics_module\Common\DXHelper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_module\PipelineStateUtilis.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_module\ShaderFlags.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

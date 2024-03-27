@@ -156,6 +156,52 @@ namespace graphics
 			}
 		}
 
+		void DX11PipelineState::PipelineReflect(void* reflectData)
+		{
+			ShaderProgram _shaderProgram;
+
+			PropertyDesc _propertyDesc;
+			vector<DX11Shader*> _shaders;
+
+			long _bufferStageFlags[D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT] = {};
+			long _resourceStageFlags[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = {};
+			long _samplerStageFlags[D3D11_COMMONSHADER_SAMPLER_REGISTER_COUNT] = {};
+
+			for (auto* _shader : _shaders)
+			{
+				assert(_shader != nullptr);
+
+				const PropertyDesc* _curPropertyDesc = nullptr;
+				HRESULT _hr = _shader->ReflectShader(&_curPropertyDesc);
+
+				assert(SUCCEEDED(_hr) || _curPropertyDesc != nullptr);
+
+				_propertyDesc._bindBuffers.reserve(_propertyDesc._bindBuffers.size() + _curPropertyDesc->_bindBuffers.size());
+				
+				for (const auto& _curBindBuf : _curPropertyDesc->_bindBuffers)
+				{
+					_propertyDesc._bindBuffers.push_back(_curBindBuf);
+					_bufferStageFlags[_curBindBuf._boundSlot] |= GetStageFlags(_shader->GetShaderType());
+				}
+
+				_propertyDesc._bindResources.reserve(_propertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
+				for (const auto& _curBindRes : _curPropertyDesc->_bindResources)
+				{
+					_propertyDesc._bindResources.push_back(_curBindRes);
+					_bufferStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
+				}
+
+				/*_propertyDesc._bindSamplers.reserve(_propertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
+				for (const auto& _curBindRes : _curPropertyDesc->_bindResources)
+				{
+					_propertyDesc._bindResources.push_back(_curBindRes);
+					_bufferStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
+				}*/
+			}
+
+
+		}
+
 		void DX11PipelineState::GetDXDepthStencil(D3D11_DEPTH_STENCIL_DESC& desc, const DepthDesc& depthDesc, const StencilDesc stencilDesc)
 		{
 			desc.DepthEnable = depthDesc._depthEnabled;

@@ -36,9 +36,9 @@ namespace graphics
 
 	void SkyBoxRenderPass::Init()
 	{
-		/*m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("SkyBox"));
+		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("SkyBox"));
 
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));*/
+		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));
 
 		m_pSkyBoxMesh = new MeshObject(TEXT("SkyBox Object"));
 
@@ -51,9 +51,9 @@ namespace graphics
 		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 
 
-		m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox"));
+		/*m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox"));
 
-		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));
+		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));*/
 
 
 	}

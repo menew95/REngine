@@ -24,6 +24,27 @@ namespace graphics
 			DX11SetObjectName(static_cast<ID3D11DeviceChild*>(m_NativeShader._vertexShader.Get()), name);
 		}
 
+		HRESULT DX11Shader::ReflectShader(const PropertyDesc** propertyDesc)
+		{
+			if (m_ShaderReflectResult == S_FALSE)
+			{
+				m_properties._bindBuffers.clear();
+				m_properties._bindResources.clear();
+
+				m_ShaderReflectResult = ReflectShaderProperty(m_properties);
+			}
+
+			if (m_ShaderReflectResult == S_OK)
+			{
+				/* Return cached constnat buffer reflections */
+				if (propertyDesc != nullptr)
+					*propertyDesc = &m_properties;
+				return S_OK;
+			}
+
+			return m_ShaderReflectResult;
+		}
+
 		void DX11Shader::BuildShader(ID3D11Device* device, const ShaderDesc& desc)
 		{
 			switch (desc._sourceType)
@@ -211,8 +232,6 @@ namespace graphics
 			reflection->GetDesc(&_shaderDesc);
 
 			ReflectInputLayout(device, reflection.Get(), _shaderDesc);
-
-			ReflectBuffer(device, reflection.Get(), _shaderDesc);
 		}
 
 		void DX11Shader::ReflectInputLayout(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc)
@@ -288,38 +307,25 @@ namespace graphics
 			HR(_hr, "Faild to create inputlayout");
 		}
 
-		void DX11Shader::ReflectBuffer(ID3D11Device* device, ID3D11ShaderReflection* reflection, D3D11_SHADER_DESC& desc)
+		HRESULT DX11Shader::ReflectShaderProperty(PropertyDesc& propertyDesc)
 		{
-			/*for (UINT i = 0; i < desc.ConstantBuffers; ++i) 
-			{
-				ID3D11ShaderReflectionConstantBuffer* buffer = reflection->GetConstantBufferByIndex(i);
-				D3D11_SHADER_BUFFER_DESC _bindDesc;
-				buffer->GetDesc(&_bindDesc);
+			HRESULT _hr = S_OK;
 
-				ConstantBufferDesc _constBufferDesc;
+			/* Get shader reflection */
+			ComPtr<ID3D11ShaderReflection> _reflection;
+			_hr = D3DReflect(m_Blob->GetBufferPointer(), m_Blob->GetBufferSize(), IID_PPV_ARGS(_reflection.ReleaseAndGetAddressOf()));
+			if (FAILED(_hr))
+				return _hr;
 
-				_constBufferDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+			D3D11_SHADER_DESC _desc;
+			_hr = _reflection->GetDesc(&_desc);
+			if (FAILED(_hr))
+				return _hr;
 
-				for (UINT j = 0; j < _bindDesc.Variables; ++j)
-				{
-					ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);
-					D3D11_SHADER_VARIABLE_DESC varDesc;
-					var->GetDesc(&varDesc);
-
-					BufferInfo _info;
-					_info._name = StringHelper::StringToWString(varDesc.Name);
-					_info._size = varDesc.Size;
-					_info._offset = varDesc.StartOffset;
-					_constBufferDesc._info.push_back(_info);
-				}
-
-				m_properties._bindBuffers.push_back(_constBufferDesc);
-			}*/
-
-			for (UINT i = 0; i < desc.BoundResources; i++)
+			for (UINT i = 0; i < _desc.BoundResources; i++)
 			{
 				D3D11_SHADER_INPUT_BIND_DESC _bindDesc;
-				HRESULT _hr = reflection->GetResourceBindingDesc(i, &_bindDesc);
+				_hr = _reflection->GetResourceBindingDesc(i, &_bindDesc);
 
 				if(_hr == S_OK)
 				{
@@ -335,7 +341,7 @@ namespace graphics
 
 							_resourceDesc._resourceType = (uint32)ResourceType::Texture;
 
-							m_properties._bindResources.push_back(_resourceDesc);
+							propertyDesc._bindResources.push_back(_resourceDesc);
 							break;
 						}
 						break;
@@ -349,7 +355,7 @@ namespace graphics
 
 							_resourceDesc._resourceType = (uint32)ResourceType::Sampler;
 
-							m_properties._bindResources.push_back(_resourceDesc);
+							propertyDesc._bindResources.push_back(_resourceDesc);
 							break;
 						}
 						break;
@@ -360,7 +366,7 @@ namespace graphics
 						}
 						case D3D_SIT_CBUFFER:
 						{
-							ID3D11ShaderReflectionConstantBuffer* buffer = reflection->GetConstantBufferByIndex(i);
+							ID3D11ShaderReflectionConstantBuffer* buffer = _reflection->GetConstantBufferByIndex(i);
 							D3D11_SHADER_BUFFER_DESC _bufferDesc;
 							buffer->GetDesc(&_bufferDesc);
 
@@ -375,14 +381,14 @@ namespace graphics
 								D3D11_SHADER_VARIABLE_DESC varDesc;
 								var->GetDesc(&varDesc);
 
-								BufferInfo _info;
+								BufferField _info;
 								_info._name = StringHelper::StringToWString(varDesc.Name);
 								_info._size = varDesc.Size;
 								_info._offset = varDesc.StartOffset;
-								_constBufferDesc._info.push_back(_info);
+								_constBufferDesc._fields.push_back(_info);
 							}
 
-							m_properties._bindBuffers.push_back(_constBufferDesc);
+							propertyDesc._bindBuffers.push_back(_constBufferDesc);
 
 							break;
 						}
@@ -396,7 +402,7 @@ namespace graphics
 				}
 			}
 
-			return;
+			return _hr;
 		}
 
 

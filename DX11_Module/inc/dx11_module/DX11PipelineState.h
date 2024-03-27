@@ -22,6 +22,13 @@ namespace graphics
 			void SetStaticViewportsAndScissors(DX11StateManager& stateManager);
 
 			void SetShaderObjects(const ShaderProgram& shaderProgram) override;
+
+			/**
+			    @brief 머티리얼한테 파이프라인 리소스 레이아웃을 알려주기 위해 사용
+			    @param reflectData - 
+			**/
+			void PipelineReflect(void* reflectData) override;
+
 		protected:
 			
 			inline D3D11_PRIMITIVE_TOPOLOGY GetPrimitiveTopology() const

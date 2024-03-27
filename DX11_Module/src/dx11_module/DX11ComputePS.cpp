@@ -40,5 +40,19 @@ namespace graphics
 			}
 		}
 
+		void DX11ComputePS::PipelineReflect(void* reflectData)
+		{
+			ShaderProgram _shaderProgram;
+
+			if (_shaderProgram._computeShader != nullptr)
+			{
+				auto* _castVS = reinterpret_cast<DX11Shader*>(_shaderProgram._computeShader);
+
+				const PropertyDesc* _propertyDesc = nullptr;
+
+				_castVS->ReflectShader(&_propertyDesc);
+			}
+		}
+
 	}
 }

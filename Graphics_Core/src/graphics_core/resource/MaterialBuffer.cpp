@@ -57,6 +57,14 @@ namespace graphics
 			m_renderObjectList.erase(_it);
 	}
 
+	void MaterialBuffer::BindPipelineState(CommandBuffer* command)
+	{
+		if(m_pPipelineState == nullptr)
+			return;
+
+		command->SetPipelineState(*m_pPipelineState);
+	}
+
 	void MaterialBuffer::BindResource(CommandBuffer* command)
 	{
 		if(m_pPipelineLayout == nullptr)

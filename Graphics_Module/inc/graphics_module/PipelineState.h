@@ -16,6 +16,8 @@ namespace graphics
 
 		virtual void SetShaderObjects(const ShaderProgram& shaderProgram) abstract;
 
+		virtual void PipelineReflect(void* reflectData) abstract;
+
 	protected:
 
 	};
