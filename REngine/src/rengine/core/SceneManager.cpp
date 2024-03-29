@@ -2,6 +2,8 @@
 #include <rengine\core\scene\Scene.h>
 
 #include <rengine\System\ObjectFactory.h>
+#include <rengine\System\GraphicsSystem.h>
+#include <rengine\core\resources.h>
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Camera.h>
 

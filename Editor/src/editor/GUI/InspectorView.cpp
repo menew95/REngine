@@ -380,9 +380,11 @@ namespace editor
 
 			ImGui::PushID("Add Component");
 
+			ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
+
 			for (auto _comp : _componentList)
 			{
-				if (ImGui::Button(_comp.c_str()))
+				if (ImGui::ButtonEx(_comp.c_str(), ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick))
 				{
 					auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
 					
@@ -391,6 +393,9 @@ namespace editor
 					ImGui::CloseCurrentPopup();
 				}
 			}
+
+			ImGui::PopStyleVar(1);
+
 			ImGui::PopID();
 
 			ImGui::EndPopup();
@@ -490,9 +495,11 @@ namespace editor
 
 								_material->SetTexture(*_propName, _texture);
 							};
+
 						ImGui::Columns(2);
 						ImGui::Text(_prop.GetNameStr().c_str());
 						ImGui::NextColumn();
+
 						if (ImGui::ImageButton(_prop.GetNameStr().c_str(), _textureID, ImVec2(20, 10)))
 						{
 							m_propName = _prop.GetName();
@@ -500,11 +507,6 @@ namespace editor
 							SearchView::OpenSeachView("Texture", &m_propName, _event);
 						}
 						ImGui::EndColumns();
-
-						/*if (ImGui::InputFloat4(_prop.GetNameStr().c_str(), _val))
-						{
-							_material->SetVector4(_prop.GetName(), { _val[0], _val[1], _val[2], _val[3] });
-						}*/
 					}
 					break;
 				}

@@ -1,14 +1,17 @@
 ﻿#include <graphics_core\resource\MaterialBuffer.h>
+#include <graphics_core\resource\MaterialPropertyBlock.h>
+#include <graphics_core\resource\TextureBuffer.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\RenderPass.h>
 
 #include <graphics_module\CommandBuffer.h>
+#include <graphics_module\PipelineState.h>
 
 namespace graphics
 {
 	MaterialBuffer::MaterialBuffer()
 	{
-
+		m_materialPropertyBlock = make_unique<MaterialPropertyBlock>();
 	}
 
 	MaterialBuffer::~MaterialBuffer()
@@ -37,6 +40,10 @@ namespace graphics
 	{
 		m_pPipelineState = graphics::ResourceManager::GetInstance()->GetPipelineState(pipelineID);
 
+		assert(m_pPipelineState != nullptr);
+
+		m_materialPropertyBlock->SetProperty(m_pPipelineState->GetPropertyDesc());
+
 		m_pPipelineLayout = graphics::ResourceManager::GetInstance()->GetPipelineLayout(pipelineID);
 	}
 
@@ -57,6 +64,31 @@ namespace graphics
 			m_renderObjectList.erase(_it);
 	}
 
+	void MaterialBuffer::SetColor(const tstring& name, const Color& value)
+	{
+		m_materialPropertyBlock->SetColor(name, value);
+	}
+
+	void MaterialBuffer::SetVector4(const tstring& name, const Vector4& value)
+	{
+		m_materialPropertyBlock->SetVector4(name, value);
+	}
+
+	void MaterialBuffer::SetFloat(const tstring& name, float value)
+	{
+		m_materialPropertyBlock->SetFloat(name, value);
+	}
+
+	void MaterialBuffer::SetTexture(const tstring& name, TextureBuffer* texture)
+	{
+		m_materialPropertyBlock->SetTexture(name, texture);
+	}
+
+	void MaterialBuffer::SetInteger(const tstring& name, int value)
+	{
+		m_materialPropertyBlock->SetInteger(name, value);
+	}
+
 	void MaterialBuffer::BindPipelineState(CommandBuffer* command)
 	{
 		if(m_pPipelineState == nullptr)
@@ -67,6 +99,8 @@ namespace graphics
 
 	void MaterialBuffer::BindResource(CommandBuffer* command)
 	{
+		m_materialPropertyBlock->BindProperty(command);
+		
 		if(m_pPipelineLayout == nullptr)
 			return;
 

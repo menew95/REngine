@@ -129,7 +129,6 @@ namespace editor
 	{
 		ObjectButton* _this = reinterpret_cast<ObjectButton*>(thisClass);
 
-
 		if (_this->m_bIsArray)
 		{
 			auto _varSeq = _this->m_prop.get_value(_this->m_pHandler);

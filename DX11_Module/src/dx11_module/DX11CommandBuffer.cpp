@@ -173,6 +173,7 @@ namespace graphics
 			{
 				case ResourceType::Undefined:
 					break;
+
 				case ResourceType::Buffer:
 				{
 					auto& _buffer = reinterpret_cast<Buffer&>(resource);

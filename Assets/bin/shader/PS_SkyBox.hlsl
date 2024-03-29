@@ -2,7 +2,7 @@
 
 SamplerState samWrapLinearMipPoint : register(s0);
 
-TextureCube g_SkyBox : register(t0);
+TextureCube g_SkyBox;// : register(t0);
 
 float4 main(VSOutput input) : SV_Target
 {

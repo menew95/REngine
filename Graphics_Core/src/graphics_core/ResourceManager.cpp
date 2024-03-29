@@ -84,7 +84,10 @@ namespace graphics
 	void ResourceManager::LoadGraphicsResource()
 	{
 		LoadGraphicsTable();
+	}
 
+	void ResourceManager::InitRenderPass()
+	{
 		{
 			auto _renderPass = new SkyBoxRenderPass();
 

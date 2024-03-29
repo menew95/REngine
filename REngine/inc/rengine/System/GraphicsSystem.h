@@ -30,6 +30,11 @@ namespace rengine
 			@brief 그래픽스 파이프라인에서 사용될 그래픽스 리소스들을 로드
 		**/
 		void LoadGraphicsResource();
+
+		/**
+		    @brief 렌더 패스들을 생성하고 초기화
+		**/
+		void InitRenderPass();
 		
 		/**
 		    @brief  Module로부터 생성한 Device를 반환

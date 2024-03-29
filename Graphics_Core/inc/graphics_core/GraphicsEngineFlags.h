@@ -27,4 +27,9 @@ namespace graphics
 
 		WindowInfo _info;
 	};
+
+	struct LightSetting
+	{
+		
+	};
 }

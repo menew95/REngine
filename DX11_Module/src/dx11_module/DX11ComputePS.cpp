@@ -1,5 +1,6 @@
 ﻿#include "dx11_module_pch.h"
 
+#include <graphics_module\PipelineStateUtilis.h>
 #include "dx11_module\DX11ComputePS.h"
 #include "dx11_module\DX11Shader.h"
 #include "dx11_module\DX11StateManager.h"
@@ -15,6 +16,10 @@ namespace graphics
 			{
 				auto _castShader = reinterpret_cast<DX11Shader*>(desc._shaderProgram._computeShader);
 				m_CS = _castShader->GetNativeShader()._computeShader;
+
+				auto _shaders = GetShadersAsArray(desc);
+
+				PipelineReflect(CastShaderArray<DX11Shader>(_shaders));
 			}
 			else
 			{
@@ -40,9 +45,9 @@ namespace graphics
 			}
 		}
 
-		void DX11ComputePS::PipelineReflect(void* reflectData)
+		void DX11ComputePS::PipelineReflect(const vector<DX11Shader*>& shaders)
 		{
-			ShaderProgram _shaderProgram;
+			/*ShaderProgram _shaderProgram;
 
 			if (_shaderProgram._computeShader != nullptr)
 			{
@@ -51,7 +56,7 @@ namespace graphics
 				const PropertyDesc* _propertyDesc = nullptr;
 
 				_castVS->ReflectShader(&_propertyDesc);
-			}
+			}*/
 		}
 
 	}

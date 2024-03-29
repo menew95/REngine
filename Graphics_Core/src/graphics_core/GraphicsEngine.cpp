@@ -50,6 +50,11 @@ namespace graphics
 		m_pRenderer = new Renderer(m_pCommandBuffer);
 	}
 
+	void GraphicsEngine::InitRenderPass()
+	{
+		ResourceManager::GetInstance()->InitRenderPass();
+	}
+
 	void GraphicsEngine::ReleaseEngine()
 	{
 		delete m_pRenderer;
@@ -119,6 +124,11 @@ namespace graphics
 		m_windowInfo._height = resolution._height;
 
 		m_pSwapChain->ResizeBuffer(resolution);
+	}
+
+	void graphics::GraphicsEngine::SetLightSetting(const LightSetting& setting)
+	{
+
 	}
 
 	void GraphicsEngine::LoadModule(const GraphicsEngineDesc& desc)

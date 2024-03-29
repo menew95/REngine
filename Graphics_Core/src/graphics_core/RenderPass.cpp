@@ -24,9 +24,9 @@ namespace graphics
 
 	void RenderPass::Bind(CommandBuffer* command)
 	{
-		command->SetPipelineState(*m_pPipelineState);
-
-		command->SetResources(*m_pPipelineLayout);
+		//command->SetPipelineState(*m_pPipelineState);
+		//
+		//command->SetResources(*m_pPipelineLayout);
 	}
 
 	void RenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)

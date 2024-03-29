@@ -14,7 +14,7 @@
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "NoDepth",
     "StencilDesc": "NoDepth",
-    "RasterizerDesc": "Default",
+    "RasterizerDesc": "NoCull",
     "BlendDesc": "AlphaBlend"
   },
   {

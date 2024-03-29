@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "graphics_module\PipelineState.h"
+#include "graphics_module\ShaderFlags.h"
 #include "graphics_module\Common\ComPtr.h"
 #include "dx11_module\Direct3D11.h"
 
@@ -24,10 +25,12 @@ namespace graphics
 			void SetShaderObjects(const ShaderProgram& shaderProgram) override;
 
 			/**
-			    @brief 머티리얼한테 파이프라인 리소스 레이아웃을 알려주기 위해 사용
-			    @param reflectData - 
+				@brief 머티리얼한테 파이프라인 리소스 레이아웃을 알려주기 위해 사용
 			**/
-			void PipelineReflect(void* reflectData) override;
+			struct PropertyDesc& GetPropertyDesc() override
+			{
+				return m_PropertyDesc;
+			}
 
 		protected:
 			
@@ -69,6 +72,11 @@ namespace graphics
 
 			void CreateBlendState(ID3D11Device* device, const GraphicsPipelineDesc& pipelineDesc);
 
+			/**
+				@brief 머티리얼한테 파이프라인 리소스 레이아웃을 알려주기 위해 사용
+			**/
+			void PipelineReflect(const vector<class DX11Shader*>& shaders);
+
 			ComPtr<ID3D11DepthStencilState> m_DepthStencilState = nullptr;
 			ComPtr<ID3D11RasterizerState>   m_RasterizerState = nullptr;
 			ComPtr<ID3D11BlendState>        m_BlendState = nullptr;
@@ -92,6 +100,7 @@ namespace graphics
 			std::vector<math::Viewport>		m_Viewports;
 			std::vector<math::Scissor>		m_Scissors;
 
+			PropertyDesc m_PropertyDesc;
 		};
 	}
 }

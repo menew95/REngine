@@ -38,6 +38,8 @@ namespace graphics
 
         class MeshObject* m_pDebugMesh = nullptr;
 
+        class MaterialBuffer* m_pDebugMaterial = nullptr;
+
         class Buffer* m_pDebugBuffer = nullptr;
     };
 }

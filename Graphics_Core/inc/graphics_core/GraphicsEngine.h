@@ -31,6 +31,8 @@ namespace graphics
 		**/
 		GRAPHICS_API void LoadGraphicsResource();
 
+		GRAPHICS_API void InitRenderPass();
+
 		/**
 		    @brief graphics engine 종료
 		**/
@@ -60,6 +62,8 @@ namespace graphics
 		const WindowInfo& GetWindowInfo() { return m_windowInfo; }
 
 		GRAPHICS_API void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
+
+		GRAPHICS_API void SetLightSetting(const LightSetting& setting);
 
 	private:
 		

@@ -30,6 +30,10 @@ namespace rengine
 
 		Log::Core_Info("Graphics System init succeed");
 
+		GraphicsSystem::GetInstance()->LoadGraphicsResource();
+
+		Log::Core_Info("Load Graphics Resource succeed");
+
 		Time::GetInstance()->Initialize();
 
 		Log::Core_Info("Time init succeed");
@@ -42,9 +46,9 @@ namespace rengine
 
 		Log::Core_Info("Resources init succeed");
 
-		GraphicsSystem::GetInstance()->LoadGraphicsResource();
+		GraphicsSystem::GetInstance()->InitRenderPass();
 
-		Log::Core_Info("Load Graphics Resource succeed");
+		Log::Core_Info("Init Graphics RenderPass succeed");
 
 		SceneManager::GetInstance()->Initialize();
 

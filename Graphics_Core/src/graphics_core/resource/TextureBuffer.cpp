@@ -67,6 +67,20 @@ namespace graphics
 		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, nullptr);
 	}
 
+	void TextureBuffer::Setting(const TextureImportSetting& setting)
+	{
+		TextureDesc _texDesc;
+		_texDesc._arrayLayers = setting._arrayLayers;
+		_texDesc._mipLevels = setting._mipLevels;
+		_texDesc._samples = setting._samples;
+		_texDesc._format = (graphics::Format)setting._format;
+
+		_texDesc._extend = setting._extent;
+
+		_texDesc._bindFlags = setting._flags;
+
+	}
+
 	void TextureBuffer::LoadTexture(uuid uuid, const tstring& path)
 	{
 		using namespace DirectX;
@@ -161,6 +175,8 @@ namespace graphics
 		}
 
 		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, _imageDescs.data());
+
+		//m_pSampler = ResourceManager::GetInstance()->GetSampler(TEXT("WrapLinear"));
 	}
 
 	void TextureBuffer::SetName(const char* name)

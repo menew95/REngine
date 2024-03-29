@@ -6,7 +6,7 @@ namespace graphics
 
 	vector<Shader*> GetShadersAsArray(const GraphicsPipelineDesc& desc)
 	{
-		vector<Shader*> _shaders(5);
+		vector<Shader*> _shaders;
 
 		if (desc._shaderProgram._vertexShader != nullptr)
 			_shaders.push_back(desc._shaderProgram._vertexShader);

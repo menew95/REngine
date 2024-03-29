@@ -12,6 +12,12 @@
 
 #include <graphics_core\resource\ResourceBuffer.h>
 
+namespace math
+{
+    struct Color;
+    struct Vector4;
+}
+
 namespace graphics
 {
     class MaterialBuffer : public ResourceBuffer
@@ -46,6 +52,41 @@ namespace graphics
         **/
         GRAPHICS_API void RemoveRenderObject(class RenderObject* obj);
 
+        /**
+            @brief material의 color값 설정
+            @param name  - property name
+            @param value - color value
+        **/
+        GRAPHICS_API void SetColor(const tstring& name, const math::Color& value);
+
+        /**
+            @brief material의 vector값 설정
+            @param name  - property name
+            @param value - vector4 value
+        **/
+        GRAPHICS_API void SetVector4(const tstring& name, const math::Vector4& value);
+
+        /**
+            @brief material의 float 값 설정
+            @param name  - property name
+            @param value - float value
+        **/
+        GRAPHICS_API void SetFloat(const tstring& name, float value);
+
+        /**
+            @brief material의 int 값 설정
+            @param name  - property name
+            @param value - int value
+        **/
+        GRAPHICS_API void SetInteger(const tstring& name, int value);
+
+        /**
+            @brief material의 새 텍스처 할당
+            @param name    - property name
+            @param texture - texture
+        **/
+        GRAPHICS_API void SetTexture(const tstring& name, class TextureBuffer* texture);
+
         void BindPipelineState(class CommandBuffer* command);
 
         void BindResource(class CommandBuffer* command);
@@ -65,5 +106,7 @@ namespace graphics
         class PipelineLayout* m_pPipelineLayout = nullptr;
 
         vector<class RenderObject*> m_renderObjectList;
+
+        unique_ptr<class MaterialPropertyBlock> m_materialPropertyBlock;
     };
 }

@@ -35,10 +35,6 @@ namespace graphics
 
 	void GridRenderPass::Init()
 	{
-		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("Grid Debug"));
-
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("Grid Debug"));
-
 		m_pDebugBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerDebug"));
 
 		m_pDebugMesh = new MeshObject(TEXT("Grid Object"));
@@ -47,15 +43,9 @@ namespace graphics
 
 		m_renderObjects.push_back(m_pDebugMesh);
 
-		/*auto* _debugMaterialBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Grid"));
+		m_pDebugMaterial = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Grid Debug"));
 
-		_debugMaterialBuffer->SetPipelineID(TEXT("Grid Debug"));
-
-		AddMaterialBuffer(_debugMaterialBuffer);*/
-
-		//_debugMaterialBuffer->AddRenderObject(m_pDebugMesh);
-
-		//m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+		m_pDebugMaterial->SetPipelineID(TEXT("Grid Debug"));
 	}
 
 	void GridRenderPass::Bind(CommandBuffer* command)
@@ -77,6 +67,10 @@ namespace graphics
 		Debug _debug;
 
 		command->UpdateBuffer(*m_pDebugBuffer, 0, &_debug, sizeof(Debug));
+
+		m_pDebugMaterial->BindPipelineState(command);
+
+		m_pDebugMaterial->BindResource(command);
 
 		Renderer::GetInstance()->RenderMesh(m_pDebugMesh);
 

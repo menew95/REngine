@@ -34,10 +34,6 @@ namespace graphics
 	
 	void DeferredRenderPass::Init()
 	{
-		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("Standard"));
-
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("Standard"));
-
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("Deferred"));
 	}
 	

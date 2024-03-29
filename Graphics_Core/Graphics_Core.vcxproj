@@ -219,6 +219,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\resource\LightBuffer.h" />
     <ClInclude Include="inc\graphics_core\resource\MaterialBuffer.h" />
     <ClInclude Include="inc\graphics_core\resource\MeshBuffer.h" />
+    <ClInclude Include="inc\graphics_core\resource\MaterialPropertyBlock.h" />
     <ClInclude Include="inc\graphics_core\resource\ResourceBuffer.h" />
     <ClInclude Include="inc\graphics_core\resource\TextureBuffer.h" />
     <ClInclude Include="inc\graphics_core\ResourceManager.h" />
@@ -226,6 +227,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\table\JsonMacro.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics_core\resource\MaterialPropertyBlock.cpp" />
     <ClCompile Include="src\graphics_core\resource\ByteBuffer.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\DeferredRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\GridRenderPass.cpp" />

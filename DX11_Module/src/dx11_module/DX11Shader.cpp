@@ -347,7 +347,8 @@ namespace graphics
 						break;
 						case D3D_SIT_SAMPLER:
 						{
-							BindResourceDesc _resourceDesc;
+							// 샘플러의 경우에는 텍스처를 임포트할때 생성하도록 변경
+							/*BindResourceDesc _resourceDesc;
 
 							_resourceDesc._name = StringHelper::StringToWString(_bindDesc.Name);
 							_resourceDesc._boundSlot = _bindDesc.BindPoint;
@@ -355,7 +356,7 @@ namespace graphics
 
 							_resourceDesc._resourceType = (uint32)ResourceType::Sampler;
 
-							propertyDesc._bindResources.push_back(_resourceDesc);
+							propertyDesc._bindResources.push_back(_resourceDesc);*/
 							break;
 						}
 						break;
@@ -366,7 +367,11 @@ namespace graphics
 						}
 						case D3D_SIT_CBUFFER:
 						{
-							ID3D11ShaderReflectionConstantBuffer* buffer = _reflection->GetConstantBufferByIndex(i);
+							// 머티리얼 프로퍼만 얻어오기 위하여 이렇게 설정
+							if(strcmp(_bindDesc.Name, "PerMaterial") != 0)
+								continue;
+
+							ID3D11ShaderReflectionConstantBuffer* buffer = _reflection->GetConstantBufferByName(_bindDesc.Name);
 							D3D11_SHADER_BUFFER_DESC _bufferDesc;
 							buffer->GetDesc(&_bufferDesc);
 
@@ -375,6 +380,8 @@ namespace graphics
 							_constBufferDesc._name = StringHelper::StringToWString(_bindDesc.Name);
 							_constBufferDesc._boundSlot = _bindDesc.BindPoint;
 							_constBufferDesc._boundCount = _bindDesc.BindCount;
+							_constBufferDesc._size = _bufferDesc.Size;
+
 							for (UINT j = 0; j < _bufferDesc.Variables; ++j)
 							{
 								ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);

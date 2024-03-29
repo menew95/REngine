@@ -16,9 +16,11 @@ namespace graphics
 
 		virtual void SetShaderObjects(const ShaderProgram& shaderProgram) abstract;
 
-		virtual void PipelineReflect(void* reflectData) abstract;
+		/**
+		    @brief 머티리얼한테 파이프라인 리소스 레이아웃을 알려주기 위해 사용
+		**/
+		virtual struct PropertyDesc& GetPropertyDesc() abstract;
 
 	protected:
-
 	};
 }

@@ -27,6 +27,8 @@ namespace graphics
 
         void LoadGraphicsResource();
 
+        void InitRenderPass();
+
         /**
             Graphics Engine Resource
         **/

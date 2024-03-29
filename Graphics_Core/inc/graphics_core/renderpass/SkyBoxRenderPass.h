@@ -34,10 +34,14 @@ namespace graphics
 
         void EndExcute(class CommandBuffer* command) override;
 
+        void SetSkyBox(class TextureBuffer* texture);
+
     private:
         class MaterialBuffer* m_pSkyBoxMatBuffer = nullptr;
 
         class MeshObject* m_pSkyBoxMesh = nullptr;
+
+        class TextureBuffer* m_pSkyBoxTexture = nullptr;
 
         class Buffer* m_pTransBuffer = nullptr;
 

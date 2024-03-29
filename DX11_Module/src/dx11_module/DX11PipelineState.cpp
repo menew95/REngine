@@ -1,6 +1,9 @@
 ﻿#include "dx11_module_pch.h"
 
+#include "graphics_module\PipelineStateUtilis.h"
+
 #include "dx11_module\DX11PipeLineState.h"
+#include "dx11_module\DX11PipelineLayout.h"
 #include "dx11_module\DX11StateManager.h"
 #include "dx11_module\DX11Type.h"
 #include "dx11_module\DX11Shader.h"
@@ -39,6 +42,10 @@ namespace graphics
 			}
 
 			SetShaderObjects(desc._shaderProgram);
+
+			auto _shaders = GetShadersAsArray(desc);
+
+			PipelineReflect(CastShaderArray<DX11Shader>(_shaders));
 		}
 
 		void DX11PipelineState::Bind(DX11StateManager& stateManager)
@@ -156,18 +163,14 @@ namespace graphics
 			}
 		}
 
-		void DX11PipelineState::PipelineReflect(void* reflectData)
+		void DX11PipelineState::PipelineReflect(const vector<DX11Shader*>& shaders)
 		{
-			ShaderProgram _shaderProgram;
-
-			PropertyDesc _propertyDesc;
-			vector<DX11Shader*> _shaders;
-
 			long _bufferStageFlags[D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT] = {};
 			long _resourceStageFlags[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = {};
 			long _samplerStageFlags[D3D11_COMMONSHADER_SAMPLER_REGISTER_COUNT] = {};
 
-			for (auto* _shader : _shaders)
+			// 모든 쉐이더로 부터 프로퍼티 블록을 얻어옴
+			for (auto* _shader : shaders)
 			{
 				assert(_shader != nullptr);
 
@@ -176,19 +179,21 @@ namespace graphics
 
 				assert(SUCCEEDED(_hr) || _curPropertyDesc != nullptr);
 
-				_propertyDesc._bindBuffers.reserve(_propertyDesc._bindBuffers.size() + _curPropertyDesc->_bindBuffers.size());
+				m_PropertyDesc._bindBuffers.reserve(m_PropertyDesc._bindBuffers.size() + _curPropertyDesc->_bindBuffers.size());
 				
 				for (const auto& _curBindBuf : _curPropertyDesc->_bindBuffers)
 				{
-					_propertyDesc._bindBuffers.push_back(_curBindBuf);
+					m_PropertyDesc._bindBuffers.push_back(_curBindBuf);
+					m_PropertyDesc._bindBuffers.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
 					_bufferStageFlags[_curBindBuf._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}
 
-				_propertyDesc._bindResources.reserve(_propertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
+				m_PropertyDesc._bindResources.reserve(m_PropertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
 				for (const auto& _curBindRes : _curPropertyDesc->_bindResources)
 				{
-					_propertyDesc._bindResources.push_back(_curBindRes);
-					_bufferStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
+					m_PropertyDesc._bindResources.push_back(_curBindRes);
+					m_PropertyDesc._bindResources.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
+					_resourceStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}
 
 				/*_propertyDesc._bindSamplers.reserve(_propertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
@@ -198,8 +203,6 @@ namespace graphics
 					_bufferStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}*/
 			}
-
-
 		}
 
 		void DX11PipelineState::GetDXDepthStencil(D3D11_DEPTH_STENCIL_DESC& desc, const DepthDesc& depthDesc, const StencilDesc stencilDesc)

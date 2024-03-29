@@ -87,6 +87,8 @@ namespace graphics
 		uint32 _resourceType;
 		uint32 _boundSlot;
 		uint32 _boundCount;
+		uint32 _size;
+		long _stageFlags;
 		vector<BufferField> _fields;
 	};
 
@@ -97,6 +99,7 @@ namespace graphics
 		uint32 _resourceType;
 		uint32 _boundSlot;
 		uint32 _boundCount;
+		long _stageFlags;
 	};
 
 	// 샘플러 바인드 정보
@@ -106,6 +109,7 @@ namespace graphics
 		uint32 _resourceType;
 		uint32 _boundSlot;
 		uint32 _boundCount;
+		long _stageFlags;
 	};
 
 	// 파이프 라인에 바인드 되어야하는 정보

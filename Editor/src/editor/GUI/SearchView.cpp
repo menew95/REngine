@@ -67,17 +67,22 @@ namespace editor
 		}
 
 		ImGui::PushID("Find Object");
+		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
+
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-		ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.5f, 1.0f, 1.0f));
+		//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.5f, 1.0f, 1.0f));
+
 		for (auto& _obj : m_userData._objectList)
 		{
-			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(0.f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
+			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
 			{
 				m_pBtnEvent(m_pHandler, _obj);
 				m_bOpen = false;
 			}
 		}
-		ImGui::PopStyleColor(2);
+
+		ImGui::PopStyleColor(1);
+		ImGui::PopStyleVar(1);
 		ImGui::PopID();
 	}
 	

@@ -36,32 +36,23 @@ namespace graphics
 
 	void SkyBoxRenderPass::Init()
 	{
-		m_pPipelineState = ResourceManager::GetInstance()->GetPipelineState(TEXT("SkyBox"));
-
-		m_pPipelineLayout = ResourceManager::GetInstance()->GetPipelineLayout(TEXT("SkyBox"));
-
 		m_pSkyBoxMesh = new MeshObject(TEXT("SkyBox Object"));
 
 		m_pSkyBoxMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-100000000000")));
 
-		//m_renderObjects.push_back(m_pSkyBoxMesh);
-
-		//m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
-
 		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 
+		m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Default_SkyBox"));
 
-		/*m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox"));
+		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));
 
-		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));*/
+		m_pSkyBoxTexture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
 
-
+		m_pSkyBoxMatBuffer->SetTexture(TEXT("g_SkyBox"), m_pSkyBoxTexture);
 	}
 	
 	void SkyBoxRenderPass::Bind(CommandBuffer* command)
 	{
-		//command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
-
 		__super::Bind(command);
 	}
 	
@@ -84,11 +75,22 @@ namespace graphics
 	{
 		__super::Excute(command);
 
+		m_pSkyBoxMatBuffer->BindPipelineState(command);
+
+		m_pSkyBoxMatBuffer->BindResource(command);
+
 		Renderer::GetInstance()->RenderMesh(m_pSkyBoxMesh);
 	}
 
 	void SkyBoxRenderPass::EndExcute(CommandBuffer* command)
 	{
 		__super::EndExcute(command);
+	}
+
+	void SkyBoxRenderPass::SetSkyBox(TextureBuffer* texture)
+	{
+		m_pSkyBoxTexture = texture;
+
+		m_pSkyBoxMatBuffer->SetTexture(TEXT("g_SkyBox"), texture);
 	}
 }

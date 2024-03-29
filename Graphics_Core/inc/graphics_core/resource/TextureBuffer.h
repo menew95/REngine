@@ -15,6 +15,7 @@
 namespace graphics
 {
     class Texture;
+    class Sampler;
 
     struct TextureImportSetting
     {
@@ -29,6 +30,11 @@ namespace graphics
         uint32 _flags = 0;
 
         Extent3D _extent = {1, 1, 1};
+
+        uint32 _x_axis_addressMode;
+        uint32 _y_axis_addressMode;
+        uint32 _z_axis_addressMode;
+        uint32 _filter;
     };
 
     class TextureBuffer : public ResourceBuffer
@@ -39,6 +45,8 @@ namespace graphics
         ~TextureBuffer();
 
         GRAPHICS_API void CreateTexture(uuid uuid, const TextureImportSetting& setting);
+
+        GRAPHICS_API void Setting(const TextureImportSetting& setting);
 
         GRAPHICS_API void LoadTexture(uuid uuid, const tstring& path);
 
@@ -51,7 +59,13 @@ namespace graphics
 
         GRAPHICS_API void* GetTextureID();
 
+        auto* GetTexture() { return m_pTexture; }
+
+        auto* GetSampler() { return m_pSampler; }
+
     private:
         Texture* m_pTexture = nullptr;
+
+        Sampler* m_pSampler = nullptr;
     };
 }
