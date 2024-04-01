@@ -22,6 +22,8 @@ namespace graphics
         RenderPass(tstring passName);
         virtual ~RenderPass();
 
+        virtual void Init() {}
+
         /**
             @brief pass에 설정 된 pipeline를 바인드
             @param command - command buffer ptr

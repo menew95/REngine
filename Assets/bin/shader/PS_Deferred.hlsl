@@ -3,6 +3,7 @@
 #include "header\H_Standard.hlsli"
 #include "header\H_GBuffer.hlsli"
 
+
 PSOutput main(VSOutput input)
 {
 	PSOutput _out;

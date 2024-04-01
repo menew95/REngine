@@ -20,7 +20,7 @@ namespace graphics
         GridRenderPass();
         ~GridRenderPass();
 
-        void Init();
+        void Init() override;
 
         /**
             @brief pass에 설정 된 pipeline를 바인드

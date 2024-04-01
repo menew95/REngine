@@ -73,11 +73,38 @@ namespace graphics
 		uint32 _flags = 0;
 	};
 
+	enum class FieldType
+	{
+		UNKNOWN,
+		BOOL,
+		BOOL2,
+		BOOL3,
+		BOOL4,
+		INT,
+		INT2,
+		INT3,
+		INT4,
+		UINT,
+		UINT2,
+		UINT3,
+		UINT4,
+		FLOAT,
+		FLOAT2,
+		FLOAT3,
+		FLOAT4,
+		DOUBLE,
+		DOUBLE2,
+		DOUBLE3,
+		DOUBLE4,
+	};
+
 	struct BufferField
 	{
-		tstring _name;		// field name
-		uint32	_size;		// size(byte)
-		uint32	_offset;	// offset(byte) const buffer
+		tstring		_name;		// field name
+		uint32		_size;		// size(byte)
+		uint32		_offset;	// offset(byte) const buffer
+		FieldType	_type;
+		void*		_defaultValue; // default value(not set then nullptr)
 	};
 
 	// Constant Buffer 정보

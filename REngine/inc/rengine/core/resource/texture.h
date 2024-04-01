@@ -63,6 +63,8 @@ namespace rengine
         inline void SetMipLevels(uint32 val)    { m_textureImportSetting._mipLevels = val; }
         inline void SetSamples(uint32 val)      { m_textureImportSetting._samples = val; }
 
+        graphics::TextureBuffer* GetTextureBuffer() const { return m_pTextureBuffer; }
+
     private:
         graphics::TextureBuffer* m_pTextureBuffer = nullptr;
 

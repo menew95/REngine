@@ -20,6 +20,23 @@ namespace math
 
 namespace graphics
 {
+    struct MaterialBufferProperty
+    {
+        enum class PropertyType
+        {
+            Color = 0,
+            Vector = 1,
+            Float = 2,
+            Range = 3,
+            Texture = 4,
+            Int = 5,
+        };
+
+        tstring _name;
+        PropertyType _type;
+        void* _defaultValue;
+    };
+
     class MaterialBuffer : public ResourceBuffer
     {
     public:
@@ -98,6 +115,7 @@ namespace graphics
 
         const auto& GetRenderObjectList() { return m_renderObjectList; }
 
+
     private:
         class RenderPass* m_pRenderPass = nullptr;
 
@@ -108,5 +126,18 @@ namespace graphics
         vector<class RenderObject*> m_renderObjectList;
 
         unique_ptr<class MaterialPropertyBlock> m_materialPropertyBlock;
+
+    public:
+        /*
+        * game engine의 material property를 알려주기 위해 추가
+        * 아무리 고민해도 지금 현재의 구조로선 PropertyDesc를 게임 엔진에게 넘겨주거나,
+        * 머티리얼버퍼에서 파이프라인을 설정 할 때 게임엔진의 MaterialProperty class를 
+        * 가지고 오는 방법밖에 생각이 안나서 이렇게 하도록 한다.(매우 마음에 안든다)
+        */
+
+        GRAPHICS_API const vector<MaterialBufferProperty>& GetProperties() { return m_properties; }
+
+    private:
+        vector<MaterialBufferProperty> m_properties;
     };
 }

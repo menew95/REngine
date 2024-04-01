@@ -1,4 +1,5 @@
 ﻿#include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\Texture.h>
 
 #include <rengine\system\GraphicsSystem.h>
 
@@ -61,9 +62,11 @@ namespace rengine
 		if (m_bIsDirty)
 		{
 			//m_pMaterialBuffer->SetRenderPass(m_renderPassID);
+			SetRenderPassID(m_renderPassID);
 
 			//m_pMaterialBuffer->SetPipelineID(m_pipelineID);
-
+			SetPipelineID(m_pipelineID);
+			
 			m_bIsDirty = false;
 		}
 
@@ -108,6 +111,50 @@ namespace rengine
 		}
 
 		m_pMaterialBuffer->SetPipelineID(id);
+
+		for (auto& _bufProp : m_pMaterialBuffer->GetProperties())
+		{
+			MaterialProperty _prop;
+			_prop.m_type = (MaterialProperty::PropType)_bufProp._type;
+			_prop.m_name = _bufProp._name;
+
+			if (_bufProp._defaultValue != nullptr)
+			{
+				switch (_prop.m_type)
+				{
+					case MaterialProperty::PropType::Int:
+					{
+						_prop.m_intValue  = *((int*)_bufProp._defaultValue);
+						break;
+					}
+					case MaterialProperty::PropType::Float:
+					{
+						float* _test = (float*)_bufProp._defaultValue;
+						float _test2 = *_test;
+						_prop.m_floatValue = *((float*)_bufProp._defaultValue);
+						break;
+					}
+					case MaterialProperty::PropType::Color:
+					{
+						_prop.m_colorValue = *((Color*)_bufProp._defaultValue);
+						break;
+					}
+					case MaterialProperty::PropType::Vector:
+					{
+						_prop.m_vectorValue = *((Vector4*)_bufProp._defaultValue);
+						break;
+					}
+					case MaterialProperty::PropType::Range:
+					case MaterialProperty::PropType::Texture:
+					default:
+					{
+						break;
+					}
+				}
+			}
+
+			m_properties[_prop.m_type].push_back(_prop);
+		}
 	}
 
 	void Material::AddProperties(vector<MaterialProperty> properties)
@@ -116,6 +163,12 @@ namespace rengine
 		{
 			m_properties[_prop.GetPropType()].push_back(_prop);
 		}
+	}
+
+	void Material::SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val)
+	{
+		m_properties = val;
+
 	}
 	
 	void Material::SetColor(const tstring& name, const Color& value)
@@ -132,6 +185,7 @@ namespace rengine
 
 		_iter->SetColor(value);
 
+		m_pMaterialBuffer->SetColor(name, value);
 	}
 	
 	void Material::SetVector4(const tstring& name, const Vector4& value)
@@ -147,6 +201,8 @@ namespace rengine
 			return;
 
 		_iter->SetVector4(value);
+
+		m_pMaterialBuffer->SetVector4(name, value);
 	}
 	
 	void Material::SetFloat(const tstring& name, float value)
@@ -162,6 +218,8 @@ namespace rengine
 			return;
 
 		_iter->SetFloat(value);
+
+		m_pMaterialBuffer->SetFloat(name, value);
 	}
 	
 	void Material::SetTexture(const tstring& name, const shared_ptr<Texture>& texture)
@@ -177,6 +235,8 @@ namespace rengine
 			return;
 
 		_iter->SetTexture(texture);
+
+		m_pMaterialBuffer->SetTexture(name, texture != nullptr ? texture->GetTextureBuffer() : nullptr);
 	}
 	
 	void Material::SetInteger(const tstring& name, int value)
@@ -192,5 +252,7 @@ namespace rengine
 			return;
 
 		_iter->SetInt(value);
+
+		m_pMaterialBuffer->SetInteger(name, value);
 	}
 }

@@ -307,6 +307,32 @@ namespace graphics
 			HR(_hr, "Faild to create inputlayout");
 		}
 
+		FieldType GetFieldType(const D3D11_SHADER_TYPE_DESC& typeDesc)
+		{
+			// 스칼라 값 혹은 벡터만 타입 선언함
+			assert(typeDesc.Class != D3D_SHADER_VARIABLE_CLASS::D3D_SVC_SCALAR
+				|| typeDesc.Class != D3D_SHADER_VARIABLE_CLASS::D3D_SVC_VECTOR);
+
+			switch (typeDesc.Type)
+			{
+			case D3D_SHADER_VARIABLE_TYPE::D3D_SVT_BOOL:
+				return (FieldType)((uint32)FieldType::BOOL + typeDesc.Columns - 1);
+			case D3D_SHADER_VARIABLE_TYPE::D3D_SVT_INT:
+				return (FieldType)((uint32)FieldType::INT + typeDesc.Columns - 1);
+			case D3D_SHADER_VARIABLE_TYPE::D3D_SVT_UINT:
+				return (FieldType)((uint32)FieldType::UINT + typeDesc.Columns - 1);
+			case D3D_SHADER_VARIABLE_TYPE::D3D_SVT_FLOAT:
+				return (FieldType)((uint32)FieldType::FLOAT + typeDesc.Columns - 1);
+			case D3D_SHADER_VARIABLE_TYPE::D3D_SVT_DOUBLE:
+				return (FieldType)((uint32)FieldType::BOOL + typeDesc.Columns - 1);
+			default:
+				assert(false);
+				break;
+			}
+
+			return FieldType::UNKNOWN;
+		}
+
 		HRESULT DX11Shader::ReflectShaderProperty(PropertyDesc& propertyDesc)
 		{
 			HRESULT _hr = S_OK;
@@ -340,6 +366,7 @@ namespace graphics
 							_resourceDesc._boundCount = _bindDesc.BindCount;
 
 							_resourceDesc._resourceType = (uint32)ResourceType::Texture;
+							_resourceDesc._stageFlags = GetStageFlags(m_ShaderDesc._shaderType);
 
 							propertyDesc._bindResources.push_back(_resourceDesc);
 							break;
@@ -381,17 +408,27 @@ namespace graphics
 							_constBufferDesc._boundSlot = _bindDesc.BindPoint;
 							_constBufferDesc._boundCount = _bindDesc.BindCount;
 							_constBufferDesc._size = _bufferDesc.Size;
+							_constBufferDesc._resourceType = (uint32)ResourceType::Buffer;
+							_constBufferDesc._stageFlags = GetStageFlags(m_ShaderDesc._shaderType);
 
 							for (UINT j = 0; j < _bufferDesc.Variables; ++j)
 							{
 								ID3D11ShaderReflectionVariable* var = buffer->GetVariableByIndex(j);
 								D3D11_SHADER_VARIABLE_DESC varDesc;
 								var->GetDesc(&varDesc);
+								auto* _type = var->GetType();
+
+								D3D11_SHADER_TYPE_DESC _typeDesc;
+								_type->GetDesc(&_typeDesc);
 
 								BufferField _info;
 								_info._name = StringHelper::StringToWString(varDesc.Name);
 								_info._size = varDesc.Size;
 								_info._offset = varDesc.StartOffset;
+								_info._defaultValue = varDesc.DefaultValue;
+
+								_info._type = GetFieldType(_typeDesc);
+
 								_constBufferDesc._fields.push_back(_info);
 							}
 

@@ -84,14 +84,9 @@ namespace graphics
 	void ResourceManager::LoadGraphicsResource()
 	{
 		LoadGraphicsTable();
-	}
 
-	void ResourceManager::InitRenderPass()
-	{
 		{
 			auto _renderPass = new SkyBoxRenderPass();
-
-			_renderPass->Init();
 
 			m_renderPassMap.insert(make_pair(TEXT("SkyBox Pass"), _renderPass));
 		}
@@ -99,17 +94,21 @@ namespace graphics
 		{
 			auto _renderPass = new DeferredRenderPass();
 
-			_renderPass->Init();
-
 			m_renderPassMap.insert(make_pair(TEXT("Deferred Pass"), _renderPass));
 		}
 
 		{
 			auto _renderPass = new GridRenderPass();
 
-			_renderPass->Init();
-
 			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
+		}
+	}
+
+	void ResourceManager::InitRenderPass()
+	{
+		for (auto& [_uuid, _renderPass] : m_renderPassMap)
+		{
+			_renderPass->Init();
 		}
 	}
 

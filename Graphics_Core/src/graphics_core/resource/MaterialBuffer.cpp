@@ -36,6 +36,65 @@ namespace graphics
 		m_pRenderPass->AddMaterialBuffer(this);
 	}
 
+	MaterialBufferProperty::PropertyType GetPropertyType(const BufferField& field)
+	{
+		switch (field._type)
+		{
+		case graphics::FieldType::BOOL:
+			break;
+		case graphics::FieldType::BOOL2:
+			break;
+		case graphics::FieldType::BOOL3:
+			break;
+		case graphics::FieldType::BOOL4:
+			break;
+		case graphics::FieldType::INT:
+			return MaterialBufferProperty::PropertyType::Int;
+			break;
+		case graphics::FieldType::INT2:
+			break;
+		case graphics::FieldType::INT3:
+			break;
+		case graphics::FieldType::INT4:
+			break;
+		case graphics::FieldType::UINT:
+			break;
+		case graphics::FieldType::UINT2:
+			break;
+		case graphics::FieldType::UINT3:
+			break;
+		case graphics::FieldType::UINT4:
+			break;
+		case graphics::FieldType::FLOAT:
+			return MaterialBufferProperty::PropertyType::Float;
+			break;
+		case graphics::FieldType::FLOAT2:
+			break;
+		case graphics::FieldType::FLOAT3:
+			break;
+		case graphics::FieldType::FLOAT4:
+		{
+			// 만약 이름에 Color가 붙으면 Color 타입을 반환, 아닐 경우 일반 vector타입을 반환
+			if(field._name.find(TEXT("Color")) != tstring::npos) return MaterialBufferProperty::PropertyType::Color;
+			else return MaterialBufferProperty::PropertyType::Vector;
+			break;
+		}
+		case graphics::FieldType::DOUBLE:
+			break;
+		case graphics::FieldType::DOUBLE2:
+			break;
+		case graphics::FieldType::DOUBLE3:
+			break;
+		case graphics::FieldType::DOUBLE4:
+			break;
+		default:
+			break;
+		}
+
+		//int 타입과 vector4타입만 다루도록 만듬 Unity ShaderLab이 다루는 scalr 타입이 int, float, color, vector 타입 네가지임
+		assert(false);
+	}
+
 	void MaterialBuffer::SetPipelineID(const tstring& pipelineID)
 	{
 		m_pPipelineState = graphics::ResourceManager::GetInstance()->GetPipelineState(pipelineID);
@@ -43,6 +102,35 @@ namespace graphics
 		assert(m_pPipelineState != nullptr);
 
 		m_materialPropertyBlock->SetProperty(m_pPipelineState->GetPropertyDesc());
+
+		// material class에게 알려주기 위해 버퍼에서도 프로퍼티 정보에 대해 저장을 해준다.
+		m_properties.clear();
+
+		for (auto& _constDesc : m_pPipelineState->GetPropertyDesc()._bindBuffers)
+		{
+			for (auto& _field : _constDesc._fields)
+			{
+				MaterialBufferProperty _prop;
+				{
+					_prop._name = _field._name;
+					_prop._type = GetPropertyType(_field);
+					_prop._defaultValue = _field._defaultValue;
+				}
+
+				m_properties.push_back(_prop);
+			}
+		}
+
+		for (auto& _resourceDesc : m_pPipelineState->GetPropertyDesc()._bindResources)
+		{
+			MaterialBufferProperty _prop;
+			{
+				_prop._name = _resourceDesc._name;
+				_prop._type = MaterialBufferProperty::PropertyType::Texture;
+			}
+
+			m_properties.push_back(_prop);
+		}
 
 		m_pPipelineLayout = graphics::ResourceManager::GetInstance()->GetPipelineLayout(pipelineID);
 	}

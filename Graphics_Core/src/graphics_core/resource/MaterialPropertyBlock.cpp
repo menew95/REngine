@@ -22,7 +22,7 @@ namespace graphics
 
 		if (m_propertyDesc._bindBuffers.size() != 0)
 		{
-			assert(m_propertyDesc._bindBuffers[0]._name != TEXT("PerMaterial"));
+			assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));
 
 			BindingDescriptor _desc
 			{

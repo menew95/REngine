@@ -103,10 +103,10 @@ namespace rengine
         /**
             @brief  material propery 타입에 따른 값
         **/
-        math::Color m_colorValue;
-        math::Vector4 m_vectorValue;
+        math::Color m_colorValue = math::Color::Black;
+        math::Vector4 m_vectorValue = math::Vector4::Zero;
         float m_floatValue = 0.f;
-        math::Vector2 m_rangeLimits;
+        math::Vector2 m_rangeLimits = {0.f, 1.f};
         weak_ptr<class Texture> m_textureValue;
         int m_intValue = 0;
 
@@ -172,7 +172,7 @@ namespace rengine
         void AddProperties(vector<MaterialProperty> val);
 
         map<MaterialProperty::PropType, vector<MaterialProperty>>& GetProperties() { return m_properties; }
-        void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val) { m_properties = val; }
+        void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val);
 
         /**
             @brief material의 color값 설정

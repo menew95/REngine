@@ -18,7 +18,7 @@ cbuffer PerMaterial : register(b2)
 	float _roughness = 0.5f;
 	float _metallic = 0.f;
 	float _bumpScale = 1.f;
-	float3 _emissionColor = {0.f, 0.f, 0.f};
+	float4 _emissionColor = {0.f, 0.f, 0.f, 1.f};
 }
 
 float3 Albedo(float2 uv)
