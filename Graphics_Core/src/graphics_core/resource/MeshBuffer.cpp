@@ -36,12 +36,12 @@ namespace graphics
 
 	MeshBuffer::~MeshBuffer()
 	{
-		ResourceManager::GetInstance()->ReleaseBuffer(m_pVertexBuffer);
+		/*ResourceManager::GetInstance()->ReleaseBuffer(m_pVertexBuffer);
 
 		for (auto& _subMesh : m_subMeshBuffers)
 		{
 			ResourceManager::GetInstance()->ReleaseBuffer(_subMesh.GetBuffer());
-		}
+		}*/
 	}
 
 	void MeshBuffer::CreateVertexBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)
@@ -76,5 +76,18 @@ namespace graphics
 		{
 			m_subMeshBuffers[i].GetBuffer()->SetName((_name + "_index" + std::to_string(i)).c_str());
 		}
+	}
+	bool MeshBuffer::UnloadBuffer()
+	{
+		bool _ret = ResourceManager::GetInstance()->ReleaseBuffer(m_pVertexBuffer);
+
+		for (auto& _subMesh : m_subMeshBuffers)
+		{
+			_ret = ResourceManager::GetInstance()->ReleaseBuffer(_subMesh.GetBuffer());
+		}
+
+		m_subMeshBuffers.clear();
+
+		return _ret;
 	}
 }

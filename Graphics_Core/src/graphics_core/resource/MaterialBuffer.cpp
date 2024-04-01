@@ -93,6 +93,7 @@ namespace graphics
 
 		//int 타입과 vector4타입만 다루도록 만듬 Unity ShaderLab이 다루는 scalr 타입이 int, float, color, vector 타입 네가지임
 		assert(false);
+		return  MaterialBufferProperty::PropertyType::Color;
 	}
 
 	void MaterialBuffer::SetPipelineID(const tstring& pipelineID)

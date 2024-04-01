@@ -57,6 +57,10 @@ namespace rengine
 
 	bool REngine::Quit()
 	{
+		Resources::Release();
+
+		//ObjectFactory::Release();
+
 		GraphicsSystem::Release();
 
 		return true;

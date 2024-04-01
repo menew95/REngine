@@ -32,7 +32,7 @@ namespace rengine
 			// destructor
 		},
 		{
-			// release
+			Resources::GetInstance()->UnloadAllResource();
 		});
 
 	bool Resources::Initialize()
@@ -98,6 +98,37 @@ namespace rengine
 		tstring _assetPath = TEXT("..\\..\\..\\..\\Assets");
 
 		LoadAsset(_assetPath);
+	}
+
+	void rengine::Resources::UnloadAllResource()
+	{
+		for (auto& [_uuid, _mesh] : m_meshMap)
+		{
+			assert(_mesh->UnLoadMemory());
+		}
+
+		m_meshMap.clear();
+
+		for (auto& [_uuid, _texture] : m_textureMap)
+		{
+			assert(_texture->UnLoadMemory());
+		}
+
+		m_textureMap.clear();
+
+		for (auto& [_uuid, _material] : m_materialMap)
+		{
+			assert(_material->UnLoadMemory());
+		}
+
+		m_materialMap.clear();
+
+		for (auto& [_uuid, _anim] : m_animationClipMap)
+		{
+			assert(_anim->UnLoadMemory());
+		}
+
+		m_animationClipMap.clear();
 	}
 
 	void Resources::LoadAsset(const tstring& path)

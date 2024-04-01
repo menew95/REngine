@@ -44,19 +44,18 @@ namespace rengine
 	Material::Material(uuid uuid)
 	: Resource(uuid, TEXT("Material"))
 	{
+		m_pMaterialBuffer = graphics::ResourceManager::GetInstance()->CreateMaterialBuffer(GetUUID());
 
+		m_pMaterialBuffer->SetName(GetNameStr().c_str());
 	}
 
 	Material::~Material()
 	{
+		graphics::ResourceManager::GetInstance()->RelaseMaterialBuffer(GetUUID());
 	}
 
 	bool Material::LoadMemory()
 	{
-		m_pMaterialBuffer = graphics::ResourceManager::GetInstance()->CreateMaterialBuffer(GetUUID());
-
-		m_pMaterialBuffer->SetName(GetNameStr().c_str());
-
 		m_bIsLoad = true;
 
 		if (m_bIsDirty)
@@ -75,16 +74,13 @@ namespace rengine
 
 	bool Material::UnLoadMemory()
 	{
-		bool _ret = graphics::ResourceManager::GetInstance()->RelaseMaterialBuffer(GetUUID());
+		SetRenderPassID(TEXT(""));
 
-		if (_ret)
-		{
-			m_pMaterialBuffer = nullptr;
+		SetPipelineID(TEXT(""));
 
-			m_bIsLoad = false;
-		}
+		m_bIsLoad = false;
 
-		return _ret;
+		return true;
 	}
 
 	void Material::SetRenderPassID(const tstring& pass)
@@ -167,7 +163,7 @@ namespace rengine
 
 	void Material::SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val)
 	{
-		m_properties = val;
+		//m_properties = val;
 
 	}
 	

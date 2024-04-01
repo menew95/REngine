@@ -50,6 +50,8 @@ namespace graphics
 
         GRAPHICS_API void LoadTexture(uuid uuid, const tstring& path);
 
+        GRAPHICS_API bool UnLoadTexture();
+
         GRAPHICS_API virtual void SetName(const char* name);
 
         GRAPHICS_API BufferType GetBufferType()

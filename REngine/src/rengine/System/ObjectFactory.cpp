@@ -171,9 +171,9 @@ namespace rengine
 	
 	void ObjectFactory::DeleteAllObjects()
 	{
-		for (auto& _pair : m_objectsMap)
+		for (auto& [_uuid, _objMap] : m_objectsMap)
 		{
-			for (auto& _objPair : _pair.second)
+			/*for (auto& _objPair : _pair.second)
 			{
 				rttr::variant _var = _objPair.second;
 
@@ -193,7 +193,30 @@ namespace rengine
 				}
 
 				m_objectsMap[_objPair.second->GetType()].erase(_objPair.second->GetUUID());
-			}
+			}*/
+
+			/*for (auto _iter = _objMap.begin(); _iter != _objMap.end(); )
+			{
+				rttr::variant _var = _iter->second;
+
+				rttr::instance obj = _var;
+				rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
+
+				if (_objType.is_derived_from(rttr::type::get_by_name("Component")))
+				{
+					auto _comp = static_pointer_cast<Component>(_iter->second);
+
+					ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+				}
+				else if (_objType.is_derived_from(rttr::type::get_by_name("Resource")))
+				{
+					auto _resource = static_pointer_cast<Resource>(_iter->second);
+
+					Resources::GetInstance()->DeleteResource(_resource);
+				}
+
+				_iter = _objMap.erase(_iter);
+			}*/
 		}
 	}
 }

@@ -41,7 +41,7 @@ namespace rengine
 	Mesh::Mesh(uuid uuid)
 	: Resource(uuid, TEXT("Mesh"))
 	{
-
+		m_pMeshBuffer = graphics::ResourceManager::GetInstance()->CreateMeshBuffer(GetUUID());
 	}
 
 	Mesh::~Mesh()
@@ -50,11 +50,12 @@ namespace rengine
 		{
 			UnLoadMemory();
 		}
+
+		graphics::ResourceManager::GetInstance()->RelaseMeshBuffer(GetUUID());
 	}
+
 	bool Mesh::LoadMemory()
 	{
-		m_pMeshBuffer = graphics::ResourceManager::GetInstance()->CreateMeshBuffer(GetUUID());
-
 		m_bIsLoad = true;
 
 		m_pMeshBuffer->CreateVertexBuffer(GetUUID(), m_vertices.data(), static_cast<uint32>(sizeof(VertexAttribute) * m_vertices.size()), sizeof(VertexAttribute));
@@ -68,17 +69,11 @@ namespace rengine
 
 		return true;
 	}
+
 	bool Mesh::UnLoadMemory()
 	{
-		bool _ret = graphics::ResourceManager::GetInstance()->CreateMeshBuffer(GetUUID());
+		m_bIsLoad = false;
 
-		if (_ret)
-		{
-			m_pMeshBuffer = nullptr;
-
-			m_bIsLoad = false;
-		}
-
-		return _ret;
+		return m_pMeshBuffer->UnloadBuffer();;
 	}
 }

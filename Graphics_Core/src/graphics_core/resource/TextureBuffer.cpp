@@ -179,6 +179,11 @@ namespace graphics
 		//m_pSampler = ResourceManager::GetInstance()->GetSampler(TEXT("WrapLinear"));
 	}
 
+	bool TextureBuffer::UnLoadTexture()
+	{
+		return ResourceManager::GetInstance()->ReleaseTexture(m_pTexture);
+	}
+
 	void TextureBuffer::SetName(const char* name)
 	{
 		assert(m_pTexture != nullptr);

@@ -51,6 +51,8 @@ namespace graphics
 
         GRAPHICS_API virtual void SetName(const char* name);
 
+        GRAPHICS_API bool UnloadBuffer();
+
         BufferType GetBufferType()
         {
             return BufferType::MESH;

@@ -1087,7 +1087,7 @@ namespace utility
 
 			_resource->SetPath(_binPath);
 
-			auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._albedoMapTexture));
+			/*auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._albedoMapTexture));
 			auto _normalMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._normalMapTexture));
 			auto _metallicRougnessMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._metallicRoughnessMapTexture));
 			auto _emissiveMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._emissiveMapTexture));
@@ -1113,14 +1113,54 @@ namespace utility
 				{ TEXT("Reflectivity"),				_bin.second._reflectivity }
 			};
 			
-			_resource->AddProperties(_properties);
+			_resource->AddProperties(_properties);*/
+
+			auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._albedoMapTexture));
+			auto _normalMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._normalMapTexture));
+			auto _metallicRougnessMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._metallicRoughnessMapTexture));
+			auto _emissiveMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._emissiveMapTexture));
+			auto _ambientMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._ambientMapTexture));
+
+			/*vector<rengine::MaterialProperty> _properties =
+			{
+				{ TEXT("AlbedoMap"),				_albedoMapTex },
+				{ TEXT("NormalMap"),				_normalMapTex },
+				{ TEXT("MetallicRougnessMap"),	_metallicRougnessMapTex },
+				{ TEXT("EmissiveMap"),				_emissiveMapTex },
+				{ TEXT("AmbientOcclusionMap"),				_ambientMapTex },
+				{ TEXT("_albedoColor"),					_bin.second._diffuse },
+				{ TEXT("Ambient"),					_bin.second._ambient },
+				{ TEXT("Specular"),					_bin.second._specular },
+				{ TEXT("Emissive"),					_bin.second._emissive },
+				{ TEXT("_roughness"),				_bin.second._roughness },
+				{ TEXT("_metallic"),					_bin.second._metallic },
+				{ TEXT("_bumpScale"),			_bin.second._emissionFactor },
+				{ TEXT("Transparency"),				_bin.second._transparency },
+				{ TEXT("Reflectivity"),				_bin.second._reflectivity }
+			};
+
+			_resource->AddProperties(_properties);*/
+
+			_resource->SetRenderPassID(TEXT("Deferred Pass"));
+
+			_resource->SetPipelineID(TEXT("Standard"));
+
+			if(_albedoMapTex != nullptr)			_resource->SetTexture(TEXT("AlbedoMap"), _albedoMapTex);
+			if(_normalMapTex != nullptr)			_resource->SetTexture(TEXT("NormalMap"), _normalMapTex);
+			if(_metallicRougnessMapTex != nullptr)	_resource->SetTexture(TEXT("MetallicRougnessMap"), _metallicRougnessMapTex);
+			if(_emissiveMapTex != nullptr)			_resource->SetTexture(TEXT("EmissiveMap"), _emissiveMapTex);
+			if(_ambientMapTex != nullptr)			_resource->SetTexture(TEXT("AmbientOcclusionMap"), _ambientMapTex);
+
+			_resource->SetColor(TEXT("_albedoColor"), _bin.second._diffuse);
+			_resource->SetFloat(TEXT("_roughness"), _bin.second._roughness);
+			_resource->SetFloat(TEXT("_metallic"), _bin.second._metallic);
+			_resource->SetColor(TEXT("_emissionColor"), _bin.second._emissive);
 
 			utility::Serializer::CreateMetaInfo(_resource->GetPath(), _resource.get());
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 
 			_assets.push_back(_resource.get());
-			//_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
 		}
 
 		utility::Serializer::CreateMetaInfoModel(path, _assets);

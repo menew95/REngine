@@ -52,13 +52,13 @@ namespace rengine
             @brief  그래픽스 리소스의 메모리 로드
             @retval  - 로드 성공 여부
         **/
-        virtual bool LoadMemory() { return false; }
+        virtual bool LoadMemory() { return true; }
 
         /**
             @brief  그래픽스 리소스의 메모리 해제
             @retval  - 해제 성공 여부
         **/
-        virtual bool UnLoadMemory() { return false; }
+        virtual bool UnLoadMemory() { return true; }
 
     protected:
 

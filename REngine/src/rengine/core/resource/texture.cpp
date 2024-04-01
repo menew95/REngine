@@ -47,7 +47,7 @@ namespace rengine
 	Texture::Texture(uuid uuid)
 	: Resource(uuid, TEXT("Texture"))
 	{
-
+		m_pTextureBuffer = graphics::ResourceManager::GetInstance()->CreateTextureBuffer(GetUUID());
 	}
 
 	Texture::~Texture()
@@ -56,7 +56,10 @@ namespace rengine
 		{
 			UnLoadMemory();
 		}
+
+		graphics::ResourceManager::GetInstance()->RelaseTextureBuffer(GetUUID());
 	}
+
 	void* Texture::GetTextureID()
 	{
 		if(!m_bIsLoad)
@@ -67,8 +70,6 @@ namespace rengine
 
 	bool Texture::LoadMemory()
 	{
-		m_pTextureBuffer = graphics::ResourceManager::GetInstance()->CreateTextureBuffer(GetUUID());
-
 		m_pTextureBuffer->LoadTexture(GetUUID(), m_path);
 
 		m_pTextureBuffer->SetName(GetNameStr().c_str());
@@ -80,15 +81,8 @@ namespace rengine
 
 	bool Texture::UnLoadMemory()
 	{
-		bool _ret = graphics::ResourceManager::GetInstance()->RelaseTextureBuffer(GetUUID());
+		m_bIsLoad = false;
 
-		if (_ret) 
-		{
-			m_pTextureBuffer = nullptr;
-
-			m_bIsLoad = false;
-		}
-
-		return _ret;
+		return m_pTextureBuffer->UnLoadTexture();
 	}
 }
