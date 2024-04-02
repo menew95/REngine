@@ -39,6 +39,8 @@ RTTR_REGISTRATION
 	rttr::type::register_converter_func(converter_func_shared_container);
 }
 
+#include <Serialize\Serializer.h>
+
 namespace rengine
 {
 	Material::Material(uuid uuid)
@@ -56,42 +58,33 @@ namespace rengine
 
 	bool Material::LoadMemory()
 	{
-		m_bIsLoad = true;
-
-		if (m_bIsDirty)
+		if (!m_bIsLoad)
 		{
-			//m_pMaterialBuffer->SetRenderPass(m_renderPassID);
 			SetRenderPassID(m_renderPassID);
 
-			//m_pMaterialBuffer->SetPipelineID(m_pipelineID);
 			SetPipelineID(m_pipelineID);
-			
-			m_bIsDirty = false;
+
+			m_bIsLoad = true;
 		}
 
-		return true;
+		return m_bIsLoad;
 	}
 
 	bool Material::UnLoadMemory()
 	{
-		SetRenderPassID(TEXT(""));
+		auto _ret = m_pMaterialBuffer->UnLoadMaterial();
+		
+		m_bIsLoad = !_ret;
 
-		SetPipelineID(TEXT(""));
-
-		m_bIsLoad = false;
-
-		return true;
+		return _ret;
 	}
 
 	void Material::SetRenderPassID(const tstring& pass)
 	{
 		m_renderPassID = pass;
 
-		if (m_pMaterialBuffer == nullptr)
-		{
-			m_bIsDirty = true;
-			return;
-		}
+		m_bIsDirty = true;
+		m_bIsLoad = true;
 
 		m_pMaterialBuffer->SetRenderPass(pass);
 	}
@@ -100,11 +93,8 @@ namespace rengine
 	{
 		m_pipelineID = id;
 
-		if(m_pMaterialBuffer == nullptr)
-		{
-			m_bIsDirty = true;
-			return;
-		}
+		m_bIsDirty = true;
+		m_bIsLoad = true;
 
 		m_pMaterialBuffer->SetPipelineID(id);
 
@@ -153,18 +143,99 @@ namespace rengine
 		}
 	}
 
-	void Material::AddProperties(vector<MaterialProperty> properties)
+	void Material::SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val)
 	{
-		for (auto& _prop : properties)
+		m_properties = val;
+
+		for (auto& [_type, _properties] : val)
 		{
-			m_properties[_prop.GetPropType()].push_back(_prop);
+			for (auto& _property : _properties)
+			{
+				switch (_property.GetPropType())
+				{
+					case MaterialProperty::PropType::Color:
+					{
+						SetColor(_property.m_name, _property.m_colorValue);
+						break;
+					}
+					case MaterialProperty::PropType::Vector:
+					{
+						SetVector4(_property.m_name, _property.m_vectorValue);
+						break;
+					}
+					case MaterialProperty::PropType::Float:
+					{
+						SetFloat(_property.m_name, _property.m_floatValue);
+						break;
+					}
+					case MaterialProperty::PropType::Range:
+					{
+						// 지금 사용안함
+						assert(false);
+						//SetRange(_property.m_name, _property.m_rangeLimits);
+						break;
+					}
+					case MaterialProperty::PropType::Texture:
+					{
+						SetTexture(_property.m_name, _property.m_textureValue.lock());
+						break;
+					}
+					case MaterialProperty::PropType::Int:
+					{
+						SetInteger(_property.m_name, _property.m_intValue);
+						break;
+					}
+					default:
+						assert(false);
+						break;
+				}
+			}
 		}
 	}
 
-	void Material::SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val)
+	void Material::SetPropertyBlock(const vector<MaterialProperty>& properties)
 	{
-		//m_properties = val;
-
+		for (auto& _property : properties)
+		{
+			switch (_property.GetPropType())
+			{
+			case MaterialProperty::PropType::Color:
+			{
+				SetColor(_property.m_name, _property.m_colorValue);
+				break;
+			}
+			case MaterialProperty::PropType::Vector:
+			{
+				SetVector4(_property.m_name, _property.m_vectorValue);
+				break;
+			}
+			case MaterialProperty::PropType::Float:
+			{
+				SetFloat(_property.m_name, _property.m_floatValue);
+				break;
+			}
+			case MaterialProperty::PropType::Range:
+			{
+				// 지금 사용안함
+				assert(false);
+				//SetRange(_property.m_name, _property.m_rangeLimits);
+				break;
+			}
+			case MaterialProperty::PropType::Texture:
+			{
+				SetTexture(_property.m_name, _property.m_textureValue.lock());
+				break;
+			}
+			case MaterialProperty::PropType::Int:
+			{
+				SetInteger(_property.m_name, _property.m_intValue);
+				break;
+			}
+			default:
+				assert(false);
+				break;
+			}
+		}
 	}
 	
 	void Material::SetColor(const tstring& name, const Color& value)

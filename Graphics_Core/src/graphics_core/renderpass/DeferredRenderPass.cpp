@@ -4,6 +4,8 @@
 
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\CameraBuffer.h>
+#include <graphics_core\resource\MaterialBuffer.h>
+#include <graphics_core\resource\MeshBuffer.h>
 
 #include <graphics_core\renderer\Renderer.h>
 
@@ -34,6 +36,8 @@ namespace graphics
 	
 	void DeferredRenderPass::Init()
 	{
+		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+	
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("Deferred"));
 	}
 	
@@ -53,11 +57,46 @@ namespace graphics
 	{
 		__super::Excute(command);
 
-		for (auto* renderObj : m_renderObjects)
+		for (auto* _matBuf : m_materialBufferList)
 		{
-			if (!renderObj->GetEnable() || !renderObj->GetCulling())
-				continue;
+			assert(_matBuf != nullptr);
 
+			_matBuf->BindPipelineState(command);
+			
+			_matBuf->BindResource(command);
+
+			for (auto& [_renderObj, _submeshIdx] : _matBuf->GetRenderObjectList())
+			{
+				// 렌더 컴포넌트가 비활성화 이거나 컬링 상태일 경우엔 그리지 않음
+				if(!_renderObj->GetEnable() || _renderObj->GetCulling())
+					continue;
+
+				auto* _meshObj = reinterpret_cast<MeshObject*>(_renderObj);
+
+				// 머티리얼이 그리기로 한 서브 매쉬의 인덱스가 메쉬 버퍼의 서브매쉬보다 크면 그릴 서브 매쉬가 없음
+				if(_submeshIdx > _meshObj->GetMeshBuffer()->GetSubMeshCount())
+					continue;
+
+				command->UpdateBuffer(*m_pTransBuffer, 0, &_renderObj->GetTrans(), sizeof(math::Matrix) * 2);
+
+				switch (_renderObj->GetRenderType())
+				{
+					case RenderType::MESH:
+					{
+						Renderer::GetInstance()->RenderMesh(_meshObj, _submeshIdx);
+						break;
+					}
+					case RenderType::PARTICLE:
+					{
+						break;
+					}
+					default:
+					{
+						assert(false);
+						break;
+					}
+				}
+			}
 		}
 	}
 	

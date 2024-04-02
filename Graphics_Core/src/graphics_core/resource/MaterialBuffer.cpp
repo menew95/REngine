@@ -136,18 +136,26 @@ namespace graphics
 		m_pPipelineLayout = graphics::ResourceManager::GetInstance()->GetPipelineLayout(pipelineID);
 	}
 
-	void MaterialBuffer::AddRenderObject(RenderObject* obj)
+	bool MaterialBuffer::UnLoadMaterial()
 	{
-		//m_pRenderPass->AddRenderObject(obj);
+		if (m_pRenderPass != nullptr)
+			m_pRenderPass->RemoveMaterialBuffer(this);
 
-		m_renderObjectList.emplace_back(obj);
+		return true;
+	}
+
+	void MaterialBuffer::AddRenderObject(RenderObject* obj, uint32 subMeshIdx)
+	{
+		m_renderObjectList.emplace_back(obj, subMeshIdx);
 	}
 
 	void MaterialBuffer::RemoveRenderObject(RenderObject* obj)
 	{
-		//m_pRenderPass->RemoveRenderObject(obj);
-
-		auto _it = find(std::begin(m_renderObjectList), std::end(m_renderObjectList), obj);
+		auto _it = find_if(std::begin(m_renderObjectList), std::end(m_renderObjectList), 
+			[&obj](auto& pair)
+			{
+				return obj == pair.first;
+			});
 
 		if (_it != std::end(m_renderObjectList))
 			m_renderObjectList.erase(_it);
@@ -170,6 +178,16 @@ namespace graphics
 
 	void MaterialBuffer::SetTexture(const tstring& name, TextureBuffer* texture)
 	{
+		if (texture == nullptr)
+		{
+			if(name == TEXT("AlbedoMap")) texture = TextureBuffer::White;
+			else if(name == TEXT("NormalMap")) texture = TextureBuffer::Bump;
+			else if(name == TEXT("MetallicRougnessMap")) texture = TextureBuffer::White;
+			else if(name == TEXT("EmissiveMap")) texture = TextureBuffer::White;
+			else if(name == TEXT("AmbientOcclusionMap")) texture = TextureBuffer::White;
+			else texture = TextureBuffer::Gray;
+		}
+
 		m_materialPropertyBlock->SetTexture(name, texture);
 	}
 

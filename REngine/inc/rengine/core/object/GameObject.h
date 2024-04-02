@@ -66,12 +66,13 @@ namespace rengine
         // 임시로 해둠 추후 변경 될 수 있음
         inline void SetTransform(const shared_ptr<Transform>& trans) { m_pTransform = trans;}
         
+        inline bool GetActiveSelf()         { return m_bActiveSelf; }
         inline bool GetActiveInHierarchy()  { return m_bActiveInHierarchy; }
         inline bool GetIsStatic()           { return m_bIsStatic; }
         inline tstring GetTag()             { return m_tag; }
         inline uint32 GetLayer()            { return m_layer; }
 
-        inline void SetActiveInHierarchy(bool val)  { m_bActiveInHierarchy = val; }
+        inline void SetActive(bool val);
         inline void SetIsStatic(bool val)           { m_bIsStatic = val; }
         inline void SetTag(tstring val)             { m_tag = val; }
         inline void SetLayer(uint32 val)            { m_layer = val; }

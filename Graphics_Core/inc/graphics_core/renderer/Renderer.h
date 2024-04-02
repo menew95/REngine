@@ -33,7 +33,7 @@ namespace graphics
 
         void RenderMesh(vector<class RenderObject*>& renderObjects, vector<class RenderPass*>& renderPassList);
 
-        void RenderMesh(class MeshObject* meshObject);
+        void RenderMesh(class MeshObject* meshObject, uint32 subMeshIdx);
 
         void RenderShadow(class MeshObject* meshObject);
 

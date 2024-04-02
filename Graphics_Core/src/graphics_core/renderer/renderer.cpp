@@ -48,24 +48,20 @@ namespace graphics
 
 	}
 
-	void Renderer::RenderMesh(MeshObject* meshObject)
+	void Renderer::RenderMesh(MeshObject* meshObject, uint32 subMeshIdx)
 	{
 		MeshBuffer* _meshBuf = meshObject->GetMeshBuffer();
 
+		if(_meshBuf == nullptr)
+			return;
+
 		m_pCommandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
 
-		for (size_t i = 0; i < _meshBuf->GetSubMeshCount(); i++)
-		{
-			auto& _subMeshBuf = _meshBuf->GetSubMesh(i);
+		auto& _subMeshBuf = _meshBuf->GetSubMesh(subMeshIdx);
 
-			/*if (i < meshObject->GetMaterialBuffers().size() || meshObject->GetMaterialBuffers()[i] != nullptr)
-				continue;*/
-			
-			m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
+		m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 
-			m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
-		}
-
+		m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
 	}
 
 	void Renderer::RenderShadow(MeshObject* meshObject)

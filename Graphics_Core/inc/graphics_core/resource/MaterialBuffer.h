@@ -58,10 +58,16 @@ namespace graphics
         GRAPHICS_API void SetPipelineID(const tstring& id);
 
         /**
-            @brief pass에 render object 등록
-            @param obj - render object ptr
+            @brief 머티리얼 버퍼에 적용된 파이프라인 도는 렌더패스를 제거
         **/
-        GRAPHICS_API void AddRenderObject(class RenderObject* obj);
+        GRAPHICS_API bool UnLoadMaterial();
+
+        /**
+            @brief pass에 render object 등록
+            @param obj        - render object ptr
+            @param subMeshIdx - 머티리얼이 적용될 서브 매쉬 인덱스
+        **/
+        GRAPHICS_API void AddRenderObject(class RenderObject* obj, uint32 subMeshIdx);
 
         /**
             @brief pass에 등록 된 render object 제거
@@ -123,7 +129,7 @@ namespace graphics
 
         class PipelineLayout* m_pPipelineLayout = nullptr;
 
-        vector<class RenderObject*> m_renderObjectList;
+        vector<pair<class RenderObject*, uint32>> m_renderObjectList;
 
         unique_ptr<class MaterialPropertyBlock> m_materialPropertyBlock;
 

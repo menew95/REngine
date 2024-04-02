@@ -153,4 +153,8 @@
   <ItemGroup>
     <None Include="cpp.hint" />
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Assets\bin\shader\PS_Deferred.hlsl" />
+    <FxCompile Include="..\Assets\bin\shader\VS_Mesh.hlsl" />
+  </ItemGroup>
 </Project>

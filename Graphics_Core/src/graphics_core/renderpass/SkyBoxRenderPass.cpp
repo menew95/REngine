@@ -79,7 +79,7 @@ namespace graphics
 
 		m_pSkyBoxMatBuffer->BindResource(command);
 
-		Renderer::GetInstance()->RenderMesh(m_pSkyBoxMesh);
+		Renderer::GetInstance()->RenderMesh(m_pSkyBoxMesh, 0);
 	}
 
 	void SkyBoxRenderPass::EndExcute(CommandBuffer* command)

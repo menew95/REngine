@@ -32,6 +32,8 @@ namespace graphics
 
         GRAPHICS_API void SetBufferSize(size_t size);
 
+        GRAPHICS_API void BufferResize(size_t size);
+
         GRAPHICS_API size_t GetSize() { return m_size; }
 
         GRAPHICS_API uint8* GetBuffer() { return m_buffer; }

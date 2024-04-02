@@ -102,6 +102,8 @@ namespace graphics
 
 			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
 		}
+
+		TextureBuffer::CreateDefaultTextureBuffer();
 	}
 
 	void ResourceManager::InitRenderPass()

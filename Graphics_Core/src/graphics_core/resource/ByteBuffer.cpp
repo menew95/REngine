@@ -24,10 +24,10 @@ namespace graphics
 	{
 		if (src == nullptr) return;
 
-		if (srcSize + startPoint >= m_size)
+		if (srcSize + startPoint > m_size)
 		{
 			// 최대 사이즈가 부족할 경우 버퍼크기를 늘려줌
-			SetBufferSize(m_size - startPoint + srcSize);
+			BufferResize(m_size - startPoint + srcSize);
 		}
 
 		memcpy(m_buffer + startPoint, src, srcSize);
@@ -35,9 +35,25 @@ namespace graphics
 
 	void ByteBuffer::SetBufferSize(size_t size)
 	{
-		delete[] m_buffer;
+		if(m_buffer != nullptr) delete[] m_buffer;
 
 		m_buffer = new uint8[size];
+
+		m_size = size;
+	}
+
+	void ByteBuffer::BufferResize(size_t size)
+	{
+		auto* _newBuf = new uint8[size];
+
+		if (m_buffer != nullptr)
+		{
+			memcpy(_newBuf, m_buffer, sizeof(m_buffer));
+
+			delete[] m_buffer;
+		}
+
+		m_buffer = _newBuf;
 
 		m_size = size;
 	}

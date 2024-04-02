@@ -71,7 +71,6 @@ namespace rengine
 		Time::GetInstance()->PreTick();
 		Input::GetInstance()->PreTick();
 
-
 		Timer _timer;
 
 		_timer.Lap();

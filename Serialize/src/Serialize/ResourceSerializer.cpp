@@ -131,8 +131,8 @@ namespace utility
 
 		_mat->GetRenderPassID();
 
-		_obj_pt.put("RenderPassID", StringHelper::WStringToString(_mat->GetRenderPassID()));
-		_obj_pt.put("PipelineID", StringHelper::WStringToString(_mat->GetPipelineID()));
+		_obj_pt.put("m_renderPassID", StringHelper::WStringToString(_mat->GetRenderPassID()));
+		_obj_pt.put("m_pipelineID", StringHelper::WStringToString(_mat->GetPipelineID()));
 
 		for (auto& _pair : _mat->GetProperties())
 		{
@@ -360,7 +360,7 @@ namespace utility
 
 		auto _iter = pt.find("MaterialImporter");
 
-		map<rengine::MaterialProperty::PropType, vector<rengine::MaterialProperty>> _properties;
+		vector<rengine::MaterialProperty> _properties;
 
 		for (auto& _pair : _iter->second)
 		{
@@ -390,16 +390,18 @@ namespace utility
 			else if (_pair.first == "m_TexEnvs")	_type = rengine::MaterialProperty::PropType::Texture;
 			else if (_pair.first == "m_Ints")		_type = rengine::MaterialProperty::PropType::Int;
 
+			_properties.reserve(_properties.size() + _pair.second.size());
+
 			for (auto _propPair : _pair.second)
 			{
 				tstring _propName = StringHelper::StringToWString(_propPair.first);
 
-				_properties[_type].push_back(
+				_properties.push_back(
 					MaterialPropertyDeserialize(_type, _propName, _propPair.second));
 			}
 		}
 
-		_resource->SetProperties(_properties);
+		_resource->SetPropertyBlock(_properties);
 
 		return _resource;
 	}

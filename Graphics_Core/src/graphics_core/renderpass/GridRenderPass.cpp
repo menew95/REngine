@@ -57,11 +57,18 @@ namespace graphics
 	{
 		__super::BeginExcute(command, camBuffer);
 
+		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+	}
+
+	void GridRenderPass::Excute(CommandBuffer* command)
+	{
+		__super::Excute(command);
+
 		struct Debug
 		{
 			// 격자 두께 설정
 			float gridThickness = 0.02f;
-			math::Vector3 _color = { 1.0f, 1.0f, 1.0f};
+			math::Vector3 _color = { 1.0f, 1.0f, 1.0f };
 		};
 
 		Debug _debug;
@@ -72,14 +79,7 @@ namespace graphics
 
 		m_pDebugMaterial->BindResource(command);
 
-		Renderer::GetInstance()->RenderMesh(m_pDebugMesh);
-
-		//command->Draw(4, 0);
-	}
-
-	void GridRenderPass::Excute(CommandBuffer* command)
-	{
-		__super::Excute(command);
+		Renderer::GetInstance()->RenderMesh(m_pDebugMesh, 0);
 	}
 
 	void GridRenderPass::EndExcute(CommandBuffer* command)

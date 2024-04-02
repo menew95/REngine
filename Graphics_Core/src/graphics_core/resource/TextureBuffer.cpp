@@ -4,11 +4,19 @@
 
 #include <graphics_core\ResourceManager.h>
 
+#include <common\math.h>
+
 #include <DirectXTex\DirectXTex.h>
 
 
 namespace graphics
 {
+	TextureBuffer* TextureBuffer::White = nullptr;
+	TextureBuffer* TextureBuffer::Black = nullptr;
+	TextureBuffer* TextureBuffer::Gray = nullptr;
+	TextureBuffer* TextureBuffer::Bump = nullptr;
+	TextureBuffer* TextureBuffer::Red = nullptr;
+
 	FileFormat CheckFileFormat(const tstring& path)
 	{
 		if (static_cast<uint32>(path.length()) > 1)
@@ -167,6 +175,7 @@ namespace graphics
 				ImageDesc _imageDesc;
 
 				_imageDesc._data = image.GetImage(_mip, _slice, 0)->pixels;
+
 				_imageDesc._rowStride = static_cast<uint32>(image.GetImage(_mip, _slice, 0)->rowPitch);
 				_imageDesc._layerStride = static_cast<uint32>(image.GetImage(_mip, _slice, 0)->slicePitch);
 
@@ -194,5 +203,46 @@ namespace graphics
 	void* TextureBuffer::GetTextureID()
 	{
 		return m_pTexture->GetTextureID();
+	}
+
+	void TextureBuffer::CreateDefaultTextureBuffer()
+	{
+		White = ResourceManager::GetInstance()->CreateTextureBuffer(TEXT("white"))->CreateDefaultTexture(Color::White);
+		Black = ResourceManager::GetInstance()->CreateTextureBuffer(TEXT("black"))->CreateDefaultTexture(Color::Black);
+		Gray = ResourceManager::GetInstance()->CreateTextureBuffer(TEXT("gray"))->CreateDefaultTexture({ 0.5f, 0.5f, 0.5f, 0.5f });
+		Bump = ResourceManager::GetInstance()->CreateTextureBuffer(TEXT("bump"))->CreateDefaultTexture({ 0.5f, 0.5f, 1.f, 1.f });
+		Red = ResourceManager::GetInstance()->CreateTextureBuffer(TEXT("red"))->CreateDefaultTexture(Color::Red);
+	}
+
+	TextureBuffer* TextureBuffer::CreateDefaultTexture(const math::Color& color)
+	{
+		TextureDesc _texDesc;
+		_texDesc._extend = {
+			static_cast<uint32>(1),
+			static_cast<uint32>(1),
+			static_cast<uint32>(1)
+		};
+		_texDesc._arrayLayers = 1;
+		_texDesc._mipLevels = 1;
+
+		_texDesc._format = graphics::Format::R8G8B8A8_UNORM;
+		_texDesc._textureType = TextureType::Texture2D;
+
+		uint8 _color[4] = 
+		{
+			static_cast<uint8>(color.x * 255), 
+			static_cast<uint8>(color.y * 255),
+			static_cast<uint8>(color.z * 255),
+			static_cast<uint8>(color.w * 255)
+		};
+
+		ImageDesc _imageDesc;
+		_imageDesc._data = _color;
+		_imageDesc._rowStride = 1;
+		_imageDesc._layerStride = 1;
+
+		m_pTexture = ResourceManager::GetInstance()->CreateTexture(m_uuid, _texDesc, &_imageDesc);
+
+		return this;
 	}
 }

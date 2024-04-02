@@ -109,7 +109,7 @@ namespace graphics
 	void MaterialPropertyBlock::SetColor(const tstring& name, const math::Color& value)
 	{
 		assert(m_propertyDesc._bindBuffers.size() != 0);
-		assert(m_propertyDesc._bindBuffers[0]._name != TEXT("PerMaterial"));
+		assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));
 
 		auto _iter = find_if(begin(m_propertyDesc._bindBuffers[0]._fields), end(m_propertyDesc._bindBuffers[0]._fields), [&name](auto& desc)
 			{
@@ -127,7 +127,7 @@ namespace graphics
 	void MaterialPropertyBlock::SetVector4(const tstring& name, const math::Vector4& value)
 	{
 		assert(m_propertyDesc._bindBuffers.size() != 0);
-		assert(m_propertyDesc._bindBuffers[0]._name != TEXT("PerMaterial"));
+		assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));
 
 		auto _iter = find_if(begin(m_propertyDesc._bindBuffers[0]._fields), end(m_propertyDesc._bindBuffers[0]._fields), [&name](auto& desc)
 			{
@@ -145,7 +145,7 @@ namespace graphics
 	void MaterialPropertyBlock::SetFloat(const tstring& name, float value)
 	{
 		assert(m_propertyDesc._bindBuffers.size() != 0);
-		assert(m_propertyDesc._bindBuffers[0]._name != TEXT("PerMaterial"));
+		assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));
 
 		auto _iter = find_if(begin(m_propertyDesc._bindBuffers[0]._fields), end(m_propertyDesc._bindBuffers[0]._fields), [&name](auto& desc)
 			{
@@ -161,7 +161,7 @@ namespace graphics
 	void MaterialPropertyBlock::SetInteger(const tstring& name, int value)
 	{
 		assert(m_propertyDesc._bindBuffers.size() != 0);
-		assert(m_propertyDesc._bindBuffers[0]._name != TEXT("PerMaterial"));
+		assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));
 
 		auto _iter = find_if(begin(m_propertyDesc._bindBuffers[0]._fields), end(m_propertyDesc._bindBuffers[0]._fields), [&name](auto& desc)
 			{

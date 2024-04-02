@@ -165,14 +165,10 @@ namespace rengine
         **/
         void SetPipelineID(const tstring& id);
 
-        /**
-            @brief 머티리얼 프로퍼티를 추가
-            @param val - 적용시킬 머티리얼 프로퍼티 리스트
-        **/
-        void AddProperties(vector<MaterialProperty> val);
-
         map<MaterialProperty::PropType, vector<MaterialProperty>>& GetProperties() { return m_properties; }
         void SetProperties(map<MaterialProperty::PropType, vector<MaterialProperty>>& val);
+
+        void SetPropertyBlock(const  vector<MaterialProperty>& properties);
 
         /**
             @brief material의 color값 설정

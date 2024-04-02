@@ -12,6 +12,11 @@
 
 #include <graphics_core\resource\ResourceBuffer.h>
 
+namespace math
+{
+    struct Color;
+}
+
 namespace graphics
 {
     class Texture;
@@ -65,7 +70,18 @@ namespace graphics
 
         auto* GetSampler() { return m_pSampler; }
 
+
+        static void CreateDefaultTextureBuffer();
+
+        static TextureBuffer* White;
+        static TextureBuffer* Black;
+        static TextureBuffer* Gray;
+        static TextureBuffer* Bump;
+        static TextureBuffer* Red;
+
     private:
+        TextureBuffer* CreateDefaultTexture(const struct math::Color& color);
+        
         Texture* m_pTexture = nullptr;
 
         Sampler* m_pSampler = nullptr;

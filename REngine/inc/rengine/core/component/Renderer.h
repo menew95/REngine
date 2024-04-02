@@ -43,6 +43,8 @@ namespace rengine
 
         virtual void Render();
 
+        void OnEnable() override;
+
         void OnDisable() override;
 
     protected:

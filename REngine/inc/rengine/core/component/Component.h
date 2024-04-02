@@ -74,7 +74,7 @@ namespace rengine
 
         bool m_bIsActiveAndEnabled = true;
 
-        friend GameObject;
+        friend class GameObject;
 
         RTTR_ENABLE(Object);
 

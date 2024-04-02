@@ -88,7 +88,7 @@ namespace rengine
 	{
 		vector<shared_ptr<Material>> _ret(m_materials.begin(), m_materials.end());
 
-		return std::move(_ret);
+		return _ret;
 	}
 
 	void Renderer::SetMaterials(vector<shared_ptr<Material>> val)
@@ -101,7 +101,7 @@ namespace rengine
 			if (_material == nullptr)
 				continue;
 
-			//_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
 		}
 
 		m_materials.resize(val.size());
@@ -110,14 +110,14 @@ namespace rengine
 
 
 		// 각 머티리얼에 할당된 렌더패스에서 오브젝트 추가 등록
-		for (auto& _mat : m_materials)
+		for (uint32 i = 0; i < m_materials.size(); i++)
 		{
-			auto _material = _mat.lock();
+			auto _material = m_materials[i].lock();
 
-			if(_material == nullptr)
+			if (_material == nullptr)
 				continue;
 
-			//_material->GetMaterialBuffer()->AddRenderObject(m_pRenderObject);
+			_material->GetMaterialBuffer()->AddRenderObject(m_pRenderObject, i);
 		}
 	}
 
@@ -131,9 +131,9 @@ namespace rengine
 
 		m_materials[i] = mat;
 
-		mat->GetMaterialBuffer()->AddRenderObject(m_pRenderObject);
-
 		m_pRenderObject->SetMaterialBuffer(i, mat->GetMaterialBuffer());
+
+		mat->GetMaterialBuffer()->AddRenderObject(m_pRenderObject, static_cast<uint32>(i));
 	}
 
 	void Renderer::SetMesh(shared_ptr<Mesh> mesh)
@@ -154,8 +154,13 @@ namespace rengine
 		m_pRenderObject->SetWorld(_trans->GetWorld());
 	}
 
+	void Renderer::OnEnable()
+	{
+		m_pRenderObject->SetEnable(true);
+	}
+
 	void Renderer::OnDisable()
 	{
-		graphics::RenderQueue::GetInstance()->DeleteObject(m_pRenderObject);
+		m_pRenderObject->SetEnable(false);
 	}
 }

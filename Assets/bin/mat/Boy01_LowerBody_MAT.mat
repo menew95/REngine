@@ -2,28 +2,16 @@
     "guid": "27210cfe-3436-4d5e-b272-f170aa4d4a54",
     "serializable type": "1",
     "MaterialImporter": {
-        "m_renderPassID":  "Deferred Pass",
-        "m_pipelineID":  "Standard",
+        "m_renderPassID": "Deferred Pass",
+        "m_pipelineID": "Standard",
         "m_Colors": {
-            "Albedo": {
+            "_albedoColor": {
                 "r": "1",
                 "g": "1",
                 "b": "1",
                 "a": "1"
             },
-            "Ambient": {
-                "r": "0.50876087",
-                "g": "0.50876087",
-                "b": "0.50876087",
-                "a": "1"
-            },
-            "Specular": {
-                "r": "1",
-                "g": "1",
-                "b": "1",
-                "a": "1"
-            },
-            "Emissive": {
+            "_emissionColor": {
                 "r": "0",
                 "g": "0",
                 "b": "0",
@@ -31,19 +19,16 @@
             }
         },
         "m_Floats": {
-            "Metallic": "0",
-            "Roughness": "0.55278641",
-            "EmissionFactor": "1",
-            "Transparency": "0",
-            "Reflectivity": "0"
+            "_roughness": "0.5",
+            "_metallic": "0",
+            "_bumpScale": "1"
         },
         "m_TexEnvs": {
-            "Albedo Map": "",
-            "Normal Map": "",
-            "Metallic Rougness Map": "",
-            "Emissive Map": "",
-            "Ambient Map": "",
-            "Specular Map": ""
+            "AlbedoMap": "",
+            "NormalMap": "",
+            "MetallicRougnessMap": "",
+            "EmissiveMap": "",
+            "AmbientOcclusionMap": ""
         }
     }
 }

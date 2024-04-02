@@ -178,8 +178,47 @@ namespace rengine
 		}
 	}
 
-	/*GameObject::GameObject(uuid uuid, tstring name)
-		: Object(uuid, name, TEXT("GameObject"))
+	inline void GameObject::SetActive(bool val)
 	{
-	}*/
+		auto _trans = m_pTransform.lock();
+
+		auto _parentTrans = _trans->GetParent();
+
+		m_bActiveSelf = val;
+
+		if (_parentTrans != nullptr)
+		{
+			// 
+			m_bActiveInHierarchy = _parentTrans->GetGameObject().lock()->GetActiveInHierarchy();
+			
+			auto _trans = m_pTransform.lock();
+
+			for (auto i = 0u; i < _trans->GetChildSize(); i++)
+			{
+				auto _go = _trans->GetChild(i)->GetGameObject().lock();
+
+				if (_go == nullptr)
+					continue;
+
+				_go->SetActive(val);
+			}
+		}
+		else
+		{
+			// 부모 게임 오브젝트가 없을 경우 바로 계층 구조에서 활성화 상태를 바꾸고 자식에게 적용
+			m_bActiveInHierarchy = val;
+
+			auto _trans = m_pTransform.lock();
+
+			for (auto i = 0u; i < _trans->GetChildSize(); i++)
+			{
+				auto _go = _trans->GetChild(i)->GetGameObject().lock();
+
+				if (_go == nullptr)
+					continue;
+
+				_go->SetActive(val);
+			}
+		}
+	}
 }
