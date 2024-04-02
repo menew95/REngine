@@ -13,11 +13,11 @@ struct StandardData
     float3 _worldPosition;
     float _ambientOcclussion;
 
-    float4 _flags;
+    uint _flags;
 
 };
 
-void StandardDataToGBuffer(StandardData data, out float4 GBuffer0, out float4 GBuffer1, out float4 GBuffer2, out float4 GBuffer3, out float4 GBuffer4)
+void StandardDataToGBuffer(StandardData data, out float4 GBuffer0, out float4 GBuffer1, out float4 GBuffer2, out float4 GBuffer3, out uint GBuffer4)
 {
     GBuffer0.xyz = data._diffuseColor;
     GBuffer0.w = data._metallicRoughness.r;
@@ -34,7 +34,7 @@ void StandardDataToGBuffer(StandardData data, out float4 GBuffer0, out float4 GB
     GBuffer4 = data._flags;
 }
 
-StandardData StandardDataFronGBuffer(float4 GBuffer0, float4 GBuffer1, float4 GBuffer2, float4 GBuffer3, float4 GBuffer4)
+StandardData StandardDataFronGBuffer(float4 GBuffer0, float4 GBuffer1, float4 GBuffer2, float4 GBuffer3, uint GBuffer4)
 {
     StandardData _data;
 
@@ -50,7 +50,7 @@ StandardData StandardDataFronGBuffer(float4 GBuffer0, float4 GBuffer1, float4 GB
     _data._worldPosition = GBuffer3.xyz;
     _data._ambientOcclussion = GBuffer3.w;
 
-    _data._flags = GBuffer4.xyzw;
+    _data._flags = GBuffer4;
 
     return _data;
 }

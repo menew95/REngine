@@ -579,6 +579,47 @@ namespace utility
 
 				assert(prop.set_value(object, _var));
 
+				/*rttr::variant _varSeq = prop.get_type().create();
+
+				rttr::variant_sequential_view _seq = _varSeq.create_sequential_view();
+
+				auto _seqT = _varSeq.get_type();
+				auto _seqT2 = _seq.get_value_type();
+				int i = 0;
+
+				for (auto& _item : pt)
+				{
+					auto _str = _item.second.get_value<string>();
+
+					auto _obj = rengine::ObjectFactory::GetInstance()->Find(StringHelper::StringToWString(_str));
+
+					rttr::variant _var = _obj;
+
+					if (_var.can_convert(_seq.get_value_type()))
+					{
+						assert(_var.convert(_seq.get_value_type()));
+
+						_seq.set_value(i++, _var);
+					}
+					else
+					{
+						std::weak_ptr _weak_obj = _obj;
+
+						rttr::variant _weak_var = _weak_obj;
+
+						auto _type = _weak_var.get_type();
+
+						if (_weak_var.can_convert(_seq.get_value_type()))
+						{
+							assert(_weak_var.convert(_seq.get_value_type()));
+
+							_seq.set_value(i++, _weak_var);
+						}
+					}
+				}
+
+				assert(prop.set_value(object, _varSeq));*/
+
 				//{
 				//	// 만약 전부 raw pointer로 변경시에
 				//	vector<rengine::Object*> _objs{ _data[0].lock().get(), _data[1].lock().get() };

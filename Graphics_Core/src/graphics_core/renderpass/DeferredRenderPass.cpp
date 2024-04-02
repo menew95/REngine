@@ -50,7 +50,17 @@ namespace graphics
 	{
 		__super::BeginExcute(command, camBuffer);
 
-		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
+		AttachmentClear _attachmentClear[6] =
+		{
+			{ math::Color::Black, 0 },
+			{ math::Color::Black, 1 },
+			{ math::Color::Black, 2 },
+			{ math::Color::Black, 3 },
+			{ math::Color::Black, 4 },
+			{ 1.0f, 255u }
+		};
+
+		command->SetRenderTarget(*m_pRenderTarget, 6, _attachmentClear);
 	}
 	
 	void DeferredRenderPass::Excute(CommandBuffer* command)

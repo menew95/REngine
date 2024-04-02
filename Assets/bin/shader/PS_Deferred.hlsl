@@ -41,7 +41,7 @@ PSOutput main(VSOutput input)
 	_data._worldPosition = input.posW.xyz;
 	_data._ambientOcclussion = AmbeintOcclution(input.uv);
 
-	_data._flags = float4(0.f, 0.f, 0.f, 0.f);
+	_data._flags = 0;//float4(0.f, 0.f, 0.f, 0.f);
 
 	StandardDataToGBuffer(_data, _out.Albedo, _out.Emissive, _out.Normal, _out.World, _out.Flags);
 
