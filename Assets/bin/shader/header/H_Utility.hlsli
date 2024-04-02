@@ -8,7 +8,7 @@ float LerpOneTo(float b, float t)
 }
 
 // world space의 tangent와 normal값으로 TBN 행렬을 생성
-float3x3 CreateTangentToWorldPerVertex(float3 normalW, float3 tangentW, float tangentSign)
+float3x3 CreateTangentToWorldPerVertex(float3 normalW, float3 tangentW)
 {
     float3 T = normalize(tangentW - dot(tangentW, normalW) * normalW);
     float3 B = cross(normalW, T);
