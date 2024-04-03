@@ -50,9 +50,13 @@ namespace editor
 			_items.push_back(_name.c_str());
 		}
 
-		ImGui::PushID(m_pHandler->GetNameStr().c_str());
+		ImGui::PushID(m_widgetName.c_str());
 
-		if (ImGui::Combo(GetWidgetName().c_str(), &m_item_current, _items.data(), static_cast<int>(_items.size())))
+		ImGui::Text(m_widgetName.c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
+
+		if (ImGui::Combo("", &m_item_current, _items.data(), static_cast<int>(_items.size())))
 		{
 			m_prop.set_value(m_pHandler, (uint32)m_item_current);
 		}

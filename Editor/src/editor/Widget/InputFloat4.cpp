@@ -29,9 +29,17 @@ namespace editor
 
 		float* _handler[4] = { &_vec.x, &_vec.y, &_vec.z, &_vec.w };
 
-		if (ImGui::InputFloat4(GetWidgetName().c_str(), *_handler, "%.3f", GetFlags()))
+		ImGui::PushID(m_widgetName.c_str());
+
+		ImGui::Text(m_widgetName.c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
+
+		if (ImGui::InputFloat4("", *_handler, "%.3f", GetFlags()))
 		{
 			m_prop.set_value(m_pHandler, _vec);
 		}
+		
+		ImGui::PopID();
 	}
 }

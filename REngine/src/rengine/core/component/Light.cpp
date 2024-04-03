@@ -35,10 +35,15 @@ RTTR_REGISTRATION
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::FLOAT),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::FLOAT)
 	)
-	.property("inner Spot Angle", &rengine::Light::GetInnerSpotAngle, &rengine::Light::SetInnerSpotAngle)
+	.property("Inner Spot Angle", &rengine::Light::GetInnerSpotAngle, &rengine::Light::SetInnerSpotAngle)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::FLOAT),
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::FLOAT)
+	)
+	.property("Resolution", &rengine::Light::GetResolution, &rengine::Light::SetResolution)
+	(
+		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::ENUM),
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UINT32)
 	)
 	;
 
@@ -48,6 +53,14 @@ RTTR_REGISTRATION
 		rttr::value("Directional", rengine::LightType::Directional),
 		rttr::value("Point", rengine::LightType::Point)
 	);
+
+	rttr::registration::enumeration<rengine::ShadowResolution>("Resolution")
+		(
+			rttr::value("Low", rengine::ShadowResolution::Low),
+			rttr::value("Medium", rengine::ShadowResolution::Medium),
+			rttr::value("High", rengine::ShadowResolution::High),
+			rttr::value("VeryHigh", rengine::ShadowResolution::VeryHigh)
+			);
 }
 
 namespace rengine
@@ -129,5 +142,12 @@ namespace rengine
 		m_innerSpotAngle = value;
 
 		//m_pLightBuffer->SetInnerSpotAngle();
+	}
+
+	void Light::SetResolution(uint32 value)
+	{
+		m_resolution = static_cast<ShadowResolution>(value);
+
+		//m_pLightBuffer->SetShadowResolution(value);
 	}
 }

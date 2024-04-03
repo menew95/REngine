@@ -28,9 +28,17 @@ namespace editor
 
 		float _vec = _val.convert<float>();
 
-		if (ImGui::InputFloat(GetWidgetName().c_str(), &_vec, 0.f, 0.f, "%.3f", GetFlags()))
+		ImGui::PushID(m_widgetName.c_str());
+
+		ImGui::Text(m_widgetName.c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
+
+		if (ImGui::InputFloat("", &_vec, 0.f, 0.f, "%.3f", GetFlags()))
 		{
 			m_prop.set_value(m_pHandler, _vec);
 		}
+
+		ImGui::PopID();
 	}
 }

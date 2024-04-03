@@ -14,6 +14,26 @@
 
 namespace graphics
 {
+    enum class LightType
+    {
+        Spot = 0,
+        Directional = 1,
+        Point = 2,
+    };
+
+    struct LightInfo
+    {
+        uint32 _lightype;
+    };
+
+    struct ShadowInfo
+    {
+        uint32 _resolution;
+        uint32 _bias;
+        uint32 _normalBias;
+        uint32 _near;
+    };
+
     class LightBuffer : public ResourceBuffer
     {
     public:
@@ -28,6 +48,16 @@ namespace graphics
         }
 
     private:
+        void CreateRenderTarget();
 
+        LightInfo m_lightInfo;
+
+        ShadowInfo m_shadowInfo;
+
+        // shadow map texture
+        class Texture* m_pTexture = nullptr;
+
+        // shadow map render target
+        class RenderTarget* m_pRenderTarget = nullptr;
     };
 }

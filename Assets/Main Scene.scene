@@ -130,7 +130,7 @@
         "m_pGameObject": "df7d86e9-72ff-4dfc-9dfa-54a444759ab9",
         "Light Type": "0",
         "Light Color": {
-            "r": "1",
+            "r": "0",
             "g": "0",
             "b": "0",
             "a": "0"
@@ -138,7 +138,8 @@
         "Intensity": "2",
         "Range": "5",
         "Spot Angle": "60",
-        "inner Spot Angle": "45"
+        "Inner Spot Angle": "45",
+        "Resolution": "3"
     },
     "d7dabdfe-fbb6-4f87-b3da-23b9df11d727": {
         "m_typeName": "GameObject",

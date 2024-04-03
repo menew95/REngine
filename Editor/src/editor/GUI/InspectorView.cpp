@@ -273,22 +273,12 @@ namespace editor
 
 		const rttr::type gameobject_type = rttr::type::get_by_name("GameObject");
 
-		ImGui::Columns(3, "Test", false);
+		ImGui::Columns(4, "Test", false);
 
 		{
 			rttr::property _prop = gameobject_type.get_property("Active Self");
 
-			CheckBox _widget{ "", go, _prop };
-
-			_widget.Render();
-		}
-
-		ImGui::NextColumn();
-
-		{
-			rttr::property _prop = gameobject_type.get_property("m_objectName");
-
-			InputText _widget{"Name", go, _prop};
+			CheckBox _widget{ "Active Self", go, _prop };
 
 			_widget.Render();
 		}
@@ -299,6 +289,16 @@ namespace editor
 			rttr::property _prop = gameobject_type.get_property("Static");
 
 			CheckBox _widget{ "Static", go, _prop };
+
+			_widget.Render();
+		}
+
+		ImGui::Columns(2);
+		
+		{
+			rttr::property _prop = gameobject_type.get_property("m_objectName");
+
+			InputText _widget{"Name", go, _prop};
 
 			_widget.Render();
 		}

@@ -27,10 +27,14 @@ namespace editor
 			assert(false);
 
 		bool _bool = _val.convert<bool>();
+		
+		ImGui::PushID(m_widgetName.c_str());
+		
+		ImGui::Text(GetWidgetName().c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
 
-		ImGui::PushID(m_pHandler->GetNameStr().c_str());
-
-		if (ImGui::Checkbox(GetWidgetName().c_str(), &_bool))
+		if (ImGui::Checkbox("", &_bool))
 		{
 			m_prop.set_value(m_pHandler, _bool);
 		}

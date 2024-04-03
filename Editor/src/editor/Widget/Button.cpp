@@ -19,9 +19,17 @@ namespace editor
 
 	void Button::Render()
 	{
-		if (ImGui::ButtonEx(GetWidgetName().c_str(), m_rectSize, GetFlags()))
+		ImGui::PushID(m_widgetName.c_str());
+
+		ImGui::Text(GetWidgetName().c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
+
+		if (ImGui::ButtonEx("", m_rectSize, GetFlags()))
 		{
 
 		}
+
+		ImGui::PopID();
 	}
 }

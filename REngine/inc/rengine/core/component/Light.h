@@ -29,6 +29,14 @@ namespace rengine
         Point = 2,
     };
 
+	enum class ShadowResolution
+    {
+		Low = 0,
+		Medium = 1,
+		High = 2,
+		VeryHigh = 3,
+    };
+
     class Light : public Component, public enable_shared_from_this<Light>
     {
 	public:
@@ -68,6 +76,8 @@ namespace rengine
 		inline float GetInnerSpotAngle() { return m_innerSpotAngle; }
 		void SetInnerSpotAngle(float value);
 
+		inline uint32 GetResolution() { return static_cast<uint32>(m_resolution); }
+		void SetResolution(uint32 value);
 
 	private:
 		graphics::LightBuffer* m_pLightBuffer = nullptr;
@@ -80,6 +90,9 @@ namespace rengine
 		float m_range = 10.0f;
 		float m_spotAngle = 30.0f;
 		float m_innerSpotAngle = 21.80208f;	// _fallOffAngle
+
+		// shadow
+		ShadowResolution m_resolution = ShadowResolution::VeryHigh;
 
 		RTTR_ENABLE(Component)
 

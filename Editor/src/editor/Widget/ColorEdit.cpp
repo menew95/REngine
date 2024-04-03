@@ -43,10 +43,14 @@ namespace editor
 			_cor[2] = _color.z;
 			_cor[3] = _color.w;
 		}
+		
+		ImGui::PushID(m_widgetName.c_str());
 
-		ImGui::PushID(m_pHandler->GetNameStr().c_str());
+		ImGui::Text(m_widgetName.c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
 
-		if (ImGui::ColorEdit4(m_widgetName.c_str(), _cor))
+		if (ImGui::ColorEdit4("", _cor))
 		{
 			math::Color _color{ _cor[0], _cor[1], _cor[2], _cor[3] };
 

@@ -40,7 +40,13 @@ namespace editor
 
 		strcpy_s(m_pInputText, _str.c_str());
 
-		if (ImGui::InputTextEx(GetWidgetName().c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
+		ImGui::PushID(m_widgetName.c_str());
+
+		ImGui::Text(m_widgetName.c_str());
+		//ImGui::SameLine();
+		ImGui::NextColumn();
+
+		if (ImGui::InputTextEx("", "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
 		{
 			_str = m_pInputText;
 
@@ -48,6 +54,8 @@ namespace editor
 
 			m_prop.set_value(m_pHandler, _wstr);
 		}
+
+		ImGui::PopID();
 
 		/*strcpy_s(m_pInputText, m_text.c_str());
 

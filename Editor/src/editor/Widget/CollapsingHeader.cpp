@@ -52,10 +52,18 @@ namespace editor
 				ImGui::EndPopup();
 			}
 
+			ImGui::Columns(2);
+
 			for (auto& _widget : GetChilds())
 			{
 				_widget->Render();
+
+				ImGui::NextColumn();
 			}
+
+			ImGui::Columns(1);
+
+			//ImGui::EndColumns();
 		}
 		ImGui::PopID();
 	}
