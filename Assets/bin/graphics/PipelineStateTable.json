@@ -25,5 +25,14 @@
     "StencilDesc": "Default",
     "RasterizerDesc": "Default",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Deferred Light",
+    "ShaderProgram": "Deferred Light",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
   }
 ]

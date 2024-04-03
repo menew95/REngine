@@ -91,7 +91,7 @@ namespace graphics
 			//Texture* _tex = pair.second->GetTexture();
 
 			command->SetResource(
-				*pair.second->GetTexture(),
+				*pair.second,
 				pair.first._slot,
 				pair.first._bindFlags,
 				pair.first._stageFlags
@@ -174,7 +174,20 @@ namespace graphics
 		m_constantBlock[TEXT("PerMaterial")].second->UpdateBuffer(&value, _iter->_size, _iter->_offset);
 	}
 	
-	void MaterialPropertyBlock::SetTexture(const tstring& name, TextureBuffer* texture)
+	void MaterialPropertyBlock::SetTexture(const tstring& name, TextureBuffer* textureBuffer)
+	{
+		auto _iter = find_if(begin(m_propertyDesc._bindResources), end(m_propertyDesc._bindResources), [&name](auto& desc)
+			{
+				return desc._name == name;
+			});
+
+		if (_iter == m_propertyDesc._bindResources.end())
+			return;
+
+		m_textureBlock[_iter->_name].second = textureBuffer->GetTexture();
+	}
+
+	void MaterialPropertyBlock::SetTexture(const tstring& name, Texture* texture)
 	{
 		auto _iter = find_if(begin(m_propertyDesc._bindResources), end(m_propertyDesc._bindResources), [&name](auto& desc)
 			{

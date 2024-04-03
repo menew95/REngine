@@ -65,7 +65,8 @@ namespace graphics
             @param name    - property name
             @param texture - texture
         **/
-        void SetTexture(const tstring& name, class TextureBuffer* texture);
+        void SetTexture(const tstring& name, class TextureBuffer* textureBuffer);
+        void SetTexture(const tstring& name, class Texture* texture);
 
         /**
             @brief material의 int 값 설정
@@ -84,7 +85,7 @@ namespace graphics
         map<tstring, class Buffer*> m_constBuffers;
 
         // texture1D, texture2D, texture3D 등 텍스처 프로퍼티와 대응
-        map<tstring, pair<BindingDescriptor, class TextureBuffer*>> m_textureBlock;
+        map<tstring, pair<BindingDescriptor, class Texture*>> m_textureBlock;
         map<tstring, class Sampler*> m_samplerBlock;
     };
 }

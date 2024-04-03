@@ -67,7 +67,7 @@
     "UUID": "00000000-0000-0000-8000-000000000000",
     "ShaderType": "Pixel",
     "ShaderSourceType": "HLSL",
-    "FilePath": "bin\\shader\\PS_Light.hlsl",
+    "FilePath": "bin\\shader\\PS_DeferredLight.hlsl",
     "SourceSize": 0,
     "EntryPoint": "main",
     "Profile": "ps_5_0"

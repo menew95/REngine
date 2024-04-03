@@ -16,7 +16,9 @@
 
 #include <editor\Widget\Button.h>
 #include <editor\Widget\CheckBox.h>
+#include <editor\Widget\ComboBox.h>
 #include <editor\Widget\TreeNode.h>
+#include <editor\Widget\ColorEdit.h>
 #include <editor\Widget\InputText.h>
 #include <editor\Widget\InputFloat.h>
 #include <editor\Widget\InputFloat2.h>

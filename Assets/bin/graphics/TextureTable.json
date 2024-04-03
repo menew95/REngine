@@ -53,7 +53,7 @@
     "UUID": "Flag",
     "TextureType": "Texture2D",
     "BindFlags": [ "ShaderResource", "RenderTarget" ],
-    "Format": "R32_UINT",
+    "Format": "R32G32B32A32_FLOAT",
     "Extend": [ 1280, 720 ],
     "ArrayLayers": 1,
     "MipLevels": 1,

@@ -191,6 +191,21 @@ namespace graphics
 		m_materialPropertyBlock->SetTexture(name, texture);
 	}
 
+	void MaterialBuffer::SetTexture(const tstring& name, Texture* texture)
+	{
+		if (texture == nullptr)
+		{
+			if (name == TEXT("AlbedoMap")) texture = TextureBuffer::White->GetTexture();
+			else if (name == TEXT("NormalMap")) texture = TextureBuffer::Bump->GetTexture();
+			else if (name == TEXT("MetallicRougnessMap")) texture = TextureBuffer::White->GetTexture();
+			else if (name == TEXT("EmissiveMap")) texture = TextureBuffer::White->GetTexture();
+			else if (name == TEXT("AmbientOcclusionMap")) texture = TextureBuffer::White->GetTexture();
+			else texture = TextureBuffer::Gray->GetTexture();
+		}
+
+		m_materialPropertyBlock->SetTexture(name, texture);
+	}
+
 	void MaterialBuffer::SetInteger(const tstring& name, int value)
 	{
 		m_materialPropertyBlock->SetInteger(name, value);

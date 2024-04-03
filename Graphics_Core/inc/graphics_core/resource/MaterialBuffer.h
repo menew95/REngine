@@ -109,6 +109,7 @@ namespace graphics
             @param texture - texture
         **/
         GRAPHICS_API void SetTexture(const tstring& name, class TextureBuffer* texture);
+        void SetTexture(const tstring& name, class Texture* texture);
 
         void BindPipelineState(class CommandBuffer* command);
 

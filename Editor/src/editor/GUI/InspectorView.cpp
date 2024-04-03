@@ -223,6 +223,39 @@ namespace editor
 				auto _d = var.to_double();
 				break;
 			}
+			case rengine::MetaDataType::ENUM:
+			{
+				if (ComboBox* _widget = reinterpret_cast<ComboBox*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+				break;
+			}
+			case rengine::MetaDataType::Color:
+			{
+				if (ColorEdit* _widget = reinterpret_cast<ColorEdit*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}
+
+				break;
+			}
 			default:
 			{
 				assert(false);

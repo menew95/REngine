@@ -33,6 +33,7 @@ namespace rengine
         FLOAT,
         DOUBLE,
         ENUM,
+        Color,
     };
 
     enum class SerializableType

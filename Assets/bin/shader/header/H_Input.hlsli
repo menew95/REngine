@@ -46,7 +46,7 @@ struct PSOutput
 	float4 Normal	: SV_TARGET1;
 	float4 World	: SV_TARGET2;
 	float4 Emissive	: SV_TARGET3;
-	uint Flags	: SV_TARGET4;
+	float4 Flags	: SV_TARGET4;
 };
 
 #if defined(HARDWARE)

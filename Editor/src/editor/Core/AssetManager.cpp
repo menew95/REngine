@@ -28,6 +28,7 @@ namespace editor
 		m_componentList.push_back("Camera");
 		m_componentList.push_back("MeshRenderer");
 		m_componentList.push_back("Transform");
+		m_componentList.push_back("Light");
 
 		LoadAssetData();
 

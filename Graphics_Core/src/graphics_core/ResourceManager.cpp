@@ -13,6 +13,7 @@
 
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
 #include <graphics_core\renderpass\DeferredRenderPass.h>
+#include <graphics_core\renderpass\DeferredLightPass.h>
 #include <graphics_core\renderpass\GridRenderPass.h>
 
 template <typename T>
@@ -95,6 +96,12 @@ namespace graphics
 			auto _renderPass = new DeferredRenderPass();
 
 			m_renderPassMap.insert(make_pair(TEXT("Deferred Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new DeferredLightPass();
+
+			m_renderPassMap.insert(make_pair(TEXT("Deferred Light Pass"), _renderPass));
 		}
 
 		{

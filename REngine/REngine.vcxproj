@@ -199,6 +199,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\Components.h" />
     <ClInclude Include="inc\rengine\core\component\Camera.h" />
     <ClInclude Include="inc\rengine\core\component\Component.h" />
+    <ClInclude Include="inc\rengine\core\component\Light.h" />
     <ClInclude Include="inc\rengine\core\component\MeshFilter.h" />
     <ClInclude Include="inc\rengine\core\component\MeshRenderer.h" />
     <ClInclude Include="inc\rengine\core\component\Renderer.h" />
@@ -228,6 +229,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\utility\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\rengine\core\component\Light.cpp" />
     <ClCompile Include="src\rengine\core\Components.cpp" />
     <ClCompile Include="src\rengine\core\component\MeshFilter.cpp" />
     <ClCompile Include="src\rengine\core\component\MeshRenderer.cpp" />

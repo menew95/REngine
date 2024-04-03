@@ -26,5 +26,21 @@
     "StageFlags": [ "PS" ],
     "Slot": 0,
     "ArraySize": 1
+  },
+  {
+    "UUID": "Deferred Light",
+    "Count": 2,
+    "Description": "WrapLinear",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
+  },
+  {
+    "Description": "ShadowLinearBorder",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 1,
+    "ArraySize": 1
   }
 ]
