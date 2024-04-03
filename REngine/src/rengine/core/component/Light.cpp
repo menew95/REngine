@@ -106,48 +106,48 @@ namespace rengine
 	{
 		m_lightType = (LightType)value;
 		
-		//m_pLightBuffer->SetLightType();
+		m_pLightBuffer->SetLightType(value);
 	}
 	
 	void Light::SetLightColor(const math::Color& value)
 	{
 		m_lightColor = value;
 
-		//m_pLightBuffer->SetLightColor();
+		m_pLightBuffer->SetLightColor(value);
 	}
 	
 	void Light::SetIntensity(float value)
 	{
 		m_intensity = value;
 
-		//m_pLightBuffer->SetIntensity();
+		m_pLightBuffer->SetIntensity(value);
 	}
 	
 	void Light::SetRange(float value)
 	{
 		m_range = value;
 
-		//m_pLightBuffer->SetRange();
+		m_pLightBuffer->SetRange(value);
 	}
 	
 	void Light::SetSpotAnlge(float value)
 	{
 		m_spotAngle = value;
 
-		//m_pLightBuffer->SetSpotAnlge();
+		m_pLightBuffer->SetSpotAnlge(value);
 	}
 	
 	void Light::SetInnerSpotAngle(float value)
 	{
 		m_innerSpotAngle = value;
 
-		//m_pLightBuffer->SetInnerSpotAngle();
+		m_pLightBuffer->SetInnerSpotAngle(value);
 	}
 
 	void Light::SetResolution(uint32 value)
 	{
 		m_resolution = static_cast<ShadowResolution>(value);
 
-		//m_pLightBuffer->SetShadowResolution(value);
+		m_pLightBuffer->SetResolution(value);
 	}
 }
