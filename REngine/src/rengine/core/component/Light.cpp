@@ -18,7 +18,7 @@ RTTR_REGISTRATION
 	.property("Light Color", &rengine::Light::GetLightColor, &rengine::Light::SetLightColor)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::Color),
-		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::VECTOR4)
+		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::Color)
 	)
 	.property("Intensity", &rengine::Light::GetIntensity, &rengine::Light::SetIntensity)
 	(

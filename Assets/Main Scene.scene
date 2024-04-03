@@ -91,7 +91,8 @@
         "Layer": "0",
         "Static": "false",
         "Components": [
-            "80521de7-a1e3-4cbf-b3b0-7fbeb20483a5"
+            "80521de7-a1e3-4cbf-b3b0-7fbeb20483a5",
+            "37cbdb1e-581e-414e-ac99-63c139764640"
         ]
     },
     "80521de7-a1e3-4cbf-b3b0-7fbeb20483a5": {
@@ -121,6 +122,23 @@
         "m_childs": [
             "4bea08be-0966-4dd9-81b1-ee3566ee189b"
         ]
+    },
+    "37cbdb1e-581e-414e-ac99-63c139764640": {
+        "m_typeName": "Light",
+        "m_objectName": "Light",
+        "m_bEnable": "true",
+        "m_pGameObject": "df7d86e9-72ff-4dfc-9dfa-54a444759ab9",
+        "Light Type": "0",
+        "Light Color": {
+            "r": "1",
+            "g": "0",
+            "b": "0",
+            "a": "0"
+        },
+        "Intensity": "2",
+        "Range": "5",
+        "Spot Angle": "60",
+        "inner Spot Angle": "45"
     },
     "d7dabdfe-fbb6-4f87-b3da-23b9df11d727": {
         "m_typeName": "GameObject",

@@ -345,6 +345,30 @@ namespace utility
 
 				pt.add_child(name, _array_pt);
 			}
+			case rengine::MetaDataType::ENUM:
+			{
+				assert(false);
+
+				break;
+			}
+			case rengine::MetaDataType::Color:
+			{
+				for (auto& val : value.create_sequential_view())
+				{
+					if (!val.can_convert<math::Color>())
+						continue;
+
+					boost::property_tree::ptree _child;
+
+					auto _c = val.convert<math::Color>();
+
+					serializeConfig(_c, _emptyname, _child);
+
+					_array_pt.push_back(std::make_pair("", _child));
+				}
+
+				break;
+			}
 			default:
 			{
 				assert(false);
@@ -442,6 +466,20 @@ namespace utility
 				auto _d = value.to_double();
 
 				pt.put(name, _d);
+				break;
+			}
+			case rengine::MetaDataType::ENUM:
+			{
+				assert(false);
+
+				break;
+			}
+			case rengine::MetaDataType::Color:
+			{
+				math::Color _c = value.convert<math::Color>();
+
+				serializeConfig<math::Color>(_c, name, pt);
+
 				break;
 			}
 			default:
@@ -709,6 +747,27 @@ namespace utility
 
 				break;
 			}
+			case rengine::MetaDataType::ENUM:
+			{
+				assert(false);
+
+				break;
+			}
+			case rengine::MetaDataType::Color:
+			{
+				vector<math::Color> _data;
+
+				for (auto& _item : pt)
+				{
+					auto _val = parseConfig<math::Color>(_item.second);
+
+					_data.push_back(_val);
+				}
+
+				assert(prop.set_value(object, _data));
+
+				break;
+			}
 			default:
 			{
 				assert(false);
@@ -824,6 +883,15 @@ namespace utility
 
 				break;
 			}
+			case rengine::MetaDataType::Color:
+			{
+				auto _color = parseConfig<math::Color>(pt);
+
+				assert(prop.set_value(object, _color));
+
+				break;
+			}
+			case rengine::MetaDataType::ENUM:
 			default:
 				assert(false);
 				break;
