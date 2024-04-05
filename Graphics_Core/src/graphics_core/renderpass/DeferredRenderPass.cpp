@@ -87,7 +87,7 @@ namespace graphics
 				if(_submeshIdx > _meshObj->GetMeshBuffer()->GetSubMeshCount())
 					continue;
 
-				command->UpdateBuffer(*m_pTransBuffer, 0, &_renderObj->GetTrans(), sizeof(math::Matrix) * 2);
+				command->UpdateBuffer(*m_pTransBuffer, 0, &_renderObj->GetTrans(), sizeof(PerObject));
 
 				switch (_renderObj->GetRenderType())
 				{

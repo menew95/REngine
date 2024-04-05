@@ -48,7 +48,7 @@ namespace graphics
 
 		m_pSkyBoxTexture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
 
-		m_pSkyBoxMatBuffer->SetTexture(TEXT("g_SkyBox"), m_pSkyBoxTexture);
+		m_pSkyBoxMatBuffer->SetTexture(TEXT("gSkyBox"), m_pSkyBoxTexture);
 	}
 	
 	void SkyBoxRenderPass::Bind(CommandBuffer* command)
@@ -66,7 +66,7 @@ namespace graphics
 
 		m_pSkyBoxMesh->SetWorld(_camWorld);
 		
-		command->UpdateBuffer(*m_pTransBuffer, 0, &m_pSkyBoxMesh->GetTrans(), sizeof(math::Matrix) * 2);
+		command->UpdateBuffer(*m_pTransBuffer, 0, &m_pSkyBoxMesh->GetTrans(), sizeof(PerObject));
 
 		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
 	}

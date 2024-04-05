@@ -23,37 +23,37 @@ cbuffer PerMaterial : register(b2)
 
 float3 Albedo(float2 uv)
 {
-    float3 _albedo = _albedoColor.rgb * AlbedoMap.Sample(samWrapLinear, uv).rgb;
+    float3 albedo = _albedoColor.rgb * AlbedoMap.Sample(samWrapLinear, uv).rgb;
 
-    return _albedo;
+    return albedo;
 }
 
 float3 NormalInTangentSpace(float2 uv)
 {
-    float3 _normalTangent = UnpackScaleNormal(NormalMap.Sample(samWrapLinear, uv), _bumpScale);
+    float3 normalTangent = UnpackScaleNormal(NormalMap.Sample(samWrapLinear, uv), _bumpScale);
 
-    return _normalTangent;
+    return normalTangent;
 }
 
 float2 MetallicRough(float2 uv)
 {
-    float2 _mr = float2(_metallic, _roughness) * MetallicRougnessMap.Sample(samWrapLinear, uv).rg;
+    float2 mr = float2(_metallic, _roughness) * MetallicRougnessMap.Sample(samWrapLinear, uv).rg;
 
-    return _mr;
+    return mr;
 }
 
 float3 Emission(float2 uv)
 {
-    float3 _emission = _emissionColor.rgb * EmissiveMap.Sample(samWrapLinear, uv).rgb;
+    float3 emission = _emissionColor.rgb * EmissiveMap.Sample(samWrapLinear, uv).rgb;
 
-    return _emission;
+    return emission;
 }
 
 float AmbeintOcclution(float2 uv)
 {
-    float _ao = AmbientOcclusionMap.Sample(samWrapLinear, uv).g;
+    float ao = AmbientOcclusionMap.Sample(samWrapLinear, uv).g;
 
-    return _ao;
+    return ao;
 }
 
 #endif

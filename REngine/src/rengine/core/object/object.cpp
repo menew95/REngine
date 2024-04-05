@@ -23,24 +23,6 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	/*Object::Object()
-	: m_pImpl(new Object::Impl())
-	{
-
-	}
-
-	Object::Object(uuid uuid)
-	: m_pImpl(new Object::Impl(uuid))
-	{
-		
-	}
-
-	Object::Object(uuid uuid, tstring name)
-	: m_pImpl(new Object::Impl(uuid, name))
-	{
-
-	}*/
-
 	Object::Object(uuid uuid, tstring name, tstring type)
 	: m_pImpl(new Object::Impl(uuid, name, type))
 	{
@@ -70,6 +52,11 @@ namespace rengine
 	void Object::SetUUIDStr(string uuid)
 	{
 		m_pImpl->SetUUID(StringHelper::StringToWString(uuid));
+	}
+
+	uint64 Object::GetHash()
+	{
+		return m_pImpl->GetHash();
 	}
 
 	tstring Object::GetName()

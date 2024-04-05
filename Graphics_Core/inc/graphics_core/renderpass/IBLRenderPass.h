@@ -52,6 +52,8 @@ namespace graphics
 		void CreateIntegrateBRDFMap();
 
 	private:
-		
+		MaterialBuffer* m_integrateBRDFMap = nullptr;
+		MaterialBuffer* m_preFilteredMap = nullptr;
+		MaterialBuffer* mirradianceMap = nullptr;
 	};
 }

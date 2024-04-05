@@ -12,6 +12,8 @@ tstring UUIDGenerator::Generate()
 	uuids::uuid_random_generator gen{ generator };
 
 	const uuids::uuid id = gen();
-	const tstring uuidString = StringHelper::ToTString(uuids::to_string(id));
+	
+	const tstring uuidString = uuids::to_string<wchar_t>(id);
+
 	return uuidString;
 }

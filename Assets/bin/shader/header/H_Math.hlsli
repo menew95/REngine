@@ -10,7 +10,8 @@
 #define INV_FOUR_PI   0.07957747155f
 #define HALF_PI       1.57079632679f
 #define INV_HALF_PI   0.636619772367f
-
+static const float EPSILON = 1e-6f;
+static const float3 Fdielectric = 0.04f;
 //---------------------------------------------------------------------------------------
 // Transforms a normal map sample to world space.
 //---------------------------------------------------------------------------------------

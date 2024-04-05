@@ -15,36 +15,6 @@ struct Camera
     float _far;
 };
 
-struct Light
-{
-	uint Type;
-
-	float Range;		// Point, Spot
-	float FallOff;		// Point, Spot
-
-	float3 Position;	// Point, Spot
-	float SpotAngle;	    // Spot
-
-	float3 Direction;	// Directional, Spot
-	float FallOffAngle;	    // Spot
-
-	float3 Color;
-	float Power;
-	matrix ShadowTransform;
-};
-
-struct CascadedLight
-{
-	// float3 _direction;
-	// float _pad1;
-
-	// float3 _color;
-	// float _power;
-
-	float _cascadeEndClipSpace[4];
-	matrix _lightTransform[4];
-};
-
 struct PostProcess
 {
 	// sslr

@@ -3,14 +3,14 @@
 
 VSOutput main(VSInput input)
 {
-    VSOutput _output;
+    VSOutput output;
 
     // 입력된 정점 위치를 변환하여 출력
-    _output.posW = float4(input.posL.x, 0.0f, input.posL.y, 0.f) * 100.0f + float4(_camera._world.x, 0.0f, _camera._world.z, 1.0f);
-    _output.posV = mul(_output.posW, _camera._view);
-    _output.posH = mul(_output.posV, _camera._proj);
+    output.posW = float4(input.posL.x, 0.0f, input.posL.y, 0.f) * 100.0f + float4(_camera._world.x, 0.0f, _camera._world.z, 1.0f);
+    output.posV = mul(output.posW, _camera._view);
+    output.posH = mul(output.posV, _camera._proj);
 
-    return _output;
+    return output;
 }
 
 // VSOutput main(uint vertexID : SV_VertexID)

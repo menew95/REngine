@@ -3,14 +3,14 @@
 
 VSOutput main(VSInput input)
 {
-    VSOutput _output;
+    VSOutput output;
 
-    _output.posW = float4(input.posL, 1.0f);
-    _output.posV = mul(_output.posW, _camera._view);
-    _output.posH = mul(float4(input.posL, 1.0f), _camera._worldViewProj);
+    output.posW = float4(input.posL, 1.0f);
+    output.posV = mul(output.posW, _camera._view);
+    output.posH = mul(float4(input.posL, 1.0f), _camera._worldViewProj);
 
-    // _output.posV = mul(_output.posW, _camera._view);
-    // _output.posH = mul(_output.posV, _camera._proj);
+    // output.posV = mul(output.posW, _camera._view);
+    // output.posH = mul(output.posV, _camera._proj);
 
-    return _output;
+    return output;
 }

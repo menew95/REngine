@@ -6,12 +6,12 @@
 
 PSOutput main(VSOutput input)
 {
-	PSOutput _out;
+	PSOutput output;
 
 	// float3 _albedoSample = Albedo(input.uv); 
 
-	// float3 _normalTangentSample = NormalInTangentSpace(input.uv);
-	// float3 _normalWorld = TangentNormalToWorldNormal(input.tangentToWorld, _normalTangentSample);
+	// float3 normalTangentSample = NormalInTangentSpace(input.uv);
+	// float3 _normalWorld = TangentNormalToWorldNormal(input.tangentToWorld, normalTangentSample);
 
 	// float2 _metallicRoughnessSample = MetallicRough(input.uv);
 
@@ -29,21 +29,21 @@ PSOutput main(VSOutput input)
 
 	// _out.Flags = float4(0.f, 0.f, 0.f, 0.f);
 
-	StandardData _data;
-    _data._diffuseColor = Albedo(input.uv); 
-	_data._emissiveColor = Emission(input.uv);
-	_data._metallicRoughness = MetallicRough(input.uv);
+	StandardData data;
+    data._diffuseColor = Albedo(input.uv); 
+	data._emissiveColor = Emission(input.uv);
+	data._metallicRoughness = MetallicRough(input.uv);
 
-	float3 _normalTangentSample = NormalInTangentSpace(input.uv);
-	_data._normalWorld = TangentNormalToWorldNormal(input.tangentToWorld, _normalTangentSample);
-	_data._posVDepth = input.posV.z;
+	float3 normalTangentSample = NormalInTangentSpace(input.uv);
+	data._normalWorld = TangentNormalToWorldNormal(input.tangentToWorld, normalTangentSample);
+	data._posVDepth = input.posV.z;
 
-	_data._worldPosition = input.posW.xyz;
-	_data._ambientOcclussion = AmbeintOcclution(input.uv);
+	data._worldPosition = input.posW.xyz;
+	data._ambientOcclussion = AmbeintOcclution(input.uv);
 
-	_data._flags = float4(0.f, 0.f, 0.f, 0.f);
+	data._flags = float4(_objectID.xy, _renderFlag, 0.f);
 
-	StandardDataToGBuffer(_data, _out.Albedo, _out.Emissive, _out.Normal, _out.World, _out.Flags);
+	StandardDataToGBuffer(data, output.Albedo, output.Emissive, output.Normal, output.World, output.Flags);
 
-	return _out;
+	return output;
 }

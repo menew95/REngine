@@ -3,8 +3,8 @@
 
 float LerpOneTo(float b, float t)
 {
-	float _oneMinus = 1.f - t;
-	return _oneMinus + b * t;
+	float oneMinus = 1.f - t;
+	return oneMinus + b * t;
 }
 
 // world space의 tangent와 normal값으로 TBN 행렬을 생성
@@ -19,12 +19,12 @@ float3x3 CreateTangentToWorldPerVertex(float3 normalW, float3 tangentW)
 // tangent space normal을 world space로 변경
 float3 TangentNormalToWorldNormal(float3 tangentToWorld[3], float3 tangentNormal)
 {
-    float3x3 _TBN = float3x3(tangentToWorld[0], tangentToWorld[1], tangentToWorld[2]);
+    float3x3 TBN = float3x3(tangentToWorld[0], tangentToWorld[1], tangentToWorld[2]);
 
 	// Transform from tangent space to world space.
-	float3 _normalW = mul(tangentNormal, _TBN);
+	float3 normalW = mul(tangentNormal, TBN);
 
-    return _normalW;
+    return normalW;
 }
 
 // [0,1] packing 된 값을 [-1,1]으로 Unpacking

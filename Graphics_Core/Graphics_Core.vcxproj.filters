@@ -99,6 +99,9 @@
     <ClInclude Include="inc\graphics_core\renderpass\IBLRenderPass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\graphics_core\renderpass\ShadowRenderPass.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics_core\GraphicsEngine.cpp">
@@ -161,12 +164,11 @@
     <ClCompile Include="src\graphics_core\renderpass\IBLRenderPass.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\graphics_core\renderpass\ShadowRenderPass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\Assets\bin\shader\PS_Deferred.hlsl" />
-    <FxCompile Include="..\Assets\bin\shader\VS_Mesh.hlsl" />
   </ItemGroup>
 </Project>

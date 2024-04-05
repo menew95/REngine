@@ -1,56 +1,125 @@
-#include "header\H_Math.hlsli"
-
 #if !defined(H_PBR)
 #define H_PBR
 
-float DistributionGGX(float3 N, float3 H, float roughness)
+#include "header\H_Math.hlsli"
+
+float3 CalcIluminance(float lumen)
 {
-    float _a      = roughness * roughness;
-    float _a2     = _a * _a;
-    float _NdotH  = max(dot(N, H), 0.0);
-    float _NdotH2 = _NdotH * _NdotH;
-	
-    float _nom    = _a2;
-    float _denom  = (_NdotH2 * (_a2 - 1.0) + 1.0);
-    _denom        = PI * _denom * _denom;
-	
-    return _nom / _denom;
+    return lumen / PI;
 }
 
-float GeometrySchlickGGX(float NdotV, float roughness)
+float3 FresnelSchlick(float cosTheta, float3 f0)
 {
-    float _r = (roughness + 1.0f);
-    float _k = (_r * _r) / 8.0f;
+	// Schlick
+	// F( N, V ) = F_0 + (1 - F_0) * ( 1 - N · V) ^ 5
+	// F_0 = ( (n_1 - n_2) / (n_1 + n_2) ) ^ 2 => IOR 
+	float s = 1.0 - cosTheta;
 
-    float _num = NdotV;
-    float _denom = NdotV * (1.0f - _k) + _k;
+	float powT = s * s * s * s * s;
 
-    return _num / _denom;
-}
-  
-float GeometrySmith(float N, float3 V, float3 L, float k)
-{
-    float _NdotV = max(dot(N, V), 0.0);
-    float _NdotL = max(dot(N, L), 0.0);
-    float _ggx1 = GeometrySchlickGGX(_NdotV, k);
-    float _ggx2 = GeometrySchlickGGX(_NdotL, k);
-	
-    return _ggx1 * _ggx2;
+	return f0 + (1.0 - f0) * saturate(powT);
 }
 
-float3 fresnelSchlick(float cosTheta, float3 F0)
+// [Heitz 2014, "Understanding the Masking-Shadowing Function in Microfacet-Based BRDFs"]
+float Vis_SmithJoint(float a2, float NoV, float NoL)
 {
-    return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
-}  
+	float Vis_SmithV = NoL * sqrt(NoV * (NoV - NoV * a2) + a2);
+	float Vis_SmithL = NoV * sqrt(NoL * (NoL - NoL * a2) + a2);
+	return 0.5f / max(Vis_SmithV + Vis_SmithL, 1e-5f);
+	return 0.5 * rcp(Vis_SmithV + Vis_SmithL);
+}
 
-float4 BRDF(half3 diffColor, half3 specColor, half oneMinusReflectivity, half smoothness,
-    float3 normal, float3 viewDir)
+float GGX_Distribution(float cosThetaNH, float alpha)
 {
-    float3 _color;
+	float a2 = alpha * alpha;
+	float d = (cosThetaNH * a2 - cosThetaNH) * cosThetaNH + 1.0;
+	return a2 / (d * d * PI);
+}
 
+float3 Diffuse_Lambert(float3 DiffuseColor)
+{
+	return DiffuseColor * (1 / PI);
+}
+
+float3 CookTorrance_GGX(in float roughness2
+	, in float metallic
+	, in float3 specColor
+	, in float3 diffColor
+	, in float NoH
+	, in float NoV
+	, in float NoL
+	, in float HoV)
+{
+    float3 F = FresnelSchlick(HoV, specColor);
+	float G = Vis_SmithJoint(roughness2, NoV, NoL);
+	float D = GGX_Distribution(NoH, roughness2);
+
+	float3 specK = F * G * D;
+
+	float3 kD = 1 - F;
+	kD *= 1 - metallic;
+
+	float3 diffK = Diffuse_Lambert(kD * diffColor);
+
+	return (diffK + specK) * NoL;
+}
+
+///////////////////////////////////unreal//////////////////////////////////////////////////
+
+// Single term for separable Schlick-GGX below.
+float gaSchlickG1(float cosTheta, float k)
+{
+	return cosTheta / (cosTheta * (1.0f - k) + k);
+}
+
+// Schlick-GGX approximation of geometric attenuation function using Smith's method.
+float gaSchlickGGX(float cosLi, float cosLo, float roughness)
+{
+	float r = roughness + 1.0f;
+	float k = (r * r) / 8.0f; // EPBR_PIc suggests using this roughness remapPBR_PIng for analytic lights.
+	return gaSchlickG1(cosLi, k) * gaSchlickG1(cosLo, k);
+}
+
+// Shlick's approximation of the Fresnel factor.
+float3 fresnelSchlick(float3 F0, float cosTheta)
+{
+	return F0 + (1.0f - F0) * pow(1.0f - cosTheta, 5.0f);
+}
+
+// GGX/Towbridge-Reitz normal distribution function.
+// Uses Disney's reparametrization of alpha = roughness^2.
+float ndfGGX(float cosLh, float roughness)
+{
+	float alpha   = roughness * roughness;
+	float alphaSq = alpha * alpha;
+
+	float denom = (cosLh * cosLh) * (alphaSq - 1.0f) + 1.0f;
+
+	return alphaSq / max(PI * denom * denom, EPSILON);
+}
+
+
+float3 Unreal_PBR(
+    in float roughness
+	, in float metallic
+	, in float3 specColor
+	, in float3 albedoColor
+	, in float NdotV
+	, in float NdotL
+	, in float LdotH
+	, in float NdotH
+    )
+{
+    float3 F = fresnelSchlick(specColor, max(0.0f, LdotH));
+    float D = ndfGGX(NdotH, roughness);
+    float G = gaSchlickGGX(NdotL, NdotV, roughness);
+
+    //Epsilon을 넣어도 제대로 max값이 들어오지 않는것같다.. why..
+    float3 specK = (F * D * G) / max(0.0000001f, 4.0 * NdotL * NdotV);
+    //float3 specK = (F) / max(Epsilon, 4.0 * NdotL * NdotV);
     
-
-    return half4(_color, 1);
+    float3 diffK = albedoColor / PI;
+   
+    return diffK + specK;
 }
-
 #endif

@@ -16,12 +16,6 @@ namespace rengine
 		class Impl;
 
 	public:
-		/*Object(); 
-
-		Object(uuid uuid);
-
-		Object(uuid uuid, tstring name);*/
-
 		Object(uuid uuid, tstring name, tstring type);
 
 		Object(const Object& object) = default;
@@ -34,6 +28,8 @@ namespace rengine
 		string GetUUIDStr();
 		void SetUUID(uuid uuid);
 		void SetUUIDStr(string uuid);
+
+		inline uint64 GetHash();
 
 		tstring GetName();
 		string GetNameStr();

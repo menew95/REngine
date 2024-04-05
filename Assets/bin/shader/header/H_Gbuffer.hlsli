@@ -36,23 +36,23 @@ void StandardDataToGBuffer(StandardData data, out float4 GBuffer0, out float4 GB
 
 StandardData StandardDataFronGBuffer(float4 GBuffer0, float4 GBuffer1, float4 GBuffer2, float4 GBuffer3, float4 GBuffer4)
 {
-    StandardData _data;
+    StandardData data;
 
-    _data._diffuseColor = GBuffer0.xyz;
-    _data._metallicRoughness.r = GBuffer0.w;
+    data._diffuseColor = GBuffer0.xyz;
+    data._metallicRoughness.r = GBuffer0.w;
 
-    _data._emissiveColor = GBuffer1.xyz;
-    _data._metallicRoughness.g = GBuffer1.w;
+    data._emissiveColor = GBuffer1.xyz;
+    data._metallicRoughness.g = GBuffer1.w;
 
-    _data._normalWorld = normalize(GBuffer2.xyz * 2.0f - 1.0f);
-    _data._posVDepth = GBuffer2.w;
+    data._normalWorld = normalize(GBuffer2.xyz * 2.0f - 1.0f);
+    data._posVDepth = GBuffer2.w;
 
-    _data._worldPosition = GBuffer3.xyz;
-    _data._ambientOcclussion = GBuffer3.w;
+    data._worldPosition = GBuffer3.xyz;
+    data._ambientOcclussion = GBuffer3.w;
 
-    _data._flags = GBuffer4;
+    data._flags = GBuffer4;
 
-    return _data;
+    return data;
 }
 
 #endif
