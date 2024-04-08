@@ -1,4 +1,5 @@
 ﻿#include <graphics_core\ResourceManager.h>
+#include <graphics_core\LightManager.h>
 
 #include <graphics_module\RenderSystem.h>
 
@@ -82,6 +83,8 @@ namespace graphics
 	void ResourceManager::Initialze(RenderSystem* renderSystem)
 	{
 		m_pRenderSystem = renderSystem;
+
+		LightManager::GetInstance()->Initialize();
 	}
 
 	void ResourceManager::LoadGraphicsResource()
@@ -181,11 +184,13 @@ namespace graphics
 
 	LightBuffer* ResourceManager::CreateLightBuffer(uuid uuid)
 	{
-		auto* _buffer = new LightBuffer();
+		//auto* _buffer = new LightBuffer();
 
-		m_lightBuffers.insert(make_pair(uuid, _buffer));
+		//_buffer->m_uuid = uuid;
 
-		return _buffer;
+		//m_lightBuffers.insert(make_pair(uuid, _buffer));
+
+		return LightManager::GetInstance()->CreateLightBuffer(uuid);
 	}
 
 	bool ResourceManager::RelaseMeshBuffer(uuid uuid)
@@ -210,7 +215,8 @@ namespace graphics
 
 	bool ResourceManager::RelaseLightBuffer(uuid uuid)
 	{
-		return RemoveFromUnorderedMap(m_lightBuffers, uuid);
+		//return RemoveFromUnorderedMap(m_lightBuffers, uuid);
+		return LightManager::GetInstance()->ReleaseLightBuffer(uuid);
 	}
 
 	MeshBuffer* graphics::ResourceManager::GetMeshBuffer(uuid uuid)

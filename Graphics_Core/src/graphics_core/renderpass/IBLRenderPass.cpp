@@ -81,12 +81,7 @@ namespace graphics
 
 	void IBLRenderPass::Excute(CommandBuffer* command)
 	{
-		CreateIntegrateBRDFMap(Renderer::GetInstance()->GetCommandBuffer());
 
-		auto* _texture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
-
-		CreatePreFilteredMap(Renderer::GetInstance()->GetCommandBuffer(), _texture);
-		CreateIrradianceMap(Renderer::GetInstance()->GetCommandBuffer(), _texture);
 	}
 
 	void IBLRenderPass::EndExcute(CommandBuffer* command)

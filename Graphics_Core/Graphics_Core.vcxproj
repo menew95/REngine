@@ -227,6 +227,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\GraphicsEngine_api.h" />
     <ClInclude Include="inc\graphics_core\GraphicsEngineFlags.h" />
     <ClInclude Include="inc\graphics_core\Graphics_core_dllexport.h" />
+    <ClInclude Include="inc\graphics_core\LightManager.h" />
     <ClInclude Include="inc\graphics_core\object\MeshObject.h" />
     <ClInclude Include="inc\graphics_core\object\ParticleObject.h" />
     <ClInclude Include="inc\graphics_core\object\RenderObject.h" />
@@ -254,6 +255,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\renderpass\ShadowRenderPass.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\graphics_core\LightManager.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\DeferredLightPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\IBLRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\ShadowRenderPass.cpp" />

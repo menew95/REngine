@@ -84,6 +84,10 @@ namespace graphics
         inline uint32 GetResolution() const { return static_cast<uint32>(m_shadowInfo._resolution); }
         GRAPHICS_API void SetResolution(uint32 value);
 
+        const LightInfo& GetLightInfo() { return m_lightInfo; }
+
+        const ShadowInfo& GetShadowInfo() { return m_shadowInfo; }
+
     private:
         void CreateRenderTarget();
 
