@@ -9,15 +9,17 @@ cbuffer PerFrame : register(b0)
     Camera _camera;
     PostProcess _postProcess;
 
-    Light _light[MAX_LIGHT_CNT];
+    Light _light[1];
     int _lightCnt;
-};
+
+    CascadeShadow _shadow;
+}
 
 cbuffer PerObject : register(b1)
 {
     float2 _objectID;
     float _renderFlag;
-    float _offset; // �ż��� �߰�. PaperBurn �� ���� Offset��.
+    float _renderFlag2;
     matrix _world;
     matrix _worldInvTranspose;
 }

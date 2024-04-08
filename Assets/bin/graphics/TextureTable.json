@@ -68,5 +68,35 @@
     "ArrayLayers": 1,
     "MipLevels": 1,
     "Samples": 1
+  },
+  {
+    "UUID": "BRDFLookUpTable",
+    "TextureType": "Texture2D",
+    "BindFlags": [ "ShaderResource", "RenderTarget" ],
+    "Format": "R32G32B32A32_FLOAT",
+    "Extend": [ 512, 512 ],
+    "ArrayLayers": 1,
+    "MipLevels": 1,
+    "Samples": 1
+  },
+  {
+    "UUID": "IrradianceMap",
+    "TextureType": "TextureCube",
+    "BindFlags": [ "ShaderResource", "RenderTarget" ],
+    "Format": "R32G32B32A32_FLOAT",
+    "Extend": [ 512, 512 ],
+    "ArrayLayers": 6,
+    "MipLevels": 1,
+    "Samples": 1
+  },
+  {
+    "UUID": "PreFilteredMap",
+    "TextureType": "TextureCube",
+    "BindFlags": [ "ShaderResource", "RenderTarget" ],
+    "Format": "R32G32B32A32_FLOAT",
+    "Extend": [ 512, 512 ],
+    "ArrayLayers": 6,
+    "MipLevels": 5,
+    "Samples": 1
   }
 ]

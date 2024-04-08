@@ -39,7 +39,7 @@ namespace graphics
 
 		m_pDebugMesh = new MeshObject(TEXT("Grid Object"));
 
-		m_pDebugMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-200000000000")));
+		m_pDebugMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 
 		m_renderObjects.push_back(m_pDebugMesh);
 

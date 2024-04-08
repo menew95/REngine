@@ -34,5 +34,32 @@
     "StencilDesc": "NoDepth",
     "RasterizerDesc": "NoCull",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "IBL_BRDF",
+    "ShaderProgram": "IBL_BRDF",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "IBL_Irradiance",
+    "ShaderProgram": "IBL_Irradiance",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "IBL_Radiance",
+    "ShaderProgram": "IBL_Radiance",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
   }
 ]

@@ -1,6 +1,7 @@
 ﻿#include "dx11_module_pch.h"
 
 #include "dx11_module\DX11Texture.h"
+#include "dx11_module\DX11RenderTarget.h"
 #include "dx11_module\Direct3D11.h"
 #include "dx11_module\DX11Type.h"
 #include "dx11_module\DX11Utilitys.h"
@@ -52,6 +53,50 @@ namespace graphics
 
 		}
 
+		bool DX11Texture::SetResolution(ID3D11Device* device, const Vector3& resolution)
+		{
+			m_TextureDesc._extend._width = static_cast<uint32>(floor(resolution.x));
+			m_TextureDesc._extend._height = static_cast<uint32>(floor(resolution.y));
+			m_TextureDesc._extend._depth = static_cast<uint32>(floor(resolution.z));
+
+			switch (m_TextureDesc._textureType)
+			{
+				case TextureType::Texture1D:
+				case TextureType::Texture1DArray:
+				{
+					CreateTexture1D(device, m_TextureDesc);
+				}
+				case TextureType::Texture2D:
+				case TextureType::Texture2DArray:
+				case TextureType::TextureCube:
+				case TextureType::TextureCubeArray:
+				case TextureType::Texture2DMS:
+				case TextureType::Texture2DMSArray:
+				{
+					CreateTexture2D(device, m_TextureDesc);
+					break;
+				}
+				case TextureType::Texture3D:
+				{
+					CreateTexture3D(device, m_TextureDesc);
+					break;
+				}
+				default:
+				{
+					assert(false);
+					break;
+				}
+			}
+
+			// 이 텍스처로 렌더 타겟을 만들 었다면 렌더타겟들 또한 새로운 해상도로 만듭니다.
+			for (auto rtv : m_rtvs)
+			{
+				rtv->SetResolution(device, this, resolution);
+			}
+
+			return true;
+		}
+
 		uint32 DX11Texture::GetTextureMiscFlags(const TextureDesc& desc)
 		{
 			UINT flagsD3D = 0;
@@ -68,6 +113,11 @@ namespace graphics
 				flagsD3D |= D3D11_RESOURCE_MISC_TEXTURECUBE;
 
 			return flagsD3D;
+		}
+
+		const Extent3D& DX11Texture::GetResolution()
+		{
+			return m_TextureDesc._extend;
 		}
 
 		void DX11Texture::CreateTexture1D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData /*= nullptr*/)
@@ -132,6 +182,20 @@ namespace graphics
 			SetResourceParams(_desc.Format, Extent3D{ _desc.Width, _desc.Height, _desc.Depth }, _desc.MipLevels, 1);
 
 			CreateDefaultResourceViews(device, desc._bindFlags);
+		}
+
+		void DX11Texture::CreateRenderTarget(DX11RenderTarget* rtv)
+		{
+			m_rtvs.emplace_back(rtv);
+		}
+
+		void DX11Texture::DeleteRenderTarget(DX11RenderTarget* rtv)
+		{
+			auto _iter = find(begin(m_rtvs), end(m_rtvs), rtv);
+
+			if (_iter != m_rtvs.end())
+				m_rtvs.erase(_iter);
+			else assert(false); // 이 텍스처로 렌더 타겟을 만들어지 않았는데 잘못 들어옴
 		}
 
 		void DX11Texture::CreateDefaultResourceViews(ID3D11Device* device, long bindFlags)

@@ -1,7 +1,7 @@
 ﻿[
   {
     "UUID": "PerFrame",
-    "Size": 512,
+    "Size": 912,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
     "Slot": 0

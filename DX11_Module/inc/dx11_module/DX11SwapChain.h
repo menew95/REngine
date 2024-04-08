@@ -44,17 +44,20 @@ namespace graphics
 
 			bool SwitchFullscreen(bool enable) override;
 
-
 			// Binds the framebuffer view of this swap-chain and stores a references to this command buffer.
 			void BindFramebufferView(DX11CommandBuffer* commandBuffer);
 
 			void SetName(const char* name) override;
+
+			math::Vector2 GetResolution() override;
 
 		private:
 			void ResizeBackBuffer(const Extent2D& resolution);
 			// Create SwapChain
 			void CreateSwapChain(IDXGIFactory* factory, ID3D11Device* device, const SwapChainDesc& desc);
 			void CreateBackBuffer();
+
+			SwapChainDesc m_desc;
 
 			ID3D11Device* m_Device;
 

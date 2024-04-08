@@ -41,6 +41,10 @@ namespace graphics
 
 			void SetName(const char* name) override;
 
+			math::Vector2 GetResolution() override;
+
+			void SetResolution(ID3D11Device* device, DX11Texture* texture, const math::Vector3& resolution);
+
 		private:
 			void CreateRenderTarget(ID3D11Device* device, const RenderTargetDesc& desc);
 			void CreateRenderTargetView(ID3D11Device* device, const AttachmentDesc& desc);

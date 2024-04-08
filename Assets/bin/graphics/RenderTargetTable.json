@@ -1,55 +1,92 @@
 ﻿[
   {
     "UUID": "MainFrame",
+    "Extent": [ 1280, 720 ],
     "AttachmentsCount": 1,
     "RenderTargetType": "RenderTarget",
     "ResourceID": "MainFrame",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
     "UUID": "Deferred",
+    "Extent": [ 1280, 720 ],
     "AttachmentsCount": 6,
     "RenderTargetType": "RenderTarget",
     "ResourceID": "Albedo",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
+    "Extent": [ 1280, 720 ],
     "RenderTargetType": "RenderTarget",
     "ResourceID": "Emissive",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
+    "Extent": [ 1280, 720 ],
     "RenderTargetType": "RenderTarget",
     "ResourceID": "Normal",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
+    "Extent": [ 1280, 720 ],
     "RenderTargetType": "RenderTarget",
     "ResourceID": "World",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
+    "Extent": [ 1280, 720 ],
     "RenderTargetType": "RenderTarget",
     "ResourceID": "Flag",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
   },
   {
+    "Extent": [ 1280, 720 ],
     "RenderTargetType": "DepthStencil",
     "ResourceID": "Depth",
-    "ArrayLayer": 1,
+    "ArrayLayer": 0,
     "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "UUID": "BRDFLookUpTable",
+    "Extent": [ 512, 512 ],
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "BRDFLookUpTable",
+    "ArrayLayer": 0,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "UUID": "IrradianceMap",
+    "Extent": [ 512, 512 ],
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "IrradianceMap",
+    "ArrayLayer": 0,
+    "ArraySize": 6,
+    "MipLevel": 0
+  },
+  {
+    "UUID": "PreFilteredMap",
+    "Extent": [ 512, 512 ],
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "PreFilteredMap",
+    "ArrayLayer": 0,
+    "ArraySize": 6,
     "MipLevel": 0
   }
 ]

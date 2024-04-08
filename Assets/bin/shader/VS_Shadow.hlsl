@@ -1,13 +1,21 @@
 #include "header\H_Input.hlsli"
 #include "header\H_Const.hlsli"
 
-void main(VSInput input, out float4 posH : SV_Position)
+struct VSShadowOutput
 {
+    float4 posH : SV_POSITION;
+    float2 uv : TEXCOORD0;
+};
+
+VSShadowOutput main(VSInput input)
+{
+    VSShadowOutput output;
+
 #if !defined(SKIN)
 
     float4 world = mul(float4(input.posL, 1.0f), _world);
     float4 view = mul(_world, _camera._view);
-    posH = mul(view, _camera._proj);
+    output.posH = mul(view, _camera._proj);
 
 #else   //SKIN
 
@@ -24,7 +32,10 @@ void main(VSInput input, out float4 posH : SV_Position)
 
     float4 world = mul(float4(_posL, 1.0f), _world);
     float4 view = mul(_world, _camera._view);
-    posH = mul(view, _camera._proj);
+    output.posH = mul(view, _camera._proj);
 
 #endif
+    output.uv = input.uv;
+
+    return output;
 }

@@ -1,20 +1,16 @@
-struct VSInput
-{
-	float3 posL		: POSITION;
-	float2 uv		: TEXCOORD0;
-};
+#include "header\H_Input.hlsli"
 
-struct VSOutput
+struct VSIBLOutput
 {
 	float4 posW		: SV_POSITION;
 	float2 uv		: TEXCOORD0;
 };
 
-VSOutput main(VSInput input)
+VSIBLOutput main(VSInput input)
 {
-	VSOutput output;
+	VSIBLOutput output;
 	
-	output.posW = float4(input.posL, 1.0f);
+	output.posW = float4(input.posL * 2, 1.0f);
 	output.uv = input.uv;
 
 	return output;

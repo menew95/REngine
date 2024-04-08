@@ -50,6 +50,8 @@ namespace graphics
 				return m_ShaderResourceView.Get();
 			}
 
+			bool SetResolution(ID3D11Device* device, const Vector3& resolution);
+
 			inline const DX11NativeTexture& GetNativeTexture() const { return m_NativeTexture; }
 			inline const ID3D11Resource* GetResource() const { return m_NativeTexture._resource.Get(); }
 			inline ID3D11ShaderResourceView* GetSRV() const { return m_ShaderResourceView.Get(); }
@@ -57,6 +59,8 @@ namespace graphics
 
 			inline auto& GetDesc() { return m_TextureDesc; }
 			TextureType GetType() const { return m_TextureDesc._textureType; }
+
+			const Extent3D& GetResolution() override;
 
 			void CreateTexture1D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
 			void CreateTexture2D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
@@ -132,6 +136,18 @@ namespace graphics
 				return m_NumArrayLayers;
 			}
 
+			/**
+			    @brief 이 텍스처로부터 렌더 타겟을 만들면 캐싱함
+			    @param rtv - 만들어진 렌더 타겟
+			**/
+			void CreateRenderTarget(class DX11RenderTarget* rtv);
+
+			/**
+			    @brief 이 텍스처로부터 만들어진 렌더 타겟이 삭제되면 캐싱한 내역을 삭제
+			    @param rtv - 삭제된 렌더 타겟
+			**/
+			void DeleteRenderTarget(class DX11RenderTarget* rtv);
+
 		private:
 			void CreateDefaultResourceViews(ID3D11Device* device, long bindFlags);
 			void CreateDefaultSRV(ID3D11Device* device);
@@ -156,6 +172,8 @@ namespace graphics
 			DXGI_FORMAT m_Format;
 			uint32      m_NumMipLevels = 0;
 			uint32      m_NumArrayLayers = 0;
+
+			vector<class DX11RenderTarget*> m_rtvs;
 		};
 	}
 }

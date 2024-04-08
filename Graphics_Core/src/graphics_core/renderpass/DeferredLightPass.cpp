@@ -44,10 +44,14 @@ namespace graphics
 		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture2"), ResourceManager::GetInstance()->GetTexture(TEXT("World")));
 		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture3"), ResourceManager::GetInstance()->GetTexture(TEXT("Emissive")));
 		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture4"), ResourceManager::GetInstance()->GetTexture(TEXT("Flag")));
-
+		
+		m_pMatBuffer->SetTexture(TEXT("gPreFilteredMap"), ResourceManager::GetInstance()->GetTexture(TEXT("PreFilteredMap")));
+		m_pMatBuffer->SetTexture(TEXT("gIrradianceMap"), ResourceManager::GetInstance()->GetTexture(TEXT("IrradianceMap")));
+		m_pMatBuffer->SetTexture(TEXT("gIntegrateBRDFMap"), ResourceManager::GetInstance()->GetTexture(TEXT("BRDFLookUpTable")));
+		
 		m_pScreenMesh = new MeshObject(TEXT("SkyBox Object"));
 
-		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("Screen")));
+		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 	}
 	
 	void DeferredLightPass::Bind(CommandBuffer* command)
@@ -71,10 +75,13 @@ namespace graphics
 		m_pMatBuffer->BindResource(command);
 
 		Renderer::GetInstance()->RenderMesh(m_pScreenMesh, 0);
+
 	}
 	
 	void DeferredLightPass::EndExcute(CommandBuffer* command)
 	{
 		__super::EndExcute(command);
+		
+		command->ClearState();
 	}
 }

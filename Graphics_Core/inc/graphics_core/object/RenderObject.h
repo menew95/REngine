@@ -53,8 +53,8 @@ namespace graphics
     struct PerObject
     {
         math::Vector2 _objID;
-        float _flags;
-        float _padding;
+        float _flags = 0;
+        float _flags2 = 0;
         math::Matrix _world = math::Matrix::Identity;
         math::Matrix _worldInv = math::Matrix::Identity;
     };

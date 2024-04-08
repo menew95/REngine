@@ -42,5 +42,23 @@
     "StageFlags": [ "PS" ],
     "Slot": 1,
     "ArraySize": 1
+  },
+  {
+    "UUID": "IBL_Irradiance",
+    "Count": 1,
+    "Description": "WrapLinear",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
+  },
+  {
+    "UUID": "IBL_Radiance",
+    "Count": 1,
+    "Description": "WrapLinear",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
   }
 ]

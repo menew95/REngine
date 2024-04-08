@@ -1,6 +1,6 @@
 ﻿[
   {
-    "UUID": "00000000-0000-0000-1000-000000000000",
+    "UUID": "00000000-0000-0000-0001-000000000000",
     "ShaderType": "Vertex",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\VS_Mesh.hlsl",
@@ -9,7 +9,7 @@
     "Profile": "vs_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-2000-000000000000",
+    "UUID": "00000000-0000-0000-0002-000000000000",
     "ShaderType": "Vertex",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\VS_SkyBox.hlsl",
@@ -18,7 +18,7 @@
     "Profile": "vs_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-3000-000000000000",
+    "UUID": "00000000-0000-0000-0003-000000000000",
     "ShaderType": "Pixel",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\PS_SkyBox.hlsl",
@@ -27,7 +27,7 @@
     "Profile": "ps_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-4000-000000000000",
+    "UUID": "00000000-0000-0000-0004-000000000000",
     "ShaderType": "Vertex",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\VS_Grid.hlsl",
@@ -36,7 +36,7 @@
     "Profile": "vs_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-5000-000000000000",
+    "UUID": "00000000-0000-0000-0005-000000000000",
     "ShaderType": "Pixel",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\PS_Grid.hlsl",
@@ -45,7 +45,7 @@
     "Profile": "ps_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-6000-000000000000",
+    "UUID": "00000000-0000-0000-0006-000000000000",
     "ShaderType": "Pixel",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\PS_Deferred.hlsl",
@@ -54,7 +54,7 @@
     "Profile": "ps_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-7000-000000000000",
+    "UUID": "00000000-0000-0000-0007-000000000000",
     "ShaderType": "Vertex",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\VS_Mesh.hlsl",
@@ -64,10 +64,46 @@
     "Defines": [ "SCREEN", "" ]
   },
   {
-    "UUID": "00000000-0000-0000-8000-000000000000",
+    "UUID": "00000000-0000-0000-0008-000000000000",
     "ShaderType": "Pixel",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\PS_DeferredLight.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0009-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\VS_IBL.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "vs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0010-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_BRDFLookUpTable.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0011-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_IrradianceMap.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0012-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_PreFilteredMap.hlsl",
     "SourceSize": 0,
     "EntryPoint": "main",
     "Profile": "ps_5_0"

@@ -13,36 +13,36 @@ static const uint AreaRect = 4u;
 
 struct Light // 1 + 1 + 1 + 1 + 1 + 1 + 4 * 6 = 30 ... 30 * 30 = 900
 {
-    uint Type; 
-    float3 Direction;
+    uint _type; 
+    float3 _direction;
     
-    float3 Position;
-    float AttenuationRadius;
+    float3 _position;
+    float _attenuationRadius;
     
-    float3 Color;
-    float Intensity;
+    float3 _color;
+    float _intensity;
   
-    float Angle;
-    float InnerAngle;
-    float FallOffExponential;
-    float Width;
+    float _angle;
+    float _innerAngle;
+    float _fallOffExponential;
+    float _width;
 
-    float3 Up;
-    float Height;
+    float3 _up;
+    float _height;
 
-    int staticShadowMapIdx;
-    int dynamicShadowMapIdx;
-    uint ShadowState;
-    int pad;
+    int _staticShadowMapIdx;
+    int _dynamicShadowMapIdx;
+    uint _shadowState;
+    int _pad;
 
-    matrix ShadowMatrix[6]; 
+    matrix _shadowMatrix[6]; 
 };
 
 struct CascadeShadow //18
 {
-    matrix Shadow[4]; // 4 * 4 
-    float4 CascadeOffset; 
-    float4 CascadeScale;
+    matrix _shadowTransform[4]; // 4 * 4 
+    float4 _cascadeOffset; 
+    float4 _cascadeScale;
 };
 
 float4 ComputePBRDirectionalLight
@@ -56,7 +56,7 @@ float4 ComputePBRDirectionalLight
     //, in float metallic
     )
 {
-    float3 light = normalize(-DL.Direction);
+    float3 light = normalize(-DL._direction);
     float NdotL = saturate(dot(data._normalWorld, light));
 
     float3 halfVec = normalize(eyeVec + light);
@@ -69,7 +69,7 @@ float4 ComputePBRDirectionalLight
     float3 retColor = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
     //float3 retColor = CookTorrance_GGX(roughness, metallic, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
        
-    float3 radiance = DL.Intensity * DL.Color * NdotL;
+    float3 radiance = DL._intensity * DL._color * NdotL;
   
     float4 litColor = float4(retColor * radiance, 1.f);
 
@@ -91,10 +91,10 @@ float4  ComputePBRSpotLight
 {
     float4 litColor = { 0.f, 0.f, 0.f, 0.f };
     
-    float3 PtoL = SL.Position - data._worldPosition;
+    float3 PtoL = SL._position - data._worldPosition;
     float dist = length(PtoL);
     float3 light = normalize(PtoL);
-    float3 lightDirection = normalize(SL.Direction);
+    float3 lightDirection = normalize(SL._direction);
     
     float3 halfVec = normalize(eyeVec + light);
     float NdotL = saturate(dot(data._normalWorld, light));
@@ -105,19 +105,19 @@ float4  ComputePBRSpotLight
 
     float3 retColor = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
        
-    float3 radiance = CalcIluminance(SL.Intensity);
+    float3 radiance = CalcIluminance(SL._intensity);
 
     //distance Attenuation
     float sqrDist = max(pow(dist, 2), EPSILON);
-    float sqrRange = max(pow(SL.AttenuationRadius, 2), EPSILON);
+    float sqrRange = max(pow(SL._attenuationRadius, 2), EPSILON);
 
     //unity URP?
     float distanceAttenuation = 1.0f / sqrDist;
     float rangeAttenuation =  pow(saturate(1.0f - pow(sqrDist / sqrRange, 2)), 2.f);
     
     //Angle Att
-    float innerCos = cos(SL.InnerAngle * 0.5f);
-    float outerCos = cos(SL.Angle * 0.5f);
+    float innerCos = cos(SL._innerAngle * 0.5f);
+    float outerCos = cos(SL._angle * 0.5f);
 
     float angleRangeInv = 1.f / max(innerCos - outerCos, EPSILON);
     float angleRangeInv2 = -outerCos * angleRangeInv;
@@ -127,7 +127,7 @@ float4  ComputePBRSpotLight
     float attenuationFactor = angleAttenuation * rangeAttenuation * distanceAttenuation;
     
     litColor = float4(retColor, 1.f);
-    litColor.xyz *= SL.Color * NdotL * radiance * attenuationFactor;
+    litColor.xyz *= SL._color * NdotL * radiance * attenuationFactor;
     
     return litColor;
 }
@@ -144,7 +144,7 @@ float4 ComputePBRPointLight
     //, in float3 position
     )
 {
-    float3 lightVector = PL.Position - data._worldPosition;
+    float3 lightVector = PL._position - data._worldPosition;
     
     float dist = length(lightVector);
     float3 light = normalize(lightVector);
@@ -158,11 +158,11 @@ float4 ComputePBRPointLight
     float3 retColor = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
     
     // //why divide 4 : light radiance iluminance divide PI
-    float3 radiance = (CalcIluminance(PL.Intensity) / 4) ;
+    float3 radiance = (CalcIluminance(PL._intensity) / 4) ;
 
     //distance Attenuation
     float sqrDist = max(pow(dist, 2), EPSILON);
-    float sqrRange = max(pow(PL.AttenuationRadius, 2), EPSILON);
+    float sqrRange = max(pow(PL._attenuationRadius, 2), EPSILON);
 
     //unity URP?
     float distanceAttenuation = 1.0f / sqrDist;
@@ -174,16 +174,16 @@ float4 ComputePBRPointLight
     //float attenuationFactor =  1.0f / (1.0f + sqrDist / sqrRange);
 
     float4 litColor = float4(retColor, 1.f);
-    litColor.xyz *= PL.Color * NdotL  * attenuationFactor *  radiance;
+    litColor.xyz *= PL._color * NdotL  * attenuationFactor *  radiance;
     //litColor.xyz *=  attenuationFactor * radiance;
     
     return litColor;
 }
 
- float rightPyramidSolidAngle ( float dist , float halfWidth , float halfHeight )
+ float rightPyramidSolidAngle ( float dist , float halfWidth , float half_height )
 {
     float a = halfWidth ;
-    float b = halfHeight ;
+    float b = half_height ;
     float h = dist ;
     return 4 * asin (a * b / sqrt (( a * a + h * h) * (b * b + h * h) ));
 }
@@ -236,7 +236,7 @@ in float3 planeOrigin , in float3 planeNormal )
  // Return the closest point to a rectangular shape defined by two vectors
  // left and up
  float3 closestPointRect (in float3 pos , in float3 planeOrigin , in float3 left , in float3 up , in
-float halfWidth , in float halfHeight )
+float halfWidth , in float half_height )
 {
     float3 dir = pos - planeOrigin ;
     // - Project in 2D plane ( forward is the light direction away from
@@ -244,16 +244,16 @@ float halfWidth , in float halfHeight )
     // - Clamp inside the rectangle
     // - Calculate new world position
     float2 dist2D = float2 (dot ( dir , left ) , dot ( dir , up ));
-    float rectHalfSize = float2 ( halfWidth , halfHeight ) ;
+    float rectHalfSize = float2 ( halfWidth , half_height ) ;
     dist2D = clamp ( dist2D , - rectHalfSize , rectHalfSize );
     return planeOrigin + dist2D .x * left + dist2D .y * up ;
 }
 
 
-float GetRectAttenuationFactor(float lightWidth, float lightHeight, float3 up, float3 dir, float3 lightPos, float3 worldPos, float3 worldNormal, float angle)
+float GetRectAttenuationFactor(float lightWidth, float light_height, float3 up, float3 dir, float3 lightPos, float3 worldPos, float3 worldNormal, float angle)
 {
     float halfWidth = lightWidth * 0.5;
-    float halfHeight = lightHeight * 0.5;
+    float half_height = light_height * 0.5;
 
     float3 lightRight = normalize(cross(up, dir));
 
@@ -265,12 +265,12 @@ float GetRectAttenuationFactor(float lightWidth, float lightHeight, float3 up, f
     float3 dh = normalize ( d0 + d1 );
     
     float ph = rayPlaneIntersect ( worldPos , dh , lightPos , dir ) ;
-    ph = closestPointRect (ph ,lightPos ,lightRight ,up ,halfWidth ,halfHeight );
+    ph = closestPointRect (ph ,lightPos ,lightRight ,up ,halfWidth ,half_height );
 
-    float3 p0 = lightPos + lightRight * +halfWidth + up * +halfHeight ;
-    float3 p1 = lightPos + lightRight * +halfWidth + up * -halfHeight ;
-    float3 p2 = lightPos + lightRight * -halfWidth + up * -halfHeight ;
-    float3 p3 = lightPos + lightRight * -halfWidth + up * +halfHeight ;
+    float3 p0 = lightPos + lightRight * +halfWidth + up * +half_height ;
+    float3 p1 = lightPos + lightRight * +halfWidth + up * -half_height ;
+    float3 p2 = lightPos + lightRight * -halfWidth + up * -half_height ;
+    float3 p3 = lightPos + lightRight * -halfWidth + up * +half_height ;
 
 
     float solidAngle = rectangleSolidAngle ( worldPos , p0 , p1 , p2 , p3 );
@@ -303,18 +303,18 @@ float4 ComputePBRAreaRectLight
     , in float3 position*/
     )
 {
-    float width = ARL.Width;
-    float height = ARL.Height;
+    float width = ARL._width;
+    float _height = ARL._height;
 
     float4 litColor = { 0.f, 0.f, 0.f, 0.f };
 
-    if(dot(normalize(data._worldPosition - ARL.Position), ARL.Direction) <= 0.001f)
+    if(dot(normalize(data._worldPosition - ARL._position), ARL._direction) <= 0.001f)
         return litColor;
 
-    float3 PtoL = ARL.Position - data._worldPosition;
+    float3 PtoL = ARL._position - data._worldPosition;
     float dist = length(PtoL);
     float3 light = normalize(PtoL);
-    float3 lightDirection = normalize(ARL.Direction);
+    float3 lightDirection = normalize(ARL._direction);
     
     float3 halfVec = normalize(eyeVec + light);
     float NdotL = saturate(dot(data._normalWorld, light));
@@ -325,23 +325,23 @@ float4 ComputePBRAreaRectLight
 
     float3 retColor = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
        
-    float3 radiance = CalcIluminance(ARL.Intensity);
+    float3 radiance = CalcIluminance(ARL._intensity);
 
     //distance Attenuation
     float sqrDist = max(pow(dist, 2), EPSILON);
-    float sqrRange = max(pow(ARL.AttenuationRadius, 2), EPSILON);
+    float sqrRange = max(pow(ARL._attenuationRadius, 2), EPSILON);
 
     //unity URP?
     float distanceAttenuation = 1.0f / sqrDist;
     float rangeAttenuation =  pow(saturate(1.0f - pow(sqrDist / sqrRange, 2)), 2.f);
     
     //Angle Att
-    float angleAttenuation = GetRectAttenuationFactor(width, height, ARL.Up, ARL.Direction, ARL.Position, data._worldPosition, data._normalWorld, ARL.Angle);
+    float angleAttenuation = GetRectAttenuationFactor(width, _height, ARL._up, ARL._direction, ARL._position, data._worldPosition, data._normalWorld, ARL._angle);
 
     float attenuationFactor = angleAttenuation* rangeAttenuation * distanceAttenuation;
     
     litColor = float4(retColor, 1.f);
-    litColor.xyz *= ARL.Color * NdotL * radiance * attenuationFactor;
+    litColor.xyz *= ARL._color * NdotL * radiance * attenuationFactor;
     
     return litColor;
 }

@@ -14,7 +14,9 @@
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
 #include <graphics_core\renderpass\DeferredRenderPass.h>
 #include <graphics_core\renderpass\DeferredLightPass.h>
+#include <graphics_core\renderpass\ShadowRenderPass.h>
 #include <graphics_core\renderpass\GridRenderPass.h>
+#include <graphics_core\renderpass\IBLRenderPass.h>
 
 template <typename T>
 bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, uuid uuid)
@@ -108,6 +110,18 @@ namespace graphics
 			auto _renderPass = new GridRenderPass();
 
 			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new ShadowRenderPass();
+
+			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new IBLRenderPass();
+
+			m_renderPassMap.insert(make_pair(TEXT("IBL Pass"), _renderPass));
 		}
 
 		TextureBuffer::CreateDefaultTextureBuffer();

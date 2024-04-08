@@ -54,23 +54,32 @@ float3 CalcIBL(float3 V, float3 N, float3 albedo, float3 F0, float roughness, fl
 	float3 ambient = (kD * diffuse + specular) * ao;
 
 	return ambient;
+}
 
-	/*
-	//Diffuse IBL
-    _color.xyz += c_diff * diffuseIrradiance * 0.2f;
+float3 IBL(
+    in StandardData data
+    , in float3 specularColor
+	, in float3 albedoColor
+    , in float3 eyeVec
+)
+{
+	float3 diffuseIrradiance = gIrradianceMap.Sample(gSamWrapLinear, data._normalWorld).xyz;
+
+    //Diffuse IBL
+    float3 diffuseIBL =  albedoColor * diffuseIrradiance;
 
     //Specular IBL
     const float MAX_REFLECTION_LOD = 4.0; // 0~3, 4개의 밉맵 존재합니다.
-    float mipLevel = roughness * MAX_REFLECTION_LOD;
-    float3 R = reflect(-eyeVec, normal.xyz);
+    float mipLevel = data._metallicRoughness.g * MAX_REFLECTION_LOD;
+    float3 R = reflect(-eyeVec, data._normalWorld.xyz);
 
-    float3 prefilteredColor = g_PreFilteredMap.SampleLevel(g_samTriLinear, normalize(R).xyz, mipLevel).rgb;
-    float NdotV = dot(normal.xyz, eyeVec);
-    float2 BRDF = g_BRDFLookUpTable.Sample(g_samLinearClamp, float2(max(NdotV, 0.f), roughness)).rg;
+    float3 prefilteredColor = gPreFilteredMap.SampleLevel(gSamWrapLinear, normalize(R).xyz, mipLevel).rgb;
+    float NdotV = dot(data._normalWorld.xyz, eyeVec);
+    float2 BRDF = gIntegrateBRDFMap.Sample(gSamWrapLinear, float2(max(NdotV, 0.f), data._metallicRoughness.g)).rg;
 
-    float3 _specularIBL = prefilteredColor * (c_spec * BRDF.x + BRDF.y);
+    float3 specularIBL = prefilteredColor * (specularColor * BRDF.x + BRDF.y);
 
-	*/
+    return (diffuseIBL + specularIBL) * data._ambientOcclussion;
 }
 
 float4 main(VSOutput input) : SV_TARGET
@@ -99,7 +108,7 @@ float4 main(VSOutput input) : SV_TARGET
 	[unroll]
     for (uint lightIdx = 0; lightIdx < _lightCnt; lightIdx++)
     {
-            if (_light[lightIdx].Type == Directional)
+        if (_light[lightIdx]._type == Directional)
         {
             //float shadows = 1.0f;
 
@@ -113,7 +122,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 			color += ComputePBRDirectionalLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx].Type == Point)
+        else if (_light[lightIdx]._type == Point)
         {
             //float shadows = 1.0f;
 
@@ -126,7 +135,7 @@ float4 main(VSOutput input) : SV_TARGET
 			
 			color += ComputePBRPointLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx].Type  == Spot)
+        else if (_light[lightIdx]._type  == Spot)
         {
             //float shadows = 1.0f;
             //int idx = asint(lightIdx);
@@ -137,7 +146,7 @@ float4 main(VSOutput input) : SV_TARGET
 			
 			color += ComputePBRSpotLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx].Type == AreaRect)
+        else if (_light[lightIdx]._type == AreaRect)
         {
             //float shadows = 1.0f;
 
@@ -149,7 +158,17 @@ float4 main(VSOutput input) : SV_TARGET
         }
     }
 
-	float4 _color = float4(0.f, 0.f, 0.f, 0.f);
+    color.xyz += IBL(data, c_spec, c_diff, eyeVec);
+    
+    // Output.xyz += specularIBL * 0.2f;
 
-	return _color;
+    // // AO
+    // Output.xyz *= pow(metallicRoughnessAOSpecular.z * g_SSAO.Load(int3(Input.Position.xy, 0)).r, g_AOPower);
+    // //이후 Emissive
+    // Output.xyz += emissiveColor.xyz * (emissiveColor.w * 255);
+
+    // //Set Alpha
+    // Output.w = albedo.w;
+
+	return color;
 }

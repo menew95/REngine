@@ -23,7 +23,10 @@ namespace graphics
 	class ResourceManager;
 
 	class MaterialBuffer;
+	class TextureBuffer;
 	class MeshBuffer;
+
+	class Buffer;
 
 	class IBLRenderPass : public RenderPass
 	{
@@ -45,15 +48,59 @@ namespace graphics
 
 		void EndExcute(class CommandBuffer* command) override;
 
-		void CreatePreFilteredMap();
+		/**
+		    @brief brdf look up table texture를 생성
+		    @param command - command buffer
+		**/
+		void CreateIntegrateBRDFMap(CommandBuffer* command);
 
-		void CreateIrradianceMap();
+		/**
+		    @brief 사전 필터링 된 환경 맵를 생성
+		    @param command       - command buffer
+		    @param textureBuffer - 큐브맵 텍스처 리소스
+		**/
+		void CreatePreFilteredMap(CommandBuffer* command, TextureBuffer* textureBuffer);
+		
+		/**
+		    @brief 사전 필터링 된 환경 맵를 생성
+		    @param command       - command buffer
+		    @param textureBuffer - 큐브맵 텍스처 리소스
+		    @param renderTarget  - 생성할 큐브맵 렌더 타겟
+		**/
+		//void CreatePreFilteredMapToRenderTarget(CommandBuffer* command, TextureBuffer* textureBuffer, RenderTarget* renderTarget);
 
-		void CreateIntegrateBRDFMap();
+		/**
+			@brief조도 맵을 생성
+			@param command       - command buffer
+			@param textureBuffer - 큐브맵 텍스처 리소스
+		**/
+		void CreateIrradianceMap(CommandBuffer* command, TextureBuffer* textureBuffer);
+		
+		/**
+			@brief 조도 맵을 생성
+			@param command       - command buffer
+			@param textureBuffer - 큐브맵 텍스처 리소스
+			@param renderTarget  - 생성할 큐브맵 렌더 타겟
+		**/
+		//void CreateIrradianceMapToRenderTarget(CommandBuffer* command, TextureBuffer* textureBuffer, RenderTarget* renderTarget);
 
 	private:
-		MaterialBuffer* m_integrateBRDFMap = nullptr;
-		MaterialBuffer* m_preFilteredMap = nullptr;
-		MaterialBuffer* mirradianceMap = nullptr;
+
+		void CreatePreFilteredRenderTargetFromTexture(vector<RenderTarget*>& rtvs, class Texture* texture);
+
+		void CreateIrradianceRenderTargetFromTexture(vector<RenderTarget*>& rtvs, class Texture* texture);
+
+		Buffer* m_pBuffer = nullptr;
+		
+		MeshBuffer* m_pQuardMeshBuffer = nullptr;
+		MeshBuffer* m_pCubeMeshBuffer = nullptr;
+
+		RenderTarget* m_integrateBRDF_RT = nullptr;
+		RenderTarget* m_preFiltered_RT = nullptr;
+		RenderTarget* m_irradiance_RT = nullptr;
+
+		MaterialBuffer* m_integrateBRDF_Material = nullptr;
+		MaterialBuffer* m_preFiltered_Material = nullptr;
+		MaterialBuffer* m_irradiance_Material = nullptr;
 	};
 }

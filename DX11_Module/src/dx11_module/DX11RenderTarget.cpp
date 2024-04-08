@@ -59,6 +59,7 @@ namespace graphics
 
 	DX11::DX11RenderTarget::DX11RenderTarget(ID3D11Device* device, const RenderTargetDesc& desc)
 		: m_Device(device)
+		, m_RenderTargetDesc(desc)
 	{
 		CreateRenderTarget(device, desc);
 
@@ -67,7 +68,12 @@ namespace graphics
 
 	DX11::DX11RenderTarget::~DX11RenderTarget()
 	{
-
+		for (auto& _attach : m_RenderTargetDesc._attachments)
+		{
+			DX11Texture* castedTexture = reinterpret_cast<DX11Texture*>(_attach._resource);
+		
+			castedTexture->DeleteRenderTarget(this);
+		}
 	}
 
 	void DX11::DX11RenderTarget::CreateRenderTarget(ID3D11Device* device, const RenderTargetDesc& desc)
@@ -139,6 +145,8 @@ namespace graphics
 		m_RenderTargetViews.push_back(_rtv);
 		m_RenderTargetViewRefs.push_back(_rtv.Get());
 		m_RTBuffers.push_back(_castTex);
+
+		_castTex->CreateRenderTarget(this);
 	}
 
 	void DX11::DX11RenderTarget::CreateDepthStencilView(ID3D11Device* device, const AttachmentDesc& desc)
@@ -197,6 +205,8 @@ namespace graphics
 		HR(_hr, "failed to create depth-stencil-view");
 		
 		m_DSVBuffer = _castTex;
+
+		_castTex->CreateRenderTarget(this);
 	}
 
 	void DX11::DX11RenderTarget::ClearRenderTarget(ID3D11DeviceContext* context, uint32 numAttachments, const AttachmentClear* attachments)
@@ -255,4 +265,17 @@ namespace graphics
 		}
 	}
 
+	math::Vector2 DX11::DX11RenderTarget::GetResolution()
+	{
+		return m_RenderTargetDesc._extend;
+	}
+
+	void DX11::DX11RenderTarget::SetResolution(ID3D11Device* device, DX11Texture* texture, const math::Vector3& resolution)
+	{
+		m_RenderTargetDesc._extend.x = resolution.x;
+		m_RenderTargetDesc._extend.y = resolution.y;
+		//m_RenderTargetDesc._extend.z = resolution.z;
+
+		CreateRenderTarget(device, m_RenderTargetDesc);
+	}
 }

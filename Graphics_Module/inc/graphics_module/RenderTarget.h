@@ -21,6 +21,8 @@ namespace graphics
 
 		inline Type GetType() { return m_Type; }
 
+		virtual math::Vector2 GetResolution() abstract;
+
 	protected:
 		Type m_Type = Type::RT;
 	};

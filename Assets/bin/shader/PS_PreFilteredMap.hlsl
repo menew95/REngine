@@ -1,21 +1,19 @@
-TextureCube g_CubeMap;
-
-#define PI 3.141592
-#define TwoPI 2 * PI
-#define Epsilon 0.00001
-
-SamplerState g_samLinear : register(s0);
+#include "header\H_Math.hlsli"
 
 //--------------------------------------------------------------------------------------
-// Globals
+// register
 //--------------------------------------------------------------------------------------
-//// PerObject
 
-cbuffer cbPerObject : register(b2)
+cbuffer PerObject : register(b1)
 {
     int face;
     float roughness;
 }
+
+TextureCube gCubeMap;
+
+SamplerState gSamLinear : register(s0);
+
 //--------------------------------------------------------------------------------------
 // Input / Output structures
 //--------------------------------------------------------------------------------------
@@ -92,23 +90,10 @@ float NormalDistributionGGXTR(float3 normalVec, float3 halfwayVec, float Roughne
     float NdotH2 = NdotH * NdotH;                        // NdotH2 = NdotH^2
     float denom = (PI * pow(NdotH2 * (a2 - 1.0f) + 1.0f, 2.0f));
 
-    if (denom < Epsilon)
+    if (denom < EPSILON)
         return 1.0f;
 
     return a2 / denom;
-}
-
-//--------------------------------------------------------------------------------------
-// Vertex Shader
-//--------------------------------------------------------------------------------------
-VS_OUTPUT VSMain(VS_INPUT Input)
-{
-    VS_OUTPUT outp;
-
-    outp.PosH = float4(Input.Position, 1.f);
-    outp.Texcoord0 = Input.Texcoord0;
-
-    return outp;
 }
 
 //--------------------------------------------------------------------------------------
@@ -147,7 +132,7 @@ float3 Uncharted2(float3 texColor)
     return color;
 }
 
-float4 PSMain(VertexOut pin)
+float4 main(VertexOut pin)
     : SV_Target
 {
     // x, y 다른 기준으로 -1 ~ 1 사이로 돌립니다.
@@ -176,7 +161,7 @@ float4 PSMain(VertexOut pin)
 
         if (NdotL > 0.0)
         {
-            radiance += Uncharted2(g_CubeMap.Sample(g_samLinear, L).rgb).xyz * NdotL;
+            radiance += Uncharted2(gCubeMap.Sample(gSamLinear, L).rgb).xyz * NdotL;
             totalWeight += NdotL;
         }
     }

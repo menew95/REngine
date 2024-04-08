@@ -15,6 +15,7 @@ namespace graphics
 		DX11SwapChain::DX11SwapChain(IDXGIFactory* factory, ID3D11Device* device, const SwapChainDesc& desc)
 			: SwapChain()
 			, m_Device(device)
+			, m_desc(desc)
 		{
 			GetWindow().GetWindowGraphicsInfo()._hwnd = reinterpret_cast<HWND>(desc._windowDesc._hwnd);
 
@@ -95,9 +96,15 @@ namespace graphics
 			}
 		}
 
+		math::Vector2 DX11SwapChain::GetResolution()
+		{
+			return math::Vector2(m_desc._resolution._width, m_desc._resolution._height);
+		}
+
 		bool DX11SwapChain::ResizeBuffer(const Extent2D& resolution)
 		{
 			ResizeBackBuffer(resolution);
+
 			return true;
 		}
 
@@ -112,6 +119,8 @@ namespace graphics
 			HR(_hr, "failed to resize DXGI swap-chain buffers");
 
 			CreateBackBuffer();
+
+			m_desc._resolution._width = resolution._width, m_desc._resolution._height = resolution._height;
 		}
 
 		void DX11SwapChain::CreateSwapChain(IDXGIFactory* factory, ID3D11Device* device, const SwapChainDesc& desc)

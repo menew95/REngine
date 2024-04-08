@@ -4,9 +4,10 @@ cbuffer matirxs : register(b1)
 	matrix g_Proj;
 }
 
-struct GSInput
+struct VSOutput
 {
 	float4 posW		: SV_POSITION;
+	float2 uv		: TEXCOORD0;
 };
 
 struct StreamOutput
@@ -17,7 +18,7 @@ struct StreamOutput
 };
 
 [maxvertexcount(18)]
-void main(triangle GSInput input[3], inout TriangleStream<StreamOutput> output)
+void main(triangle VSOutput input[3], inout TriangleStream<StreamOutput> output)
 {
 	for (int view = 0; view < 6; view++)
 	{

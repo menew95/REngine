@@ -41,6 +41,8 @@ namespace graphics
 
         void RenderSkyBox(class RenderPass* renderPass);
 
+        CommandBuffer* GetCommandBuffer() const { return m_pCommandBuffer; }
+
     protected:
         class CommandBuffer* m_pCommandBuffer = nullptr;
 

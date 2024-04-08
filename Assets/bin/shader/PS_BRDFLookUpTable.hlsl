@@ -1,35 +1,4 @@
-TextureCube g_CubeMap;
-
-#define PI 3.141592
-#define TwoPI 2 * PI
-#define Epsilon 0.00001
-
-SamplerState g_samLinear : register(s0);
-
-//--------------------------------------------------------------------------------------
-// Globals
-//--------------------------------------------------------------------------------------
-//// PerObject
-
-cbuffer cbPerObject : register(b2)
-{
-    int face;
-    float roughness;
-}
-//--------------------------------------------------------------------------------------
-// Input / Output structures
-//--------------------------------------------------------------------------------------
-struct VS_INPUT
-{
-    float3 Position : POSITION;
-    float2 Texcoord0 : TEXCOORD0;
-};
-
-struct VS_OUTPUT
-{
-    float4 PosH : SV_POSITION;
-    float2 Texcoord0 : TEXCOORD0;
-};
+#include "header\H_Math.hlsli"
 
 float RadicalInverse_VdC(uint bits)
 {
@@ -40,7 +9,7 @@ float RadicalInverse_VdC(uint bits)
     bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
     return float(bits) * 2.3283064365386963e-10; // / 0x100000000
 }
-// ----------------------------------------------------------------------------
+
 float2 Hammersley(uint i, uint N)
 {
     return float2(float(i) / float(N), RadicalInverse_VdC(i));
@@ -131,13 +100,13 @@ float2 IntegrateBRDF(float NdotV, float roughness)
 //--------------------------------------------------------------------------------------
 // Pixel Shader
 //--------------------------------------------------------------------------------------
-struct VertexOut
+struct VSOutput
 {
     float4 PosH : SV_POSITION;
     float2 Texcoord0 : TEXCOORD0;
 };
 
-float4 main(VertexOut pin)
+float4 main(VSOutput pin)
     : SV_Target
 {
     float2 integratedBRDF = IntegrateBRDF(pin.Texcoord0.x, pin.Texcoord0.y);

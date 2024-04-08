@@ -16,6 +16,8 @@ namespace graphics
 
 		virtual void* GetTextureID() abstract;
 
+		virtual const Extent3D& GetResolution() abstract;
+
 	protected:
 		Texture(const TextureType& type, uint32 bindFlags);
 

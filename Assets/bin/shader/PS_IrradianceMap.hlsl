@@ -1,22 +1,18 @@
-TextureCube g_CubeMap;
-
-#define PI 3.141592
-#define TwoPI 2 * PI
-#define INV_PI 1.f / PI
-#define Epsilon 0.00001
-
-SamplerState g_samLinear : register(s0);
-SamplerState g_samTriPoint : register(s1);
+#include "header\H_Math.hlsli"
 
 //--------------------------------------------------------------------------------------
-// Globals
+// register
 //--------------------------------------------------------------------------------------
-//// PerObject
 
-cbuffer cbPerObject : register(b2)
+cbuffer PerObject : register(b1)
 {
     int face;
 }
+
+TextureCube gCubeMap;
+
+SamplerState gSamLinear : register(s0);
+
 //--------------------------------------------------------------------------------------
 // Input / Output structures
 //--------------------------------------------------------------------------------------
@@ -35,18 +31,6 @@ float3 uvToXYZ(int face, float2 uv)
     else
         return float3(-uv.x, uv.y, -1.f);
 }
-
-struct VS_INPUT
-{
-    float3 Position : POSITION;
-    float2 Texcoord0 : TEXCOORD0;
-};
-
-struct VS_OUTPUT
-{
-    float4 PosH : SV_POSITION;
-    float2 Texcoord0 : TEXCOORD0;
-};
 
 //
 // Attributed to:
@@ -135,7 +119,7 @@ float3 GetMaxColorValue()
 
     float3 maxRgb = float3(0.f, 0.f, 0.f);
     
-    g_CubeMap.GetDimensions(0, cubeWidth, cubeHeight, level);
+    gCubeMap.GetDimensions(0, cubeWidth, cubeHeight, level);
 
     for (int arrayIdx = 0; arrayIdx < 6; arrayIdx++)
     {
@@ -159,7 +143,7 @@ float3 GetMaxColorValue()
                     uv = float3(-pixelx / cubeWidth, pixely / cubeHeight, -1.f);
         
 
-                float3 color = g_CubeMap.Sample(g_samLinear, uv);
+                float3 color = gCubeMap.Sample(gSamLinear, uv);
                 
                 maxRgb = max(maxRgb, color);
             }
@@ -182,7 +166,7 @@ void computeBasisVectors(const float3 N, out float3 S, out float3 T)
 {
     // Branchless select non-degenerate T.
     T = cross(N, float3(0.0, 1.0, 0.0));
-    T = lerp(cross(N, float3(1.0, 0.0, 0.0)), T, step(Epsilon, dot(T, T)));
+    T = lerp(cross(N, float3(1.0, 0.0, 0.0)), T, step(EPSILON, dot(T, T)));
 
     T = normalize(T);
     S = normalize(cross(N, T));
@@ -224,7 +208,7 @@ float3 ImportanceSample(float3 N, float3 MaxRgb)
     float cubeHeight = 0;
     float level = 0;
 
-    g_CubeMap.GetDimensions(0, cubeWidth, cubeHeight, level);
+    gCubeMap.GetDimensions(0, cubeWidth, cubeHeight, level);
 
     float3 UpVector = abs(N.z) < 0.999 ? float3(0, 0, 1) : float3(1, 0, 0);
     //float3 UpVector = float3(0.f, 1.f, 0.f);
@@ -249,7 +233,7 @@ float3 ImportanceSample(float3 N, float3 MaxRgb)
             float solidAngleSample = 1.0f / (pdf * asfloat(sampleCount));
             float lod = 0.5 * log2((float) (solidAngleSample / solidAngleTexel));
 
-            float3 diffuseSample = rescaleHDR(g_CubeMap.SampleLevel(g_samLinear, H, lod).rgb, MaxRgb);
+            float3 diffuseSample = rescaleHDR(gCubeMap.Sample(gSamLinear, H).rgb, MaxRgb);
             result = sumDiffuse(diffuseSample, NoL, result);
         }
     }
