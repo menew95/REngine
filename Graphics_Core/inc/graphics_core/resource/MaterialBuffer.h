@@ -110,6 +110,7 @@ namespace graphics
         **/
         GRAPHICS_API void SetTexture(const tstring& name, class TextureBuffer* texture);
         void SetTexture(const tstring& name, class Texture* texture);
+        void SetResource(const tstring& name, class Resource* resource);
 
         void BindPipelineState(class CommandBuffer* command);
 

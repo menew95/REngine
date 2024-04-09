@@ -67,6 +67,7 @@ namespace graphics
         **/
         void SetTexture(const tstring& name, class TextureBuffer* textureBuffer);
         void SetTexture(const tstring& name, class Texture* texture);
+        void SetResource(const tstring& name, class Resource* texture);
 
         /**
             @brief material의 int 값 설정
@@ -85,7 +86,8 @@ namespace graphics
         map<tstring, class Buffer*> m_constBuffers;
 
         // texture1D, texture2D, texture3D 등 텍스처 프로퍼티와 대응
-        map<tstring, pair<BindingDescriptor, class Texture*>> m_textureBlock;
+        // 구조적 버퍼와 같은 내용도 추가가 필요해짐
+        map<tstring, pair<BindingDescriptor, class Resource*>> m_resourceBlock;
         map<tstring, class Sampler*> m_samplerBlock;
     };
 }

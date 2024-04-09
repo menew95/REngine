@@ -1005,6 +1005,12 @@ namespace math
 			x(0.f), y(0.f), width(0.f), height(0.f), minDepth(0.f), maxDepth(1.f)
 		{
 		}
+
+		Viewport(const Vector2& resolution) noexcept :
+			x(0.f), y(0.f), width(resolution.x), height(resolution.y), minDepth(0.f), maxDepth(1.f)
+		{
+		}
+
 		constexpr Viewport(float ix, float iy, float iw, float ih, float iminz = 0.f, float imaxz = 1.f) noexcept :
 			x(ix), y(iy), width(iw), height(ih), minDepth(iminz), maxDepth(imaxz)
 		{

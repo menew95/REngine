@@ -28,32 +28,10 @@ namespace graphics
 
 	void LightBuffer::SetLightType(uint32 value)
 	{
-		m_lightInfo._lightype = value;
-	}
+		if(m_lightInfo._type == value)
+			return; 
 
-	void LightBuffer::SetLightColor(const math::Color& value)
-	{
-		m_lightInfo._color = value.ToVector3();
-	}
-
-	void LightBuffer::SetIntensity(float value)
-	{
-		m_lightInfo._intensity = value;
-	}
-
-	void LightBuffer::SetRange(float value)
-	{
-		m_lightInfo._range = value;
-	}
-
-	void LightBuffer::SetSpotAnlge(float value)
-	{
-		m_lightInfo._spotAngle = value;
-	}
-
-	void LightBuffer::SetInnerSpotAngle(float value)
-	{
-		m_lightInfo._fallOffAngle = value;
+		m_lightInfo._type = value;
 	}
 
 	void LightBuffer::SetResolution(uint32 value)
@@ -69,18 +47,18 @@ namespace graphics
 	math::Vector2 CalcResolution(LightType type, uint32 resolution)
 	{
 		float _multiply[4] = { 0.125f, 0.25f, 0.5f, 1.0f };
-		uint32 _resolution;
+		float _resolution = 0.f;
 
 		switch (type)
 		{
 			case graphics::LightType::Spot:
-				_resolution = 1024;
+				_resolution = 1024.f;
 				break;
 			case graphics::LightType::Directional:
-				_resolution = 2048;
+				_resolution = 2048.f;
 				break;
 			case graphics::LightType::Point:
-				_resolution = 512;
+				_resolution = 512.f;
 				break;
 			default:
 				break;
@@ -93,7 +71,7 @@ namespace graphics
 	{
 		uuid _uuid = TEXT("Light Buffer");
 
-		math::Vector2 _resolution = CalcResolution((LightType)m_lightInfo._lightype, m_shadowInfo._resolution);
+		math::Vector2 _resolution = CalcResolution((LightType)m_lightInfo._type, m_shadowInfo._resolution);
 
 		TextureDesc _texDesc;
 
@@ -101,7 +79,7 @@ namespace graphics
 		_texDesc._miscFlags = (MiscFlags::FixedSamples | MiscFlags::GenerateMips);
 		_texDesc._format = Format::R8G8B8A8_UNORM;
 		_texDesc._extend = { static_cast<uint32>(_resolution.x), static_cast<uint32>(_resolution.y), 1 };
-		_texDesc._arrayLayers = m_lightInfo._lightype == static_cast<uint32>(LightType::Point) ? 6 : 1;
+		_texDesc._arrayLayers = m_lightInfo._type == static_cast<uint32>(LightType::Point) ? 6 : 1;
 		_texDesc._mipLevels = 0;
 		_texDesc._samples = 1;
 		
@@ -122,8 +100,8 @@ namespace graphics
 
 		_renderAttachDesc._mipLevel = 0;
 		_renderAttachDesc._resource = m_pTexture;
-		_renderAttachDesc._arrayLayer = m_lightInfo._lightype == static_cast<uint32>(LightType::Point) ? 6 : 1;
-		_renderAttachDesc._arraySize = m_lightInfo._lightype == static_cast<uint32>(LightType::Point) ? 6 : 1;
+		_renderAttachDesc._arrayLayer = m_lightInfo._type == static_cast<uint32>(LightType::Point) ? 6 : 1;
+		_renderAttachDesc._arraySize = m_lightInfo._type == static_cast<uint32>(LightType::Point) ? 6 : 1;
 
 		_renderTargetDesc._attachments.push_back(_renderAttachDesc);
 
@@ -133,8 +111,8 @@ namespace graphics
 
 		_depthAttachDesc._mipLevel = 0;
 		_depthAttachDesc._resource = m_pDepthTexture;
-		_depthAttachDesc._arrayLayer = m_lightInfo._lightype == static_cast<uint32>(LightType::Point) ? 6 : 1;
-		_depthAttachDesc._arraySize = m_lightInfo._lightype == static_cast<uint32>(LightType::Point) ? 6 : 1;
+		_depthAttachDesc._arrayLayer = m_lightInfo._type == static_cast<uint32>(LightType::Point) ? 6 : 1;
+		_depthAttachDesc._arraySize = m_lightInfo._type == static_cast<uint32>(LightType::Point) ? 6 : 1;
 
 		_renderTargetDesc._attachments.push_back(_depthAttachDesc);
 

@@ -25,21 +25,29 @@ namespace graphics
 
     struct alignas(16)LightInfo
     {
-        uint32 _lightype;
-        float _range;
-        float _fallOff;
-        float _pad;
+        uint32 _type;
+        Vector3 _direction;
 
-        math::Vector3 _lightPosition;
-        float _spotAngle;
+        Vector3 _position;
+        float _attenuationRadius;
 
-        math::Vector3 _direction;
-        float _fallOffAngle;
-
-        math::Vector3 _color;
+        Vector3 _color;
         float _intensity;
 
-        math::Matrix _shadowTransform;
+        float _angle;
+        float _innerAngle;
+        float _fallOffExponential;
+        float _width;
+
+        Vector3 _up;
+        float _height;
+
+        int _staticShadowMapIdx;
+        int _dynamicShadowMapIdx;
+        uint _shadowState;
+        int _pad;
+
+        Matrix _shadowMatrix[6];
     };
 
     struct ShadowInfo
@@ -63,26 +71,48 @@ namespace graphics
             return BufferType::LIGHT;
         }
 
-        inline uint32 GetLightType() const { return m_lightInfo._lightype; }
+        GRAPHICS_API bool GetEnable() { return m_enable; }
+        GRAPHICS_API void SetEnable(bool value) { m_enable = value; }
+
+        GRAPHICS_API uint32 GetLightType() const { return m_lightInfo._type; }
         GRAPHICS_API void SetLightType(uint32 value);
 
-        inline const math::Color& GetLightColor() const { return math::Color(m_lightInfo._color); }
-        GRAPHICS_API void SetLightColor(const math::Color& value);
+        GRAPHICS_API const Vector3& GetDirection() { return m_lightInfo._direction; }
+        GRAPHICS_API void SetDirection(const Vector3& value) { m_lightInfo._direction = value; }
 
-        inline float GetIntensity() const { return m_lightInfo._intensity; }
-        GRAPHICS_API void SetIntensity(float value);
+        GRAPHICS_API const Vector3& GetPosition() { return m_lightInfo._position; }
+        GRAPHICS_API void SetPosition(const Vector3& value) { m_lightInfo._position = value; }
 
-        inline float GetRange() const { return m_lightInfo._range; }
-        GRAPHICS_API void SetRange(float value);
+        GRAPHICS_API float GetRange() const { return m_lightInfo._attenuationRadius; }
+        GRAPHICS_API void SetRange(float value) { m_lightInfo._attenuationRadius = value; }
 
-        inline float GetSpotAnlge() const { return m_lightInfo._spotAngle; }
-        GRAPHICS_API void SetSpotAnlge(float value);
+        GRAPHICS_API const math::Vector3& GetLightColor() const { return m_lightInfo._color; }
+        GRAPHICS_API void SetLightColor(const math::Vector3& value) { m_lightInfo._color = value; }
 
-        inline float GetInnerSpotAngle() const { return m_lightInfo._fallOffAngle; }
-        GRAPHICS_API void SetInnerSpotAngle(float value);
+        GRAPHICS_API float GetIntensity() const { return m_lightInfo._intensity; }
+        GRAPHICS_API void SetIntensity(float value) { m_lightInfo._intensity = value; }
 
-        inline uint32 GetResolution() const { return static_cast<uint32>(m_shadowInfo._resolution); }
+        GRAPHICS_API float GetSpotAnlge() const { return m_lightInfo._angle; }
+        GRAPHICS_API void SetSpotAnlge(float value) { m_lightInfo._angle  = value; }
+
+        GRAPHICS_API float GetInnerSpotAngle() const { return m_lightInfo._innerAngle; }
+        GRAPHICS_API void SetInnerSpotAngle(float value) { m_lightInfo._innerAngle; }
+
+        GRAPHICS_API float GetFallOffExponential() const { return m_lightInfo._fallOffExponential; }
+        GRAPHICS_API void SetFallOffExponential(float value) { m_lightInfo._fallOffExponential = value; }
+
+        GRAPHICS_API float GetWidth() const { return m_lightInfo._width; }
+        GRAPHICS_API void SetWidth(float value) { m_lightInfo._width = value; }
+
+        GRAPHICS_API const Vector3& GetUp() { return m_lightInfo._up; }
+        GRAPHICS_API void SetUp(const Vector3& value) { m_lightInfo._up = value; }
+
+        GRAPHICS_API float GetHeight() { return m_lightInfo._height; }
+        GRAPHICS_API void SetHeight(float value) { m_lightInfo._height = value; }
+
+        GRAPHICS_API uint32 GetResolution() const { return static_cast<uint32>(m_shadowInfo._resolution); }
         GRAPHICS_API void SetResolution(uint32 value);
+
 
         const LightInfo& GetLightInfo() { return m_lightInfo; }
 
@@ -90,6 +120,8 @@ namespace graphics
 
     private:
         void CreateRenderTarget();
+
+        bool m_enable = false;
 
         uint32 m_lightIdx;
 

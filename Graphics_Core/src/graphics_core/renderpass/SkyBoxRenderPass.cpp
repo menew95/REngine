@@ -16,6 +16,7 @@
 #include <graphics_module\Shader.h>
 #include <graphics_module\Sampler.h>
 #include <graphics_module\Texture.h>
+#include <graphics_module\RenderTarget.h>
 
 #include <common\AssetPath.h>
 
@@ -69,6 +70,8 @@ namespace graphics
 		command->UpdateBuffer(*m_pTransBuffer, 0, &m_pSkyBoxMesh->GetTrans(), sizeof(PerObject));
 
 		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+
+		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
 	}
 	
 	void SkyBoxRenderPass::Excute(CommandBuffer* command)

@@ -63,6 +63,12 @@ namespace graphics
         **/
         void ReleaseAllResource();
 
+        /**
+            @brief 모든 라이트 정보를 텍스처에 기록
+        **/
+        void UpdateLightBuffer(CommandBuffer* command);
+
+        uint32 m_curLightCnt;
         unordered_map<uuid, LightBuffer*> m_lightBufferMap;
 
         Buffer* m_lightBuffer = nullptr;
@@ -72,5 +78,6 @@ namespace graphics
         Texture* m_cascadedShadowMap = nullptr;
 
         friend class ShadowRenderPass;
+        friend class DeferredLightPass;
     };
 }

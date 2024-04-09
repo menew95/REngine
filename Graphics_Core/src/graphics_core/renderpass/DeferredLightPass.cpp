@@ -1,4 +1,5 @@
 ﻿#include <graphics_core\renderpass\DeferredLightPass.h>
+#include <graphics_core\LightManager.h>
 
 #include <graphics_core\object\MeshObject.h>
 
@@ -15,8 +16,10 @@
 #include <graphics_module\PipelineLayout.h>
 
 #include <graphics_module\Shader.h>
+#include <graphics_module\Buffer.h>
 #include <graphics_module\Sampler.h>
 #include <graphics_module\Texture.h>
+#include <graphics_module\RenderTarget.h>
 
 #include <common\AssetPath.h>
 
@@ -49,9 +52,12 @@ namespace graphics
 		m_pMatBuffer->SetTexture(TEXT("gIrradianceMap"), ResourceManager::GetInstance()->GetTexture(TEXT("IrradianceMap")));
 		m_pMatBuffer->SetTexture(TEXT("gIntegrateBRDFMap"), ResourceManager::GetInstance()->GetTexture(TEXT("BRDFLookUpTable")));
 		
+		m_pMatBuffer->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
+
 		m_pScreenMesh = new MeshObject(TEXT("SkyBox Object"));
 
 		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
+	
 	}
 	
 	void DeferredLightPass::Bind(CommandBuffer* command)
@@ -64,6 +70,8 @@ namespace graphics
 		__super::BeginExcute(command, camBuffer);
 
 		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+
+		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
 	}
 	
 	void DeferredLightPass::Excute(CommandBuffer* command)

@@ -59,7 +59,7 @@ namespace graphics
 				resource._boundCount
 			};
 
-			m_textureBlock.insert(
+			m_resourceBlock.insert(
 				make_pair(
 					resource._name, 
 					make_pair(_desc, nullptr)
@@ -86,7 +86,7 @@ namespace graphics
 			);
 		}
 
-		for(const auto& [name, pair] : m_textureBlock)
+		for(const auto& [name, pair] : m_resourceBlock)
 		{
 			//Texture* _tex = pair.second->GetTexture();
 
@@ -184,7 +184,7 @@ namespace graphics
 		if (_iter == m_propertyDesc._bindResources.end())
 			return;
 
-		m_textureBlock[_iter->_name].second = textureBuffer->GetTexture();
+		m_resourceBlock[_iter->_name].second = textureBuffer->GetTexture();
 	}
 
 	void MaterialPropertyBlock::SetTexture(const tstring& name, Texture* texture)
@@ -197,6 +197,19 @@ namespace graphics
 		if (_iter == m_propertyDesc._bindResources.end())
 			return;
 
-		m_textureBlock[_iter->_name].second = texture;
+		m_resourceBlock[_iter->_name].second = texture;
+	}
+
+	void MaterialPropertyBlock::SetResource(const tstring& name, Resource* resource)
+	{
+		auto _iter = find_if(begin(m_propertyDesc._bindResources), end(m_propertyDesc._bindResources), [&name](auto& desc)
+			{
+				return desc._name == name;
+			});
+
+		if (_iter == m_propertyDesc._bindResources.end())
+			return;
+
+		m_resourceBlock[_iter->_name].second = resource;
 	}
 }

@@ -17,6 +17,7 @@
 #include <graphics_module\Shader.h>
 #include <graphics_module\Sampler.h>
 #include <graphics_module\Texture.h>
+#include <graphics_module\RenderTarget.h>
 
 #include <common\AssetPath.h>
 
@@ -61,6 +62,8 @@ namespace graphics
 		};
 
 		command->SetRenderTarget(*m_pRenderTarget, 6, _attachmentClear);
+
+		command->SetViewport(m_pRenderTarget->GetResolution());
 	}
 	
 	void DeferredRenderPass::Excute(CommandBuffer* command)

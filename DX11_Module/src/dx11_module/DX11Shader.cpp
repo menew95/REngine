@@ -436,6 +436,20 @@ namespace graphics
 
 							break;
 						}
+						case D3D_SIT_STRUCTURED:
+						{
+							BindResourceDesc _resourceDesc;
+
+							_resourceDesc._name = StringHelper::StringToWString(_bindDesc.Name);
+							_resourceDesc._boundSlot = _bindDesc.BindPoint;
+							_resourceDesc._boundCount = _bindDesc.BindCount;
+
+							_resourceDesc._resourceType = (uint32)ResourceType::Buffer;
+							_resourceDesc._stageFlags = GetStageFlags(m_ShaderDesc._shaderType);
+
+							propertyDesc._bindResources.push_back(_resourceDesc);
+							break;
+						}
 						default:
 						{
 							// 아직 예상 하지 못한 타입이 들어왔음

@@ -206,6 +206,11 @@ namespace graphics
 		m_materialPropertyBlock->SetTexture(name, texture);
 	}
 
+	void MaterialBuffer::SetResource(const tstring& name, Resource* resource)
+	{
+		m_materialPropertyBlock->SetResource(name, resource);
+	}
+
 	void MaterialBuffer::SetInteger(const tstring& name, int value)
 	{
 		m_materialPropertyBlock->SetInteger(name, value);

@@ -3,6 +3,7 @@
 
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
+#include <graphics_core\LightManager.h>
 #include <graphics_core\renderer\Renderer.h>
 #include <graphics_core\resource\CameraBuffer.h>
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
@@ -75,6 +76,8 @@ namespace graphics
 		m_pCommandBuffer->SetViewport({0, 0, (float)m_windowInfo._width , (float)m_windowInfo._height });
 
 		m_pRenderer->SetFrameResource();
+
+		LightManager::GetInstance()->Excute(m_pCommandBuffer);
 
 		for (auto* _camBuf : m_cameraBuffers)
 		{
