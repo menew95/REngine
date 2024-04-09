@@ -71,9 +71,18 @@ namespace rengine
 
 	void Component::SetEnable(bool value)
 	{
-		if (/*m_pGameObject->GetActiveInHierarchy() &&*/ m_bEnable != value)
+		if (m_pGameObject.lock() && m_pGameObject.lock()->GetActiveInHierarchy() && m_bEnable != value)
 		{
 			m_bEnable = value;
+
+			if (m_bEnable)
+			{
+				OnEnable();
+			}
+			else
+			{
+				OnDisable();
+			}
 		}
 	}
 }

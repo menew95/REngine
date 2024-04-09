@@ -87,12 +87,12 @@ namespace rengine
 	
 	void Light::OnEnable()
 	{
-	
+		m_pLightBuffer->SetEnable(true);
 	}
 	
 	void Light::OnDisable()
 	{
-	
+		m_pLightBuffer->SetEnable(false);
 	}
 	
 	void Light::OnDestroy()
@@ -113,7 +113,7 @@ namespace rengine
 	{
 		m_lightColor = value;
 
-		m_pLightBuffer->SetLightColor(value);
+		m_pLightBuffer->SetLightColor(value.ToVector3());
 	}
 	
 	void Light::SetIntensity(float value)

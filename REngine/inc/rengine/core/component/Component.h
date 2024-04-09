@@ -70,9 +70,9 @@ namespace rengine
         
         std::weak_ptr<Transform> m_pTransform;
 
-        bool m_bEnable = true;
+        bool m_bEnable = false;
 
-        bool m_bIsActiveAndEnabled = true;
+        bool m_bIsActiveAndEnabled = false;
 
         friend class GameObject;
 

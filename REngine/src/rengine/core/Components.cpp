@@ -102,6 +102,8 @@ namespace rengine
 
 			if (_find != m_components.end())
 			{
+				(*_find)->SetEnable(false);
+
 				(*_find)->OnDestroy();
 
 				m_components.erase(_find);
