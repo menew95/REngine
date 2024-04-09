@@ -113,6 +113,8 @@ namespace graphics
         GRAPHICS_API uint32 GetResolution() const { return static_cast<uint32>(m_shadowInfo._resolution); }
         GRAPHICS_API void SetResolution(uint32 value);
 
+        GRAPHICS_API void SetWorld(Matrix& world);
+
 
         const LightInfo& GetLightInfo() { return m_lightInfo; }
 

@@ -100,7 +100,7 @@
     "Samples": 1
   },
   {
-    "UUID": "FrameTexture",
+    "UUID": "LightPassTexture",
     "TextureType": "Texture2D",
     "BindFlags": [ "ShaderResource", "RenderTarget" ],
     "Format": "R32G32B32A32_FLOAT",

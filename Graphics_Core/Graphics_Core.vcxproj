@@ -237,8 +237,10 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\RenderPassFlags.h" />
     <ClInclude Include="inc\graphics_core\renderpass\DeferredLightPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\DeferredRenderPass.h" />
+    <ClInclude Include="inc\graphics_core\renderpass\FinalRenderPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\GridRenderPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\IBLRenderPass.h" />
+    <ClInclude Include="inc\graphics_core\renderpass\PostProcessRenderPass.h" />
     <ClInclude Include="inc\graphics_core\renderpass\SkyBoxRenderPass.h" />
     <ClInclude Include="inc\graphics_core\RenderQueue.h" />
     <ClInclude Include="inc\graphics_core\resource\ByteBuffer.h" />
@@ -257,7 +259,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   <ItemGroup>
     <ClCompile Include="src\graphics_core\LightManager.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\DeferredLightPass.cpp" />
+    <ClCompile Include="src\graphics_core\renderpass\FinalRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\IBLRenderPass.cpp" />
+    <ClCompile Include="src\graphics_core\renderpass\PostProcessRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\renderpass\ShadowRenderPass.cpp" />
     <ClCompile Include="src\graphics_core\resource\MaterialPropertyBlock.cpp" />
     <ClCompile Include="src\graphics_core\resource\ByteBuffer.cpp" />

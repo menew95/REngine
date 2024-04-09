@@ -382,15 +382,7 @@ namespace graphics
 
 				auto _numRTV = static_cast<uint32>(_renderTarget.GetRenderTargetViews().size());
 
-				m_Context->OMSetRenderTargets(
-					_numRTV,
-					_renderTarget.GetRenderTargetViews().data(),
-					_renderTarget.GetDepthStencilView()
-				);
-
-				m_FramebufferView._numRenderTargetViews = _numRTV;
-				m_FramebufferView._renderTargetViews = _renderTarget.GetRenderTargetViews().data();
-				m_FramebufferView._depthStencilView = _renderTarget.GetDepthStencilView();
+				BindFramebufferView(_numRTV, _renderTarget.GetRenderTargetViews().data(), _renderTarget.GetDepthStencilView());
 			}
 		}
 

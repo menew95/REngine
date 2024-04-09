@@ -44,6 +44,19 @@ namespace graphics
 		CreateRenderTarget();
 	}
 
+	void LightBuffer::SetWorld(Matrix& world)
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!world.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_lightInfo._position = _t;
+		
+		m_lightInfo._direction = world.Forward();
+	}
+
 	math::Vector2 CalcResolution(LightType type, uint32 resolution)
 	{
 		float _multiply[4] = { 0.125f, 0.25f, 0.5f, 1.0f };

@@ -35,6 +35,8 @@ namespace graphics
 
 		RenderTargetDesc _rtDesc;
 
+		_rtDesc._extend = { 1280, 720 };
+
 		_rtDesc._attachments.push_back(_attachDesc);
 
 		m_pRenderTarget = ResourceManager::GetInstance()->CreateRenderTarget(m_uuid, _rtDesc);

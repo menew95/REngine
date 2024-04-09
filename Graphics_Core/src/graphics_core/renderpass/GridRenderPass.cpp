@@ -16,6 +16,7 @@
 #include <graphics_module\Shader.h>
 #include <graphics_module\Sampler.h>
 #include <graphics_module\Texture.h>
+#include <graphics_module\RenderTarget.h>
 
 #include <common\AssetPath.h>
 
@@ -58,6 +59,8 @@ namespace graphics
 		__super::BeginExcute(command, camBuffer);
 
 		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+
+		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
 	}
 
 	void GridRenderPass::Excute(CommandBuffer* command)

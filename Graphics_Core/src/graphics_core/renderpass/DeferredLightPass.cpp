@@ -58,6 +58,7 @@ namespace graphics
 
 		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 	
+		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("LightPass"));
 	}
 	
 	void DeferredLightPass::Bind(CommandBuffer* command)
@@ -69,9 +70,9 @@ namespace graphics
 	{
 		__super::BeginExcute(command, camBuffer);
 
-		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
 
-		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
+		command->SetViewport(m_pRenderTarget->GetResolution());
 	}
 	
 	void DeferredLightPass::Excute(CommandBuffer* command)
@@ -83,13 +84,10 @@ namespace graphics
 		m_pMatBuffer->BindResource(command);
 
 		Renderer::GetInstance()->RenderMesh(m_pScreenMesh, 0);
-
 	}
 	
 	void DeferredLightPass::EndExcute(CommandBuffer* command)
 	{
 		__super::EndExcute(command);
-		
-		command->ClearState();
 	}
 }

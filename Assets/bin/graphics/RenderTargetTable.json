@@ -90,11 +90,11 @@
     "MipLevel": 0
   },
   {
-    "UUID": "FrameRT",
+    "UUID": "LightPass",
     "Extent": [ 1280, 720 ],
     "AttachmentsCount": 1,
     "RenderTargetType": "RenderTarget",
-    "ResourceID": "MainFrame",
+    "ResourceID": "LightPassTexture",
     "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0

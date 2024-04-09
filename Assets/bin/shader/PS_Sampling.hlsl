@@ -8,7 +8,7 @@ struct VertexOut
     float2 Texcoord0 : TEXCOORD0;
 };
 
-float4 PSMain(VertexOut pin) : SV_Target
+float4 main(VertexOut pin) : SV_Target
 {
     float4 color = gRenderTargetTexture.Sample(gSamLinear, pin.Texcoord0);
 

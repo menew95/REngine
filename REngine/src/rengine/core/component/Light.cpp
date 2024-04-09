@@ -82,7 +82,20 @@ namespace rengine
 	
 	void Light::Update()
 	{
-	
+		auto _trans = GetTransform().lock();
+
+		if(_trans == nullptr)
+			return;
+
+		auto _world = _trans->GetWorld();
+
+		//m_pLightBuffer->SetWorld(_world);
+
+		m_pLightBuffer->SetDirection(_world.Forward());
+
+		m_pLightBuffer->SetPosition(_world.Translation());
+
+		m_pLightBuffer->SetUp(_world.Up());
 	}
 	
 	void Light::OnEnable()

@@ -48,8 +48,6 @@ namespace graphics
 
 	void RenderPass::EndExcute(CommandBuffer* command)
 	{
-		command->ClearState();
-
 		command->EndEvent();
 	}
 
