@@ -128,12 +128,12 @@
         "m_objectName": "Light",
         "m_bEnable": "true",
         "m_pGameObject": "df7d86e9-72ff-4dfc-9dfa-54a444759ab9",
-        "Light Type": "0",
+        "Light Type": "1",
         "Light Color": {
-            "r": "0",
-            "g": "0",
-            "b": "0",
-            "a": "0"
+            "r": "1",
+            "g": "1",
+            "b": "1",
+            "a": "1"
         },
         "Intensity": "2",
         "Range": "5",
@@ -219,7 +219,9 @@
         "m_objectName": "MeshRenderer",
         "m_bEnable": "true",
         "m_pGameObject": "2d06a9fe-66c6-4594-8cf6-1f00c49f7f98",
-        "Mesh": "",
-        "Materials": ""
+        "Mesh": "00000000-0000-0000-0000-000000000001",
+        "Materials": [
+            "27210cfe-3436-4d5e-b272-f170aa4d4a54"
+        ]
     }
 }

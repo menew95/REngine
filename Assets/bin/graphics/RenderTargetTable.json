@@ -88,5 +88,15 @@
     "ArrayLayer": 0,
     "ArraySize": 6,
     "MipLevel": 0
+  },
+  {
+    "UUID": "FrameRT",
+    "Extent": [ 1280, 720 ],
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "MainFrame",
+    "ArrayLayer": 0,
+    "ArraySize": 1,
+    "MipLevel": 0
   }
 ]

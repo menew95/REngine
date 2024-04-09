@@ -4,34 +4,39 @@
     "Size": 912,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
-    "Slot": 0
+    "Slot": 0,
+    "MiscFlags": [ "DynamicUsage" ]
   },
   {
     "UUID": "PerObject",
     "Size": 256,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
-    "Slot": 1
+    "Slot": 1,
+    "MiscFlags": [ "DynamicUsage" ]
   },
   {
     "UUID": "PerMaterial",
     "Size": 256,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
-    "Slot": 2
+    "Slot": 2,
+    "MiscFlags": [ "DynamicUsage" ]
   },
   {
     "UUID": "PerSkin",
     "Size": 8192,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
-    "Slot": 4
+    "Slot": 4,
+    "MiscFlags": [ "DynamicUsage" ]
   },
   {
     "UUID": "PerDebug",
     "Size": 256,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
-    "Slot": 5
+    "Slot": 5,
+    "MiscFlags": [ "DynamicUsage" ]
   }
 ]

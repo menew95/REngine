@@ -9,8 +9,7 @@ cbuffer PerFrame : register(b0)
     Camera _camera;
     PostProcess _postProcess;
 
-    Light _light[1];
-    int _lightCnt;
+    uint _lightCnt = 0;
 
     CascadeShadow _shadow;
 }

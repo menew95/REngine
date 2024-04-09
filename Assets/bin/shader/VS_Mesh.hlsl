@@ -8,7 +8,7 @@ VSOutput main(VSInput input)
     VSOutput output;
 
 #if defined(SCREEN)
-    output.posH = float4(input.posL.xy, 1.0f, 1.0f);
+    output.posH = float4(input.posL.xy * 0.5f, 1.0f, 1.0f);
     output.normal = float4(1.0f, 1.0f, 1.0f, 1.0f);
 #else   // SCREEN
 

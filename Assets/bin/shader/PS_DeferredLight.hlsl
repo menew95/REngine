@@ -18,6 +18,12 @@ Texture2DArray gCascadedShadowMap : register(t9);
 Texture2DArray gSpotShadowMap : register(t10);
 TextureCubeArray gPointShadowMap : register(t11);
 
+StructuredBuffer<Light> gLightTexture : register(t12);
+
+// 샘플링하는 함수 예시
+Light GetLight(uint index) {
+    return gLightTexture[index];
+}
 //Texture2D gReflect : register(t11);
 
 SamplerState gSamWrapLinear	: register(s0);
@@ -105,10 +111,12 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float4 color = float4(0.f, 0.f, 0.f, 0.f);
 
-	[unroll]
+	//[unroll(MAX_LIGHT_CNT)]
     for (uint lightIdx = 0; lightIdx < _lightCnt; lightIdx++)
     {
-        if (_light[lightIdx]._type == Directional)
+        Light light = GetLight(lightIdx);
+
+        if (light._type == Directional)
         {
             //float shadows = 1.0f;
 
@@ -120,9 +128,9 @@ float4 main(VSOutput input) : SV_TARGET
             // shadows = 1.0f;
             //Output += CalcShadowColor(ComputePBRDirectionalLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic) * shadows, shadows);
 
-			color += ComputePBRDirectionalLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
+			color += ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx]._type == Point)
+        else if (light._type == Point)
         {
             //float shadows = 1.0f;
 
@@ -133,9 +141,9 @@ float4 main(VSOutput input) : SV_TARGET
             //Output +=  CalcShadowColor(ComputePBRPointLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows);
             // shadows = 1.0f;
 			
-			color += ComputePBRPointLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
+			color += ComputePBRPointLight(light, data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx]._type  == Spot)
+        else if (light._type  == Spot)
         {
             //float shadows = 1.0f;
             //int idx = asint(lightIdx);
@@ -144,9 +152,9 @@ float4 main(VSOutput input) : SV_TARGET
             //shadows *= CalcShadowFactorFromSpotShadowMap(g_samShadow, g_SpotShadowMap, posW.xyz, 1024.f, idx);
             //Output +=  CalcShadowColor(ComputePBRSpotLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows) ;
 			
-			color += ComputePBRSpotLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
+			color += ComputePBRSpotLight(light, data, c_spec, c_diff, eyeVec);
         }
-        else if (_light[lightIdx]._type == AreaRect)
+        else if (light._type == AreaRect)
         {
             //float shadows = 1.0f;
 
@@ -154,7 +162,7 @@ float4 main(VSOutput input) : SV_TARGET
 
             //Output +=  CalcShadowColor(ComputePBRAreaRectLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows);
 			
-			color += ComputePBRAreaRectLight(_light[lightIdx], data, c_spec, c_diff, eyeVec);
+			color += ComputePBRAreaRectLight(light, data, c_spec, c_diff, eyeVec);
         }
     }
 

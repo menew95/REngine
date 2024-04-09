@@ -98,5 +98,15 @@
     "ArrayLayers": 6,
     "MipLevels": 5,
     "Samples": 1
+  },
+  {
+    "UUID": "FrameTexture",
+    "TextureType": "Texture2D",
+    "BindFlags": [ "ShaderResource", "RenderTarget" ],
+    "Format": "R32G32B32A32_FLOAT",
+    "Extend": [ 1280, 720 ],
+    "ArrayLayers": 1,
+    "MipLevels": 1,
+    "Samples": 1
   }
 ]
