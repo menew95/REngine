@@ -12,8 +12,8 @@
     "UUID": "Grid Debug",
     "ShaderProgram": "Grid Debug",
     "PrimitiveTopology": "TriangleList",
-    "DepthDesc": "NoDepth",
-    "StencilDesc": "NoDepth",
+    "DepthDesc": "Default",
+    "StencilDesc": "Default",
     "RasterizerDesc": "NoCull",
     "BlendDesc": "AlphaBlend"
   },
@@ -21,8 +21,8 @@
     "UUID": "Standard",
     "ShaderProgram": "Standard",
     "PrimitiveTopology": "TriangleList",
-    "DepthDesc": "Default",
-    "StencilDesc": "Default",
+    "DepthDesc": "Standard",
+    "StencilDesc": "Standard",
     "RasterizerDesc": "Default",
     "BlendDesc": "Default"
   },
@@ -30,10 +30,10 @@
     "UUID": "Deferred Light",
     "ShaderProgram": "Deferred Light",
     "PrimitiveTopology": "TriangleList",
-    "DepthDesc": "NoDepth",
-    "StencilDesc": "NoDepth",
+    "DepthDesc": "Light",
+    "StencilDesc": "Light",
     "RasterizerDesc": "NoCull",
-    "BlendDesc": "Default"
+    "BlendDesc": "AlphaBlend"
   },
   {
     "UUID": "IBL_BRDF",
@@ -56,6 +56,15 @@
   {
     "UUID": "IBL_Radiance",
     "ShaderProgram": "IBL_Radiance",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Final",
+    "ShaderProgram": "Final",
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "NoDepth",
     "StencilDesc": "NoDepth",

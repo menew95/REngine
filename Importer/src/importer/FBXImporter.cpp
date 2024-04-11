@@ -248,7 +248,8 @@ namespace utility
 		fbxsdk::FbxSystemUnit lFbxFileSystemUnit = g_pFbxScene->GetGlobalSettings().GetSystemUnit();
 		fbxsdk::FbxSystemUnit lFbxOriginSystemUnit = g_pFbxScene->GetGlobalSettings().GetOriginalSystemUnit();
 
-		double factor = lFbxOriginSystemUnit.GetScaleFactor();
+		double factor = lFbxFileSystemUnit.GetScaleFactor();
+		double factor2 = lFbxOriginSystemUnit.GetScaleFactor();
 
 		const fbxsdk::FbxSystemUnit::ConversionOptions lConversionOptions =
 		{
@@ -259,6 +260,9 @@ namespace utility
 		  true,
 		  true
 		};
+
+		
+		//fbxsdk::FbxAxisSystem::DirectX.ConvertScene(g_pFbxScene.get());
 
 		lFbxFileSystemUnit.m.ConvertScene(g_pFbxScene.get(), lConversionOptions);
 		lFbxOriginSystemUnit.m.ConvertScene(g_pFbxScene.get(), lConversionOptions);
@@ -462,8 +466,15 @@ namespace utility
 	{
 		meshNode->ComputeBBox();
 
-		meshBin._boundingMinBox = Convert(meshNode->BBoxMin);
-		meshBin._boundingMaxBox = Convert(meshNode->BBoxMax);
+		auto _mixBox = Convert(meshNode->BBoxMin);;
+		auto _maxBox = Convert(meshNode->BBoxMax);;
+
+		meshBin._boundingMinBox.x = meshBin._boundingMinBox.x < _mixBox.x ? meshBin._boundingMinBox.x : _mixBox.x;
+		meshBin._boundingMinBox.y = meshBin._boundingMinBox.y < _mixBox.y ? meshBin._boundingMinBox.y : _mixBox.y;
+		meshBin._boundingMinBox.z = meshBin._boundingMinBox.z < _mixBox.z ? meshBin._boundingMinBox.z : _mixBox.z;
+		meshBin._boundingMaxBox.x = meshBin._boundingMaxBox.x > _maxBox.x ? meshBin._boundingMaxBox.x : _maxBox.x;
+		meshBin._boundingMaxBox.y = meshBin._boundingMaxBox.y > _maxBox.y ? meshBin._boundingMaxBox.y : _maxBox.y;
+		meshBin._boundingMaxBox.z = meshBin._boundingMaxBox.z > _maxBox.z ? meshBin._boundingMaxBox.z : _maxBox.z;
 	}
 
 	void GetBone(fbxsdk::FbxSkin* fbxSkin, fbxsdk::FbxMesh* fbxMesh, std::vector<VertexAttribute>& vertexList, FBXModel& model)
@@ -666,6 +677,9 @@ namespace utility
 	void LoadMesh(fbxsdk::FbxMesh* meshNode, FBXModel& model, MeshBin& mesh, uint32 subMeshCnt)
 	{
 		GetBoundingBox(mesh, meshNode);
+
+
+		auto _scale = meshNode->GetNode()->LclScaling.Get();
 
 		static int num = 0;
 		mesh._name = meshNode->GetName();
@@ -919,6 +933,10 @@ namespace utility
 
 #if defined(_DEBUG) || defined(DEBUG)
 		auto _nodeName = node->GetName();
+
+		auto _scale = node->LclScaling.Get();
+
+
 
 		if (_nodeAttribute && _nodeAttribute->GetAttributeType() == fbxsdk::FbxNodeAttribute::eSkeleton)
 		{

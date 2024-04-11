@@ -41,7 +41,7 @@ namespace rengine
         shared_ptr<Mesh> GetMesh() { return m_mesh.lock(); }
         void SetMesh(shared_ptr<Mesh> mesh);
 
-        virtual void Render();
+        void Update() override;
 
         void OnEnable() override;
 

@@ -34,8 +34,8 @@ namespace graphics
         Vector3 _color;
         float _intensity;
 
-        float _angle;
-        float _innerAngle;
+        float _angle;               // radian
+        float _innerAngle;          // radian
         float _fallOffExponential;
         float _width;
 

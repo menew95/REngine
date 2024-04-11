@@ -43,9 +43,9 @@ namespace graphics
 		m_pMatBuffer->SetPipelineID(TEXT("Deferred Light"));
 
 		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture0"), ResourceManager::GetInstance()->GetTexture(TEXT("Albedo")));
-		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture1"), ResourceManager::GetInstance()->GetTexture(TEXT("Normal")));
-		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture2"), ResourceManager::GetInstance()->GetTexture(TEXT("World")));
-		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture3"), ResourceManager::GetInstance()->GetTexture(TEXT("Emissive")));
+		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture1"), ResourceManager::GetInstance()->GetTexture(TEXT("Emissive")));
+		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture2"), ResourceManager::GetInstance()->GetTexture(TEXT("Normal")));
+		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture3"), ResourceManager::GetInstance()->GetTexture(TEXT("World")));
 		m_pMatBuffer->SetTexture(TEXT("gCameraGBufferTexture4"), ResourceManager::GetInstance()->GetTexture(TEXT("Flag")));
 		
 		m_pMatBuffer->SetTexture(TEXT("gPreFilteredMap"), ResourceManager::GetInstance()->GetTexture(TEXT("PreFilteredMap")));
@@ -54,11 +54,11 @@ namespace graphics
 		
 		m_pMatBuffer->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
 
-		m_pScreenMesh = new MeshObject(TEXT("SkyBox Object"));
+		m_pScreenMesh = new MeshObject(TEXT("Screen Object"));
 
 		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 	
-		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("LightPass"));
+		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
 	
 	void DeferredLightPass::Bind(CommandBuffer* command)
@@ -70,6 +70,16 @@ namespace graphics
 	{
 		__super::BeginExcute(command, camBuffer);
 
+		//command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+
+		//command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
+
+		/*AttachmentClear _attachmentClear[1] =
+		{
+			{ math::Vector4::Zero, 0 }
+		};*/
+
+		//command->SetRenderTarget(*m_pRenderTarget, 1, _attachmentClear);
 		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
 
 		command->SetViewport(m_pRenderTarget->GetResolution());

@@ -2,7 +2,7 @@
 
     @file      ShadowRenderPass.h
     @brief     shadow render pass
-    @details   ~
+    @details   라이트의 타입별 그림자 맵을 생성하는 렌더 패스
     @author    LWT
     @date      5.04.2024
     @copyright © Cool Guy, 2024. All right reserved.

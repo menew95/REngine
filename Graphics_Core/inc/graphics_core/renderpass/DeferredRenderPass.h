@@ -1,9 +1,9 @@
 ﻿/**
 
     @file      DeferredRenderPass.h
-    @brief
-    @details   ~
-    @author    Cool Guy
+    @brief     디퍼드 렌더 패스
+    @details   Gbuffer들을 생성해준다(Albedo, Emissive, Normal, WorldPos, Flag)
+    @author    LWT
     @date      11.03.2024
     @copyright © LWT, 2024. All right reserved.
 

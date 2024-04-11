@@ -116,5 +116,14 @@
     "SourceSize": 0,
     "EntryPoint": "main",
     "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0014-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_Final.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0"
   }
 ]

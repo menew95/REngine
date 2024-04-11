@@ -49,6 +49,7 @@ namespace graphics
 		bool _stencilEnable = false;
 		uint8 _readMask;
 		uint8 _writeMask;
+		uint8 _stencilRef;
 		StencilFaceDescriptor _front;
 		StencilFaceDescriptor _back;
 	};

@@ -48,8 +48,8 @@ namespace utility
 		std::vector<VertexAttribute>		_vertices;
 		std::vector<std::vector<uint32>>	_indices;
 
-		math::Vector3 _boundingMinBox;
-		math::Vector3 _boundingMaxBox;
+		math::Vector3 _boundingMinBox = { FLT_MAX, FLT_MAX, FLT_MAX };
+		math::Vector3 _boundingMaxBox = { FLT_MIN, FLT_MIN, FLT_MIN };
 
 		bool _isSkinned;
 		std::string _boneName;

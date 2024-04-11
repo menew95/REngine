@@ -30,40 +30,40 @@ namespace rengine
 
 	}
 
-	void MeshRenderer::Render()
-	{
-		__super::Render();
+	//void MeshRenderer::Render()
+	//{
+	//	__super::Render();
 
-		graphics::MeshObject* _meshObj = reinterpret_cast<graphics::MeshObject*>(m_pRenderObject);
+	//	graphics::MeshObject* _meshObj = reinterpret_cast<graphics::MeshObject*>(m_pRenderObject);
 
-		GetGameObject().lock()->GetComponent<Transform>();
+	//	GetGameObject().lock()->GetComponent<Transform>();
 
-		/*auto _meshFilter = GetGameObject().lock()->GetComponent<MeshFilter>();
+	//	/*auto _meshFilter = GetGameObject().lock()->GetComponent<MeshFilter>();
 
-		if(_meshFilter == nullptr)
-			return;
+	//	if(_meshFilter == nullptr)
+	//		return;
 
-		auto _mesh = _meshFilter->GetMesh().lock();
+	//	auto _mesh = _meshFilter->GetMesh().lock();
 
-		if(_mesh == nullptr)
-			return;
+	//	if(_mesh == nullptr)
+	//		return;
 
-		_meshObj->SetMeshBuffer(_mesh->GetMeshBuffer());
+	//	_meshObj->SetMeshBuffer(_mesh->GetMeshBuffer());
 
-		vector<graphics::MaterialBuffer*> _mats;
+	//	vector<graphics::MaterialBuffer*> _mats;
 
-		for (auto& _mat : m_materials)
-		{
-			auto _material = _mat.lock();
+	//	for (auto& _mat : m_materials)
+	//	{
+	//		auto _material = _mat.lock();
 
-			if(_material == nullptr)
-				return;
+	//		if(_material == nullptr)
+	//			return;
 
-			_mats.push_back(_material->GetMaterialBuffer());
-		}
+	//		_mats.push_back(_material->GetMaterialBuffer());
+	//	}
 
-		_meshObj->SetMaterialBuffers(_mats);*/
-	}
+	//	_meshObj->SetMaterialBuffers(_mats);*/
+	//}
 
 	void MeshRenderer::Awake()
 	{

@@ -2,9 +2,17 @@
   {
     "UUID": "MainFrame",
     "Extent": [ 1280, 720 ],
-    "AttachmentsCount": 1,
+    "AttachmentsCount": 2,
     "RenderTargetType": "RenderTarget",
     "ResourceID": "MainFrame",
+    "ArrayLayer": 0,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "Extent": [ 1280, 720 ],
+    "RenderTargetType": "DepthStencil",
+    "ResourceID": "Depth",
     "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
@@ -92,9 +100,17 @@
   {
     "UUID": "LightPass",
     "Extent": [ 1280, 720 ],
-    "AttachmentsCount": 1,
+    "AttachmentsCount": 2,
     "RenderTargetType": "RenderTarget",
     "ResourceID": "LightPassTexture",
+    "ArrayLayer": 0,
+    "ArraySize": 1,
+    "MipLevel": 0
+  },
+  {
+    "Extent": [ 1280, 720 ],
+    "RenderTargetType": "DepthStencil",
+    "ResourceID": "Depth",
     "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0

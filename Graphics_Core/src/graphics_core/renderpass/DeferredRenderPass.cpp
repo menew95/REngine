@@ -53,12 +53,12 @@ namespace graphics
 
 		AttachmentClear _attachmentClear[6] =
 		{
-			{ math::Color::Black, 0 },
-			{ math::Color::Black, 1 },
-			{ math::Color::Black, 2 },
-			{ math::Color::Black, 3 },
-			{ math::Color::Black, 4 },
-			{ 1.0f, 255u }
+			{ math::Vector4::Zero, 0 },
+			{ math::Vector4::Zero, 1 },
+			{ math::Vector4::Zero, 2 },
+			{ math::Vector4::Zero, 3 },
+			{ math::Vector4::Zero, 4 },
+			{ 1.0f, 0u }
 		};
 
 		command->SetRenderTarget(*m_pRenderTarget, 6, _attachmentClear);

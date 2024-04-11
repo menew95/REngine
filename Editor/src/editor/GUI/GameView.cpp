@@ -59,15 +59,17 @@ namespace editor
 
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Deferred Pass")));
 		
-		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Grid Pass")));
-		
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Deferred Light Pass")));
 		
-		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("IBL Pass")));
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Grid Pass")));
+		
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Final Pass")));
 	}
 
 	void GameView::GameViewCameraControl()
 	{
+		graphics::GraphicsEngine::GetInstance()->PushCameraBuffer(m_pGameViewCameraBuffer);
+
 		if (!ImGui::IsWindowFocused())
 			return;
 
@@ -170,7 +172,5 @@ namespace editor
 		_info._worldViewProj = math::Matrix::CreateTranslation(_info._cameraWorldPos) * _info._view * _info._proj;
 
 		m_pGameViewCameraBuffer->Update(_info);
-
-		graphics::GraphicsEngine::GetInstance()->PushCameraBuffer(m_pGameViewCameraBuffer);
 	}
 }

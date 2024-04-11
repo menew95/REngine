@@ -308,8 +308,9 @@ namespace graphics
 			const TCHAR* writeEnabled = TEXT("WriteEnabled");
 
 			const TCHAR* stencilEnable = TEXT("StencilEnable");
-			const TCHAR* readMask = TEXT("StencilReadMask");
-			const TCHAR* writeMask = TEXT("StencilWriteMask");
+			const TCHAR* readMask = TEXT("ReadMask");
+			const TCHAR* writeMask = TEXT("WriteMask");
+			const TCHAR* stencilRef = TEXT("StencilRef");
 
 			const TCHAR* front_StencilFailOp = TEXT("Front/StencilFailOp");
 			const TCHAR* front_DepthFailOp = TEXT("Front/DepthFailOp");
@@ -369,6 +370,11 @@ namespace graphics
 				if (_depthStencilTable.HasMember(writeMask))
 				{
 					_stencilDesc._writeMask = _depthStencilTable[writeMask].GetInt();
+				}
+
+				if (_depthStencilTable.HasMember(stencilRef))
+				{
+					_stencilDesc._stencilRef = _depthStencilTable[stencilRef].GetInt();
 				}
 
 				if (_depthStencilTable.HasMember(front_StencilFailOp))

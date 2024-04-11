@@ -20,7 +20,7 @@ namespace graphics
 			m_PrimitiveTopology = MapPrimitive(desc._primitiveTopology);
 
 			m_StencilRefDynamic = false/*desc._stencilDesc.referenceDynamic*/;
-			m_StencilRef = 0/*desc._stencilDesc._front.reference*/;
+			m_StencilRef = desc._stencilDesc._stencilRef;
 			m_BlendFactorDynamic = desc._blendDesc._blendFactorDynamic;
 			m_BlendFactor[0] = desc._blendDesc._blendFactor.R();
 			m_BlendFactor[1] = desc._blendDesc._blendFactor.G();

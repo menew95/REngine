@@ -1,8 +1,8 @@
 ﻿/**
 
 	@file      IBLRenderPass.cpp
-	@brief
-	@details   ~
+	@brief	   ibl resource를 생성하는 패스
+	@details   cube map texture로 부터 조도와 사전 필터링된 맵을 생성 및 brdf lookup table를 생성하는 패스
 	@author    LWT
 	@date      3.04.2024
 	@copyright © Cool Guy, 2024. All right reserved.

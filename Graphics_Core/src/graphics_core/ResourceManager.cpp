@@ -18,6 +18,7 @@
 #include <graphics_core\renderpass\ShadowRenderPass.h>
 #include <graphics_core\renderpass\GridRenderPass.h>
 #include <graphics_core\renderpass\IBLRenderPass.h>
+#include <graphics_core\renderpass\FinalRenderPass.h>
 
 template <typename T>
 bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, uuid uuid)
@@ -125,6 +126,12 @@ namespace graphics
 			auto _renderPass = new IBLRenderPass();
 
 			m_renderPassMap.insert(make_pair(TEXT("IBL Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new FinalRenderPass();
+
+			m_renderPassMap.insert(make_pair(TEXT("Final Pass"), _renderPass));
 		}
 
 		TextureBuffer::CreateDefaultTextureBuffer();

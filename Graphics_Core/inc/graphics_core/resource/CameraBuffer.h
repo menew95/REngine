@@ -97,7 +97,9 @@ namespace graphics
 
         class RenderTarget* m_pRenderTarget = nullptr;
 
-        class Texture* m_pTexture = nullptr;
+        class Texture* m_pColorTexture = nullptr;
+
+        class Texture* m_pDepthTexture = nullptr;
 
         vector<class RenderPass*> m_renderPassList;
     };

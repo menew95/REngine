@@ -1,9 +1,9 @@
 ﻿/**
 
     @file      SkyBoxRenderPass.h
-    @brief     
-    @details   ~
-    @author    Cool Guy
+    @brief     sky box render pass
+    @details   스카이 박스를 그리는 렌더 패스
+    @author    LWT
     @date      6.02.2024
     @copyright © LWT, 2024. All right reserved.
 

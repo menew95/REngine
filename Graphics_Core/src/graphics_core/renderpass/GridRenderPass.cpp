@@ -47,6 +47,8 @@ namespace graphics
 		m_pDebugMaterial = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Grid Debug"));
 
 		m_pDebugMaterial->SetPipelineID(TEXT("Grid Debug"));
+
+		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
 
 	void GridRenderPass::Bind(CommandBuffer* command)
@@ -58,9 +60,13 @@ namespace graphics
 	{
 		__super::BeginExcute(command, camBuffer);
 
-		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
 
-		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
+		command->SetViewport(m_pRenderTarget->GetResolution());
+
+		/*command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+
+		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());*/
 	}
 
 	void GridRenderPass::Excute(CommandBuffer* command)

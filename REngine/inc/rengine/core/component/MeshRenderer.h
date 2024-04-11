@@ -31,7 +31,7 @@ namespace rengine
 
         void Awake() override;
 
-        void Render() override;
+        //void Render() override;
 
     protected:
         weak_ptr<Mesh> m_mesh;

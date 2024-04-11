@@ -144,7 +144,7 @@ namespace rengine
 		else m_pRenderObject->SetMeshBuffer(m_mesh.lock()->GetMeshBuffer());
 	}
 
-	void Renderer::Render()
+	void Renderer::Update()
 	{
 		auto _trans = GetTransform().lock();
 

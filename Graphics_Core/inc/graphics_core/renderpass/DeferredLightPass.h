@@ -2,7 +2,7 @@
 
     @file      DeferredLightPass.h
     @brief     deferred light passs
-    @details    deferred light를 계산 하는 패스
+    @details   Gbuffer를 사용하여 light를 계산 하는 패스(Linear space)
     @author    LWT
     @date      3.04.2024
     @copyright © Cool Guy, 2024. All right reserved.

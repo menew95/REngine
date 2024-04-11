@@ -109,7 +109,7 @@ float4 main(VSOutput input) : SV_TARGET
 
 	float3 eyeVec = normalize(_camera._world.xyz - data._worldPosition.xyz);
 
-	float4 color = float4(0.f, 0.f, 0.f, 0.f);
+	float4 color = float4(0.f, 0.f, 0.f, 1.f);
 
 	//[unroll(MAX_LIGHT_CNT)]
     for (uint lightIdx = 0; lightIdx < _lightCnt; lightIdx++)

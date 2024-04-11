@@ -2,7 +2,7 @@
 
     @file      PostProcessRenderPass.h
     @brief     post process render pass
-    @details   ~
+    @details   ssr, tonemap, blur 등 포스트 프로세스를 적용하는 렌더 패스
     @author    LWT
     @date      9.04.2024
     @copyright © Cool Guy, 2024. All right reserved.

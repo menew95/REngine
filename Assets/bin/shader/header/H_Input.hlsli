@@ -8,10 +8,10 @@
 
 struct VSInput
 {
-#if defined(SCREEN)
-	float3	posL			: POSITION;
-	float2	uv				: TEXCOORD;
-#else
+//#if defined(SCREEN)
+//	float3	posL			: POSITION;
+//	float2	uv				: TEXCOORD;
+//#else
 	float3	posL			: POSITION;
 	float4	color			: COLOR;
 	float2	uv				: TEXCOORD;
@@ -19,7 +19,7 @@ struct VSInput
 	float3	tangent			: TANGENT;
     uint	bone[BONECNT]   : BONE;
     float	weight[BONECNT] : WEIGHT;
-#endif
+//#endif
 };
 
 struct VSOutput
@@ -43,9 +43,9 @@ struct VSOutput
 struct PSOutput
 {
 	float4 Albedo	: SV_TARGET0;
-	float4 Normal	: SV_TARGET1;
-	float4 World	: SV_TARGET2;
-	float4 Emissive	: SV_TARGET3;
+	float4 Emissive	: SV_TARGET1;
+	float4 Normal	: SV_TARGET2;
+	float4 World	: SV_TARGET3;
 	float4 Flags	: SV_TARGET4;
 };
 

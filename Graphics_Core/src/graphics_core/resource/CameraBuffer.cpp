@@ -16,7 +16,11 @@ namespace graphics
 
 	CameraBuffer::~CameraBuffer()
 	{
+		ResourceManager::GetInstance()->ReleaseRenderTarget(m_pRenderTarget);
 
+		ResourceManager::GetInstance()->ReleaseTexture(m_pColorTexture);
+
+		ResourceManager::GetInstance()->ReleaseTexture(m_pDepthTexture);
 	}
 
 	void CameraBuffer::Init()
@@ -25,17 +29,29 @@ namespace graphics
 		
 		_texDesc._extend = { 1280, 720, 0 };
 
-		m_pTexture = ResourceManager::GetInstance()->CreateTexture(m_uuid, _texDesc);
+		m_pColorTexture = ResourceManager::GetInstance()->CreateTexture(m_uuid + TEXT("_Color"), _texDesc);
+
+		_texDesc._bindFlags = BindFlags::ShaderResource | BindFlags::DepthStencil;
+
+		_texDesc._format = Format::R24G8_TYPELESS;
+
+		m_pDepthTexture = ResourceManager::GetInstance()->CreateTexture(m_uuid + TEXT("_Depth"), _texDesc);
+
+		RenderTargetDesc _rtDesc;
+
+		_rtDesc._extend = { 1280, 720 };
 
 		AttachmentDesc _attachDesc;
 
 		_attachDesc._renderTargetType = RenderTargetType::RenderTarget;
 
-		_attachDesc._resource = m_pTexture;
+		_attachDesc._resource = m_pColorTexture;
 
-		RenderTargetDesc _rtDesc;
+		_rtDesc._attachments.push_back(_attachDesc);
 
-		_rtDesc._extend = { 1280, 720 };
+		_attachDesc._renderTargetType = RenderTargetType::DepthStencil;
+
+		_attachDesc._resource = m_pDepthTexture;
 
 		_rtDesc._attachments.push_back(_attachDesc);
 
@@ -68,6 +84,6 @@ namespace graphics
 
 	void* CameraBuffer::GetTextureID()
 	{
-		return m_pTexture->GetTextureID();
+		return m_pColorTexture->GetTextureID();
 	}
 }

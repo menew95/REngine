@@ -50,6 +50,8 @@ namespace graphics
 		m_pSkyBoxTexture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
 
 		m_pSkyBoxMatBuffer->SetTexture(TEXT("gSkyBox"), m_pSkyBoxTexture);
+
+		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
 	
 	void SkyBoxRenderPass::Bind(CommandBuffer* command)
@@ -69,9 +71,19 @@ namespace graphics
 		
 		command->UpdateBuffer(*m_pTransBuffer, 0, &m_pSkyBoxMesh->GetTrans(), sizeof(PerObject));
 
-		command->SetRenderTarget(*camBuffer->GetRenderTarget(), 0, nullptr);
+		AttachmentClear _attachmentClear[2] =
+		{
+			{ math::Vector4::Zero, 0 },
+			{ 1.0f, 0u }
+		};
 
-		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());
+		command->SetRenderTarget(*m_pRenderTarget, 2, _attachmentClear);
+
+		command->SetViewport(m_pRenderTarget->GetResolution());
+
+		/*command->SetRenderTarget(*camBuffer->GetRenderTarget(), 2, _attachmentClear);
+
+		command->SetViewport(camBuffer->GetRenderTarget()->GetResolution());*/
 	}
 	
 	void SkyBoxRenderPass::Excute(CommandBuffer* command)

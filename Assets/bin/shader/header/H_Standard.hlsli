@@ -23,28 +23,40 @@ cbuffer PerMaterial : register(b2)
 
 float3 Albedo(float2 uv)
 {
-    float3 albedo = _albedoColor.rgb * AlbedoMap.Sample(samWrapLinear, uv).rgb;
+    float4 _sample = AlbedoMap.Sample(samWrapLinear, uv);
+
+    float3 albedo = _albedoColor.rgb * GammaToLinearSpace(_sample.rgb);
+    //float3 albedo = _albedoColor.rgb * GammaToLinearSpace(AlbedoMap.Sample(samWrapLinear, uv).rgb);
 
     return albedo;
 }
 
 float3 NormalInTangentSpace(float2 uv)
 {
-    float3 normalTangent = UnpackScaleNormal(NormalMap.Sample(samWrapLinear, uv), _bumpScale);
+    float4 _sample = NormalMap.Sample(samWrapLinear, uv);
+
+    float3 normalTangent = UnpackScaleNormal(_sample, _bumpScale);
+    //float3 normalTangent = UnpackScaleNormal(NormalMap.Sample(samWrapLinear, uv), _bumpScale);
 
     return normalTangent;
 }
 
 float2 MetallicRough(float2 uv)
 {
-    float2 mr = float2(_metallic, _roughness) * MetallicRougnessMap.Sample(samWrapLinear, uv).rg;
+    float4 _sample = MetallicRougnessMap.Sample(samWrapLinear, uv);
+    
+    float2 mr = float2(_metallic, _roughness) * _sample.rg;
+    //float2 mr = float2(_metallic, _roughness) * MetallicRougnessMap.Sample(samWrapLinear, uv).rg;
 
     return mr;
 }
 
 float3 Emission(float2 uv)
 {
-    float3 emission = _emissionColor.rgb * EmissiveMap.Sample(samWrapLinear, uv).rgb;
+    float4 _sample = EmissiveMap.Sample(samWrapLinear, uv);
+    
+    float3 emission = _emissionColor.rgb * _sample.rgb;
+    //float3 emission = _emissionColor.rgb * EmissiveMap.Sample(samWrapLinear, uv).rgb;
 
     return emission;
 }
