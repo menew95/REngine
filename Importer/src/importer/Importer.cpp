@@ -70,7 +70,7 @@ namespace utility
 			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
 		{
 			// 해당 경로에 있는 파일을 역직렬화해야함
-			assert(false);
+			//assert(false);
 
 			auto _importTex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
 

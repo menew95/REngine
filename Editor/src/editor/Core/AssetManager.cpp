@@ -54,7 +54,7 @@ namespace editor
 			return;
 
 		m_bIsDirty = true;
-		m_assetList.insert(make_pair(_resource->GetUUID(), _resource->GetPath()));
+		m_assetList.insert(make_pair(_resource->GetPath(), _resource->GetUUID()));
 	}
 
 	void AssetManager::LoadAsset(const tstring& path)
@@ -104,13 +104,13 @@ namespace editor
 	{
 		auto _iter = find_if(begin(m_assetList), end(m_assetList), [&path](const auto& _pair)
 			{
-				return _pair.second == path;
+				return _pair.first == path;
 			});
 
 		if(_iter == end(m_assetList))
 			return TEXT("0");
 
-		return _iter->first;
+		return _iter->second;
 	}
 
 	void AssetManager::Refresh()
@@ -143,18 +143,30 @@ namespace editor
 			if (fs::exists(_metaPath))
 			{
 				// asset list에 등록이 되어있는지 확인후 안되어 있으면 추가
-				auto _iter = m_assetList.find(_path);
-
-				if(_iter != m_assetList.end())
-					return;
+				auto _iter = m_assetList.find(fs::absolute(_path));
 
 				auto _metainfo = utility::Serializer::SerializeMetaInfo(path);
 
-				m_assetList.insert(make_pair(_metainfo._guid, fs::absolute(_path)));
+				if (_iter != m_assetList.end())
+				{
+					// 이미 해당 경로의 uuid가 존재함
+
+					if (_iter->second != _metainfo._guid)
+					{
+						// 그런데 이전에 등록된 uuid와 다를 경우 새로운 uuid로 교체함
+						m_assetList[fs::absolute(_path)] = _metainfo._guid;
+					}
+				}
+				else
+				{
+					// 해당 경로에 해당하는 uuid가 없음
+					m_assetList.insert(make_pair(fs::absolute(_path), _metainfo._guid));
+				}
 
 				return;
 			}
 
+			// 메타파일이 존재하지 않을경우 메타파일을 생성하고 에디터에 임포트 해줌
 			ImportAsset(path);
 		}
 	}
@@ -177,7 +189,7 @@ namespace editor
 
 		assert(_ifs.is_open());
 
-		pair<uuid, tstring> _pa;
+		pair<tstring, uuid> _pa;
 
 		while (!_ifs.eof())
 		{
@@ -189,7 +201,7 @@ namespace editor
 
 				_buf.erase(0, 1);
 
-				_pa.first = _buf;
+				_pa.second = _buf;
 			}
 			else if (_buf.find(TEXT("Path")) != wstring::npos)
 			{
@@ -197,7 +209,7 @@ namespace editor
 
 				_buf.erase(0, 1);
 
-				_pa.second = _buf;
+				_pa.first = _buf;
 
 				m_assetList.insert(_pa);
 			}
@@ -221,9 +233,9 @@ namespace editor
 
 		for (auto& _pair : m_assetList)
 		{
-			_ofs << TEXT("  -\tUUID: ") + _pair.first + TEXT("\n");
+			_ofs << TEXT("  -\tUUID: ") + _pair.second + TEXT("\n");
 
-			_ofs << TEXT("\tPath: ") + _pair.second + TEXT("\n");
+			_ofs << TEXT("\tPath: ") + _pair.first + TEXT("\n");
 		}
 
 		_ofs.close();

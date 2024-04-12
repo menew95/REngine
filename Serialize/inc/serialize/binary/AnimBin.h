@@ -23,7 +23,7 @@ namespace utility
 	struct KeyFrameBin
 	{
 		float _frameRate;
-		math::Vector4 _data;
+		math::Vector4 _data = math::Vector4::Zero;
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
@@ -66,8 +66,8 @@ namespace utility
 			, _scaleKeyFrameList(std::move(scaleKeyFrameList))
 		{}
 
-		std::string _nodeName;
-		std::string _parentNodeName;
+		std::string _nodeName = "";
+		std::string _parentNodeName = "";
 
 		std::vector<KeyFrameBin> _posKeyFrameList;
 		std::vector<KeyFrameBin> _rotKeyFrameList;
@@ -149,15 +149,15 @@ namespace utility
 			, _endKeyFrame(endKeyFrame)
 		{}
 
-		std::string _clipName;
+		std::string _clipName = "";
 		std::vector<AnimationSnapBin> _snapList;
 
 
-		float _frameRate; // 엔진에서 60프레임으로 돌린다고 했을때, 한 프레임을 얼만큼 보여줄건지에 대한 비율
-		uint32 _tickPerFrame;
-		uint32 _totalKeyFrame;
-		uint32 _startKeyFrame;
-		uint32 _endKeyFrame;
+		float _frameRate = 60.0f; // 엔진에서 60프레임으로 돌린다고 했을때, 한 프레임을 얼만큼 보여줄건지에 대한 비율
+		uint32 _tickPerFrame = 0;
+		uint32 _totalKeyFrame = 0;
+		uint32 _startKeyFrame = 0;
+		uint32 _endKeyFrame = 0;
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)

@@ -97,6 +97,6 @@ namespace editor
 
         vector<string> m_componentList;
 
-        unordered_map<uuid, tstring> m_assetList;
+        unordered_map<tstring, uuid> m_assetList;
     };
 }

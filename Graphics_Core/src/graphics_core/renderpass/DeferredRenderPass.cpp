@@ -87,7 +87,7 @@ namespace graphics
 				auto* _meshObj = reinterpret_cast<MeshObject*>(_renderObj);
 
 				// 머티리얼이 그리기로 한 서브 매쉬의 인덱스가 메쉬 버퍼의 서브매쉬보다 크면 그릴 서브 매쉬가 없음
-				if(_submeshIdx > _meshObj->GetMeshBuffer()->GetSubMeshCount())
+				if(_meshObj->GetMeshBuffer() == nullptr || _submeshIdx > _meshObj->GetMeshBuffer()->GetSubMeshCount())
 					continue;
 
 				command->UpdateBuffer(*m_pTransBuffer, 0, &_renderObj->GetTrans(), sizeof(PerObject));

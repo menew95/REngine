@@ -86,7 +86,14 @@ namespace rengine
 
 	vector<shared_ptr<Material>> Renderer::GetMaterials()
 	{
-		vector<shared_ptr<Material>> _ret(m_materials.begin(), m_materials.end());
+		vector<shared_ptr<Material>> _ret;
+		
+		for (size_t i = 0; i < m_materials.size(); i++)
+		{
+			auto _mat = m_materials[i].lock();
+
+			_ret.push_back(_mat);
+		}
 
 		return _ret;
 	}

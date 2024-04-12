@@ -58,11 +58,13 @@ namespace rengine
 	{
 		m_bIsLoad = true;
 
-		m_pMeshBuffer->CreateVertexBuffer(GetUUID(), m_vertices.data(), static_cast<uint32>(sizeof(VertexAttribute) * m_vertices.size()), sizeof(VertexAttribute));
+		m_pMeshBuffer->CreateVertexBuffer(TEXT("Vertex_") + GetUUID(), m_vertices.data(), static_cast<uint32>(sizeof(VertexAttribute) * m_vertices.size()), sizeof(VertexAttribute));
 
-		for (auto& _indies : m_indices)
+		for (uint32 i = 0; i < m_indices.size(); i++)
 		{
-			m_pMeshBuffer->CreateSubMeshBuffer(GetUUID(), _indies.data(), static_cast<uint32>(sizeof(uint32) * _indies.size()), sizeof(uint32));
+			uuid _indexUUID = TEXT("Index") + to_wstring(i) + TEXT("_") + GetUUID();
+
+			m_pMeshBuffer->CreateSubMeshBuffer(_indexUUID, m_indices[i].data(), static_cast<uint32>(sizeof(uint32) * m_indices[i].size()), sizeof(uint32));
 		}
 
 		m_pMeshBuffer->SetName(GetNameStr().c_str());

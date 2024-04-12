@@ -24,7 +24,9 @@ namespace graphics
 		_desc._format = Format::R32_UINT;
 		_desc._stride = stride;
 
-		m_pIndexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Index_") + uuid, _desc, data);
+		m_pIndexBuffer = ResourceManager::GetInstance()->CreateBuffer(uuid, _desc, data);
+
+		assert(m_pIndexBuffer != nullptr);
 
 		m_indexCount = size / stride;
 	}
@@ -52,7 +54,9 @@ namespace graphics
 		_desc._size = size;
 		_desc._stride = stride;
 
-		m_pVertexBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Vertex_") + uuid, _desc, data);
+		m_pVertexBuffer = ResourceManager::GetInstance()->CreateBuffer(uuid, _desc, data);
+
+		assert(m_pVertexBuffer != nullptr);
 	}
 
 	void MeshBuffer::CreateSubMeshBuffer(uuid uuid, const void* data, uint32 size, uint32 stride)

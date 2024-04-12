@@ -1,5 +1,5 @@
 {
-    "guid": "a991f46d-7938-417f-b721-a829220d7322",
+    "guid": "eb0da851-72ac-4126-857c-434d97513fc4",
     "serializable type": "1",
     "MaterialImporter": {
         "m_renderPassID": "Deferred Pass",
@@ -19,12 +19,12 @@
             }
         },
         "m_Floats": {
-            "_roughness": "0.5",
+            "_roughness": "0.55278641",
             "_metallic": "0",
-            "_bumpScale": "1"
+            "_bumpScale": "6.71108672e+22"
         },
         "m_TexEnvs": {
-            "AlbedoMap": "",
+            "AlbedoMap": "1410ae65-4084-42f5-9657-2e045703c2be",
             "NormalMap": "",
             "MetallicRougnessMap": "",
             "EmissiveMap": "",

@@ -24,13 +24,16 @@ std::unique_ptr<fbxsdk::FbxImporter, void(*)(fbxsdk::FbxImporter*)> g_pFbxImport
 std::unique_ptr<fbxsdk::FbxScene, void(*)(fbxsdk::FbxScene*)> g_pFbxScene{ nullptr, [](fbxsdk::FbxScene* ptr) {} };
 
 static bool _bIsNegativeScaleFlag = false;
+static double g_scaleFactor = 1;
+static double g_originScaleFactor = 1;
+static bool g_initialized = false;
 
 namespace utility
 {
 #pragma region math <=> fbxmath converter
 	math::Vector4 Convert(fbxsdk::FbxVector4& v, bool lh = true)
 	{
-		if (lh == false)
+		if (lh == true)
 		{
 			return math::Vector4
 			(
@@ -53,7 +56,7 @@ namespace utility
 
 	math::Vector3 Convert(fbxsdk::FbxDouble3 v, bool lh = true)
 	{
-		if (lh == false)
+		if (lh == true)
 		{
 			return math::Vector3
 			(
@@ -81,7 +84,7 @@ namespace utility
 		FbxVector4 r3 = matrix.GetRow(2);
 		FbxVector4 r4 = matrix.GetRow(3);
 
-		if (lh == false)
+		if (lh == true)
 		{
 			return math::Matrix
 			(
@@ -174,6 +177,9 @@ namespace utility
 
 	void Initialize()
 	{
+		if(g_initialized)
+			return;
+
 		g_pFbxManager = std::move(std::unique_ptr<fbxsdk::FbxManager, void(*)(fbxsdk::FbxManager*)>(fbxsdk::FbxManager::Create(),
 			[](fbxsdk::FbxManager* ptr) {ptr->Destroy(); }));
 
@@ -192,6 +198,8 @@ namespace utility
 
 		g_pFbxScene = std::move(std::unique_ptr<fbxsdk::FbxScene, void(*)(fbxsdk::FbxScene*)>(fbxsdk::FbxScene::Create(g_pFbxManager.get(), ""),
 			[](fbxsdk::FbxScene* ptr) {ptr->Destroy(); }));
+
+		g_initialized = true;
 	}
 
 	bool LoadScene(const char* path)
@@ -245,12 +253,6 @@ namespace utility
 		
 		assert(LoadScene(_path.Buffer()));
 			
-		fbxsdk::FbxSystemUnit lFbxFileSystemUnit = g_pFbxScene->GetGlobalSettings().GetSystemUnit();
-		fbxsdk::FbxSystemUnit lFbxOriginSystemUnit = g_pFbxScene->GetGlobalSettings().GetOriginalSystemUnit();
-
-		double factor = lFbxFileSystemUnit.GetScaleFactor();
-		double factor2 = lFbxOriginSystemUnit.GetScaleFactor();
-
 		const fbxsdk::FbxSystemUnit::ConversionOptions lConversionOptions =
 		{
 		  true,
@@ -261,11 +263,27 @@ namespace utility
 		  true
 		};
 
-		
-		//fbxsdk::FbxAxisSystem::DirectX.ConvertScene(g_pFbxScene.get());
+		fbxsdk::FbxSystemUnit lFbxFileSystemUnit = g_pFbxScene->GetGlobalSettings().GetSystemUnit();
+		fbxsdk::FbxSystemUnit lFbxOriginSystemUnit = g_pFbxScene->GetGlobalSettings().GetOriginalSystemUnit();
 
-		lFbxFileSystemUnit.m.ConvertScene(g_pFbxScene.get(), lConversionOptions);
-		lFbxOriginSystemUnit.m.ConvertScene(g_pFbxScene.get(), lConversionOptions);
+		g_scaleFactor = lFbxFileSystemUnit.GetScaleFactor();
+		g_originScaleFactor = lFbxOriginSystemUnit.GetScaleFactor();
+		
+		if (g_scaleFactor - 100 < 0.0001)
+		{
+			//fbxsdk::FbxSystemUnit::m.ConvertScene(g_pFbxScene.get(), lConversionOptions);
+			//
+			//lFbxFileSystemUnit = g_pFbxScene->GetGlobalSettings().GetSystemUnit();
+			//lFbxOriginSystemUnit = g_pFbxScene->GetGlobalSettings().GetOriginalSystemUnit();
+			//
+			//g_scaleFactor = lFbxFileSystemUnit.GetScaleFactor();
+			//g_originScaleFactor = lFbxOriginSystemUnit.GetScaleFactor();
+		}
+
+		fbxsdk::FbxAxisSystem _axis = g_pFbxScene->GetGlobalSettings().GetAxisSystem();
+
+
+		fbxsdk::FbxAxisSystem::DirectX.DeepConvertScene(g_pFbxScene.get());
 
 		// GeometryConverter 객체 생성
 		FbxGeometryConverter* _geometryConverter = new FbxGeometryConverter(g_pFbxManager.get());
@@ -466,8 +484,8 @@ namespace utility
 	{
 		meshNode->ComputeBBox();
 
-		auto _mixBox = Convert(meshNode->BBoxMin);;
-		auto _maxBox = Convert(meshNode->BBoxMax);;
+		auto _mixBox = Convert(meshNode->BBoxMin) * (g_scaleFactor / 100);
+		auto _maxBox = Convert(meshNode->BBoxMax) * (g_scaleFactor / 100);
 
 		meshBin._boundingMinBox.x = meshBin._boundingMinBox.x < _mixBox.x ? meshBin._boundingMinBox.x : _mixBox.x;
 		meshBin._boundingMinBox.y = meshBin._boundingMinBox.y < _mixBox.y ? meshBin._boundingMinBox.y : _mixBox.y;
@@ -526,7 +544,7 @@ namespace utility
 				_cluster->GetTransformLinkMatrix(transformLinkMatrix);
 				// The transformation of the cluster(joint) at binding time from joint space to world space 
 				globalBindposeInverseMatrix = transformLinkMatrix.Inverse() * transformMatrix * geometryTransform;
-				math::Matrix _globalBindposeInverseMatrix = Convert(globalBindposeInverseMatrix, true);
+				math::Matrix _globalBindposeInverseMatrix = Convert(globalBindposeInverseMatrix);
 
 				fbxsdk::FbxAMatrix matClusterTransformMatrix;
 				fbxsdk::FbxAMatrix matClusterLinkTransformMatrix;
@@ -535,12 +553,12 @@ namespace utility
 				_cluster->GetTransformLinkMatrix(matClusterLinkTransformMatrix);
 
 				// Bone Matrix 설정..
-				math::Matrix _clusterMatrix = Convert(matClusterTransformMatrix, true);
-				math::Matrix _clusterlinkMatrix = Convert(matClusterLinkTransformMatrix, true);
+				math::Matrix _clusterMatrix = Convert(matClusterTransformMatrix);
+				math::Matrix _clusterlinkMatrix = Convert(matClusterLinkTransformMatrix);
 
 				// BindPose 행렬을 구하자
 				fbxsdk::FbxAMatrix _geometryTransform = GetTransformMatrix(fbxMesh->GetNode());
-				math::Matrix _geometryMatrix = Convert(_geometryTransform, true);
+				math::Matrix _geometryMatrix = Convert(_geometryTransform);
 
 				// OffsetMatrix는 WorldBindPose의 역행렬
 				math::Matrix _offsetMatrix = _clusterMatrix * _clusterlinkMatrix.Invert();//* _geometryMatrix;
@@ -582,14 +600,14 @@ namespace utility
 			if (negativeScale)
 			{
 				_normal.x = -static_cast<float>(vec.mData[0]);
-				_normal.y = -static_cast<float>(vec.mData[2]);
-				_normal.z = -static_cast<float>(vec.mData[1]);
+				_normal.y = -static_cast<float>(vec.mData[1]);
+				_normal.z = -static_cast<float>(vec.mData[2]);
 			}
 			else
 			{
 				_normal.x = static_cast<float>(vec.mData[0]);
-				_normal.y = static_cast<float>(vec.mData[2]);
-				_normal.z = static_cast<float>(vec.mData[1]);
+				_normal.y = static_cast<float>(vec.mData[1]);
+				_normal.z = static_cast<float>(vec.mData[2]);
 			}
 
 			return _normal;
@@ -695,9 +713,9 @@ namespace utility
 		{
 			_tempMeshVertexList[i]._position =
 			{
-				static_cast<float>(_controlPoints[i].mData[0]),
-				static_cast<float>(_controlPoints[i].mData[2]),
-				static_cast<float>(_controlPoints[i].mData[1])
+				static_cast<float>(_controlPoints[i].mData[0] * (g_scaleFactor / 100)),
+				static_cast<float>(_controlPoints[i].mData[1] * (g_scaleFactor / 100)),
+				static_cast<float>(_controlPoints[i].mData[2] * (g_scaleFactor / 100))
 			};
 		}
 
@@ -787,18 +805,41 @@ namespace utility
 				vertexCounter++;
 			}
 
+			// CheckIfVertexNormalsCCW 값이 참값이 나왔음에도 전부 CW 데이터인것을 확인 이유를 모르겠음
 			//if (meshNode->CheckIfVertexNormalsCCW())
+			//{
+			//	// 일부 정점만 CCW이거나 모든 정점이 CCW이다.
+
+			//	auto v0 = mesh._vertices[arrIdx[0]]._position;
+			//	auto v1 = mesh._vertices[arrIdx[2]]._position;
+			//	auto v2 = mesh._vertices[arrIdx[1]]._position;
+
+			//	Vector3 _normal = (v1 - v0).Cross(v2 - v0);
+
+			//	_normal.Normalize();
+
+			//	if (_normal.y > 0)
+			//	{
+			//		// CCW 방향
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[0]);
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[2]);
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[1]);
+			//	}
+			//	else
+			//	{
+			//		// CW 방향
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[0]);
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[1]);
+			//		mesh._indices[subMeshCnt].push_back(arrIdx[2]);
+			//	}
+			//}
+			//else
 			{
+				// 모든 정점이 CW 이기에 CCW순으로 인덱스를 저장해준다.
 				mesh._indices[subMeshCnt].push_back(arrIdx[0]);
 				mesh._indices[subMeshCnt].push_back(arrIdx[2]);
 				mesh._indices[subMeshCnt].push_back(arrIdx[1]);
 			}
-			/*else
-			{
-				mesh._indexAttributes[subMeshCnt].push_back(arrIdx[0]);
-				mesh._indexAttributes[subMeshCnt].push_back(arrIdx[2]);
-				mesh._indexAttributes[subMeshCnt].push_back(arrIdx[1]);
-			}*/
 		}
 
 		// tangent 정보를 가져온다.
@@ -977,6 +1018,13 @@ namespace utility
 
 				std::string _meshName = _meshNode->GetName();
 
+				auto _spitMaterial = _meshName.find("_Material");
+
+				if (_spitMaterial != string::npos)
+				{
+					_meshName = _meshName.substr(0, _spitMaterial);
+				}
+
 				if (_meshName == "")
 				{
 					ReconstructionName(_node._name, ":");
@@ -986,7 +1034,8 @@ namespace utility
 				}
 				else
 				{
-					_node._mesh = _meshNode->GetName();
+					_node._mesh = _meshName;
+					_meshBin._name = _meshName;
 				}
 
 				fbxsdk::FbxLayerElementMaterial* _findMatIndex = _meshNode->GetElementMaterial(0);
@@ -1133,11 +1182,11 @@ namespace utility
 			
 			_resource->AddProperties(_properties);*/
 
-			auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._albedoMapTexture));
-			auto _normalMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._normalMapTexture));
-			auto _metallicRougnessMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._metallicRoughnessMapTexture));
-			auto _emissiveMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._emissiveMapTexture));
-			auto _ambientMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(StringHelper::StringToWString(_bin.second._ambientMapTexture));
+			auto _albedoMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + StringHelper::StringToWString(_bin.second._albedoMapTexture));
+			auto _normalMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + StringHelper::StringToWString(_bin.second._normalMapTexture));
+			auto _metallicRougnessMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath +StringHelper::StringToWString(_bin.second._metallicRoughnessMapTexture));
+			auto _emissiveMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + StringHelper::StringToWString(_bin.second._emissiveMapTexture));
+			auto _ambientMapTex = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + StringHelper::StringToWString(_bin.second._ambientMapTexture));
 
 			/*vector<rengine::MaterialProperty> _properties =
 			{
@@ -1163,11 +1212,11 @@ namespace utility
 
 			_resource->SetPipelineID(TEXT("Standard"));
 
-			if(_albedoMapTex != nullptr)			_resource->SetTexture(TEXT("AlbedoMap"), _albedoMapTex);
-			if(_normalMapTex != nullptr)			_resource->SetTexture(TEXT("NormalMap"), _normalMapTex);
-			if(_metallicRougnessMapTex != nullptr)	_resource->SetTexture(TEXT("MetallicRougnessMap"), _metallicRougnessMapTex);
-			if(_emissiveMapTex != nullptr)			_resource->SetTexture(TEXT("EmissiveMap"), _emissiveMapTex);
-			if(_ambientMapTex != nullptr)			_resource->SetTexture(TEXT("AmbientOcclusionMap"), _ambientMapTex);
+			_resource->SetTexture(TEXT("AlbedoMap"), _albedoMapTex);
+			_resource->SetTexture(TEXT("NormalMap"), _normalMapTex);
+			_resource->SetTexture(TEXT("MetallicRougnessMap"), _metallicRougnessMapTex);
+			_resource->SetTexture(TEXT("EmissiveMap"), _emissiveMapTex);
+			_resource->SetTexture(TEXT("AmbientOcclusionMap"), _ambientMapTex);
 
 			_resource->SetColor(TEXT("_albedoColor"), _bin.second._diffuse);
 			_resource->SetFloat(TEXT("_roughness"), _bin.second._roughness);

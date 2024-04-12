@@ -220,8 +220,96 @@
         "m_bEnable": "true",
         "m_pGameObject": "2d06a9fe-66c6-4594-8cf6-1f00c49f7f98",
         "Mesh": "00000000-0000-0000-0000-000000000001",
-        "Materials": [
-            "27210cfe-3436-4d5e-b272-f170aa4d4a54"
+        "Materials": ""
+    },
+    "0dfa60fe-c4da-4dc8-a9c8-13cdf6645bc2": {
+        "m_typeName": "GameObject",
+        "m_objectName": "Game Object",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "false",
+        "Components": [
+            "cbcf2786-4afa-432c-8df1-5a379f556f2d",
+            "e5db45b9-a860-4df9-8fec-9ff6c0f772b2"
         ]
+    },
+    "cbcf2786-4afa-432c-8df1-5a379f556f2d": {
+        "m_typeName": "Transform",
+        "m_objectName": "Transform",
+        "m_bEnable": "false",
+        "m_pGameObject": "0dfa60fe-c4da-4dc8-a9c8-13cdf6645bc2",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": ""
+    },
+    "e5db45b9-a860-4df9-8fec-9ff6c0f772b2": {
+        "m_typeName": "MeshRenderer",
+        "m_objectName": "MeshRenderer",
+        "m_bEnable": "false",
+        "m_pGameObject": "0dfa60fe-c4da-4dc8-a9c8-13cdf6645bc2",
+        "Mesh": "",
+        "Materials": ""
+    },
+    "8473c485-fbf8-48fb-8c43-782fee9819e2": {
+        "m_typeName": "GameObject",
+        "m_objectName": "Game Object",
+        "Tag": "",
+        "Layer": "0",
+        "Static": "false",
+        "Components": [
+            "fec4227d-c5ff-42db-8eb3-04644a5351f7",
+            "37bfc09c-f0f5-4419-8c16-9364e1ea2621"
+        ]
+    },
+    "fec4227d-c5ff-42db-8eb3-04644a5351f7": {
+        "m_typeName": "Transform",
+        "m_objectName": "Transform",
+        "m_bEnable": "false",
+        "m_pGameObject": "8473c485-fbf8-48fb-8c43-782fee9819e2",
+        "m_world": {
+            "_11": "1",
+            "_12": "0",
+            "_13": "0",
+            "_14": "0",
+            "_21": "0",
+            "_22": "1",
+            "_23": "0",
+            "_24": "0",
+            "_31": "0",
+            "_32": "0",
+            "_33": "1",
+            "_34": "0",
+            "_41": "0",
+            "_42": "0",
+            "_43": "0",
+            "_44": "1"
+        },
+        "m_parent": "",
+        "m_childs": ""
+    },
+    "37bfc09c-f0f5-4419-8c16-9364e1ea2621": {
+        "m_typeName": "MeshRenderer",
+        "m_objectName": "MeshRenderer",
+        "m_bEnable": "false",
+        "m_pGameObject": "8473c485-fbf8-48fb-8c43-782fee9819e2",
+        "Mesh": "",
+        "Materials": ""
     }
 }

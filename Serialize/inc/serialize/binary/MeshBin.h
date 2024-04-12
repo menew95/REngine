@@ -51,8 +51,8 @@ namespace utility
 		math::Vector3 _boundingMinBox = { FLT_MAX, FLT_MAX, FLT_MAX };
 		math::Vector3 _boundingMaxBox = { FLT_MIN, FLT_MIN, FLT_MIN };
 
-		bool _isSkinned;
-		std::string _boneName;
+		bool _isSkinned = false;
+		std::string _boneName = "";
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
@@ -88,9 +88,9 @@ namespace utility
 
 		short 		_parentIndex = 0;
 
-		math::Matrix	_offsetMatrix;
-		math::Matrix	_localMatrix;
-		math::Matrix	_worldMatrix;
+		math::Matrix	_offsetMatrix = math::Matrix::Identity;
+		math::Matrix	_localMatrix = math::Matrix::Identity;
+		math::Matrix	_worldMatrix = math::Matrix::Identity;
 
 		template<typename Archive>
 		void serialize(Archive& ar, const unsigned int version)
