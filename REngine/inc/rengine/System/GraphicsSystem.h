@@ -2,6 +2,8 @@
 
 #include <common\common.h>
 
+#include <common\math.h>
+
 #include <common\singleton.h>
 
 #include <rengine\rengine_dllexport.h>
@@ -49,6 +51,14 @@ namespace rengine
 		RENGINE_API void* GetContext();
 
 		/**
+			@brief  object id frame buffer로부터 해당 픽셀 값을 읽고 renderobject hash 값을 반환
+			@param imageSize     - image view size
+			@param mousePosition - click position in image view
+			@retval  - renderobject hash 값을 반환
+		**/
+		RENGINE_API uint64 ObjectPicking(const math::Vector2& imageSize, const math::Vector2& mousePosition);
+
+		/**
 		    @brief Graphics Render
 		**/
 		void Render();
@@ -58,6 +68,8 @@ namespace rengine
 		void ResizeWindow(uint32 width, uint32 height);
 
 	private:
+		Vector2 m_screenSize = { 1280, 720 };
+
 		graphics::GraphicsEngine* m_pGraphicsEngine = nullptr;
 
 		//queue<CameraBuffer*> m_cameraQueue;

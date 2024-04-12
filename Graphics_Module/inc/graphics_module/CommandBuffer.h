@@ -39,7 +39,7 @@ namespace graphics
 		virtual void CopyBuffer(Buffer& dstBuffer, uint32 dstOffset, Buffer& srcBuffer, uint32 srcOffset, uint32 size) abstract;
 
 		virtual void GenerateMips(Texture& texture) abstract;
-		virtual void GenerateMips(Texture& texture, const TextureSubresource& subresource) abstract;
+		virtual void GenerateMips(Texture& texture, const TextureSubresource& _subresource) abstract;
 
 		/* ----- Viewport and Scissor ----- */
 
@@ -93,7 +93,7 @@ namespace graphics
 
 		virtual void Draw(uint32 numVertices, uint32 firstVertex) abstract;
 
-		virtual void DrawIndexed(uint32 numIndices, uint32 firstIndex, uint32 offset = 0) abstract;
+		virtual void DrawIndexed(uint32 numIndices, uint32 firstIndex, uint32 _offset = 0) abstract;
 
 		virtual void DrawInstanced(uint32 numVertices, uint32 firstVertex, uint32 numInstances, uint32 firstInstance = 0) abstract;
 
@@ -102,7 +102,7 @@ namespace graphics
 		/* ----- Compute ----- */
 
 		virtual void Dispatch(uint32 numWorkGroupsX, uint32 numWorkGroupsY, uint32 numWorkGroupsZ) abstract;
-		virtual void DispatchIndirect(Buffer& buffer, uint32 offset) abstract;
+		virtual void DispatchIndirect(Buffer& buffer, uint32 _offset) abstract;
 	};
 
 }

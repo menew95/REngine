@@ -47,7 +47,7 @@ namespace graphics
 			void Release(Texture& texture) override;
 
 			void WriteTexture(Texture& texture, const TextureRegion& textureRegion, const ImageDesc& imageDesc) override;
-			void ReadTexture(Texture& texture) override;
+			void ReadTexture(Texture& texture, const TextureRegion& textureRegion, struct CopyImageView& copyImageView) override;
 
 			/* ----- Sampler States ---- */
 			Sampler* CreateSampler(uuid uuid, const SamplerDesc& desc) override;

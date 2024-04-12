@@ -10,6 +10,7 @@
 
 #include <graphics_module\Module.h>
 #include <graphics_module\RenderSystem.h>
+#include <graphics_module\Texture.h>
 
 #include <errhandlingapi.h>
 
@@ -132,6 +133,36 @@ namespace graphics
 	void graphics::GraphicsEngine::SetLightSetting(const LightSetting& setting)
 	{
 
+	}
+
+	uint64 graphics::GraphicsEngine::ObjectPicking(const math::Vector2& pixel)
+	{
+		auto _flagTexture = ResourceManager::GetInstance()->GetTexture(TEXT("Flag"));
+
+		// 만약, 매개변수로 들어온 Pixel의 위치가 텍스처의 크기를 넘어갔다면
+		if ((pixel.x > _flagTexture->GetResolution()._width) || (pixel.y > _flagTexture->GetResolution()._height))
+			return uint64_t{};
+
+		graphics::TextureRegion _region;
+
+		_region._offset.x = pixel.x;
+
+		_region._offset.y = pixel.y;
+
+		_region._subresource._numMipLevels = 1;
+
+		_region._subresource._numArrayLayers = 1;
+
+		uint64 _renderObjectID = 0;
+
+		CopyImageView _copyImageView;
+
+		_copyImageView.data = &_renderObjectID;
+		_copyImageView.dataSize = sizeof(_renderObjectID);
+
+		m_pRenderSystem->ReadTexture(*_flagTexture, _region, _copyImageView);
+
+		return uint64();
 	}
 
 	void GraphicsEngine::LoadModule(const GraphicsEngineDesc& desc)

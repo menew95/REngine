@@ -53,24 +53,24 @@ namespace graphics
 		TextureSubresource() = default;
 		TextureSubresource(const TextureSubresource&) = default;
 
-		inline TextureSubresource(uint32 baseArrayLayer, uint32 baseMipLevel) :
-			baseArrayLayer{ baseArrayLayer },
-			baseMipLevel{ baseMipLevel }
+		inline TextureSubresource(uint32 _baseArrayLayer, uint32 _baseMipLevel) :
+			_baseArrayLayer{ _baseArrayLayer },
+			_baseMipLevel{ _baseMipLevel }
 		{
 		}
 
-		inline TextureSubresource(uint32 baseArrayLayer, uint32 numArrayLayers, uint32 baseMipLevel, uint32 numMipLevels) :
-			baseArrayLayer{ baseArrayLayer },
-			numArrayLayers{ numArrayLayers },
-			baseMipLevel{ baseMipLevel },
-			numMipLevels{ numMipLevels }
+		inline TextureSubresource(uint32 _baseArrayLayer, uint32 _numArrayLayers, uint32 _baseMipLevel, uint32 _numMipLevels) :
+			_baseArrayLayer{ _baseArrayLayer },
+			_numArrayLayers{ _numArrayLayers },
+			_baseMipLevel{ _baseMipLevel },
+			_numMipLevels{ _numMipLevels }
 		{
 		}
 
-		uint32   baseArrayLayer = 0;
-		uint32   numArrayLayers = 1;
-		uint32   baseMipLevel = 0;
-		uint32   numMipLevels = 1;
+		uint32   _baseArrayLayer = 0;
+		uint32   _numArrayLayers = 1;
+		uint32   _baseMipLevel = 0;
+		uint32   _numMipLevels = 1;
 	};
 
 	struct TextureRegion
@@ -78,23 +78,23 @@ namespace graphics
 		TextureRegion() = default;
 		TextureRegion(const TextureRegion&) = default;
 
-		inline TextureRegion(const Offset3D& offset, const Extent3D& extent) :
-			offset{ offset },
-			extent{ extent }
+		inline TextureRegion(const Offset3D& _offset, const Extent3D& _extent) :
+			_offset{ _offset },
+			_extent{ _extent }
 		{
 		}
 
-		inline TextureRegion(const TextureSubresource& subresource, const Offset3D& offset, const Extent3D& extent) :
-			subresource{ subresource },
-			offset{ offset },
-			extent{ extent }
+		inline TextureRegion(const TextureSubresource& _subresource, const Offset3D& _offset, const Extent3D& _extent) :
+			_subresource{ _subresource },
+			_offset{ _offset },
+			_extent{ _extent }
 		{
 		}
-		TextureSubresource  subresource;
+		TextureSubresource  _subresource;
 
-		Offset3D		offset;
+		Offset3D		_offset;
 
-		Extent3D		extent;
+		Extent3D		_extent;
 	};
 
 	struct TextureDesc

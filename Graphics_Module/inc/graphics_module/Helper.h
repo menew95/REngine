@@ -247,7 +247,7 @@ namespace graphics
     }
 
     template <typename T>
-    inline T* AdvancePtr(T* ptr, std::size_t offset)
+    inline T* AdvancePtr(T* ptr, std::size_t _offset)
     {
         using TByteAligned = typename std::conditional
             <
@@ -255,7 +255,7 @@ namespace graphics
             const std::int8_t,
             std::int8_t
             >::type;
-        return reinterpret_cast<T*>(reinterpret_cast<TByteAligned*>(ptr) + offset);
+        return reinterpret_cast<T*>(reinterpret_cast<TByteAligned*>(ptr) + _offset);
     }
 
     /*GRAPHICS_DLL_DECLSPEC std::string ReadFileString(const char* filename);

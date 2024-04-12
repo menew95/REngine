@@ -100,15 +100,15 @@ namespace graphics
 				case TextureType::Texture1DArray:
 					textureD3D.UpdateSubresource(
 						m_Context.Get(),
-						textureRegion.subresource.baseMipLevel,
-						textureRegion.subresource.baseArrayLayer,
+						textureRegion._subresource._baseMipLevel,
+						textureRegion._subresource._baseArrayLayer,
 						0,
 						CD3D11_BOX(
-							textureRegion.offset.x,
+							textureRegion._offset.x,
 							0,
 							0,
-							textureRegion.offset.x + static_cast<LONG>(textureRegion.extent._width),
-							static_cast<LONG>(textureRegion.subresource.numArrayLayers),
+							textureRegion._offset.x + static_cast<LONG>(textureRegion._extent._width),
+							static_cast<LONG>(textureRegion._subresource._numArrayLayers),
 							1
 						),
 						imageDesc
@@ -121,16 +121,16 @@ namespace graphics
 				case TextureType::TextureCubeArray:
 					textureD3D.UpdateSubresource(
 						m_Context.Get(),
-						textureRegion.subresource.baseMipLevel,
-						textureRegion.subresource.baseArrayLayer,
+						textureRegion._subresource._baseMipLevel,
+						textureRegion._subresource._baseArrayLayer,
 						0,
 						CD3D11_BOX(
-							textureRegion.offset.x,
-							textureRegion.offset.y,
+							textureRegion._offset.x,
+							textureRegion._offset.y,
 							0,
-							textureRegion.offset.x + static_cast<LONG>(textureRegion.extent._width),
-							textureRegion.offset.y + static_cast<LONG>(textureRegion.extent._height),
-							static_cast<LONG>(textureRegion.subresource.numArrayLayers)
+							textureRegion._offset.x + static_cast<LONG>(textureRegion._extent._width),
+							textureRegion._offset.y + static_cast<LONG>(textureRegion._extent._height),
+							static_cast<LONG>(textureRegion._subresource._numArrayLayers)
 						),
 						imageDesc
 					);
@@ -143,16 +143,16 @@ namespace graphics
 				case TextureType::Texture3D:
 					textureD3D.UpdateSubresource(
 						m_Context.Get(),
-						textureRegion.subresource.baseMipLevel,
+						textureRegion._subresource._baseMipLevel,
 						0,
 						0,
 						CD3D11_BOX(
-							textureRegion.offset.x,
-							textureRegion.offset.y,
-							textureRegion.offset.z,
-							textureRegion.offset.x + static_cast<LONG>(textureRegion.extent._width),
-							textureRegion.offset.y + static_cast<LONG>(textureRegion.extent._height),
-							textureRegion.offset.z + static_cast<LONG>(textureRegion.extent._depth)
+							textureRegion._offset.x,
+							textureRegion._offset.y,
+							textureRegion._offset.z,
+							textureRegion._offset.x + static_cast<LONG>(textureRegion._extent._width),
+							textureRegion._offset.y + static_cast<LONG>(textureRegion._extent._height),
+							textureRegion._offset.z + static_cast<LONG>(textureRegion._extent._depth)
 						),
 						imageDesc
 					);
@@ -160,9 +160,57 @@ namespace graphics
 			}
 		}
 
-		void DX11RenderSystem::ReadTexture(Texture& texture)
+		void DX11RenderSystem::ReadTexture(Texture& texture, const TextureRegion& textureRegion, CopyImageView& copyImageView)
 		{
-			assert(false);
+			DX11Texture& _castTex = reinterpret_cast<DX11Texture&>(texture);
+
+			DX11NativeTexture copy;
+			_castTex.CreateSubresourceCopyWithCPUAccess(m_Device.Get(), m_Context.Get(), copy, D3D11_CPU_ACCESS_READ, textureRegion);
+
+			const UINT subresource = 0;
+
+			D3D11_MAPPED_SUBRESOURCE _mappedSubresource;
+			auto _hr = m_Context->Map(copy._resource.Get(), subresource, D3D11_MAP_READ, 0, &_mappedSubresource);
+			
+			HR(_hr, "read texture mapping failed");
+
+			/* Copy host visible resource to CPU accessible resource */
+			auto& format = _castTex.GetDesc()._format;
+			UINT32 copydataSize = 0;
+
+			switch (_castTex.GetDesc()._format)
+			{
+				case Format::R32G32B32A32_TYPELESS:
+				case Format::R32G32B32A32_FLOAT:
+				case Format::R32G32B32A32_UINT:
+				case Format::R32G32B32A32_SINT:
+				{
+					copydataSize = 16;
+					break;
+				}
+				case Format::R8G8B8A8_TYPELESS:
+				case Format::R8G8B8A8_UNORM:
+				case Format::R8G8B8A8_UNORM_SRGB:
+				case Format::R8G8B8A8_UINT:
+				case Format::R8G8B8A8_SNORM:
+				case Format::R8G8B8A8_SINT:
+				{
+					copydataSize = 4;
+					break;
+				}
+				default:
+					break;
+			}
+
+			if (copyImageView.dataSize < copydataSize)
+			{
+				copydataSize = copyImageView.dataSize;
+			}
+
+			memcpy(copyImageView.data, _mappedSubresource.pData, copydataSize);
+			/* Unmap resource */
+			m_Context->Unmap(copy._resource.Get(), subresource);
+
 		}
 
 		CommandBuffer* DX11RenderSystem::CreateCommandBuffer(uuid uuid, const CommandBufferDesc& desc)

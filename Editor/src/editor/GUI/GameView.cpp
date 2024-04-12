@@ -7,12 +7,13 @@
 #include <rengine\core\resource\Texture.h>
 #include <rengine\system\Time.h>
 #include <rengine\system\Input.h>
+#include <rengine\system\GraphicsSystem.h>
 
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\CameraBuffer.h>
 
-
+#include <log\log.h>
 
 namespace editor
 {
@@ -40,7 +41,30 @@ namespace editor
 
 		auto _mainCam = rengine::Camera::GetMainTextureID();
 
-		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImGui::GetCurrentWindow()->Size);
+		ImVec2 _viportPanelSize = ImGui::GetContentRegionAvail();
+
+		m_viewportSize = { _viportPanelSize.x, _viportPanelSize.y };
+
+		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{0, 0}, ImVec2{ 1, 1 });
+
+		if(ImGui::IsItemHovered())
+		{
+			// 아이템의 왼쪽 상단 모서리 좌표
+			ImVec2 _itemMinRect = ImGui::GetItemRectMin();
+
+			auto [mx, my] = ImGui::GetMousePos();
+			Vector2 _mousePosInItem = { mx - _itemMinRect.x, my - _itemMinRect.y };
+
+			int mouseX = (int)(mx - _itemMinRect.x);
+			int mouseY = (int)(my - _itemMinRect.y);
+
+			Log::Core_Info(std::format("Mouse = {0}, {1}", mouseX, mouseY));
+
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+			{
+				ObjectPicking(m_viewportSize, _mousePosInItem);
+			}
+		}
 	}
 	void EDITOR_API GameView::End()
 	{
@@ -172,5 +196,12 @@ namespace editor
 		_info._worldViewProj = math::Matrix::CreateTranslation(_info._cameraWorldPos) * _info._view * _info._proj;
 
 		m_pGameViewCameraBuffer->Update(_info);
+	}
+
+	void GameView::ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition)
+	{
+		uint64 _uuid_hash = rengine::GraphicsSystem::GetInstance()->ObjectPicking(imageSize, mousePosition);
+
+
 	}
 }

@@ -10,6 +10,7 @@
 #pragma once
 
 #include <common\singleton.h>
+#include <common\math.h>
 
 #include <graphics_core\Graphics_core_dllexport.h>
 #include <graphics_core\GraphicsEngineFlags.h>
@@ -64,6 +65,13 @@ namespace graphics
 		GRAPHICS_API void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
 
 		GRAPHICS_API void SetLightSetting(const LightSetting& setting);
+
+		/**
+			@brief  object id frame buffer로부터 해당 픽셀 값을 읽고 renderobject hash 값을 반환
+			@param pixel	- 읽을 픽셀 위치
+			@retval			- renderobject hash 값을 반환
+		**/
+		GRAPHICS_API uint64 ObjectPicking(const math::Vector2& pixel);
 
 	private:
 		

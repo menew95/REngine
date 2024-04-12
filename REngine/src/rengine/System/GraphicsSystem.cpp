@@ -38,6 +38,8 @@ namespace rengine
 		_desc._module = API::DirectX11;
 		_desc._info = wininfo;
 
+		m_screenSize = { (float)wininfo._width, (float)wininfo._height };
+
 		m_pGraphicsEngine->Init(_desc);
 	}
 
@@ -61,6 +63,18 @@ namespace rengine
 		return m_pGraphicsEngine->GetContext();
 	}
 
+	uint64 GraphicsSystem::ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition)
+	{
+		if ((mousePosition.x <= 0 || mousePosition.y <= 0.f))
+			return uint64();
+
+		const math::Vector2 sizeRatio = m_screenSize / imageSize;
+
+		uint64 _renderObjID = m_pGraphicsEngine->ObjectPicking(mousePosition * sizeRatio);
+
+		return _renderObjID;
+	}
+
 	void GraphicsSystem::Render()
 	{
 		m_pGraphicsEngine->Excute();
@@ -74,6 +88,8 @@ namespace rengine
 	void rengine::GraphicsSystem::ResizeWindow(uint32 width, uint32 height)
 	{
 		Extent2D _resolution{ width , height};
+
+		m_screenSize = { (float)width , (float)height };
 
 		m_pGraphicsEngine->ResizeSwapchain(_resolution);
 	}

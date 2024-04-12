@@ -120,10 +120,10 @@ namespace graphics
 
 		uint PackTextureSubresource(const TextureSubresource& subresource)
 		{
-			uint32 _pack = subresource.baseArrayLayer << 24 |
-				subresource.numArrayLayers << 16 |
-				subresource.baseMipLevel << 8 |
-				subresource.numMipLevels;
+			uint32 _pack = subresource._baseArrayLayer << 24 |
+				subresource._numArrayLayers << 16 |
+				subresource._baseMipLevel << 8 |
+				subresource._numMipLevels;
 
 			return _pack;
 		}
@@ -132,10 +132,10 @@ namespace graphics
 		{
 			TextureSubresource _unPack
 			{
-				_unPack.baseArrayLayer = (pack && 0xff000000) >> 24,
-				_unPack.numArrayLayers = (pack && 0x00ff0000) >> 16,
-				_unPack.baseMipLevel = (pack && 0x0000ff00) >> 8,
-				_unPack.numMipLevels = (pack && 0x000000ff)
+				_unPack._baseArrayLayer = (pack && 0xff000000) >> 24,
+				_unPack._numArrayLayers = (pack && 0x00ff0000) >> 16,
+				_unPack._baseMipLevel = (pack && 0x0000ff00) >> 8,
+				_unPack._numMipLevels = (pack && 0x000000ff)
 			};
 
 			return _unPack;
@@ -145,8 +145,8 @@ namespace graphics
 		{
 			uint32 _pack = PackTextureSubresource(subresource);
 
-			if (subresource.numMipLevels > 0 &&
-				subresource.numArrayLayers > 0)
+			if (subresource._numMipLevels > 0 &&
+				subresource._numArrayLayers > 0)
 			{
 				ComPtr<ID3D11Device> _device;
 				texture.GetNativeTexture()._resource->GetDevice(_device.GetAddressOf());
@@ -158,10 +158,10 @@ namespace graphics
 					_srv.GetAddressOf(),
 					texture.GetType(),
 					texture.GetDXFormat(),
-					subresource.baseMipLevel,
-					subresource.numMipLevels,
-					subresource.baseArrayLayer,
-					subresource.numArrayLayers);
+					subresource._baseMipLevel,
+					subresource._numMipLevels,
+					subresource._baseArrayLayer,
+					subresource._numArrayLayers);
 
 				m_SRVs.push_back(std::move(_srv));
 
@@ -177,8 +177,8 @@ namespace graphics
 		{
 			uint32 _pack = PackTextureSubresource(subresource);
 
-			if (subresource.numMipLevels > 0 &&
-				subresource.numArrayLayers > 0)
+			if (subresource._numMipLevels > 0 &&
+				subresource._numArrayLayers > 0)
 			{
 				ComPtr<ID3D11Device> _device;
 				texture.GetNativeTexture()._resource->GetDevice(_device.GetAddressOf());
@@ -190,9 +190,9 @@ namespace graphics
 					_uav.GetAddressOf(),
 					texture.GetType(),
 					texture.GetDXFormat(),
-					subresource.baseMipLevel,
-					subresource.baseArrayLayer,
-					subresource.numArrayLayers);
+					subresource._baseMipLevel,
+					subresource._baseArrayLayer,
+					subresource._numArrayLayers);
 
 				m_UAVs.push_back(std::move(_uav));
 

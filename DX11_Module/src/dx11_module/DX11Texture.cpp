@@ -365,9 +365,9 @@ namespace graphics
 					D3D11_TEXTURE1D_DESC _desc;
 					m_NativeTexture._tex1D->GetDesc(&_desc);
 					{
-						_desc.Width = region.extent._width;
+						_desc.Width = region._extent._width;
 						_desc.MipLevels = 1;
-						_desc.ArraySize = region.subresource.numArrayLayers;
+						_desc.ArraySize = region._subresource._numArrayLayers;
 						_desc.Usage = D3D11_USAGE_STAGING;
 						_desc.BindFlags = 0;
 						_desc.CPUAccessFlags = cpuAccessFlags;
@@ -382,10 +382,10 @@ namespace graphics
 					D3D11_TEXTURE2D_DESC desc;
 					m_NativeTexture._tex2D->GetDesc(&desc);
 					{
-						desc.Width = region.extent._width;
-						desc.Height = region.extent._height;
+						desc.Width = region._extent._width;
+						desc.Height = region._extent._height;
 						desc.MipLevels = 1;
-						desc.ArraySize = region.subresource.numArrayLayers;
+						desc.ArraySize = region._subresource._numArrayLayers;
 						desc.Usage = D3D11_USAGE_STAGING;
 						desc.BindFlags = 0;
 						desc.CPUAccessFlags = cpuAccessFlags;
@@ -399,9 +399,9 @@ namespace graphics
 					D3D11_TEXTURE3D_DESC desc;
 					m_NativeTexture._tex3D->GetDesc(&desc);
 					{
-						desc.Width = region.extent._width;
-						desc.Height = region.extent._height;
-						desc.Depth = region.extent._depth;
+						desc.Width = region._extent._width;
+						desc.Height = region._extent._height;
+						desc.Depth = region._extent._depth;
 						desc.MipLevels = 1;
 						desc.Usage = D3D11_USAGE_STAGING;
 						desc.BindFlags = 0;
@@ -413,21 +413,21 @@ namespace graphics
 				}
 			}
 
-			const uint32 _mipLevel = region.subresource.baseMipLevel;
+			const uint32 _mipLevel = region._subresource._baseMipLevel;
 
 			const D3D11_BOX _srcBox
 			{
-				static_cast<uint32>(region.offset.x),
-				static_cast<uint32>(region.offset.y),
-				static_cast<uint32>(region.offset.z),
-				static_cast<uint32>(region.offset.x) + region.extent._width,
-				static_cast<uint32>(region.offset.y) + region.extent._height,
-				static_cast<uint32>(region.offset.z) + region.extent._depth,
+				static_cast<uint32>(region._offset.x),
+				static_cast<uint32>(region._offset.y),
+				static_cast<uint32>(region._offset.z),
+				static_cast<uint32>(region._offset.x) + region._extent._width,
+				static_cast<uint32>(region._offset.y) + region._extent._height,
+				static_cast<uint32>(region._offset.z) + region._extent._depth,
 			};
 
-			for (std::uint32_t i = 0; i < region.subresource.numArrayLayers; ++i)
+			for (std::uint32_t i = 0; i < region._subresource._numArrayLayers; ++i)
 			{
-				const UINT arrayLayer = region.subresource.baseArrayLayer + i;
+				const UINT arrayLayer = region._subresource._baseArrayLayer + i;
 				context->CopySubresourceRegion(
 					textureOutput._resource.Get(),
 					D3D11CalcSubresource(0, i, 1),
@@ -465,9 +465,9 @@ namespace graphics
 					_format = ToDXGIFormatUINT(_desc.Format);
 					_arraySize = _desc.ArraySize;
 					{
-						_desc.Width = region.extent._width;
+						_desc.Width = region._extent._width;
 						_desc.MipLevels = 1;
-						_desc.ArraySize = region.subresource.numArrayLayers;
+						_desc.ArraySize = region._subresource._numArrayLayers;
 						_desc.Format = _format;
 						_desc.Usage = D3D11_USAGE_DEFAULT;
 						_desc.BindFlags = _bindFlags;
@@ -484,10 +484,10 @@ namespace graphics
 					_format = ToDXGIFormatUINT(_desc.Format);
 					_arraySize = _desc.ArraySize;
 					{
-						_desc.Width = region.extent._width;
-						_desc.Height = region.extent._height;
+						_desc.Width = region._extent._width;
+						_desc.Height = region._extent._height;
 						_desc.MipLevels = 1;
-						_desc.ArraySize = region.subresource.numArrayLayers;
+						_desc.ArraySize = region._subresource._numArrayLayers;
 						_desc.Format = _format;
 						_desc.Usage = D3D11_USAGE_DEFAULT;
 						_desc.BindFlags = _bindFlags;
@@ -503,9 +503,9 @@ namespace graphics
 					m_NativeTexture._tex3D->GetDesc(&_desc);
 					_format = ToDXGIFormatUINT(_desc.Format);
 					{
-						_desc.Width = region.extent._width;
-						_desc.Height = region.extent._height;
-						_desc.Depth = region.extent._depth;
+						_desc.Width = region._extent._width;
+						_desc.Height = region._extent._height;
+						_desc.Depth = region._extent._depth;
 						_desc.MipLevels = 1;
 						_desc.Format = _format;
 						_desc.Usage = D3D11_USAGE_DEFAULT;

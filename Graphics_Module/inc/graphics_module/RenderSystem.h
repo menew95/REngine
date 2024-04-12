@@ -8,6 +8,7 @@
 #include "graphics_module\CommandBuffer.h"
 #include "graphics_module\ResourceFlags.h"
 #include "graphics_module\RenderSystemFlags.h"
+#include "graphics_module\ImageFlags.h"
 
 #include "graphics_module\Shader.h"
 #include "graphics_module\SwapChain.h"
@@ -57,7 +58,7 @@ namespace graphics
 		virtual void Release(Texture& texture) abstract;
 
 		virtual void WriteTexture(Texture& texture, const TextureRegion& textureRegion, const ImageDesc& imageDesc) abstract;
-		virtual void ReadTexture(Texture& texture) abstract;
+		virtual void ReadTexture(Texture& texture, const TextureRegion& textureRegion, struct CopyImageView& copyImageView) abstract;
 
 		/* ----- Sampler States ---- */
 		virtual Sampler* CreateSampler(uuid uuid, const SamplerDesc& desc) abstract;

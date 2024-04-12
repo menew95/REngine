@@ -108,10 +108,10 @@ namespace graphics
 
 			auto* _srv = _castTexture.GetSRV();
 
-			if (subresource.baseMipLevel == 0 && 
-				subresource.numMipLevels == _castTexture.GetNumMipLevels() &&
-				subresource.baseArrayLayer == 0 &&
-				subresource.numArrayLayers == _castTexture.GetNumArrayLayers() &&
+			if (subresource._baseMipLevel == 0 && 
+				subresource._numMipLevels == _castTexture.GetNumMipLevels() &&
+				subresource._baseArrayLayer == 0 &&
+				subresource._numArrayLayers == _castTexture.GetNumArrayLayers() &&
 				_srv != nullptr)
 			{
 				m_Context->GenerateMips(_srv);

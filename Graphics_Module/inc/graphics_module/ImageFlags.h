@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "graphics_module\Format.h"
 
@@ -28,6 +28,23 @@ namespace graphics
 		const void* data = nullptr;
 
 		//! Specifies the size (in bytes) of the image data. This is primarily used for compressed images and serves for robustness.
+		size_t dataSize = 0;
+	};
+
+	struct CopyImageView
+	{
+		CopyImageView() = default;
+		CopyImageView(const CopyImageView&) = default;
+
+		//! Constructor to initialize all attributes.
+		inline CopyImageView(void* data, size_t dataSize) :
+			data{ data },
+			dataSize{ dataSize }
+		{
+		}
+		
+		void* data = nullptr;
+
 		size_t dataSize = 0;
 	};
 }

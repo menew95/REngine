@@ -10,6 +10,8 @@
 
 #include <common\common.h>
 
+#include <common\math.h>
+
 #include <editor\Editor_dllexport.h>
 
 namespace editor
@@ -40,5 +42,8 @@ namespace editor
 		bool m_bOpen = true;
 
 		uint32 m_flags = 0;
+
+		Vector2 m_viewportSize = Vector2::One;
+		Vector2 m_viewportBounds[2];
 	};
 }

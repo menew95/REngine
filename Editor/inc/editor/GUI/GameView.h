@@ -40,6 +40,13 @@ namespace editor
         **/
         void GameViewCameraControl();
 
+        /**
+            @brief 그래픽스 엔진으로부터 클릭한 마우스 좌표에 해당하는 값을 읽어옴
+            @param imageSize     - image view size
+            @param mousePosition - click position in image view
+        **/
+        void ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition);
+
         float m_fSpeed = 1.0f;
 
         graphics::CameraBuffer* m_pGameViewCameraBuffer = nullptr;
