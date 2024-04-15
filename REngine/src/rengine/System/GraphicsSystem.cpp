@@ -68,7 +68,7 @@ namespace rengine
 		if ((mousePosition.x <= 0 || mousePosition.y <= 0.f))
 			return uint64();
 
-		const math::Vector2 sizeRatio = m_screenSize / imageSize;
+		const math::Vector2 sizeRatio = Vector2{1280, 720} / imageSize;
 
 		uint64 _renderObjID = m_pGraphicsEngine->ObjectPicking(mousePosition * sizeRatio);
 

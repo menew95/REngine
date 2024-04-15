@@ -369,13 +369,13 @@ namespace rengine
          * @brief 이전 프레임에서 키를 누르지 않다가 이번 프레임에 키를 누르기 시작했는지에 대한 여부를 반환합니다.
          * 다른 말로, 키의 상태가 Down 성분을 가질 때 true를 반환합니다.
          */
-        static bool GetKeyDown(EVirtualKey _vKey);
+        RENGINE_API static bool GetKeyDown(EVirtualKey _vKey);
 
         /**
          * @brief 이전 프레임에서 키를 누르고 있다가 이번 프레임에 키를 떼기 시작했는지에 대한 여부를 반환합니다.
          * 다른 말로, 키의 상태가 Up 성분을 가질 때 true를 반환합니다.
          */
-        static bool GetKeyUp(EVirtualKey _vKey);
+        RENGINE_API static bool GetKeyUp(EVirtualKey _vKey);
 
         static int GetAxisHorizontal();
 

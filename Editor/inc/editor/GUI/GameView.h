@@ -12,6 +12,8 @@
 
 #include <editor\GUI\View.h>
 
+#include <ImGui\ImGuizmo.h>
+
 namespace graphics
 {
     class CameraBuffer;
@@ -47,8 +49,12 @@ namespace editor
         **/
         void ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition);
 
-        float m_fSpeed = 1.0f;
+        float m_fSpeed = 5.0f;
 
         graphics::CameraBuffer* m_pGameViewCameraBuffer = nullptr;
+
+        IMGUIZMO_NAMESPACE::OPERATION m_currentOperation = IMGUIZMO_NAMESPACE::OPERATION::TRANSLATE;
+
+        IMGUIZMO_NAMESPACE::MODE m_currentMode = IMGUIZMO_NAMESPACE::MODE::WORLD;
     };
 }

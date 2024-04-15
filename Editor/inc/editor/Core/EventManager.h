@@ -14,6 +14,11 @@
 
 #include <common\singleton.h>
 
+namespace rengine
+{
+    class Object;
+}
+
 namespace editor
 {
     class EventManager
@@ -22,7 +27,7 @@ namespace editor
 
     public:
         
-        inline void SetFocusObject(void* obj)
+        inline void SetFocusObject(rengine::Object* obj)
         {
             m_curFocusObject = obj;
         }
@@ -33,6 +38,6 @@ namespace editor
         }
 
     private:
-        void* m_curFocusObject = nullptr;
+        rengine::Object* m_curFocusObject = nullptr;
     };
 }

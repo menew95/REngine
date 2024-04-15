@@ -88,6 +88,9 @@ namespace graphics
         void PushRenderPass(auto* pass) { m_renderPassList.push_back(pass); }
         void RemoveRenderPass(auto idx) { m_renderPassList.erase(idx); }
 
+        math::Matrix GetView() { return m_cameraInfo._view; }
+        math::Matrix GetProj() { return m_cameraInfo._proj; }
+
     private:
         bool m_bIsEnable = true;
 

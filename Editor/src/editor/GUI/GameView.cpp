@@ -6,6 +6,7 @@
 #include <rengine\core\Resources.h>
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\object\GameObject.h>
+#include <rengine\core\component\Transform.h>
 #include <rengine\core\scene\scene.h>
 #include <rengine\core\sceneManager.h>
 #include <rengine\system\Time.h>
@@ -49,8 +50,9 @@ namespace editor
 
 		m_viewportSize = { _viportPanelSize.x, _viportPanelSize.y };
 
-		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{0, 0}, ImVec2{ 1, 1 });
+		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
 
+#pragma region Picking
 		if(ImGui::IsItemHovered())
 		{
 			// 아이템의 왼쪽 상단 모서리 좌표
@@ -69,6 +71,64 @@ namespace editor
 				ObjectPicking(m_viewportSize, _mousePosInItem);
 			}
 		}
+
+		if (ImGui::IsWindowFocused())
+		{
+			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_W))
+			{
+				m_currentOperation = IMGUIZMO_NAMESPACE::OPERATION::TRANSLATE;
+			}
+			else if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_E))
+			{
+				m_currentOperation = IMGUIZMO_NAMESPACE::OPERATION::ROTATE;
+			}
+			else if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_R))
+			{
+				m_currentOperation = IMGUIZMO_NAMESPACE::OPERATION::SCALE;
+			}
+			else if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_T))
+			{
+				m_currentOperation == IMGUIZMO_NAMESPACE::MODE::LOCAL ? m_currentMode = IMGUIZMO_NAMESPACE::MODE::WORLD : m_currentMode = IMGUIZMO_NAMESPACE::MODE::LOCAL;
+			}
+		}
+#pragma endregion
+
+#pragma region IMGUIZMO
+		auto* _object = EventManager::GetInstance()->GetFocusObject();
+
+		if (_object != nullptr && _object->GetType() == TEXT("GameObject"))
+		{
+			auto* _go = reinterpret_cast<rengine::GameObject*>(_object);
+
+			IMGUIZMO_NAMESPACE::SetOrthographic(false);
+
+			IMGUIZMO_NAMESPACE::SetDrawlist();
+
+			math::Matrix _world = _go->GetTransform()->GetWorld();
+			math::Matrix _view = m_pGameViewCameraBuffer->GetView();
+			math::Matrix _proj = m_pGameViewCameraBuffer->GetProj();
+			math::Matrix _world2 = _go->GetTransform()->GetWorld();
+
+			IMGUIZMO_NAMESPACE::Manipulate(
+				reinterpret_cast<float*>(&_view),
+				reinterpret_cast<float*>(&_proj),
+				m_currentOperation,
+				m_currentMode,
+				reinterpret_cast<float*>(&_world)
+			);
+
+			ImVec2 _itemMinRect = ImGui::GetItemRectMin();
+			ImVec2 _itemMaxRect = ImGui::GetItemRectMax();
+
+			IMGUIZMO_NAMESPACE::SetRect(_itemMinRect.x, _itemMinRect.y, _itemMaxRect.x - _itemMinRect.x, _itemMaxRect.y - _itemMinRect.y);
+
+			if (IMGUIZMO_NAMESPACE::IsUsing())
+			{
+				// 매트릭스 분해 및 업데이트 (=> 자식 개체들도 ..!)
+				_go->GetTransform()->SetWorld(_world);
+			}
+		}
+#pragma endregion
 	}
 	void EDITOR_API GameView::End()
 	{
@@ -98,11 +158,15 @@ namespace editor
 	{
 		graphics::GraphicsEngine::GetInstance()->PushCameraBuffer(m_pGameViewCameraBuffer);
 
-		if (!ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused() == false)
 			return;
 
-		static math::Matrix _camWorld;
+		if (rengine::Input::GetKeyPress(rengine::EVirtualKey::LeftShift))
+			m_fSpeed = 20.f;
+		else if (rengine::Input::GetKeyUp(rengine::EVirtualKey::LeftShift))
+			m_fSpeed = 10.f;
 
+		static math::Matrix _camWorld;
 		{
 			math::Vector3 _rightDir = _camWorld.Right();
 			math::Vector3 _upDir = _camWorld.Up();
@@ -144,20 +208,23 @@ namespace editor
 			float _right = 0;
 			float _up = 0;
 
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_W))
-				_forward += 1.f;
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_S))
-				_forward -= 1.f;
+			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::MouseRight))
+			{
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_W))
+					_forward += m_fSpeed * rengine::Time::GetDeltaTime();
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_S))
+					_forward -= m_fSpeed * rengine::Time::GetDeltaTime();
 
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_D))
-				_right += 1.f;
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_A))
-				_right -= 1.f;
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_D))
+					_right += m_fSpeed * rengine::Time::GetDeltaTime();
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_A))
+					_right -= m_fSpeed * rengine::Time::GetDeltaTime();
 
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_E))
-				_up += 1.f;
-			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_Q))
-				_up -= 1.f;
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_E))
+					_up += m_fSpeed * rengine::Time::GetDeltaTime();
+				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_Q))
+					_up -= m_fSpeed * rengine::Time::GetDeltaTime();
+			}
 
 			if (_forward != 0 || _right != 0 || _up != 0
 				|| _rotationPitch != 0 || _rotationY != 0)
