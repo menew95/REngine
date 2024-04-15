@@ -52,6 +52,45 @@ namespace editor
 
 		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
 
+#pragma region IMGUIZMO
+		auto* _object = EventManager::GetInstance()->GetFocusObject();
+
+		if (_object != nullptr && _object->GetType() == TEXT("GameObject"))
+		{
+			auto* _go = reinterpret_cast<rengine::GameObject*>(_object);
+
+			IMGUIZMO_NAMESPACE::SetOrthographic(false);
+
+			IMGUIZMO_NAMESPACE::SetDrawlist();
+
+			math::Matrix _world = _go->GetTransform()->GetWorld();
+			math::Matrix _view = m_pGameViewCameraBuffer->GetView();
+			math::Matrix _proj = m_pGameViewCameraBuffer->GetProj();
+			math::Matrix _world2 = _go->GetTransform()->GetWorld();
+
+			IMGUIZMO_NAMESPACE::Manipulate(
+				reinterpret_cast<float*>(&_view),
+				reinterpret_cast<float*>(&_proj),
+				m_currentOperation,
+				m_currentMode,
+				reinterpret_cast<float*>(&_world)
+			);
+
+			ImVec2 _itemMinRect = ImGui::GetItemRectMin();
+			ImVec2 _itemMaxRect = ImGui::GetItemRectMax();
+
+			IMGUIZMO_NAMESPACE::SetRect(_itemMinRect.x, _itemMinRect.y, _itemMaxRect.x - _itemMinRect.x, _itemMaxRect.y - _itemMinRect.y);
+
+			if (IMGUIZMO_NAMESPACE::IsUsing())
+			{
+				// 매트릭스 분해 및 업데이트 (=> 자식 개체들도 ..!)
+				_go->GetTransform()->SetWorld(_world);
+
+				return;
+			}
+		}
+#pragma endregion
+
 #pragma region Picking
 		if(ImGui::IsItemHovered())
 		{
@@ -93,42 +132,6 @@ namespace editor
 		}
 #pragma endregion
 
-#pragma region IMGUIZMO
-		auto* _object = EventManager::GetInstance()->GetFocusObject();
-
-		if (_object != nullptr && _object->GetType() == TEXT("GameObject"))
-		{
-			auto* _go = reinterpret_cast<rengine::GameObject*>(_object);
-
-			IMGUIZMO_NAMESPACE::SetOrthographic(false);
-
-			IMGUIZMO_NAMESPACE::SetDrawlist();
-
-			math::Matrix _world = _go->GetTransform()->GetWorld();
-			math::Matrix _view = m_pGameViewCameraBuffer->GetView();
-			math::Matrix _proj = m_pGameViewCameraBuffer->GetProj();
-			math::Matrix _world2 = _go->GetTransform()->GetWorld();
-
-			IMGUIZMO_NAMESPACE::Manipulate(
-				reinterpret_cast<float*>(&_view),
-				reinterpret_cast<float*>(&_proj),
-				m_currentOperation,
-				m_currentMode,
-				reinterpret_cast<float*>(&_world)
-			);
-
-			ImVec2 _itemMinRect = ImGui::GetItemRectMin();
-			ImVec2 _itemMaxRect = ImGui::GetItemRectMax();
-
-			IMGUIZMO_NAMESPACE::SetRect(_itemMinRect.x, _itemMinRect.y, _itemMaxRect.x - _itemMinRect.x, _itemMaxRect.y - _itemMinRect.y);
-
-			if (IMGUIZMO_NAMESPACE::IsUsing())
-			{
-				// 매트릭스 분해 및 업데이트 (=> 자식 개체들도 ..!)
-				_go->GetTransform()->SetWorld(_world);
-			}
-		}
-#pragma endregion
 	}
 	void EDITOR_API GameView::End()
 	{
@@ -164,7 +167,7 @@ namespace editor
 		if (rengine::Input::GetKeyPress(rengine::EVirtualKey::LeftShift))
 			m_fSpeed = 20.f;
 		else if (rengine::Input::GetKeyUp(rengine::EVirtualKey::LeftShift))
-			m_fSpeed = 10.f;
+			m_fSpeed = 5.f;
 
 		static math::Matrix _camWorld;
 		{
