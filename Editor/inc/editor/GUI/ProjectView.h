@@ -12,6 +12,11 @@
 
 #include <editor\GUI\View.h>
 
+namespace rengine
+{
+    class Texture;
+}
+
 namespace editor
 {
     class ProjectView : public View
@@ -51,10 +56,21 @@ namespace editor
         **/
         void CheckMetaFile(const tstring& path);
 
+        /**
+            @brief 파일 아이콘으로부터 텍스처를 생성함
+            @param path - 리소스로 사용할 파일 위치
+        **/
+        rengine::Texture* CreateTextureFromFileIcon(const tstring& path);
+
         bool m_bDrawMetaFile = false;
 
         tstring m_currPath;
 
         vector<tstring> m_selected;
+
+        shared_ptr<rengine::Texture> m_folderIcon;
+        shared_ptr<rengine::Texture> m_fileIcon;
+
+        map<tstring, rengine::Texture*> g_iconTextureMap; // extension, texture
     };
 }

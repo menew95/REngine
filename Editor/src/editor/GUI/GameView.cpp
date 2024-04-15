@@ -66,7 +66,6 @@ namespace editor
 			math::Matrix _world = _go->GetTransform()->GetWorld();
 			math::Matrix _view = m_pGameViewCameraBuffer->GetView();
 			math::Matrix _proj = m_pGameViewCameraBuffer->GetProj();
-			math::Matrix _world2 = _go->GetTransform()->GetWorld();
 
 			IMGUIZMO_NAMESPACE::Manipulate(
 				reinterpret_cast<float*>(&_view),

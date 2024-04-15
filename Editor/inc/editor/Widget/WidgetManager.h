@@ -20,6 +20,10 @@
 #include <editor\Widget\TreeNode.h>
 #include <editor\Widget\ColorEdit.h>
 #include <editor\Widget\InputText.h>
+#include <editor\Widget\DragFloat.h>
+#include <editor\Widget\DragFloat2.h>
+#include <editor\Widget\DragFloat3.h>
+#include <editor\Widget\DragFloat4.h>
 #include <editor\Widget\InputFloat.h>
 #include <editor\Widget\InputFloat2.h>
 #include <editor\Widget\InputFloat3.h>

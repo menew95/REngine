@@ -74,28 +74,28 @@
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Module\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Module\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Module\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)_build\$(Configuration)\$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)_build\_int\$(Configuration)\$(Platform)\$(ProjectName)\</IntDir>
     <TargetName>$(ProjectName)_$(PlatformTarget)_$(Configuration)</TargetName>
-    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)inc;$(SolutionDir)REngine\inc;$(SolutionDir)Graphics_Module\inc;$(SolutionDir)Graphics_Core\inc;$(SolutionDir)Log\inc;$(SolutionDir)Serialize\inc;$(SolutionDir)Importer\inc;$(SolutionDir)Common\inc;$(SolutionDir)_include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(IncludePath)</IncludePath>
     <SourcePath>$(ProjectDir)src;$(VC_SourcePath);</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -219,6 +219,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\Widget\CheckBox.h" />
     <ClInclude Include="inc\editor\Widget\ColorEdit.h" />
     <ClInclude Include="inc\editor\Widget\ComboBox.h" />
+    <ClInclude Include="inc\editor\Widget\DragFloat.h" />
+    <ClInclude Include="inc\editor\Widget\DragFloat3.h" />
+    <ClInclude Include="inc\editor\Widget\DragFloat4.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat2.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat3.h" />
@@ -253,6 +256,9 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="src\Editor_pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="inc\editor\Widget\DragFloat2.h">
+      <FileType>CppHeader</FileType>
+    </ClInclude>
     <ClCompile Include="inc\ImGui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -267,6 +273,10 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp" />
     <ClCompile Include="src\editor\Widget\ColorEdit.cpp" />
     <ClCompile Include="src\editor\Widget\ComboBox.cpp" />
+    <ClCompile Include="src\editor\Widget\DragFloat.cpp" />
+    <ClCompile Include="src\editor\Widget\DragFloat2.cpp" />
+    <ClCompile Include="src\editor\Widget\DragFloat3.cpp" />
+    <ClCompile Include="src\editor\Widget\DragFloat4.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat2.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat3.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat4.cpp" />

@@ -16,83 +16,15 @@
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\Mesh.h>
 
+#include <graphics_core\resource\TextureBuffer.h>
+#include <graphics_module\TextureFlags.h>
+
 #include <serialize\Serializer.h>
 #include <importer\Importer.h>
 
 namespace fs = std::filesystem;
 
 #pragma region icon를 출력하기 위해 임시 방편으로 만듬
-
-#include "DirectXTex/DirectXTex.h"
-
-#include <d3d11.h>
-#include <dxgi.h>
-#include <wrl.h>
-
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3dcompiler.lib")
-#pragma comment(lib, "dxguid.lib")
-
-Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_folderSrv;
-Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> g_fileSrv;
-
-map<string, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> g_iconMap; // extension, srv
-map<string, rengine::Texture*> g_iconTextureMap; // extension, texture
-
-//void BitmapToSrv(LPCTSTR path, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv)
-//{
-//	HDC hdcScreen = GetDC(NULL);
-//	HDC hdc = CreateCompatibleDC(hdcScreen);
-//
-//	HICON hicon = GetFileTypeIcon(path);
-//
-//	HBITMAP hbmp = icon_to_bitmap(hicon);
-//
-//	int _width = 0, _height = 0, _pitch = 0;
-//
-//	auto _pixel = ToPixels(hbmp, _width, _height, _pitch);
-//
-//	D3D11_TEXTURE2D_DESC screenshot_desc = CD3D11_TEXTURE2D_DESC(
-//		DXGI_FORMAT_B8G8R8A8_UNORM,     // format
-//		_width,							// width
-//		_height,						// height
-//		1,                              // arraySize
-//		1,                              // mipLevels
-//		D3D11_BIND_SHADER_RESOURCE,     // bindFlags
-//		D3D11_USAGE_DEFAULT,            // usage
-//		D3D11_CPU_ACCESS_WRITE,         // cpuaccessFlags
-//		1,                              // sampleCount
-//		0,                              // sampleQuality
-//		0                               // miscFlags
-//	);
-//
-//	D3D11_SUBRESOURCE_DATA data;
-//	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-//	data.pSysMem = _pixel.data();
-//	data.SysMemPitch = _pitch;
-//	data.SysMemSlicePitch = _pitch * _height;
-//
-//	auto* device = (ID3D11Device*)GetEditor()->GetDevice();
-//
-//	bool hr = device->CreateTexture2D(
-//		&screenshot_desc,
-//		&data,
-//		m_NativeTexture._tex2D.GetAddressOf()
-//	);
-//
-//	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-//	srvDesc.Format = screenshot_desc.Format;
-//	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-//	srvDesc.Texture2D.MostDetailedMip = 0;
-//	srvDesc.Texture2D.MostDetailedMip = screenshot_desc.MipLevels;
-//
-//	device->CreateShaderResourceView(m_NativeTexture._tex2D.Get(), NULL, srv.ReleaseAndGetAddressOf());
-//
-//	shared_ptr<rengine::Texture> _tex = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
-//
-//}
-
 
 HICON GetFileTypeIcon(LPCTSTR path/*, LPWSTR szTypeName*/)
 { 
@@ -112,32 +44,6 @@ HBITMAP icon_to_bitmap(HICON hicon) {
 
 	return _icon_info.hbmColor;
 }
-
-union DX11NativeTexture
-{
-	inline DX11NativeTexture() : _resource{ nullptr }
-	{}
-
-	inline DX11NativeTexture(const DX11NativeTexture& texture) : _resource{ texture._resource }
-	{}
-
-	inline DX11NativeTexture& operator=(const DX11NativeTexture& texture)
-	{
-		_resource = texture._resource;
-	}
-
-	inline ~DX11NativeTexture()
-	{
-		_resource.Reset();
-	}
-
-	Microsoft::WRL::ComPtr<ID3D11Resource> _resource;
-	Microsoft::WRL::ComPtr<ID3D11Texture1D> _tex1D;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> _tex2D;
-	Microsoft::WRL::ComPtr<ID3D11Texture3D> _tex3D;
-};
-
-DX11NativeTexture m_NativeTexture;
 
 std::vector<unsigned char> ToPixels(HBITMAP BitmapHandle, int& width, int& height, int& pitch)
 {
@@ -166,168 +72,8 @@ std::vector<unsigned char> ToPixels(HBITMAP BitmapHandle, int& width, int& heigh
 
 	height = std::abs(height);
 	DeleteDC(DC);
+
 	return Pixels;
-}
-
-void BitmapToSrv(LPCTSTR path, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv)
-{
-	HDC hdcScreen = GetDC(NULL);
-	HDC hdc = CreateCompatibleDC(hdcScreen);
-
-	HICON hicon = GetFileTypeIcon(path);
-
-	HBITMAP hbmp = icon_to_bitmap(hicon);
-
-	int _width = 0, _height = 0, _pitch = 0;
-
-	auto _pixel = ToPixels(hbmp, _width, _height, _pitch);
-
-	D3D11_TEXTURE2D_DESC screenshot_desc = CD3D11_TEXTURE2D_DESC(
-		DXGI_FORMAT_B8G8R8A8_UNORM,     // format
-		_width,							// width
-		_height,						// height
-		1,                              // arraySize
-		1,                              // mipLevels
-		D3D11_BIND_SHADER_RESOURCE,     // bindFlags
-		D3D11_USAGE_DEFAULT,            // usage
-		D3D11_CPU_ACCESS_WRITE,         // cpuaccessFlags
-		1,                              // sampleCount
-		0,                              // sampleQuality
-		0                               // miscFlags
-	);
-
-	D3D11_SUBRESOURCE_DATA data;
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-	data.pSysMem = _pixel.data();
-	data.SysMemPitch = _pitch;
-	data.SysMemSlicePitch = _pitch * _height;
-
-	auto* device = (ID3D11Device*)GetEditor()->GetDevice();
-
-	bool hr = device->CreateTexture2D(
-		&screenshot_desc,
-		&data,
-		m_NativeTexture._tex2D.GetAddressOf()
-	);
-
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	srvDesc.Format = screenshot_desc.Format;
-	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MostDetailedMip = 0;
-	srvDesc.Texture2D.MostDetailedMip = screenshot_desc.MipLevels;
-
-	device->CreateShaderResourceView(m_NativeTexture._tex2D.Get(), NULL, srv.ReleaseAndGetAddressOf());
-}
-
-uint32 CheckFileFormat(const tstring& path)
-{
-	if (static_cast<uint32>(path.length()) > 1)
-	{
-		size_t extensionStartPoint = path.find_last_of('.') + (size_t)1;
-
-		auto fileFormat = path.substr(extensionStartPoint);
-
-		if (fileFormat == TEXT("dds") || fileFormat == TEXT("DDS"))
-		{
-			return 0;
-		}
-		else if (fileFormat == TEXT("tga") || fileFormat == TEXT("TGA"))
-		{
-			return 1;
-		}
-		else if (fileFormat == TEXT("hdr") || fileFormat == TEXT("HDR"))
-		{
-			return 2;
-		}
-		else
-		{
-			return 3;
-		}
-	}
-
-	return 3;
-}
-
-struct ImageDesc
-{
-	tstring _filePath;
-	void* _data;
-};
-
-void CreateImageTest(Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& srv, const ImageDesc& srcDesc)
-{
-	using namespace DirectX;
-
-	auto* device = (ID3D11Device*)GetEditor()->GetDevice();
-
-	if (srcDesc._filePath.size() <= 0)
-	{
-		AssertMessageBox(false, "filePath is not invaild");
-	}
-
-	ScratchImage image;
-
-	switch (CheckFileFormat(srcDesc._filePath))
-	{
-	case 0:
-	{
-		LoadFromDDSFile(srcDesc._filePath.c_str(), DDS_FLAGS_NONE, nullptr, image);
-		break;
-	}
-	case 1:
-	{
-		LoadFromTGAFile(srcDesc._filePath.c_str(), TGA_FLAGS_NONE, nullptr, image);
-		break;
-	}
-	case 2:
-	{
-		LoadFromHDRFile(srcDesc._filePath.c_str(), nullptr, image);
-		break;
-	}
-	case 3:
-	default:
-	{
-		LoadFromWICFile(srcDesc._filePath.c_str(), WIC_FLAGS_NONE, nullptr, image);
-		break;
-	}
-	}
-
-	AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
-
-	bool isCubeMap = image.GetMetadata().IsCubemap();
-
-	if (isCubeMap)
-	{
-		DirectX::ScratchImage mipChain;
-
-		CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf());
-
-	}
-	else
-	{
-		CreateTexture(device, image.GetImages(), image.GetImageCount(), image.GetMetadata(), m_NativeTexture._resource.GetAddressOf());
-	}
-
-	D3D11_TEXTURE2D_DESC textureDesc;
-	m_NativeTexture._tex2D->GetDesc(&textureDesc);
-
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	ZeroMemory(&srvDesc, sizeof(D3D11_SHADER_RESOURCE_VIEW_DESC));
-
-	srvDesc.Format = textureDesc.Format;
-	srvDesc.Texture2D.MipLevels = textureDesc.MipLevels;
-	srvDesc.Texture2D.MostDetailedMip = 0;
-
-	if (isCubeMap)
-	{
-		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
-	}
-	else
-	{
-		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-	}
-
-	device->CreateShaderResourceView(m_NativeTexture._resource.Get(), &srvDesc, srv.ReleaseAndGetAddressOf());
 }
 
 #pragma endregion
@@ -338,13 +84,8 @@ namespace editor
 		: View("Project View")
 		, m_currPath(g_assetPath)
 	{
-		ImageDesc _desc{ g_assetPath + TEXT("icon\\folder_icon.png"), nullptr};
-
-		CreateImageTest(g_folderSrv, _desc);
-
-		ImageDesc _desc2{ g_assetPath + TEXT("icon\\file_icon.png"), nullptr };
-
-		CreateImageTest(g_fileSrv, _desc2);
+		m_folderIcon = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + TEXT("icon\\folder_icon.png"));
+		m_fileIcon = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + TEXT("icon\\file_icon.png"));
 
 		CheckMetaFile(m_currPath);
 	}
@@ -473,9 +214,7 @@ namespace editor
 
 			std::string _fileName = _relativePath.filename().string();
 
-			Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _srv;
-
-			ImTextureID _texId = _srv.Get();
+			ImTextureID _texId = nullptr;
 
 			ImVec2 _top = {1, 1}, _bot = {0, 0};
 
@@ -487,20 +226,6 @@ namespace editor
 
 				if(_extension == TEXT(".meta") && !m_bDrawMetaFile)
 					continue;
-
-				/*if (_extension == TEXT(".mat"))
-				{
-
-				}
-				else if (_extension == TEXT(".mesh"))
-				{
-
-				}
-				else if (_extension == TEXT(".anim"))
-				{
-
-				}
-				else */
 
 				if (_extension == TEXT(".png") || _extension == TEXT(".bmp") || _extension == TEXT(".jpeg") || _extension == TEXT(".jpg")
 					|| _extension == TEXT(".dds") || _extension == TEXT(".tga") || _extension == TEXT(".hdr"))
@@ -518,28 +243,25 @@ namespace editor
 				}
 				else
 				{
-					auto _iter = g_iconMap.find(_path.extension().string());
+					auto _iter = g_iconTextureMap.find(_path.extension().wstring());
 
-					if (_iter != g_iconMap.end())
+					if (_iter != g_iconTextureMap.end())
 					{
-						_srv = _iter->second;
+						_texId = _iter->second->GetTextureBuffer()->GetTextureID();
 					}
 					else
 					{
-						BitmapToSrv(_path.wstring().c_str(), _srv);
+						auto* _texture = CreateTextureFromFileIcon(_path.wstring());
 
-						g_iconMap.insert(make_pair(_path.extension().string(), _srv));
+						g_iconTextureMap.insert(make_pair(_path.extension().wstring(), _texture));
+
+						_texId = _texture->GetTextureBuffer()->GetTextureID();
 					}
-
-					_texId = _srv.Get();
-
-					//_top = { 1, 1 };
-					//_bot = { 0, 0 };
 				}
 			}
 			else
 			{
-				_texId = _directoryEntry.is_directory() ? g_folderSrv.Get() : g_fileSrv.Get();
+				_texId = _directoryEntry.is_directory() ? m_folderIcon->GetTextureBuffer()->GetTextureID() : m_fileIcon->GetTextureBuffer()->GetTextureID();
 
 				_top = { 0, 0 };
 				_bot = { 1, 1 };
@@ -635,7 +357,6 @@ namespace editor
 				}
 			}
 
-			//ImGui::TextWrapped(_fileName.c_str());
 			ImGui::TextWrapped(_relativePath.stem().string().c_str());
 
 			ImGui::NextColumn();
@@ -682,5 +403,39 @@ namespace editor
 
 			utility::Importer::Import(path);
 		}
+	}
+
+	rengine::Texture* ProjectView::CreateTextureFromFileIcon(const tstring& path)
+	{
+		HDC hdcScreen = GetDC(NULL);
+		HDC hdc = CreateCompatibleDC(hdcScreen);
+
+		HICON hicon = GetFileTypeIcon(path.c_str());
+
+		HBITMAP hbmp = icon_to_bitmap(hicon);
+
+		int _width = 0, _height = 0, _pitch = 0;
+
+		auto _pixel = ToPixels(hbmp, _width, _height, _pitch);
+
+		graphics::TextureDesc _texDesc
+		{
+			graphics::TextureType::Texture2D,
+			graphics::BindFlags::ShaderResource,
+			0,
+			graphics::Format::B8G8R8A8_UNORM,
+			Extent3D{ (uint32)_width, (uint32)_height, 1},
+			1,
+			1,
+			1
+		};
+
+		graphics::ImageDesc _imageDesc{ _pixel.data() , _pitch, _pitch * _height};
+
+		auto _texture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
+
+		_texture->GetTextureBuffer()->LoadTexture(_texture->GetUUID(), _texDesc, _imageDesc);
+
+		return _texture.get();
 	}
 }

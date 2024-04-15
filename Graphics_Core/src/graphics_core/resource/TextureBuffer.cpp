@@ -188,6 +188,11 @@ namespace graphics
 		//m_pSampler = ResourceManager::GetInstance()->GetSampler(TEXT("WrapLinear"));
 	}
 
+	void TextureBuffer::LoadTexture(uuid uuid, TextureDesc& texDesc, const ImageDesc& imageDesc)
+	{
+		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, texDesc, &imageDesc);
+	}
+
 	bool TextureBuffer::UnLoadTexture()
 	{
 		return ResourceManager::GetInstance()->ReleaseTexture(m_pTexture);

@@ -153,6 +153,18 @@
     <ClInclude Include="inc\ImGui\ImGuizmo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\editor\Widget\DragFloat.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\DragFloat3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\DragFloat4.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\DragFloat2.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\Editor.cpp">
@@ -276,6 +288,18 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="inc\ImGui\ImGuizmo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\DragFloat.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\DragFloat2.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\DragFloat3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\DragFloat4.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

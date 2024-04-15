@@ -105,7 +105,7 @@ namespace editor
 			}
 			case rengine::MetaDataType::VECTOR2:
 			{
-				if (InputFloat2* _widget = reinterpret_cast<InputFloat2*>(header.GetChild(_propName)))
+				/*if (InputFloat2* _widget = reinterpret_cast<InputFloat2*>(header.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -116,13 +116,28 @@ namespace editor
 					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat2>(_propName, component, prop, _flags);
 
 					header.AddWidget(_widget);
+				}*/
+
+				if (DragFloat2* _widget = reinterpret_cast<DragFloat2*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiSliderFlags_None;
+
+					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat2>(_propName, component, prop, 1.0f, _min, _max, _flags);
+
+					header.AddWidget(_widget);
 				}
 
 				break;
 			}
 			case rengine::MetaDataType::VECTOR3:
 			{
-				if (InputFloat3* _widget = reinterpret_cast<InputFloat3*>(header.GetChild(_propName)))
+				/*if (InputFloat3* _widget = reinterpret_cast<InputFloat3*>(header.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -133,13 +148,28 @@ namespace editor
 					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat3>(_propName, component, prop, _flags);
 
 					header.AddWidget(_widget);
+				}*/
+
+				if (DragFloat3* _widget = reinterpret_cast<DragFloat3*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiSliderFlags_None;
+
+					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat3>(_propName, component, prop, 1.0f, _min, _max, _flags);
+
+					header.AddWidget(_widget);
 				}
 
 				break;
 			}
 			case rengine::MetaDataType::VECTOR4:
 			{
-				if (InputFloat4* _widget = reinterpret_cast<InputFloat4*>(header.GetChild(_propName)))
+				/*if (InputFloat4* _widget = reinterpret_cast<InputFloat4*>(header.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -148,6 +178,21 @@ namespace editor
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat4>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}*/
+
+				if (DragFloat4* _widget = reinterpret_cast<DragFloat4*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiSliderFlags_None;
+
+					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat4>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
 					header.AddWidget(_widget);
 				}
@@ -204,7 +249,7 @@ namespace editor
 			}
 			case rengine::MetaDataType::FLOAT:
 			{
-				if (InputFloat* _widget = reinterpret_cast<InputFloat*>(header.GetChild(_propName)))
+				/*if (InputFloat* _widget = reinterpret_cast<InputFloat*>(header.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -213,6 +258,21 @@ namespace editor
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<InputFloat>(_propName, component, prop, _flags);
+
+					header.AddWidget(_widget);
+				}*/
+
+				if (DragFloat* _widget = reinterpret_cast<DragFloat*>(header.GetChild(_propName)))
+				{
+					_widget->SetHandler(component);
+				}
+				else
+				{
+					uint32 _flags = ImGuiSliderFlags_None;
+
+					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
 					header.AddWidget(_widget);
 				}
