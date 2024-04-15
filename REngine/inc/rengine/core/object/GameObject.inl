@@ -16,6 +16,9 @@ namespace rengine
 
 		_newComponent->SetGameObject(_this);
 
+		// 위치가 이게 맞는지 모르겠다.
+		_newComponent->SetEnable(true);
+
 		m_Components.emplace_back(_newComponent);
 
 		return _newComponent;

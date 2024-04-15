@@ -562,7 +562,7 @@ namespace editor
 
 			if (ImGui::BeginDragDropSource())
 			{
-				auto _itemPath = _relativePath.c_str();
+				auto _itemPath = _path.c_str();
 
 				ImGui::SetDragDropPayload("CONTENT_BROWSER_ITEM", _itemPath, wcslen(_itemPath) * sizeof(wchar_t) + 2, ImGuiCond_Once);
 				ImGui::EndDragDropSource();
@@ -576,9 +576,7 @@ namespace editor
 				{
 					const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
 
-					fs::path _payloadPath(g_assetPath);
-
-					_payloadPath /= _wstr;
+					fs::path _payloadPath(_wstr);
 
 					fs::path _newPath = _path / _payloadPath.filename();
 

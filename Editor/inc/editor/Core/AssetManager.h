@@ -70,6 +70,14 @@ namespace editor
         uuid UUIDFromAssetPath(const tstring& path);
 
         /**
+            @brief  경로로부터 에셋를 가져옴
+            @param  path - asset absolute path
+            @param  type - asset type
+            @retval      - asset shared ptr(invalid asset path return nullptr)
+        **/
+        shared_ptr<rengine::Object> AssetFromPath(const tstring& path, const tstring& type = TEXT(""));
+
+        /**
             @brief 변경된 Asset들을 체크함
         **/
         void Refresh();

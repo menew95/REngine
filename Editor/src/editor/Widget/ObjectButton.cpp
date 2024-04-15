@@ -5,6 +5,11 @@
 #include <editor\Core\AssetManager.h>
 #include <rengine\core\component\Component.h>
 #include <rengine\System\ObjectFactory.h>
+
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 namespace editor
 {
 	ObjectButton::ObjectButton(string widgetName,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
@@ -86,6 +91,31 @@ namespace editor
 			{
 				if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 					_openSeachView = true;
+
+				if (ImGui::BeginDragDropTarget())
+				{
+					auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
+
+					if (_payload != nullptr && _payload->IsDelivery())
+					{
+						const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
+
+						fs::path _payloadPath(_wstr);
+
+						auto _type_name = StringHelper::StringToWString(_var.get_type().get_name().to_string());
+
+						auto _asset = AssetManager::GetInstance()->AssetFromPath(
+							fs::absolute(_payloadPath).c_str()
+							, StringHelper::StringToWString(_objName)
+						);
+
+						// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
+						if (_asset != nullptr)
+							SetProperty(this, _asset);
+					}
+
+					ImGui::EndDragDropTarget();
+				}
 			}
 			else
 			{
@@ -101,6 +131,29 @@ namespace editor
 						_openSeachView = true;
 						m_arrayIndex = i;
 					}
+
+					if (ImGui::BeginDragDropTarget())
+					{
+						auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
+
+						if (_payload != nullptr && _payload->IsDelivery())
+						{
+							const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
+
+							fs::path _payloadPath(_wstr);
+
+							auto _asset = AssetManager::GetInstance()->AssetFromPath(
+								fs::absolute(_payloadPath).c_str()
+								, StringHelper::StringToWString(_objName)
+							);
+
+							// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
+							if (_asset != nullptr)
+								SetProperty(this, _asset);
+						}
+
+						ImGui::EndDragDropTarget();
+					}
 				}
 			}
 		}
@@ -113,6 +166,29 @@ namespace editor
 
 			if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
 				_openSeachView = true;
+
+			if (ImGui::BeginDragDropTarget())
+			{
+				auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
+
+				if (_payload != nullptr && _payload->IsDelivery())
+				{
+					const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
+
+					fs::path _payloadPath(_wstr);
+
+					auto _asset = AssetManager::GetInstance()->AssetFromPath(
+							fs::absolute(_payloadPath).c_str()
+							, StringHelper::StringToWString(_objName)
+						);
+
+					// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
+					if(_asset != nullptr)
+						SetProperty(this, _asset);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
 		}
 		
 		ImGui::EndColumns();

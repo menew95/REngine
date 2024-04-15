@@ -3,6 +3,7 @@
 #include <common\AssetPath.h>
 #include <importer\Importer.h>
 #include <rengine\core\resources.h>
+#include <rengine\System\ObjectFactory.h>
 #include <Serialize\Serializer.h>
 #include <filesystem>
 
@@ -111,6 +112,31 @@ namespace editor
 			return TEXT("0");
 
 		return _iter->second;
+	}
+
+	shared_ptr<rengine::Object> AssetManager::AssetFromPath(const tstring& path, const tstring& type)
+	{
+		auto _uuid = UUIDFromAssetPath(path);
+
+		if(_uuid == TEXT("0"))
+			return nullptr;
+
+		shared_ptr<rengine::Object> _object;
+
+		if(type == TEXT(""))
+			return rengine::ObjectFactory::GetInstance()->Find(_uuid);
+		else
+		{
+			for (auto [_object_uuid, _object] : rengine::ObjectFactory::GetInstance()->FindObjectsOfType(type))
+			{
+				if (_uuid == _object_uuid)
+				{
+					return _object;
+				}
+			}
+		}
+
+		return nullptr;
 	}
 
 	void AssetManager::Refresh()
