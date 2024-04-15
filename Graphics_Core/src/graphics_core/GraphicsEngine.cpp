@@ -145,6 +145,9 @@ namespace graphics
 
 		graphics::TextureRegion _region;
 
+		// 1픽셀만 복사하여 읽을 것임
+		_region._extent = { 1, 1, 1};
+
 		_region._offset.x = pixel.x;
 
 		_region._offset.y = pixel.y;
@@ -162,7 +165,7 @@ namespace graphics
 
 		m_pRenderSystem->ReadTexture(*_flagTexture, _region, _copyImageView);
 
-		return uint64();
+		return _renderObjectID;
 	}
 
 	void GraphicsEngine::LoadModule(const GraphicsEngineDesc& desc)

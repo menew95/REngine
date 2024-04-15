@@ -69,7 +69,5 @@ namespace rengine
 	{
 		m_pRenderObject = (graphics::MeshObject*)graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
 		
-		// 임시
-		m_pRenderObject->SetEnable(true);
 	}
 }

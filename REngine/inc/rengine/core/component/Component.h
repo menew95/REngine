@@ -63,7 +63,7 @@ namespace rengine
 
         virtual void OnDestroy() {}
 
-    private:
+    protected:
         inline void SetGameObject(std::weak_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
 
         std::weak_ptr<GameObject> m_pGameObject;

@@ -34,7 +34,13 @@ namespace rengine
 
         RENGINE_API std::shared_ptr<GameObject> FindGameObject(tstring& objectName);
 
+        RENGINE_API const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() { return m_gameObjects; }
+
         RENGINE_API std::vector<std::shared_ptr<GameObject>>& GetRootGameObjects() { return m_rootGameObjects; }
+
+        RENGINE_API void AddGameObject(const std::shared_ptr<GameObject>& go);
+
+        RENGINE_API void RemoveGameObject(const std::shared_ptr<GameObject>& go);
 
         RENGINE_API void AddRootGameObject(std::shared_ptr<GameObject> go);
 
@@ -55,6 +61,10 @@ namespace rengine
 
         tstring m_path;
 
+        // 모든 게임 오브젝트 리스트
+        std::vector<std::shared_ptr<GameObject>> m_gameObjects;
+
+        // 루트 게임 오브젝트 리스트
         std::vector<std::shared_ptr<GameObject>> m_rootGameObjects;
 
         RTTR_ENABLE(Object);

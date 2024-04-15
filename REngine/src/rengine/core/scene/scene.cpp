@@ -54,6 +54,24 @@ namespace rengine
 		return nullptr;
 	}
 
+	void Scene::AddGameObject(const std::shared_ptr<GameObject>& go)
+	{
+		m_gameObjects.push_back(go);
+	}
+
+	void Scene::RemoveGameObject(const std::shared_ptr<GameObject>& go)
+	{
+		auto _iter = std::ranges::find_if(m_gameObjects.begin(), m_gameObjects.end()
+			, [&go](auto& item)
+			{
+				return item->GetUUID() == go->GetUUID();
+			}
+		);
+
+		if (_iter != m_gameObjects.end())
+			m_gameObjects.erase(_iter);
+	}
+
 	void Scene::AddRootGameObject(std::shared_ptr<GameObject> go)
 	{
 		m_rootGameObjects.push_back(go);

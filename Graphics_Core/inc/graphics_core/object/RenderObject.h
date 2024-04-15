@@ -89,6 +89,7 @@ namespace graphics
         GRAPHICS_API inline const math::Matrix& GetWorld() const { return m_perObject._world; }
         GRAPHICS_API inline const math::Matrix& GetWorldInv() const { return m_perObject._worldInv; }
 
+        GRAPHICS_API inline void SetHash(uint64 val) { m_hash = val, m_perObject._objID = EncodeSelectionId(m_hash); }
         GRAPHICS_API inline void SetEnable(bool val) { m_bEnable = val; }
         GRAPHICS_API inline void SetStatic(bool val) { m_bIsStatic = val; }
         GRAPHICS_API inline void SetCulling(bool val) { m_bIsCull = val; }
@@ -103,6 +104,7 @@ namespace graphics
     protected:
         uuid m_uuid;
 
+        // game object hash
         uint64 m_hash = 0u;
         
         bool m_bEnable = false;

@@ -1,6 +1,7 @@
 ﻿#include <rengine\core\component\Renderer.h>
 #include <rengine\core\component\Transform.h>
 
+#include <rengine\core\object\GameObject.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Material.h>
 
@@ -164,6 +165,9 @@ namespace rengine
 	void Renderer::OnEnable()
 	{
 		m_pRenderObject->SetEnable(true);
+
+		if(m_pGameObject.lock() != nullptr)
+			m_pRenderObject->SetHash(m_pGameObject.lock()->GetHash());
 	}
 
 	void Renderer::OnDisable()

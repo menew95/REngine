@@ -5,9 +5,13 @@
 #include <rengine\core\component\Camera.h>
 #include <rengine\core\Resources.h>
 #include <rengine\core\resource\Texture.h>
+#include <rengine\core\object\GameObject.h>
+#include <rengine\core\scene\scene.h>
+#include <rengine\core\sceneManager.h>
 #include <rengine\system\Time.h>
 #include <rengine\system\Input.h>
 #include <rengine\system\GraphicsSystem.h>
+#include <rengine\system\ObjectFactory.h>
 
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
@@ -202,6 +206,17 @@ namespace editor
 	{
 		uint64 _uuid_hash = rengine::GraphicsSystem::GetInstance()->ObjectPicking(imageSize, mousePosition);
 
+		auto _curScene = rengine::SceneManager::GetInstance()->GetCurrentScene();
 
+		if(_curScene == nullptr)
+			return;
+
+		for (auto& _go : _curScene->GetAllGameObjects())
+		{
+			if (_go->GetHash() == _uuid_hash)
+			{
+				EventManager::GetInstance()->SetFocusObject(_go.get());
+			}
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿#include <rengine\core\object\GameObject.h>
+#include <rengine\core\scene\scene.h>
 #include <rengine\core\component\Transform.h>
 
 #include <rengine\System\ObjectFactory.h>
@@ -114,6 +115,9 @@ namespace rengine
 
 		_newComponent->SetGameObject(_this);
 
+		// 위치가 이게 맞는지 모르겠다.
+		_newComponent->SetEnable(true);
+
 		m_Components.emplace_back(_newComponent);
 	}
 
@@ -150,6 +154,23 @@ namespace rengine
 
 			Destroy(_comp);
 		}
+	}
+
+	inline void GameObject::SetScene(const std::shared_ptr<Scene>& scene)
+	{
+		auto _scene = m_pScene.lock();
+
+		if (_scene != nullptr)
+		{
+			_scene->RemoveGameObject(shared_from_this());
+		}
+		
+		if (scene != nullptr)
+		{
+			scene->AddGameObject(shared_from_this());
+		}
+
+		m_pScene = scene;
 	}
 
 	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)
