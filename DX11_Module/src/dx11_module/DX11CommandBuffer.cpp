@@ -78,6 +78,26 @@ namespace graphics
 			}
 		}
 
+		void DX11CommandBuffer::CopyTexture(Texture& dstTexture, const TextureLocation& dstLocation, Texture& srcTexture, const TextureLocation& srcLocation, const Extent3D& extent)
+		{
+			auto& _dstTextureD3D = reinterpret_cast<DX11Texture&>(dstTexture);
+			auto& _srcTextureD3D = reinterpret_cast<DX11Texture&>(srcTexture);
+
+			const Offset3D  _dstOffset = CalcTextureOffset(dstTexture.GetType(), dstLocation._offset);
+			const D3D11_BOX _srcBox = _srcTextureD3D.CalcRegion(srcLocation._offset, extent);
+
+			m_Context->CopySubresourceRegion(
+				_dstTextureD3D.GetNativeTexture()._resource.Get(),
+				_dstTextureD3D.CalcSubresource(dstLocation),
+				static_cast<UINT>(_dstOffset.x),
+				static_cast<UINT>(_dstOffset.y),
+				static_cast<UINT>(_dstOffset.z),
+				_srcTextureD3D.GetNativeTexture()._resource.Get(),
+				_srcTextureD3D.CalcSubresource(srcLocation),
+				&_srcBox          
+			);
+		}
+
 		void DX11CommandBuffer::UpdateBuffer(Buffer& dstBuffer, uint32 dstOffset, const void* data, uint32 dataSize)
 		{
 			auto& dstBufferD3D = reinterpret_cast<DX11Buffer&>(dstBuffer);

@@ -35,6 +35,10 @@ namespace graphics
 
         class RenderTarget* m_pRenderTarget = nullptr;
 
+        class Texture* m_pMainFrameColorTexture = nullptr;
+
+        class Texture* m_pCameraColorTexture = nullptr;
+
         friend class LightManager;
     };
 }

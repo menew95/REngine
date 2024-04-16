@@ -73,6 +73,28 @@ namespace graphics
 		uint32   _numMipLevels = 1;
 	};
 
+	/* 텍스처의 mip과 array layer, offset
+	*  텍스처 복사를 위한 구조체
+	*/
+	struct TextureLocation
+	{
+		TextureLocation() = default;
+		TextureLocation(const TextureLocation&) = default;
+
+		inline TextureLocation(const Offset3D& offset, std::uint32_t arrayLayer = 0, std::uint32_t mipLevel = 0) :
+			_offset{ offset },
+			_arrayLayer{ arrayLayer },
+			_mipLevel{ mipLevel }
+		{
+		}
+
+		Offset3D        _offset = { 0u, 0u, 0u };
+
+		std::uint32_t   _arrayLayer = 0;
+
+		std::uint32_t   _mipLevel = 0;
+	};
+
 	struct TextureRegion
 	{
 		TextureRegion() = default;
@@ -113,5 +135,7 @@ namespace graphics
 	GRAPHICS_DLL_DECLSPEC bool IsCubeTexture(const TextureType& type);
 	GRAPHICS_DLL_DECLSPEC bool IsMultiSampleTexture(const TextureType& desc);
 	GRAPHICS_DLL_DECLSPEC bool IsMipMappedTexture(const TextureDesc& desc);
-	GRAPHICS_DLL_DECLSPEC uint32 NumMipLevels(std::uint32_t width, std::uint32_t height, std::uint32_t depth);
+	GRAPHICS_DLL_DECLSPEC uint32 NumMipLevels(uint32 width, uint32 height, uint32 depth);
+
+	GRAPHICS_DLL_DECLSPEC Offset3D CalcTextureOffset(const TextureType type, const Offset3D& offset, uint32 baseArrayLayer = 0);
 }

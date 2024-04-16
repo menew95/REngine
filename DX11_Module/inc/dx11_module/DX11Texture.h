@@ -67,6 +67,10 @@ namespace graphics
 			void CreateTexture3D(ID3D11Device* device, const TextureDesc& desc, const D3D11_SUBRESOURCE_DATA* initialData = nullptr);
 
 			UINT CalcSubresource(UINT mipLevel, UINT arrayLayer) const;
+			
+			UINT CalcSubresource(const TextureLocation& location) const;
+
+			D3D11_BOX CalcRegion(const Offset3D& offset, const Extent3D& extent) const;
 
 			void UpdateSubresource(
 				ID3D11DeviceContext* context,

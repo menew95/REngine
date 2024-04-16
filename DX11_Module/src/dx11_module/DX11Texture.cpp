@@ -299,6 +299,59 @@ namespace graphics
 				return D3D11CalcSubresource(mipLevel, 0, m_NumMipLevels);
 		}
 
+		UINT DX11Texture::CalcSubresource(const TextureLocation& location) const
+		{
+			return CalcSubresource(location._mipLevel, location._arrayLayer);
+		}
+
+		D3D11_BOX DX11Texture::CalcRegion(const Offset3D& offset, const Extent3D& extent) const
+		{
+			switch (GetType())
+			{
+			case TextureType::Texture1D:
+			case TextureType::Texture1DArray:
+				return D3D11_BOX
+				{
+					static_cast<UINT>(offset.x),
+					0u,
+					0u,
+					static_cast<UINT>(offset.x) + extent._width,
+					1u,
+					1u
+				};
+
+			case TextureType::Texture2D:
+			case TextureType::TextureCube:
+			case TextureType::Texture2DArray:
+			case TextureType::TextureCubeArray:
+			case TextureType::Texture2DMS:
+			case TextureType::Texture2DMSArray:
+				return D3D11_BOX
+				{
+					static_cast<UINT>(offset.x),
+					static_cast<UINT>(offset.y),
+					0u,
+					static_cast<UINT>(offset.x) + extent._width,
+					static_cast<UINT>(offset.y) + extent._height,
+					1u
+				};
+
+			case TextureType::Texture3D:
+				return D3D11_BOX
+				{
+					static_cast<UINT>(offset.x),
+					static_cast<UINT>(offset.y),
+					static_cast<UINT>(offset.z),
+					static_cast<UINT>(offset.x) + extent._width,
+					static_cast<UINT>(offset.y) + extent._height,
+					static_cast<UINT>(offset.z) + extent._depth
+				};
+
+			default:
+				return D3D11_BOX{ 0u, 0u, 0u, 0u, 0u, 0u };
+			}
+		}
+
 		void DX11Texture::UpdateSubresource(ID3D11DeviceContext* context, UINT mipLevel, UINT baseArrayLayer, UINT numArrayLayer, const D3D11_BOX& region, const ImageDesc* imageDesc)
 		{
 			/* Check if source image must be converted */

@@ -39,6 +39,14 @@ namespace graphics
 
 			void Execute(CommandBuffer& deferredCommandBuffer) override;
 
+			void CopyTexture(
+				Texture& dstTexture,
+				const TextureLocation& dstLocation,
+				Texture& srcTexture,
+				const TextureLocation& srcLocation,
+				const Extent3D& extent
+			) override;
+
 			/* ----- Buffer ----- */
 			void UpdateBuffer(Buffer& destBuffer, uint32 destBufferOffset, const void* data, uint32 dataSize) override;
 

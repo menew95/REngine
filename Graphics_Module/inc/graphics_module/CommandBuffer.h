@@ -20,6 +20,7 @@ namespace graphics
 	class RenderPass;
 	class RenderTarget;
 	struct TextureSubresource;
+	struct TextureLocation;
 
 	class GRAPHICS_DLL_DECLSPEC CommandBuffer : public RenderSystemObject
 	{
@@ -32,6 +33,14 @@ namespace graphics
 		virtual void End() abstract;
 		virtual void EndEvent() abstract;
 		virtual void Execute(CommandBuffer& deferredCommandBuffer) abstract;
+
+		virtual void CopyTexture(
+			Texture& dstTexture,
+			const TextureLocation& dstLocation,
+			Texture& srcTexture,
+			const TextureLocation& srcLocation,
+			const Extent3D& extent
+		) abstract;
 
 		/* ----- Buffer ----- */
 		virtual void UpdateBuffer(Buffer& destBuffer, uint32 destBufferOffset, const void* data, uint32 dataSize) abstract;

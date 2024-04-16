@@ -74,6 +74,8 @@ namespace graphics
         }
 
         auto* GetRenderTarget() const { return m_pRenderTarget; }
+        auto* GetColorTexture() const { return m_pColorTexture; }
+        auto* GetDepthTexture() const { return m_pDepthTexture; }
 
         GRAPHICS_API const auto& GetCameraInfo() { return m_cameraInfo; }
 
