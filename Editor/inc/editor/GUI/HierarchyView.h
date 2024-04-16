@@ -36,10 +36,6 @@ namespace editor
     private:
         void DrawTreeNode(rengine::GameObject* gameObj);
 
-        void Drag(rengine::GameObject* gameObj);
-
-        void Right(rengine::GameObject* gameObj);
-
         void DrawPopUp(bool& open, rengine::GameObject* gameObj);
 
         bool m_bIsOnDrag = false;

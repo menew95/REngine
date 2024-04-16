@@ -60,6 +60,28 @@ namespace editor
 		{
 			DrawTreeNode(_root.get());
 		}
+
+		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			ImGui::OpenPopup("HierarchyView Popup(None Focus)");
+		}
+
+		if (ImGui::BeginPopup("HierarchyView Popup(None Focus)"))
+		{
+			if (ImGui::MenuItem("Add Object"))
+			{
+				// 부모가 존재하는 오브젝트를 생성
+				auto _newGO = rengine::GameObject::Instantiate(nullptr);
+
+				_newGO->GetScene()->AddRootGameObject(_newGO->GetShared());
+
+				_newGO->SetName(L"Game Object");
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
 	}
 
 	void HierarchyView::End()
@@ -123,7 +145,6 @@ namespace editor
 		}
 
 		DrawPopUp(open, gameObj);
-		Drag(gameObj);
 
 		if (!ImGui::GetDragDropPayload() && ImGui::BeginDragDropSource()) 
 		{
@@ -158,68 +179,6 @@ namespace editor
 			ImGui::TreePop();
 		}
 	}
-	void HierarchyView::Drag(rengine::GameObject* gameObj)
-	{
-		if (ImGui::IsMouseDragging(0))//enum ImGuiMouseButton_     // Enum: A mouse button identifier (0=left, 1=right, 2=middle)
-		{
-			m_bIsOnDrag = true;
-		}
-
-		if (m_bIsOnDrag == true && ImGui::IsItemHovered())
-		{
-			m_pDragItem = gameObj;
-			m_bIsOnDrag = false;
-		}
-		return;
-		if (m_bIsOnDrag == false && m_pDragItem != nullptr && m_pDragItem != m_pFocusGameObject && ImGui::IsItemHovered())
-		{
-			if (m_pFocusGameObject != nullptr)
-			{
-				for (uint32 i = 0; m_pFocusGameObject->GetTransform()->GetChildSize(); i++)
-				{
-					if (m_pFocusGameObject->GetTransform()->GetChild(i)->GetGameObject().lock().get() == m_pDragItem)
-					{
-						if (m_pFocusGameObject->GetTransform()->GetParent() != nullptr)
-						{
-							assert(false);
-							//m_pDragItem->GetTransform()->SetParent(SelectManager::GetInstance()->GetRecentHierarchy()->GetParentGameObject());
-						}
-						else
-						{
-							m_pDragItem->GetTransform()->SetParent(nullptr);
-						}
-						break;
-					}
-				}
-
-				m_pFocusGameObject->GetTransform()->SetParent(m_pDragItem->GetTransform());
-
-				m_pDragItem = nullptr;
-			}
-		}
-
-		if (ImGui::GetMousePos().y >= m_fPrevYcursor && ImGui::IsMouseReleased(0))
-		{
-			m_pDragItem = nullptr;
-			m_bIsOnDrag = false;
-		}
-
-		if (m_bIsOnDrag == true && m_pDragItem != nullptr)
-		{
-			ImVec2 originPos = ImGui::GetCursorPos();
-			ImVec2 newPos;
-			newPos.x = ImGui::GetMousePos().x - ImGui::GetWindowPos().x + 15;
-			newPos.y = ImGui::GetMousePos().y - ImGui::GetWindowPos().y;
-			ImGui::SetCursorPos(newPos);
-			ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 0.5f), m_pFocusGameObject->GetNameStr().c_str(), newPos);
-
-			ImGui::SetCursorPos(originPos);
-		}
-	}
-	void HierarchyView::Right(rengine::GameObject* gameObj)
-	{
-
-	}
 
 	void HierarchyView::DrawPopUp(bool& open, rengine::GameObject* gameObj)
 	{
@@ -235,12 +194,11 @@ namespace editor
 			ImGui::PushID("HierarchyView Popup");
 			if (ImGui::BeginPopupContextItem())
 			{
-				rengine::GameObject* _test = nullptr;
 				if (ImGui::MenuItem("Add Object"))
 				{
 					// 부모가 존재하는 오브젝트를 생성
 					auto _newGO = rengine::GameObject::Instantiate(m_pFocusGameObject->GetTransform());
-					_test = _newGO.get();
+
 					_newGO->SetName(L"Game Object");
 
 					m_bPopUpMenu = false;
@@ -249,6 +207,8 @@ namespace editor
 				if (ImGui::MenuItem("Delete Object"))
 				{
 					rengine::Object::Destroy(m_pFocusGameObject->GetShared());
+
+					m_bPopUpMenu = false;
 				}
 
 				ImGui::EndPopup();
