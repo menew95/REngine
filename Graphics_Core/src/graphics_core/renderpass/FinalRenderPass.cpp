@@ -49,11 +49,6 @@ namespace graphics
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
 	
-	void FinalRenderPass::Bind(CommandBuffer* command)
-	{
-	
-	}
-	
 	void FinalRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		__super::BeginExcute(command, camBuffer);

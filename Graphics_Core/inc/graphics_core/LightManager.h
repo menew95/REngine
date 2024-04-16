@@ -12,9 +12,13 @@
 
 #include <common\common.h>
 
+#include <common\math.h>
+
 #include <common\singleton.h>
 
 #include <graphics_core\Graphics_core_dllexport.h>
+
+#define NUM_CASCADES 4
 
 namespace graphics
 {

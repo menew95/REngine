@@ -70,5 +70,32 @@
     "StencilDesc": "NoDepth",
     "RasterizerDesc": "NoCull",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "ToneMapping_Reinhard",
+    "ShaderProgram": "ToneMapping_Reinhard",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "ToneMapping_Filmic",
+    "ShaderProgram": "ToneMapping_Filmic",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "ToneMapping_Uncharted",
+    "ShaderProgram": "ToneMapping_Uncharted",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
   }
 ]

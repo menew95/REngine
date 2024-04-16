@@ -60,12 +60,7 @@ namespace graphics
 	
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
-	
-	void DeferredLightPass::Bind(CommandBuffer* command)
-	{
 
-	}
-	
 	void DeferredLightPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		__super::BeginExcute(command, camBuffer);

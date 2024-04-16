@@ -147,14 +147,14 @@ namespace rengine
 	{
 		m_spotAngle = value;
 
-		m_pLightBuffer->SetSpotAnlge(value);
+		m_pLightBuffer->SetSpotAnlge(value * math::Deg2Rad);
 	}
 	
 	void Light::SetInnerSpotAngle(float value)
 	{
 		m_innerSpotAngle = value;
 
-		m_pLightBuffer->SetInnerSpotAngle(value);
+		m_pLightBuffer->SetInnerSpotAngle(value * math::Deg2Rad);
 	}
 
 	void Light::SetResolution(uint32 value)

@@ -14,7 +14,6 @@
 
 #include <common\math.h>
 
-#define NUM_CASCADES 4
 
 namespace graphics
 {
@@ -44,7 +43,8 @@ namespace graphics
     struct alignas(16) CascadedInfo
     {
         math::Matrix _lightTransform[4];
-        float _cascadeEndClipSpace[NUM_CASCADES];
+        math::Vector4 _cascadeOffset;
+        math::Vector4 _cascadeScale;
     };
 
     class CameraBuffer : public ResourceBuffer

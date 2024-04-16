@@ -53,12 +53,7 @@ namespace graphics
 
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
-	
-	void SkyBoxRenderPass::Bind(CommandBuffer* command)
-	{
-		__super::Bind(command);
-	}
-	
+
 	void SkyBoxRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		__super::BeginExcute(command, camBuffer);

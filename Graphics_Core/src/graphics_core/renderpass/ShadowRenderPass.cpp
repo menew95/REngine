@@ -37,11 +37,6 @@ namespace graphics
 	
 	}
 	
-	void ShadowRenderPass::Bind(CommandBuffer* command)
-	{
-	
-	}
-	
 	void ShadowRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 	

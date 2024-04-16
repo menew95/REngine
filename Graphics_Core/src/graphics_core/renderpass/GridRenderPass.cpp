@@ -42,18 +42,11 @@ namespace graphics
 
 		m_pDebugMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 
-		m_renderObjects.push_back(m_pDebugMesh);
-
 		m_pDebugMaterial = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Grid Debug"));
 
 		m_pDebugMaterial->SetPipelineID(TEXT("Grid Debug"));
 
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
-	}
-
-	void GridRenderPass::Bind(CommandBuffer* command)
-	{
-		__super::Bind(command);
 	}
 
 	void GridRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)

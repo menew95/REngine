@@ -3,7 +3,7 @@
     "UUID": "MainFrame",
     "TextureType": "Texture2D",
     "BindFlags": [ "ShaderResource", "RenderTarget" ],
-    "Format": "R8G8B8A8_UNORM",
+    "Format": "R32G32B32A32_FLOAT",
     "Extend": [ 1280, 720 ],
     "ArrayLayers": 1,
     "MipLevels": 1,

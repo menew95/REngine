@@ -148,9 +148,9 @@ namespace graphics
 		// 1픽셀만 복사하여 읽을 것임
 		_region._extent = { 1, 1, 1};
 
-		_region._offset.x = pixel.x;
+		_region._offset.x = (int32)pixel.x;
 
-		_region._offset.y = pixel.y;
+		_region._offset.y = (int32)pixel.y;
 
 		_region._subresource._numMipLevels = 1;
 

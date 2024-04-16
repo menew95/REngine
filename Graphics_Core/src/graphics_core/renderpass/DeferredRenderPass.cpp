@@ -42,11 +42,6 @@ namespace graphics
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("Deferred"));
 	}
 	
-	void DeferredRenderPass::Bind(CommandBuffer* command)
-	{
-		__super::Bind(command);
-	}
-	
 	void DeferredRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
 		__super::BeginExcute(command, camBuffer);

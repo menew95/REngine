@@ -133,6 +133,27 @@
     "FilePath": "bin\\shader\\PS_ToneMapping.hlsl",
     "SourceSize": 0,
     "EntryPoint": "main",
-    "Profile": "ps_5_0"
+    "Profile": "ps_5_0",
+    "Defines": [ "Reinhard", "" ]
+  },
+  {
+    "UUID": "00000000-0000-0000-0016-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_ToneMapping.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0",
+    "Defines": [ "Filmic", "" ]
+  },
+  {
+    "UUID": "00000000-0000-0000-0017-000000000000",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\PS_ToneMapping.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "main",
+    "Profile": "ps_5_0",
+    "Defines": [ "Uncharted", "" ]
   }
 ]

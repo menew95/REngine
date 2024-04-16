@@ -23,5 +23,33 @@
 
 namespace graphics
 {
+	PostProcessRenderPass::PostProcessRenderPass()
+		: RenderPass(TEXT("PostProcess Pass"))
+	{
+	}
 
+	PostProcessRenderPass::~PostProcessRenderPass()
+	{
+	
+	}
+	
+	void PostProcessRenderPass::Init()
+	{
+	
+	}
+
+	void PostProcessRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
+	{
+	
+	}
+	
+	void PostProcessRenderPass::Excute(CommandBuffer* command)
+	{
+	
+	}
+	
+	void PostProcessRenderPass::EndExcute(CommandBuffer* command)
+	{
+	
+	}
 }

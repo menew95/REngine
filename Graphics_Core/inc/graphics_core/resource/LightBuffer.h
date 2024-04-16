@@ -96,7 +96,7 @@ namespace graphics
         GRAPHICS_API void SetSpotAnlge(float value) { m_lightInfo._angle  = value; }
 
         GRAPHICS_API float GetInnerSpotAngle() const { return m_lightInfo._innerAngle; }
-        GRAPHICS_API void SetInnerSpotAngle(float value) { m_lightInfo._innerAngle; }
+        GRAPHICS_API void SetInnerSpotAngle(float value) { m_lightInfo._innerAngle = value; }
 
         GRAPHICS_API float GetFallOffExponential() const { return m_lightInfo._fallOffExponential; }
         GRAPHICS_API void SetFallOffExponential(float value) { m_lightInfo._fallOffExponential = value; }

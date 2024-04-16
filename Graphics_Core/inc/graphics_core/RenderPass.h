@@ -25,15 +25,22 @@ namespace graphics
         virtual void Init() {}
 
         /**
-            @brief pass에 설정 된 pipeline를 바인드
-            @param command - command buffer ptr
+            @brief 렌더 패스를 시작하기 전에 필요한 내용 처리
+            @param command   - command buffer
+            @param camBuffer - 패스를 처리할 camera buffer
         **/
-        virtual void Bind(class CommandBuffer* command);
-
         virtual void BeginExcute(class CommandBuffer* command, class CameraBuffer* camBuffer);
 
+        /**
+            @brief 패스 실행
+            @param command - command buffer 
+        **/
         virtual void Excute(class CommandBuffer* command);
 
+        /**
+            @brief 렌더 패스가 끝난후 필요한 내용 처리
+            @param command - command buffer
+        **/
         virtual void EndExcute(class CommandBuffer* command);
 
         /**
@@ -52,8 +59,6 @@ namespace graphics
 
     protected:
         tstring m_passName;
-
-        vector<class RenderObject*> m_renderObjects;
 
         vector<class MaterialBuffer*> m_materialBufferList;
     };
