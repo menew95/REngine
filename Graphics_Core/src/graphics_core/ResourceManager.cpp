@@ -16,6 +16,7 @@
 #include <graphics_core\renderpass\DeferredRenderPass.h>
 #include <graphics_core\renderpass\DeferredLightPass.h>
 #include <graphics_core\renderpass\ShadowRenderPass.h>
+#include <graphics_core\renderpass\PostProcessRenderPass.h>
 #include <graphics_core\renderpass\GridRenderPass.h>
 #include <graphics_core\renderpass\IBLRenderPass.h>
 #include <graphics_core\renderpass\FinalRenderPass.h>
@@ -132,6 +133,12 @@ namespace graphics
 			auto _renderPass = new FinalRenderPass();
 
 			m_renderPassMap.insert(make_pair(TEXT("Final Pass"), _renderPass));
+		}
+
+		{
+			auto _renderPass = new PostProcessRenderPass();
+
+			m_renderPassMap.insert(make_pair(TEXT("PostProcess Pass"), _renderPass));
 		}
 
 		TextureBuffer::CreateDefaultTextureBuffer();

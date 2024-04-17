@@ -220,6 +220,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\rengine.h" />
     <ClInclude Include="inc\rengine\rengine_flags.h" />
     <ClInclude Include="inc\rengine\core\object\object.h" />
+    <ClInclude Include="inc\rengine\System\GraphicsSetting.h" />
     <ClInclude Include="inc\rengine\system\GraphicsSystem.h" />
     <ClInclude Include="inc\rengine\rengine_api.h" />
     <ClInclude Include="inc\rengine\rengine_dllexport.h" />
@@ -251,6 +252,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\scene\Scene.cpp" />
     <ClCompile Include="src\rengine\rengine.cpp" />
     <ClCompile Include="src\rengine\core\ComponentManager.cpp" />
+    <ClCompile Include="src\rengine\System\GraphicsSetting.cpp" />
     <ClCompile Include="src\rengine\system\GraphicsSystem.cpp" />
     <ClCompile Include="src\rengine\system\Input.cpp" />
     <ClCompile Include="src\rengine\system\ObjectFactory.cpp" />

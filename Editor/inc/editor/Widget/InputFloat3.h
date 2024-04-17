@@ -24,8 +24,7 @@ namespace editor
     class InputFloat3 : public Widget
     {
     public:
-        //InputFloat3(string name, float* handler, /*Event<rengine::Object, void, string> event,*/ uint32 flags = 0);
-        InputFloat3(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        InputFloat3(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~InputFloat3();
 

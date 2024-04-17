@@ -24,7 +24,7 @@ namespace editor
     class Button : public Widget
     {
     public:
-        Button(string name, rengine::Object* handler, rttr::property& prop, math::Vector2 size = {0, 0}, uint32 flags = 0);
+        Button(const string& id, rengine::Object* handler, rttr::property& prop, math::Vector2 size = {0, 0}, uint32 flags = 0);
 
         ~Button();
 

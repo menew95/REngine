@@ -24,7 +24,7 @@ namespace editor
     class ColorEdit : public Widget
     {
     public:
-        ColorEdit(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        ColorEdit(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~ColorEdit();
 

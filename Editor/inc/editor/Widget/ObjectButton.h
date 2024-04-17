@@ -17,7 +17,7 @@ namespace editor
     class ObjectButton : public Button
     {
     public:
-        ObjectButton(string widgetName, rengine::Object* handler, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
+        ObjectButton(const string& id, rengine::Object* handler, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
 
         ~ObjectButton();
 

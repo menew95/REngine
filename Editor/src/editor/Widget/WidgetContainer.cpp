@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	WidgetContainer::WidgetContainer(string name, uint32 flags)
-	: Widget(name, flags)
+	WidgetContainer::WidgetContainer(const string& id, uint32 flags)
+	: Widget(id, flags)
 	{
 
 	}
@@ -33,11 +33,11 @@ namespace editor
 
 	}
 
-	Widget* WidgetContainer::GetChild(string name)
+	Widget* WidgetContainer::GetChild(const string& name)
 	{
 		auto _find = find_if(m_childs.begin(), m_childs.end(), [&name](auto& childs)
 			{
-				return childs->GetWidgetName() == name;
+				return childs->GetID() == name;
 			});
 
 		if (_find != m_childs.end())

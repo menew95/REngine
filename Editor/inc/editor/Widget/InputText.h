@@ -26,8 +26,7 @@ namespace editor
     class InputText : public Widget
     {
     public:
-        //InputText(string name, string& test, uint32 flags, Event<rengine::Object, void, string> event);
-        InputText(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 32);
+        InputText(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 32);
 
         ~InputText();
 

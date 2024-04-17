@@ -114,5 +114,15 @@
     "ArrayLayer": 0,
     "ArraySize": 1,
     "MipLevel": 0
+  },
+  {
+    "UUID": "PostProcessFrame",
+    "Extent": [ 1280, 720 ],
+    "AttachmentsCount": 1,
+    "RenderTargetType": "RenderTarget",
+    "ResourceID": "PostProcessFrame",
+    "ArrayLayer": 0,
+    "ArraySize": 1,
+    "MipLevel": 0
   }
 ]

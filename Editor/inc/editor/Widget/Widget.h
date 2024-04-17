@@ -21,19 +21,19 @@ namespace editor
     class Widget
     {
     public:
-        Widget(string name, uint32 flags);
+        Widget(const string& id, uint32 flags = 0);
 
         virtual ~Widget();
 
         virtual EDITOR_API void Render() abstract;
 
-        EDITOR_API string& GetWidgetName() { return m_widgetName; }
+        EDITOR_API const string& GetID() { return m_id; }
 
         EDITOR_API uint32 GetFlags() { return m_flags; }
 
     protected:
-        string m_widgetName;
+        string m_id;
 
-        uint32 m_flags;
+        uint32 m_flags = 0;
     };
 }

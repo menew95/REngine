@@ -6,17 +6,8 @@
 
 namespace editor
 {
-	/*InputText::InputText(string name, string& text, uint32 flags, Event<rengine::Object, void, string> event)
-	: Widget(name, flags)
-	, m_text(text)
-	, m_label("##")
-	, m_event(event)
-	{
-		m_label.append(name);
-	}*/
-
-	InputText::InputText(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
-	: Widget(name, flags)
+	InputText::InputText(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
+	: Widget(id, flags)
 	, m_pHandler(handler)
 	, m_prop(prop)
 	{
@@ -40,13 +31,7 @@ namespace editor
 
 		strcpy_s(m_pInputText, _str.c_str());
 
-		ImGui::PushID(m_widgetName.c_str());
-
-		ImGui::Text(m_widgetName.c_str());
-		//ImGui::SameLine();
-		ImGui::NextColumn();
-
-		if (ImGui::InputTextEx("", "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
+		if (ImGui::InputTextEx(m_id.c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
 		{
 			_str = m_pInputText;
 
@@ -54,8 +39,6 @@ namespace editor
 
 			m_prop.set_value(m_pHandler, _wstr);
 		}
-
-		ImGui::PopID();
 
 		/*strcpy_s(m_pInputText, m_text.c_str());
 

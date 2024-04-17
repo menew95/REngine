@@ -75,6 +75,7 @@ namespace graphics
 		};*/
 
 		//command->SetRenderTarget(*m_pRenderTarget, 1, _attachmentClear);
+
 		command->SetRenderTarget(*m_pRenderTarget, 0, nullptr);
 
 		command->SetViewport(m_pRenderTarget->GetResolution());

@@ -41,6 +41,7 @@ namespace editor
 		  @param go - gameobject pointer
 		**/
 		void DrawGameObject(rengine::GameObject* go);
+
 		/**
 		  @brief component의 직렬화가 되는 정보들을 노출
 		  @param comp - component pointer

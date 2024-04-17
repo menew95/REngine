@@ -33,7 +33,9 @@ namespace graphics
 
         class MeshObject* m_pScreenMesh = nullptr;
 
-        class RenderTarget* m_pRenderTarget = nullptr;
+        class RenderTarget* m_pPostProcessRenderTarget = nullptr;
+
+        class Texture* m_pPostProcessFrameColorTexture = nullptr;
 
         class Texture* m_pMainFrameColorTexture = nullptr;
 

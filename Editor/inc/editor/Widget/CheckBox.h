@@ -24,7 +24,7 @@ namespace editor
     class CheckBox : public Widget
     {
     public:
-        CheckBox(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        CheckBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~CheckBox();
 

@@ -14,7 +14,9 @@
 
 #include <common\singleton.h>
 
+#include <editor\Widget\TextColored.h>
 #include <editor\Widget\Button.h>
+#include <editor\Widget\Columns.h>
 #include <editor\Widget\CheckBox.h>
 #include <editor\Widget\ComboBox.h>
 #include <editor\Widget\TreeNode.h>
@@ -24,6 +26,7 @@
 #include <editor\Widget\DragFloat2.h>
 #include <editor\Widget\DragFloat3.h>
 #include <editor\Widget\DragFloat4.h>
+#include <editor\Widget\DragScalar.h>
 #include <editor\Widget\InputFloat.h>
 #include <editor\Widget\InputFloat2.h>
 #include <editor\Widget\InputFloat3.h>
@@ -44,14 +47,28 @@ namespace editor
 		void ClearCollapsWidget();
 		void ClearTreeNodeWidget();
 
-		Widget* GetColumnWidget(string name, uint32 flags = 0);
+		template<size_t Size>
+		Columns<Size>* GetColumnWidget(const string& name, uint32 flags = 0)
+		{
+			auto _find = m_treeNodeWidgets.find(name);
 
-		TreeNode* GetTreeNodeWidget(string name, uint32 flags = 0);
+			if (_find != m_treeNodeWidgets.end())
+				return reinterpret_cast<Columns<Size>*>(_find->second);
 
-		CollapsingHeader* GetCollapsWidget(string name, uint32 flags = 0);
+			if (Columns<Size>* _ret = CreateWidget<Columns<Size>>(name, flags))
+			{
+				return _ret;
+			}
+
+			return nullptr;
+		}
+
+		TreeNode* GetTreeNodeWidget(const string& name, uint32 flags = 0);
+
+		CollapsingHeader* GetCollapsWidget(const string& name, uint32 flags = 0);
 
 		template<typename T, typename ... Args>
-		T* CreateWidget(string name, Args... args)
+		T* CreateWidget(const string& name, Args... args)
 		{
 			T* _newWidget = new T(name, args...);
 
@@ -62,6 +79,13 @@ namespace editor
 			else if constexpr (std::is_same_v<T, CollapsingHeader>)
 			{
 				m_collapsWidgets.insert(std::make_pair(name, _newWidget));
+			}
+			else if constexpr (std::is_same_v<T, Columns<1>> || std::is_same_v<T, Columns<2>>
+				|| std::is_same_v<T, Columns<3>>
+				|| std::is_same_v<T, Columns<4>>
+				|| std::is_same_v<T, Columns<5>>)
+			{
+				m_columnWidgets.insert(std::make_pair(name, _newWidget));
 			}
 			else
 			{

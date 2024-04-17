@@ -136,6 +136,6 @@ namespace graphics
 
 	void Renderer::RenderSkyBox(RenderPass* renderPass)
 	{
-		renderPass->Bind(m_pCommandBuffer);
+	
 	}
 }

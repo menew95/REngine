@@ -12,13 +12,32 @@
 
 #include <common\common.h>
 
+#include <common\math.h>
+
 #include <ImGui\imgui.h>
 
 namespace editor
 {
+    class Utility
+    {
+    public:
+        static ImVec4 ToImVec4(const math::Vector4& vec);
+
+        static ImVec2 ToImVec2(const math::Vector2& vec);
+
+        static ImVec4 ToImVec4(const math::Color& col);
+
+        static math::Vector4 ToVector4(const ImVec4& vec);
+
+        static math::Vector2 ToVector2(const ImVec2& vec);
+
+        static Color ToColor(const ImVec4& vec);
+    };
+
     class EditorStyle
     {
     public:
         static ImVec4 GetColor(ImGuiCol col);
+
     };
 }

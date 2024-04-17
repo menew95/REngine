@@ -19,7 +19,7 @@ namespace editor
     class CollapsingHeader : public WidgetContainer
     {
     public:
-        CollapsingHeader(string name, uint32 flags = 0);
+        CollapsingHeader(const string& id, uint32 flags = 0);
         ~CollapsingHeader();
 
         EDITOR_API void Render() override;

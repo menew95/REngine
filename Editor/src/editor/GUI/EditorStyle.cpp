@@ -64,8 +64,62 @@ namespace editor
         ImVec4(0.2f, 0.2f, 0.2f, 1.0f)  // ImGuiCol_COUNT
     };
 
-    ImVec4 editor::EditorStyle::GetColor(ImGuiCol col)
+    ImVec4 EditorStyle::GetColor(ImGuiCol col)
     {
         return g_editorColor[col];
+    }
+
+    ImVec4 Utility::ToImVec4(const math::Vector4& vec)
+    {
+        ImVec4 ret;
+
+        memcpy(&ret, &vec, sizeof(ImVec4));
+
+        return ret;
+    }
+    
+    ImVec2 Utility::ToImVec2(const math::Vector2& vec)
+    {
+        ImVec2 ret;
+
+        memcpy(&ret, &vec, sizeof(ImVec2));
+
+        return ret;
+    }
+    
+    ImVec4 Utility::ToImVec4(const math::Color& col)
+    {
+        ImVec4 ret;
+
+        memcpy(&ret, &col, sizeof(ImVec4));
+
+        return ret;
+    }
+    
+    math::Vector4 Utility::ToVector4(const ImVec4& vec)
+    {
+        Vector4 ret;
+
+        memcpy(&ret, &vec, sizeof(Vector4));
+
+        return ret;
+    }
+    
+    math::Vector2 Utility::ToVector2(const ImVec2& vec)
+    {
+        Vector2 ret;
+
+        memcpy(&ret, &vec, sizeof(Vector2));
+
+        return ret;
+    }
+    
+    Color Utility::ToColor(const ImVec4& vec)
+    {
+        Color ret;
+
+        memcpy(&ret, &vec, sizeof(Color));
+
+        return ret;
     }
 }

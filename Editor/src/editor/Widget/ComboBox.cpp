@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	ComboBox::ComboBox(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
-		: Widget(name, flags)
+	ComboBox::ComboBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
+		: Widget(id, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)
 	{
@@ -50,17 +50,9 @@ namespace editor
 			_items.push_back(_name.c_str());
 		}
 
-		ImGui::PushID(m_widgetName.c_str());
-
-		ImGui::Text(m_widgetName.c_str());
-		//ImGui::SameLine();
-		ImGui::NextColumn();
-
-		if (ImGui::Combo("", &m_item_current, _items.data(), static_cast<int>(_items.size())))
+		if (ImGui::Combo(m_id.c_str(), &m_item_current, _items.data(), static_cast<int>(_items.size())))
 		{
 			m_prop.set_value(m_pHandler, (uint32)m_item_current);
 		}
-
-		ImGui::PopID();
 	}
 }

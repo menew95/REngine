@@ -24,7 +24,7 @@ namespace editor
     class DragFloat : public Widget
     {
     public:
-        DragFloat(string name, rengine::Object* handler, rttr::property& prop, float speed, float min, float max, uint32 flags = 0);
+        DragFloat(const string& id, rengine::Object* handler, rttr::property& prop, float speed, float min, float max, uint32 flags = 0);
 
         ~DragFloat();
 

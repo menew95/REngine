@@ -34,5 +34,6 @@ namespace editor
         class HierarchyView* m_pHierarchyView;
         class ProjectView* m_pProjectView;
         class SearchView* m_pSearchView;
+        class GraphicsSetting* m_pGraphicsSetting;
     };
 }

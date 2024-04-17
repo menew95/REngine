@@ -6,6 +6,7 @@
 #include <editor\GUI\InspectorView.h>
 #include <editor\GUI\ProjectView.h>
 #include <editor\GUI\SearchView.h>
+#include <editor\GUI\GraphicsSetting.h>
 
 #include <rengine\core\SceneManager.h>
 
@@ -19,12 +20,14 @@ namespace editor
 		m_pHierarchyView = new HierarchyView();
 		m_pProjectView = new ProjectView();
 		m_pSearchView = new SearchView();
+		m_pGraphicsSetting = new GraphicsSetting();
 
 		m_childs.push_back(m_pGameView);
 		m_childs.push_back(m_pInspectorView);
 		m_childs.push_back(m_pHierarchyView);
 		m_childs.push_back(m_pProjectView);
 		m_childs.push_back(m_pSearchView);
+		m_childs.push_back(m_pGraphicsSetting);
 	}
 
 	EditorDocument::~EditorDocument()
@@ -34,6 +37,7 @@ namespace editor
 		delete m_pHierarchyView;
 		delete m_pProjectView;
 		delete m_pSearchView;
+		delete m_pGraphicsSetting;
 	}
 
 	void EDITOR_API EditorDocument::Begin()

@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	ColorEdit::ColorEdit(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
-		: Widget(name, flags)
+	ColorEdit::ColorEdit(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
+		: Widget(id, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)
 	{
@@ -44,19 +44,11 @@ namespace editor
 			_cor[3] = _color.w;
 		}
 		
-		ImGui::PushID(m_widgetName.c_str());
-
-		ImGui::Text(m_widgetName.c_str());
-		//ImGui::SameLine();
-		ImGui::NextColumn();
-
-		if (ImGui::ColorEdit4("", _cor))
+		if (ImGui::ColorEdit4(m_id.c_str(), _cor))
 		{
 			math::Color _color{ _cor[0], _cor[1], _cor[2], _cor[3] };
 
 			m_prop.set_value(m_pHandler, _color);
 		}
-
-		ImGui::PopID();
 	}
 }

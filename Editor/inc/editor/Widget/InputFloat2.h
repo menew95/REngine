@@ -24,7 +24,7 @@ namespace editor
     class InputFloat2 : public Widget
     {
     public:
-        InputFloat2(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        InputFloat2(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~InputFloat2();
 

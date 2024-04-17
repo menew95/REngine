@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	InputFloat::InputFloat(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
-		: Widget(name, flags)
+	InputFloat::InputFloat(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
+		: Widget(id, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)
 	{
@@ -28,17 +28,9 @@ namespace editor
 
 		float _vec = _val.convert<float>();
 
-		ImGui::PushID(m_widgetName.c_str());
-
-		ImGui::Text(m_widgetName.c_str());
-		//ImGui::SameLine();
-		ImGui::NextColumn();
-
-		if (ImGui::InputFloat("", &_vec, 0.f, 0.f, "%.3f", GetFlags()))
+		if (ImGui::InputFloat(m_id.c_str(), &_vec, 0.f, 0.f, "%.3f", GetFlags()))
 		{
 			m_prop.set_value(m_pHandler, _vec);
 		}
-
-		ImGui::PopID();
 	}
 }

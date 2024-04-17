@@ -165,6 +165,21 @@
     <ClInclude Include="inc\editor\Widget\DragFloat2.h">
       <Filter>소스 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\editor\GUI\GraphicsSetting.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\WidgetData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\DragScalar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\Columns.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\TextColored.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\Editor.cpp">
@@ -300,6 +315,15 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Widget\DragFloat4.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\GraphicsSetting.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\WidgetData.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\TextColored.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -210,6 +210,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\GUI\EditorStyle.h" />
     <ClInclude Include="inc\editor\GUI\Frame.h" />
     <ClInclude Include="inc\editor\GUI\GameView.h" />
+    <ClInclude Include="inc\editor\GUI\GraphicsSetting.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
     <ClInclude Include="inc\editor\GUI\SearchView.h" />
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
@@ -218,10 +219,12 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\Widget\Button.h" />
     <ClInclude Include="inc\editor\Widget\CheckBox.h" />
     <ClInclude Include="inc\editor\Widget\ColorEdit.h" />
+    <ClInclude Include="inc\editor\Widget\Columns.h" />
     <ClInclude Include="inc\editor\Widget\ComboBox.h" />
     <ClInclude Include="inc\editor\Widget\DragFloat.h" />
     <ClInclude Include="inc\editor\Widget\DragFloat3.h" />
     <ClInclude Include="inc\editor\Widget\DragFloat4.h" />
+    <ClInclude Include="inc\editor\Widget\DragScalar.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat2.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat3.h" />
@@ -229,9 +232,11 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\Widget\InputText.h" />
     <ClInclude Include="inc\editor\Widget\ObjectButton.h" />
     <ClInclude Include="inc\editor\Widget\TextBox.h" />
+    <ClInclude Include="inc\editor\Widget\TextColored.h" />
     <ClInclude Include="inc\editor\Widget\TreeNode.h" />
     <ClInclude Include="inc\editor\Widget\Widget.h" />
     <ClInclude Include="inc\editor\Widget\WidgetContainer.h" />
+    <ClInclude Include="inc\editor\Widget\WidgetData.h" />
     <ClInclude Include="inc\editor\Widget\WidgetManager.h" />
     <ClInclude Include="inc\ImGui\imconfig.h" />
     <ClInclude Include="inc\ImGui\imgui.h" />
@@ -267,6 +272,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     </ClCompile>
     <ClCompile Include="src\editor\Core\AssetManager.cpp" />
     <ClCompile Include="src\editor\GUI\Document.cpp" />
+    <ClCompile Include="src\editor\GUI\GraphicsSetting.cpp" />
     <ClCompile Include="src\editor\GUI\SearchView.cpp" />
     <ClCompile Include="src\editor\GUI\SceneView.cpp" />
     <ClCompile Include="src\editor\Widget\CheckBox.cpp" />
@@ -348,9 +354,11 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\editor\Widget\InputFloat.cpp" />
     <ClCompile Include="src\editor\Widget\InputText.cpp" />
     <ClCompile Include="src\editor\Widget\ObjectButton.cpp" />
+    <ClCompile Include="src\editor\Widget\TextColored.cpp" />
     <ClCompile Include="src\editor\Widget\TreeNode.cpp" />
     <ClCompile Include="src\editor\Widget\Widget.cpp" />
     <ClCompile Include="src\editor\Widget\WidgetContainer.cpp" />
+    <ClCompile Include="src\editor\Widget\WidgetData.cpp" />
     <ClCompile Include="src\editor\Widget\WidgetManager.cpp" />
     <ClCompile Include="src\Editor_pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

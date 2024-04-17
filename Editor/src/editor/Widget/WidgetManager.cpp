@@ -55,12 +55,7 @@ namespace editor
 		m_columnWidgets.clear();
 	}
 
-	Widget* WidgetManager::GetColumnWidget(string name, uint32 flags)
-	{
-		return nullptr;
-	}
-
-	TreeNode* WidgetManager::GetTreeNodeWidget(string name, uint32 flags)
+	TreeNode* WidgetManager::GetTreeNodeWidget(const string& name, uint32 flags)
 	{
 		auto _find = m_treeNodeWidgets.find(name);
 
@@ -75,7 +70,7 @@ namespace editor
 		return nullptr;
 	}
 
-	CollapsingHeader* WidgetManager::GetCollapsWidget(string name, uint32 flags)
+	CollapsingHeader* WidgetManager::GetCollapsWidget(const string& name, uint32 flags)
 	{
 		auto _find = m_collapsWidgets.find(name);
 

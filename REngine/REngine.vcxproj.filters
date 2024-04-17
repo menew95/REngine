@@ -111,6 +111,9 @@
     <ClInclude Include="inc\rengine\core\component\Light.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\System\GraphicsSetting.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
@@ -192,6 +195,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\component\Light.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\System\GraphicsSetting.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

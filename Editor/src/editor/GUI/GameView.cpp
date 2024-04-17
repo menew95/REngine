@@ -153,6 +153,8 @@ namespace editor
 		
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Grid Pass")));
 		
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("PostProcess Pass")));
+		
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Final Pass")));
 	}
 
@@ -213,19 +215,19 @@ namespace editor
 			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::MouseRight))
 			{
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_W))
-					_forward += m_fSpeed * rengine::Time::GetDeltaTime();
+					_forward += m_fSpeed * (float)rengine::Time::GetDeltaTime();
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_S))
-					_forward -= m_fSpeed * rengine::Time::GetDeltaTime();
+					_forward -= m_fSpeed * (float)rengine::Time::GetDeltaTime();
 
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_D))
-					_right += m_fSpeed * rengine::Time::GetDeltaTime();
+					_right += m_fSpeed * (float)rengine::Time::GetDeltaTime();
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_A))
-					_right -= m_fSpeed * rengine::Time::GetDeltaTime();
+					_right -= m_fSpeed * (float)rengine::Time::GetDeltaTime();
 
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_E))
-					_up += m_fSpeed * rengine::Time::GetDeltaTime();
+					_up += m_fSpeed * (float)rengine::Time::GetDeltaTime();
 				if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_Q))
-					_up -= m_fSpeed * rengine::Time::GetDeltaTime();
+					_up -= m_fSpeed * (float)rengine::Time::GetDeltaTime();
 			}
 
 			if (_forward != 0 || _right != 0 || _up != 0

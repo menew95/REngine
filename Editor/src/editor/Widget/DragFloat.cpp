@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	DragFloat::DragFloat(string name, rengine::Object* handler, rttr::property& prop, float speed, float min, float max, uint32 flags)
-		: Widget(name, flags)
+	DragFloat::DragFloat(const string& id, rengine::Object* handler, rttr::property& prop, float speed, float min, float max, uint32 flags)
+		: Widget(id, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)
 		, m_speed(speed)
@@ -31,17 +31,9 @@ namespace editor
 
 		float _value = _val.convert<float>();
 
-		ImGui::PushID(m_widgetName.c_str());
-
-		ImGui::Text(m_widgetName.c_str());
-		//ImGui::SameLine();
-		ImGui::NextColumn();
-
-		if (ImGui::DragFloat("", &_value, m_speed, m_min, m_max, "%.3f", GetFlags()))
+		if (ImGui::DragFloat(m_id.c_str(), &_value, m_speed, m_min, m_max, "%.3f", GetFlags()))
 		{
 			m_prop.set_value(m_pHandler, _value);
 		}
-
-		ImGui::PopID();
 	}
 }

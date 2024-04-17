@@ -12,8 +12,8 @@ namespace fs = std::filesystem;
 
 namespace editor
 {
-	ObjectButton::ObjectButton(string widgetName,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
-		: Button(widgetName, handler, prop, size, flags)
+	ObjectButton::ObjectButton(const string& id,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
+		: Button(id, handler, prop, size, flags)
 		, m_rectSize{ size.x, size.y }
 		, m_pHandler(handler)
 		, m_prop(prop)
@@ -69,10 +69,6 @@ namespace editor
 
 	void ObjectButton::Render()
 	{
-		ImGui::Columns(2);
-		ImGui::Text(GetWidgetName().c_str());
-		ImGui::NextColumn();
-
 		auto _var = m_prop.get_value(m_pHandler);
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
@@ -190,8 +186,6 @@ namespace editor
 				ImGui::EndDragDropTarget();
 			}
 		}
-		
-		ImGui::EndColumns();
 
 		if (_openSeachView)
 		{

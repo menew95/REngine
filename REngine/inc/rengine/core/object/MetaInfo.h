@@ -34,6 +34,7 @@ namespace rengine
         DOUBLE,
         ENUM,
         Color,
+        Structure,
     };
 
     enum class SerializableType

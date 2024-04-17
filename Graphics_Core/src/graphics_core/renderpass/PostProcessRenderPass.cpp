@@ -39,7 +39,9 @@ namespace graphics
 
 		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
 
-		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
+		m_pPostProcessRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("PostProcessFrame"));
+
+		m_pPostProcessFrameColorTexture = ResourceManager::GetInstance()->GetTexture(TEXT("PostProcessFrame"));
 
 		m_pMainFrameColorTexture = ResourceManager::GetInstance()->GetTexture(TEXT("MainFrame"));
 
@@ -49,12 +51,18 @@ namespace graphics
 			_matBuffer->SetPipelineID(TEXT("ToneMapping_Uncharted"));
 
 			_matBuffer->SetTexture(TEXT("gTexture"), ResourceManager::GetInstance()->GetTexture(TEXT("MainFrame")));
+
+			m_materialBufferList.emplace_back(_matBuffer);
 		}
 	}
 
 	void PostProcessRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
 	{
+		__super::BeginExcute(command, camBuffer);
+
 		m_pCameraColorTexture = camBuffer->GetColorTexture();
+
+		command->SetRenderTarget(*m_pPostProcessRenderTarget, 0, nullptr);
 	}
 	
 	void PostProcessRenderPass::Excute(CommandBuffer* command)
@@ -73,12 +81,14 @@ namespace graphics
 
 			TextureLocation _empty;
 
-			command->CopyTexture(*m_pCameraColorTexture, _empty, *m_pMainFrameColorTexture, _empty, m_pMainFrameColorTexture->GetResolution());
+			command->CopyTexture(*m_pMainFrameColorTexture, _empty, *m_pPostProcessFrameColorTexture, _empty, m_pPostProcessFrameColorTexture->GetResolution());
 		}
 	}
 	
 	void PostProcessRenderPass::EndExcute(CommandBuffer* command)
 	{
-	
+		__super::EndExcute(command);
+
+		command->EndRenderPass();
 	}
 }

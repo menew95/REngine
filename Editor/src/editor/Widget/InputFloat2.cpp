@@ -5,8 +5,8 @@
 
 namespace editor
 {
-	InputFloat2::InputFloat2(string name, rengine::Object* handler, rttr::property& prop, uint32 flags)
-		: Widget(name, flags)
+	InputFloat2::InputFloat2(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
+		: Widget(id, flags)
 		, m_pHandler(handler)
 		, m_prop(prop)
 	{
@@ -29,9 +29,9 @@ namespace editor
 
 		float* _handler[2] = { &_vec.x, &_vec.y };
 
-		ImGui::PushID(m_widgetName.c_str());
+		ImGui::PushID(m_id.c_str());
 
-		ImGui::Text(m_widgetName.c_str());
+		ImGui::Text(m_id.c_str());
 		//ImGui::SameLine();
 		ImGui::NextColumn();
 

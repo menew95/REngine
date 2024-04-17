@@ -76,10 +76,21 @@ namespace editor
 
     }
 
-	void GetProperty(CollapsingHeader& header, rengine::MetaDataType type, rengine::Component* component
+	void GetProperty(WidgetContainer& container, rengine::MetaDataType type, rengine::Component* component
 	, const rttr::variant& var, rttr::property& prop)
 	{
 		string _propName = prop.get_name().to_string();
+
+		TextColored* _name_widget = reinterpret_cast<TextColored*>(container.GetChild(_propName));
+
+		if (_name_widget == nullptr)
+		{
+			_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+
+			container.AddWidget(_name_widget);
+		}
+
+		_propName = "##" + _propName;
 
 		switch (type)
 		{
@@ -88,7 +99,7 @@ namespace editor
 				auto _wstr = var.convert<tstring>();
 				auto _str = StringHelper::WStringToString(_wstr);
 
-				if (InputText* _widget = reinterpret_cast<InputText*>(header.GetChild(_propName)))
+				if (InputText* _widget = reinterpret_cast<InputText*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -98,7 +109,7 @@ namespace editor
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, component, prop, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
@@ -118,7 +129,7 @@ namespace editor
 					header.AddWidget(_widget);
 				}*/
 
-				if (DragFloat2* _widget = reinterpret_cast<DragFloat2*>(header.GetChild(_propName)))
+				if (DragFloat2* _widget = reinterpret_cast<DragFloat2*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -126,11 +137,11 @@ namespace editor
 				{
 					uint32 _flags = ImGuiSliderFlags_None;
 
-					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+					auto _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat2>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
@@ -150,7 +161,7 @@ namespace editor
 					header.AddWidget(_widget);
 				}*/
 
-				if (DragFloat3* _widget = reinterpret_cast<DragFloat3*>(header.GetChild(_propName)))
+				if (DragFloat3* _widget = reinterpret_cast<DragFloat3*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -158,11 +169,11 @@ namespace editor
 				{
 					uint32 _flags = ImGuiSliderFlags_None;
 
-					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+					auto _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat3>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
@@ -182,7 +193,7 @@ namespace editor
 					header.AddWidget(_widget);
 				}*/
 
-				if (DragFloat4* _widget = reinterpret_cast<DragFloat4*>(header.GetChild(_propName)))
+				if (DragFloat4* _widget = reinterpret_cast<DragFloat4*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -194,7 +205,7 @@ namespace editor
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat4>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
@@ -211,7 +222,7 @@ namespace editor
 			{
 				auto _uuid = var.convert<uuid>();
 
-				if (ObjectButton* _widget = reinterpret_cast<ObjectButton*>(header.GetChild(_propName)))
+				if (ObjectButton* _widget = reinterpret_cast<ObjectButton*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -219,14 +230,14 @@ namespace editor
 				{
 					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName, component, prop);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
 			}
 			case rengine::MetaDataType::BOOL:
 			{
-				if (CheckBox* _widget = reinterpret_cast<CheckBox*>(header.GetChild(_propName)))
+				if (CheckBox* _widget = reinterpret_cast<CheckBox*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -234,7 +245,7 @@ namespace editor
 				{
 					_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName, component, prop);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 				break;
 			}
@@ -262,7 +273,7 @@ namespace editor
 					header.AddWidget(_widget);
 				}*/
 
-				if (DragFloat* _widget = reinterpret_cast<DragFloat*>(header.GetChild(_propName)))
+				if (DragFloat* _widget = reinterpret_cast<DragFloat*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -274,7 +285,7 @@ namespace editor
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<DragFloat>(_propName, component, prop, 1.0f, _min, _max, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 				break;
 			}
@@ -285,7 +296,7 @@ namespace editor
 			}
 			case rengine::MetaDataType::ENUM:
 			{
-				if (ComboBox* _widget = reinterpret_cast<ComboBox*>(header.GetChild(_propName)))
+				if (ComboBox* _widget = reinterpret_cast<ComboBox*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -295,13 +306,13 @@ namespace editor
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, component, prop, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 				break;
 			}
 			case rengine::MetaDataType::Color:
 			{
-				if (ColorEdit* _widget = reinterpret_cast<ColorEdit*>(header.GetChild(_propName)))
+				if (ColorEdit* _widget = reinterpret_cast<ColorEdit*>(container.GetChild(_propName)))
 				{
 					_widget->SetHandler(component);
 				}
@@ -311,7 +322,7 @@ namespace editor
 
 					_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, component, prop, _flags);
 
-					header.AddWidget(_widget);
+					container.AddWidget(_widget);
 				}
 
 				break;
@@ -326,19 +337,18 @@ namespace editor
 
 	void InspectorView::DrawGameObject(rengine::GameObject* go)
 	{
-		//Event<rengine::Object, void, string> _event(*_go, &rengine::GameObject::SetNameStr);
-		//InputText _inputText(go->GetNameStr(), _str, 0, _event);
-
-		//_inputText.Render();
-
 		const rttr::type gameobject_type = rttr::type::get_by_name("GameObject");
 
 		ImGui::Columns(4, "Test", false);
 
 		{
+			TextColored _textColored{ "Active Self", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
+
+			_textColored.Render();
+			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Active Self");
 
-			CheckBox _widget{ "Active Self", go, _prop };
+			CheckBox _widget{ "##Active Self", go, _prop };
 
 			_widget.Render();
 		}
@@ -346,9 +356,13 @@ namespace editor
 		ImGui::NextColumn();
 
 		{
+			TextColored _textColored{ "Static", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
+
+			_textColored.Render();
+			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Static");
 
-			CheckBox _widget{ "Static", go, _prop };
+			CheckBox _widget{ "##Static", go, _prop };
 
 			_widget.Render();
 		}
@@ -356,9 +370,15 @@ namespace editor
 		ImGui::Columns(2);
 		
 		{
+			TextColored _textColored{ "Name", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
+
+			_textColored.Render();
+
+			ImGui::NextColumn();
+
 			rttr::property _prop = gameobject_type.get_property("m_objectName");
 
-			InputText _widget{"Name", go, _prop};
+			InputText _widget{"##Name", go, _prop};
 
 			_widget.Render();
 		}
@@ -368,6 +388,12 @@ namespace editor
 		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
 
 		{
+			/*TextColored _textColored{ "Tag", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
+
+			_textColored.Render();
+
+			ImGui::SameLine();*/
+
 			rttr::property _prop = gameobject_type.get_property("Tag");
 
 			if (ImGui::BeginCombo("Tag", "Tag Test", ImGuiComboFlags_PopupAlignLeft))
@@ -382,6 +408,12 @@ namespace editor
 		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
 
 		{
+			/*TextColored _textColored{ "Layer", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
+
+			_textColored.Render();
+
+			ImGui::SameLine();*/
+
 			rttr::property _prop = gameobject_type.get_property("Layer");
 
 			if (ImGui::BeginCombo("Layer", "Layer Test", ImGuiComboFlags_PopupAlignLeft))
@@ -402,6 +434,17 @@ namespace editor
 			| ImGuiTreeNodeFlags_SpanAvailWidth
 			| ImGuiTreeNodeFlags_AllowOverlap
 			| ImGuiTreeNodeFlags_FramePadding);
+
+		Columns<2>* _columns = reinterpret_cast<Columns<2>*>(_componentWidget->GetChild(comp->GetTypeStr() + "_Columes"));
+		
+		if (_columns == nullptr)
+		{
+			uint32 _flags = 0;
+
+			_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(comp->GetTypeStr() + "_Columes", _flags);
+
+			_componentWidget->AddWidget(_columns);
+		}
 
         for (rttr::property _prop : component_type.get_properties())
         {
@@ -426,7 +469,7 @@ namespace editor
             //}
             //else
             {
-                GetProperty(*_componentWidget, _metaDataType, comp, _value, _prop);
+                GetProperty(*_columns, _metaDataType, comp, _value, _prop);
             }
         }
 

@@ -24,7 +24,7 @@ namespace editor
     class ComboBox : public Widget
     {
     public:
-        ComboBox(string name, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        ComboBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
 
         ~ComboBox();
 

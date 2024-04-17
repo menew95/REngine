@@ -34,6 +34,8 @@ namespace graphics
 
 	void RenderPass::EndExcute(CommandBuffer* command)
 	{
+		command->EndRenderPass();
+
 		command->EndEvent();
 	}
 

@@ -13,6 +13,8 @@
 
 #include <rengine\core\object\object.h>
 
+#include <rengine\System\GraphicsSetting.h>
+
 #include <rengine\rengine_dllexport.h>
 
 namespace rengine
@@ -54,12 +56,17 @@ namespace rengine
         RENGINE_API void SetIsLoaded(bool value) { m_bIsLoaded = value; }
         RENGINE_API void SetPath(tstring value) { m_path = value; }
 
+        RENGINE_API GraphicsSetting& GetGraphicsSetting() { return m_graphicsSetting; }
+        RENGINE_API void SetGraphicsSetting(GraphicsSetting& val) { m_graphicsSetting = val; }
+
     private:
         bool m_bIsDirty = false;
 
         bool m_bIsLoaded = false;
 
         tstring m_path;
+
+        GraphicsSetting m_graphicsSetting;
 
         // 모든 게임 오브젝트 리스트
         std::vector<std::shared_ptr<GameObject>> m_gameObjects;

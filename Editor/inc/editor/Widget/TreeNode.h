@@ -17,7 +17,7 @@ namespace editor
     class TreeNode : public WidgetContainer
     {
     public:
-        TreeNode(string name, uint32 flags = 0);
+        TreeNode(const string& id, uint32 flags = 0);
 
         ~TreeNode();
 

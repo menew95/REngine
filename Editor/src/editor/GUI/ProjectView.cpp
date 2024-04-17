@@ -430,7 +430,7 @@ namespace editor
 			1
 		};
 
-		graphics::ImageDesc _imageDesc{ _pixel.data() , _pitch, _pitch * _height};
+		graphics::ImageDesc _imageDesc{ _pixel.data() , (uint32)_pitch, (uint32)(_pitch * _height)};
 
 		auto _texture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>();
 
