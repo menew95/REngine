@@ -77,13 +77,13 @@ namespace editor
 
     }
 
-	void GetProperty(WidgetContainer& container, rengine::MetaDataType type, rttr::property& prop, rttr::instance obj, rttr::variant val);
+	void GetProperty(WidgetContainer& root, WidgetContainer& container, rengine::MetaDataType type, rttr::property& prop, rttr::instance obj, rttr::variant val);
 
 	void DrawStructure(WidgetContainer& root, const rttr::instance& obj, const rttr::property& property)
 	{
 		string _propName = property.get_name().to_string();
 
-		CollapsingHeader* _widget = reinterpret_cast<CollapsingHeader*>(root.GetChild(_propName));
+		CollapsingHeader* _widget = reinterpret_cast<CollapsingHeader*>(root.GetChild(_propName + "header"));
 
 		if (_widget == nullptr)
 		{
@@ -93,7 +93,7 @@ namespace editor
 				| ImGuiTreeNodeFlags_AllowOverlap
 				| ImGuiTreeNodeFlags_FramePadding;
 
-			_widget = WidgetManager::GetInstance()->CreateWidget<CollapsingHeader>(_propName, _flags);
+			_widget = WidgetManager::GetInstance()->CreateWidget<CollapsingHeader>(_propName + "header", _flags);
 
 			root.AddWidget(_widget);
 		}
@@ -124,17 +124,17 @@ namespace editor
 
 			rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
 
-			GetProperty(*_columns, _metaDataType, _prop, _instance, _var);
+			GetProperty(*_widget , *_columns, _metaDataType, _prop, _instance, _var);
 		}
 	}
 
-	void GetProperty(WidgetContainer& container, rengine::MetaDataType type, rttr::property& prop, rttr::instance obj, rttr::variant val)
+	void GetProperty(WidgetContainer& root, WidgetContainer& container, rengine::MetaDataType type, rttr::property& prop, rttr::instance obj, rttr::variant val)
 	{
 		string _propName = prop.get_name().to_string();
 
 		TextColored* _name_widget = reinterpret_cast<TextColored*>(container.GetChild(_propName));
 
-		if (/*type != rengine::MetaDataType::Structure && */_name_widget == nullptr)
+		if (type != rengine::MetaDataType::Structure && _name_widget == nullptr)
 		{
 			_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
 
@@ -478,7 +478,7 @@ namespace editor
 			}
 			case rengine::MetaDataType::Structure:
 			{
-				DrawStructure(container, obj, prop);
+				DrawStructure(root, obj, prop);
 
 				break;
 			}
@@ -628,7 +628,7 @@ namespace editor
             {
 				rttr::instance _instance = comp;
 
-                GetProperty(*_columns, _metaDataType, _prop, _instance, _value);
+                GetProperty(*_componentWidget, *_columns, _metaDataType, _prop, _instance, _value);
             }
         }
 
