@@ -10,33 +10,21 @@
 **/
 #pragma once
 
-#include <editor\Widget\Widget.h>
-
-#include <rttr/registration.h>
-
-namespace rengine
-{
-    class Object;
-}
+#include <editor\Widget\WidgetData.h>
 
 namespace editor
 {
-    class CheckBox : public Widget
+    class CheckBox : public WidgetData<bool>
     {
     public:
-        CheckBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        CheckBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags = 0);
 
         ~CheckBox();
 
-        virtual EDITOR_API void Render() override;
-
-        void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
-
     private:
-        // component handler;
-        rengine::Object* m_pHandler;
+        void Draw() override;
 
-        // property
-        rttr::property m_prop;
+    protected:
+        
     };
 }

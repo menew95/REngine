@@ -32,15 +32,28 @@ namespace editor
         , m_speed(speed)
         , m_format(format)
         {
-            // 템플릿 특수화를 잘 이용해봅시다.
-            if constexpr (std::is_same_v<TData, int>)
+            if constexpr (std::is_same_v<TData, int8>)
+                m_dataType = ImGuiDataType_S8;
+            else if constexpr (std::is_same_v<TData, uint8>)
+                m_dataType = ImGuiDataType_U8;
+            else if constexpr (std::is_same_v<TData, int16>)
+                m_dataType = ImGuiDataType_S16;
+            else if constexpr (std::is_same_v<TData, uint16>)
+                m_dataType = ImGuiDataType_U16;
+            else if constexpr (std::is_same_v<TData, int32>)
                 m_dataType = ImGuiDataType_S32;
+            else if constexpr (std::is_same_v<TData, uint32>)
+                m_dataType = ImGuiDataType_U32;
+            else if constexpr (std::is_same_v<TData, int64>)
+                m_dataType = ImGuiDataType_S64;
+            else if constexpr (std::is_same_v<TData, uint64>)
+                m_dataType = ImGuiDataType_U64;
             else if constexpr (std::is_same_v<TData, float>)
                 m_dataType = ImGuiDataType_Float;
             else if constexpr (std::is_same_v<TData, double>)
                 m_dataType = ImGuiDataType_Double;
             else
-                m_dataType = ImGuiDataType_S8;
+                m_dataType = ImGuiDataType_COUNT;
 
             m_data.fill(0);
         }

@@ -1,18 +1,16 @@
 ﻿/**
 
     @file      ColorEdit.h
-    @brief     
+    @brief     imgui color edit4 wrapper
     @details   ~
-    @author    Cool Guy
+    @author    LWT
     @date      3.04.2024
     @copyright © Cool Guy, 2024. All right reserved.
 
 **/
 #pragma once
 
-#include <editor\Widget\Widget.h>
-
-#include <rttr\registration.h>
+#include <editor\Widget\WidgetData.h>
 
 namespace rengine
 {
@@ -21,22 +19,17 @@ namespace rengine
 
 namespace editor
 {
-    class ColorEdit : public Widget
+    class ColorEdit : public WidgetData<Color>
     {
     public:
-        ColorEdit(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        ColorEdit(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags = 0);
 
         ~ColorEdit();
 
-        virtual EDITOR_API void Render() override;
-
-        void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
-
     private:
-        // component handler;
-        rengine::Object* m_pHandler;
+        void Draw() override;
 
-        // property
-        rttr::property m_prop;
+    protected:
+        float m_colorBuf[4] = { .0f, .0f, .0f, .0f };
     };
 }

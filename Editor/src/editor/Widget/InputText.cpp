@@ -6,45 +6,28 @@
 
 namespace editor
 {
-	InputText::InputText(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
-	: Widget(id, flags)
-	, m_pHandler(handler)
-	, m_prop(prop)
+	InputText::InputText(const string& id, rttr::instance& obj, rttr::property& prop, const string& hint, uint32 flags)
+	: WidgetData<tstring>(id, obj, prop, flags)
+	, m_hint(hint)
 	{
-
+		memset(m_buf, 0, sizeof(m_buf));
 	}
 
 	InputText::~InputText()
 	{
 	}
 
-	void InputText::Render()
+	void InputText::Draw()
 	{
-		auto _val = m_prop.get_value(m_pHandler);
+		string _str = StringHelper::WStringToString(m_data);
 
-		if (!_val.can_convert<tstring>())
-			assert(false);
+		strcpy_s(m_buf, _str.c_str());
 
-		tstring _wstr = _val.convert<tstring>();
-
-		string _str = StringHelper::WStringToString(_wstr);
-
-		strcpy_s(m_pInputText, _str.c_str());
-
-		if (ImGui::InputTextEx(m_id.c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
+		if (ImGui::InputTextEx(m_id.c_str(), m_hint.c_str(), m_buf, IM_ARRAYSIZE(m_buf), ImVec2(.0f, .0f), m_flags, m_callback, m_userData))
 		{
-			_str = m_pInputText;
+			m_isValChange = true;
 
-			_wstr = StringHelper::StringToWString(_str);
-
-			m_prop.set_value(m_pHandler, _wstr);
+			m_data = StringHelper::ToWString(m_buf);
 		}
-
-		/*strcpy_s(m_pInputText, m_text.c_str());
-
-		if (ImGui::InputTextEx(m_label.c_str(), "GameObject Name", m_pInputText, IM_ARRAYSIZE(m_pInputText), ImVec2(.0f, 0.f), GetFlags()))
-		{
-			m_event.Invoke(m_pInputText);
-		}*/
 	}
 }

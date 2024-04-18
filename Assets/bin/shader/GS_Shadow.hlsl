@@ -68,7 +68,7 @@ void SpotGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> strea
             output.RTIndex = _light[g_idx].dynamicShadowMapIdx;
 
         output.PosH = input[i].PosH;
-        output.PosH = mul(output.PosH, _light.ShadowMatrix[0]);
+        output.PosH = mul(output.PosH, _lightInfo._shadowMatrix[0]);
         output.Texcoord0 = input[i].Texcoord0;
         //output.PosH /= output.PosH.w;
         //output.PosH.w = 1.f;
@@ -100,7 +100,7 @@ void PointGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> stre
                     output.RTIndex = g_Light[g_idx].dynamicShadowMapIdx * 6 + directionIdx;
 
                 output.PosH = input[i].PosH;
-                output.PosH = mul(output.PosH, g_Light[g_idx].ShadowMatrix[directionIdx]);
+                output.PosH = mul(output.PosH, _lightInfo._shadowMatrix[directionIdx]);
                 output.Texcoord0 = input[i].Texcoord0;
 
                 stream.Append(output);

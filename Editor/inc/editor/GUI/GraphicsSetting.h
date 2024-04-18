@@ -29,9 +29,9 @@ namespace editor
         void End() override;
     
     private:
-        void DrawSettings(class WidgetContainer* root, const rttr::array_range<rttr::property>& properties, rttr::instance obj);
+        void DrawSettings(class WidgetContainer* root, const rttr::array_range<rttr::property>& properties, const rttr::instance& obj);
 
-        void DrawStruct(class WidgetContainer* root, const rttr::property& property, rttr::instance obj);
+        void DrawStruct(class WidgetContainer* root, const rttr::property& property, const rttr::instance& obj);
 
         class CollapsingHeader* m_widget;
     };

@@ -178,7 +178,7 @@ RTTR_PLUGIN_REGISTRATION
 
 	registration::class_<rengine::GraphicsSetting>("GraphicsSetting")
 	.constructor<>()
-	.property("PostProcessingSetting", &rengine::GraphicsSetting::_postProcessingSetting)
+	.property("PostProcessingSetting", &rengine::GraphicsSetting::GetPostProcessingSetting, &rengine::GraphicsSetting::SetPostProcessingSetting)
 	(
 		metadata(rengine::MetaData::Serializable, rengine::MetaDataType::Structure),
 		metadata(rengine::MetaData::Editor, rengine::MetaDataType::Structure),

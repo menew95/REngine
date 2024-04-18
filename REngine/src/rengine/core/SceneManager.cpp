@@ -58,6 +58,11 @@ namespace rengine
         return m_scenes.size();
     }
 
+    void SceneManager::UpdateGraphicsSetting()
+    {
+        GraphicsSystem::GetInstance()->SetGraphicsSetting(m_pCurrentScene->GetGraphicsSetting());
+    }
+
     std::shared_ptr<Scene> SceneManager::GetScene(size_t idx)
     {
         try
@@ -78,6 +83,8 @@ namespace rengine
             m_pCurrentScene.reset();
 
         m_pCurrentScene = GetScene(idx);
+
+        UpdateGraphicsSetting();
     }
 
     RENGINE_API std::shared_ptr<Scene> SceneManager::CreateScene(tstring name)

@@ -30,6 +30,7 @@ namespace editor
 		m_componentList.push_back("MeshRenderer");
 		m_componentList.push_back("Transform");
 		m_componentList.push_back("Light");
+		m_componentList.push_back("TestComponent");
 
 		LoadAssetData();
 

@@ -17,13 +17,13 @@ namespace editor
     class ObjectButton : public Button
     {
     public:
-        ObjectButton(const string& id, rengine::Object* handler, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
+        ObjectButton(const string& id, rttr::instance& obj, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
 
         ~ObjectButton();
 
         virtual EDITOR_API void Render() override;
 
-        void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
+        //void SetHandler(rengine::Object* obj) { m_instance = obj; }
 
     private:
         static void SetProperty(void* _this, const shared_ptr<rengine::Object>& obj);
@@ -34,7 +34,7 @@ namespace editor
         ImVec2 m_rectSize;
 
         // component handler;
-        rengine::Object* m_pHandler;
+        rttr::instance m_instance;
 
         // property
         rttr::property m_prop;

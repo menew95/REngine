@@ -1,21 +1,27 @@
 #include "header\H_Input.hlsli"
-#include "header\H_Const.hlsli"
+//#include "header\H_Const.hlsli"
 
 // Nonnumeric values cannot be added to a cbuffer.
 Texture2D gTexture : register(t0);
 
 SamplerState gSamLinearWrap : register(s0);
 
+cbuffer PerMaterial: register(b2)
+{
+    float _exposure = 1.0f;
+    float4 _tone_padding0;
+}
+
 float3 ReinhardToneMap(float3 color)
 {
-    color *= _postProcess.g_fHardExposure;  // Hardcoded Exposure Adjustment
+    color *= _exposure;//_postProcess._toneMappingSetting._exposure;  // Hardcoded Exposure Adjustment
     color = color / (1 + color);
     return pow(color, 1 / 2.2);
 }
 
 float3 FilmicToneMap(float3 color)
 {
-    color *= _postProcess.g_fHardExposure;  // Hardcoded Exposure Adjustment
+    color *= _exposure;//_postProcess._toneMappingSetting._exposure;  // Hardcoded Exposure Adjustment
     color = max(0, color - 0.004); // Filmic Curve
     return (color * (6.2 * color + .5)) / (color * (6.2 * color + 1.7) + 0.06);
 }
@@ -34,7 +40,7 @@ float3 Uncharted2Kernel(float3 x)
 float3 Uncharted2ToneMap(float3 color)
 {
     float W = 11.2;
-    color *= _postProcess.g_fHardExposure;  // Hardcoded Exposure Adjustment
+    color *= _exposure;//_postProcess._toneMappingSetting._exposure;  // Hardcoded Exposure Adjustment
 
     float ExposureBias = 2.0f;
     float3 curr = Uncharted2Kernel(ExposureBias * color);

@@ -68,10 +68,8 @@ namespace rengine
         float _numMips;       // the number of mip levelses in the convolved color buffer
         float _fadeStart;     // determines where to start screen edge fading of effect
         float _fadeEnd;       // determines where to end screen edge fading of effect
-        float _sslr_padding0; // padding for alignment
 
         float _zThickness; // thickness to ascribe to each pixel in the depth buffer
-        Vector3 _sslr_padding1 = Vector3::Zero;
 
         RTTR_REGISTRATION_FRIEND
 
@@ -142,8 +140,6 @@ namespace rengine
 
         float _rimDecrease;
 
-        Vector2 _rim_padding0 = Vector2::Zero;
-
         RTTR_REGISTRATION_FRIEND
 
         RTTR_ENABLE()
@@ -165,8 +161,6 @@ namespace rengine
         float _intensity;
 
         float _threshhold;
-
-        Vector2 _bloom_padding0 = Vector2::Zero;
         
         RTTR_REGISTRATION_FRIEND
 
@@ -201,7 +195,7 @@ namespace rengine
 #pragma endregion
 
 #pragma region Tone mapping
-    struct RENGINE_API ToneMapping
+    struct RENGINE_API alignas(16) ToneMapping
     {
         ToneMapping() = default;
         ~ToneMapping() = default;
@@ -210,8 +204,6 @@ namespace rengine
         void    SetExposure(float val)  { _exposure = val; }
 
         float _exposure = 1.0f;
-
-        Vector3 _tone_padding0 =  Vector3::Zero;
 
         RTTR_REGISTRATION_FRIEND
 
@@ -224,23 +216,23 @@ namespace rengine
         PostProcessingSetting() = default;
         ~PostProcessingSetting() = default;
 
-        const ScreenSpaceReflection& GetScreenSpaceReflection() { return _screenSpaceReflectionSetting; }
-        void SetScreenSpaceReflection(const ScreenSpaceReflection& val) { _screenSpaceReflectionSetting = val; }
+        ScreenSpaceReflection* GetScreenSpaceReflection() { return &_screenSpaceReflectionSetting; }
+        void SetScreenSpaceReflection(ScreenSpaceReflection* val) { _screenSpaceReflectionSetting = *val; }
 
-        const ExponentialHeightFog& GetExponentialHeightFog() { return _exponentialHeightFogSettig; }
-        void SetExponentialHeightFog(const ExponentialHeightFog& val) { _exponentialHeightFogSettig = val; }
+        ExponentialHeightFog* GetExponentialHeightFog() { return &_exponentialHeightFogSettig; }
+        void SetExponentialHeightFog(ExponentialHeightFog* val) { _exponentialHeightFogSettig = *val; }
 
-        const RimLight& GetRimLight() { return _rimLightSetting; }
-        void SetRimLight(const RimLight& val) { _rimLightSetting = val; }
+        RimLight* GetRimLight() { return &_rimLightSetting; }
+        void SetRimLight(RimLight* val) { _rimLightSetting = *val; }
 
-        const Bloom& GetBloom() { return _bloomSetting; }
-        void SetBloom(const Bloom& val) { _bloomSetting = val; }
+        Bloom* GetBloom() { return &_bloomSetting; }
+        void SetBloom(Bloom* val) { _bloomSetting = *val; }
 
-        const SSAO& GetSSAO() { return _ssaoSetting; }
-        void SetSSAO(const SSAO& val) { _ssaoSetting = val; }
+        SSAO* GetSSAO() { return &_ssaoSetting; }
+        void SetSSAO(SSAO* val) { _ssaoSetting = *val; }
 
-        const ToneMapping& GetToneMapping() { return _toneMappingSetting; }
-        void SetToneMapping(const ToneMapping& val) { _toneMappingSetting = val; }
+        ToneMapping* GetToneMapping() { return &_toneMappingSetting; }
+        void SetToneMapping(ToneMapping* val) { _toneMappingSetting = *val; }
 
         ScreenSpaceReflection _screenSpaceReflectionSetting;
 
@@ -265,7 +257,8 @@ namespace rengine
 
         ~GraphicsSetting() = default;
 
-        const PostProcessingSetting& GetPostProcessingSetting() { return _postProcessingSetting; }
+        PostProcessingSetting* GetPostProcessingSetting() { return &_postProcessingSetting; }
+        void SetPostProcessingSetting(PostProcessingSetting* setting) { _postProcessingSetting = *setting; }
 
         PostProcessingSetting _postProcessingSetting;
 

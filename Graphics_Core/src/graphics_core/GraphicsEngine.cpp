@@ -7,6 +7,7 @@
 #include <graphics_core\renderer\Renderer.h>
 #include <graphics_core\resource\CameraBuffer.h>
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
+#include <graphics_core\renderpass\PostProcessRenderPass.h>
 
 #include <graphics_module\Module.h>
 #include <graphics_module\RenderSystem.h>
@@ -130,9 +131,14 @@ namespace graphics
 		m_pSwapChain->ResizeBuffer(resolution);
 	}
 
-	void graphics::GraphicsEngine::SetLightSetting(const LightSetting& setting)
+	void graphics::GraphicsEngine::SetGraphicsSetting(const GraphicsSetting& setting)
 	{
+		PostProcessRenderPass* _postProcess = reinterpret_cast<PostProcessRenderPass*>
+		(
+			ResourceManager::GetInstance()->GetRenderPass(TEXT("PostProcess Pass"))
+		);
 
+		_postProcess->SetPostProcessingSetting(setting._postProcessingSetting);
 	}
 
 	uint64 graphics::GraphicsEngine::ObjectPicking(const math::Vector2& pixel)

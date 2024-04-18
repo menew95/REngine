@@ -24,21 +24,13 @@ namespace editor
     class Button : public Widget
     {
     public:
-        Button(const string& id, rengine::Object* handler, rttr::property& prop, math::Vector2 size = {0, 0}, uint32 flags = 0);
+        Button(const string& id,math::Vector2 size = {0, 0}, uint32 flags = 0);
 
         ~Button();
 
         virtual EDITOR_API void Render() override;
 
-        void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
-
     private:
         ImVec2 m_rectSize;
-
-        // component handler;
-        rengine::Object* m_pHandler;
-
-        // property
-        rttr::property m_prop;
     };
 }

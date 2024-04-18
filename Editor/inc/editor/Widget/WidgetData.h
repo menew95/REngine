@@ -32,7 +32,9 @@ namespace editor
 
         EDITOR_API void Render() override;
 
-        EDITOR_API void SetHandler(const rttr::instance& object) { m_instance = object; }
+        EDITOR_API void SetHandler(const rttr::variant& var) { m_variant = var; }
+
+        EDITOR_API const rttr::variant& GetHandler() { return m_variant; }
 
         void RegisterGetter(function<TData(void)> getter) { m_getter = getter; }
 
@@ -46,6 +48,8 @@ namespace editor
 
         // object instance;
         rttr::instance m_instance;
+
+        rttr::variant m_variant;
 
         // property
         rttr::property m_prop;

@@ -49,6 +49,8 @@ namespace editor
 		DrawSettings(m_widget, _props, _obj);
 
 		m_widget->Render();
+
+		rengine::SceneManager::GetInstance()->GetCurrentScene()->SetGraphicsSetting(_graphicsSetting);
 	}
 
 	void GraphicsSetting::End()
@@ -63,7 +65,7 @@ namespace editor
 		return metaData.is_valid() ? metaData.get_value<bool>() : false;
 	}
 
-	void GraphicsSetting::DrawSettings(WidgetContainer* root, const rttr::array_range<rttr::property>& properties, rttr::instance obj)
+	void GraphicsSetting::DrawSettings(WidgetContainer* root, const rttr::array_range<rttr::property>& properties, const rttr::instance& obj)
 	{
 		for (auto& _prop : properties)
 		{
@@ -78,26 +80,136 @@ namespace editor
 
 			string _propName = _prop.get_name().to_string();
 
+			TextColored* _name_widget = reinterpret_cast<TextColored*>(root->GetChild(_propName));
+
+			if (_metaDataType != rengine::MetaDataType::Structure && _name_widget == nullptr)
+			{
+				_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+
+				root->AddWidget(_name_widget);
+			}
+
+			_propName = "##" + _propName;
+
 			switch (_metaDataType)
 			{
 				case rengine::MetaDataType::WSTRING:
 				{
+					InputText* _widget = reinterpret_cast<InputText*>(root->GetChild(_propName));
+
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiInputTextFlags_EnterReturnsTrue;
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, obj, _prop, "", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return _var.get_value<tstring>();
+						});
+
+					_widget->RegisterSetter([_prop, obj](tstring& value)
+						{
+							assert(_prop.set_value(obj, value));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 
 					break;
 				}
 				case rengine::MetaDataType::VECTOR2:
 				{
+					DragScalar<float, 2>* _widget = reinterpret_cast<DragScalar<float, 2>*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<float, 2>&>(_var.get_value<Vector2>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<float, 2>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<Vector2&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::VECTOR3:
 				{
+					DragScalar<float, 3>* _widget = reinterpret_cast<DragScalar<float, 3>*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<float, 3>&>(_var.get_value<Vector3>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<float, 3>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<Vector3&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::VECTOR4:
 				{
+					DragScalar<float, 4>* _widget = reinterpret_cast<DragScalar<float, 4>*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<float, 4>&>(_var.get_value<Vector4>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<float, 4>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<Vector4&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::MATRIX:
@@ -112,73 +224,205 @@ namespace editor
 				}
 				case rengine::MetaDataType::BOOL:
 				{
+					CheckBox* _widget = reinterpret_cast<CheckBox*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName, obj, _prop);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return _var.get_value<bool>();
+						});
+
+					_widget->RegisterSetter([_prop, obj](bool& value)
+						{
+							assert(_prop.set_value(obj, value));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::UINT32:
 				{
+					DragScalar<uint32, 1>* _widget = reinterpret_cast<DragScalar<uint32, 1>*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						uint32 _min = numeric_limits<uint32>::lowest(), _max = numeric_limits<uint32>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%u", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<uint32, 1>&>(_var.get_value<uint32>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<uint32, 1>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<uint32&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::INT32:
 				{
+					DragScalar<int32, 1>* _widget = reinterpret_cast<DragScalar<int32, 1>*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						int32 _min = numeric_limits<int32>::lowest(), _max = numeric_limits<int32>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%d", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<int32, 1>&>(_var.get_value<int32>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<int32, 1>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<int32&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::FLOAT:
 				{
-					TextColored * _name_widget = reinterpret_cast<TextColored*>(root->GetChild(_propName));
+					DragScalar<float, 1>* _widget = reinterpret_cast<DragScalar<float, 1>*>(root->GetChild(_propName));
 
-					if (_name_widget == nullptr)
-					{
-						_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
-
-						root->AddWidget(_name_widget);
-					}
-
-					if (DragScalar<float, 1>* _widget = reinterpret_cast<DragScalar<float, 1>*>(root->GetChild("##" + _propName)))
-					{
-						//_widget->SetHandler(obj);
-					}
-					else
+					if (_widget == nullptr)
 					{
 						uint32 _flags = ImGuiSliderFlags_None;
 
 						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>("##" + _propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
-
-						_widget->RegisterGetter([_prop, obj]()
-							{
-								rttr::variant _var = _prop.get_value(obj);
-
-								return reinterpret_cast<array<float, 1>&>(_var.get_value<float>());
-							});
-
-						auto _setter = [_prop, obj](std::array<float, 1>& value)
-							{
-								assert(_prop.set_value(obj, reinterpret_cast<float&>(value)));
-							};
-
-						_widget->RegisterSetter(_setter);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<float, 1>&>(_var.get_value<float>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<float, 1>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<float&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::DOUBLE:
 				{
-					
+					DragScalar<double, 1>* _widget = reinterpret_cast<DragScalar<double, 1>*>(root->GetChild(_propName));
+
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiSliderFlags_None;
+
+						double _min = numeric_limits<double>::lowest(), _max = numeric_limits<double>::max();
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return reinterpret_cast<array<double, 1>&>(_var.get_value<double>());
+						});
+
+					_widget->RegisterSetter([_prop, obj](std::array<double, 1>& value)
+						{
+							assert(_prop.set_value(obj, reinterpret_cast<double&>(value)));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::ENUM:
 				{
+					ComboBox* _widget = reinterpret_cast<ComboBox*>(root->GetChild(_propName));
 
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, obj, _prop, _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return _var.get_value<int>();
+						});
+
+					_widget->RegisterSetter([_prop, obj](int& value)
+						{
+							assert(_prop.set_value(obj, (uint32)value));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
 					break;
 				}
 				case rengine::MetaDataType::Color:
 				{
-				
+					ColorEdit* _widget = reinterpret_cast<ColorEdit*>(root->GetChild(_propName));
+
+					if (_widget == nullptr)
+					{
+						uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
+
+						_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, obj, _prop, _flags);
+
+						root->AddWidget(_widget);
+					}
+
+					_widget->RegisterGetter([_prop, obj, _widget]()
+						{
+							rttr::variant _var = _prop.get_value(obj);
+
+							return _var.get_value<Color>();
+						});
+
+					_widget->RegisterSetter([_prop, obj, _widget](Color& value)
+						{
+							assert(_prop.set_value(obj, value));
+
+							rengine::SceneManager::GetInstance()->UpdateGraphicsSetting();
+						});
+
 					break;
 				}
 				case rengine::MetaDataType::Structure:
@@ -193,7 +437,7 @@ namespace editor
 		}
 	}
 
-	void GraphicsSetting::DrawStruct(class WidgetContainer* root, const rttr::property& property, rttr::instance obj)
+	void GraphicsSetting::DrawStruct(class WidgetContainer* root, const rttr::property& property, const rttr::instance& obj)
 	{
 		string _propName = property.get_name().to_string();
 
@@ -234,7 +478,7 @@ namespace editor
 		auto _type = _var.get_type();
 		auto _properties = _type.get_properties();
 
-		const rttr::instance _instance = _var;
+		rttr::instance _instance = _var;
 
 		DrawSettings(reinterpret_cast<WidgetContainer*>(_columns), _properties, _instance);
 	}

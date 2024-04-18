@@ -97,6 +97,12 @@ namespace rengine
 		);
 		_info._worldViewProj = m_camWorld * _info._view * _info._proj;
 
+		_info._viewProj = _info._view *_info._proj;
+
+		_info._viewProjInv = _info._viewProj.Invert();
+
+		_info._viewProjInvTranspose = _info._viewProjInv.Transpose();
+
 		m_pCameraBuffer->Update(_info);
 
 		graphics::GraphicsEngine::GetInstance()->PushCameraBuffer(m_pCameraBuffer);

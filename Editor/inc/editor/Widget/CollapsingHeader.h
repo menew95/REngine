@@ -14,6 +14,8 @@
 
 #include <editor\Widget\WidgetContainer.h>
 
+#include <rttr\registration>
+
 namespace editor
 {
     class CollapsingHeader : public WidgetContainer

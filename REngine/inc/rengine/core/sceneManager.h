@@ -36,6 +36,9 @@ namespace rengine
 
         RENGINE_API size_t GetSceneCount();
 
+
+        RENGINE_API void UpdateGraphicsSetting();
+
         /**
             @brief  Scene 배열로 부터 해당하는 인덱스의 Scene을 가져옴
             @param  idx - Scene 인덱스

@@ -64,7 +64,7 @@ namespace graphics
 
 		GRAPHICS_API void PushCameraBuffer(class CameraBuffer* cam) { m_cameraBuffers.push_back(cam); }
 
-		GRAPHICS_API void SetLightSetting(const LightSetting& setting);
+		GRAPHICS_API void SetGraphicsSetting(const GraphicsSetting& setting);
 
 		/**
 			@brief  object id frame buffer로부터 해당 픽셀 값을 읽고 renderobject hash 값을 반환

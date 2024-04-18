@@ -28,6 +28,8 @@ namespace graphics
 
         void EndExcute(class CommandBuffer* command) override;
 
+        void SetPostProcessingSetting(const struct PostProcessingSetting& setting);
+
     private:
         class MaterialBuffer* m_pMatBuffer = nullptr;
 

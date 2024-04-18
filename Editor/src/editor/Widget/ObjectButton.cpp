@@ -12,10 +12,10 @@ namespace fs = std::filesystem;
 
 namespace editor
 {
-	ObjectButton::ObjectButton(const string& id,rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
-		: Button(id, handler, prop, size, flags)
+	ObjectButton::ObjectButton(const string& id, rttr::instance& obj, rttr::property& prop, math::Vector2 size, uint32 flags)
+		: Button(id, size, flags)
 		, m_rectSize{ size.x, size.y }
-		, m_pHandler(handler)
+		, m_instance(obj)
 		, m_prop(prop)
 	{
 		m_flags |= ImGuiButtonFlags_PressedOnDoubleClick;
@@ -69,7 +69,7 @@ namespace editor
 
 	void ObjectButton::Render()
 	{
-		auto _var = m_prop.get_value(m_pHandler);
+		auto _var = m_prop.get_value(m_instance);
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
 		string _objName = GetObjectName(_var);
@@ -201,7 +201,7 @@ namespace editor
 
 		if (_this->m_bIsArray)
 		{
-			auto _varSeq = _this->m_prop.get_value(_this->m_pHandler);
+			auto _varSeq = _this->m_prop.get_value(_this->m_instance);
 
 			auto _seq = _varSeq.create_sequential_view();
 
@@ -219,7 +219,7 @@ namespace editor
 			else
 				_seq.set_value(_this->m_arrayIndex, _var);
 
-			assert(_this->m_prop.set_value(_this->m_pHandler, _varSeq));
+			assert(_this->m_prop.set_value(_this->m_instance, _varSeq));
 		}
 		else
 		{
@@ -227,7 +227,7 @@ namespace editor
 
 			assert(_var.convert(_this->m_prop.get_type()));
 
-			assert(_this->m_prop.set_value(_this->m_pHandler, _var));
+			assert(_this->m_prop.set_value(_this->m_instance, _var));
 		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿/**
 
     @file      ComboBox.h
-    @brief     
-    @details   ~
+    @brief     imgui combo box widget wrapper
+    @details   enum 값 등을 관리하는 widget
     @author    LWT
     @date      3.04.2024
     @copyright © Cool Guy, 2024. All right reserved.
@@ -10,37 +10,21 @@
 **/
 #pragma once
 
-#include <editor\Widget\Widget.h>
-
-#include <rttr\registration.h>
-
-namespace rengine
-{
-    class Object;
-}
+#include <editor\Widget\WidgetData.h>
 
 namespace editor
 {
-    class ComboBox : public Widget
+    class ComboBox : public WidgetData<int>
     {
     public:
-        ComboBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 0);
+        ComboBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags = 0);
 
         ~ComboBox();
 
-        virtual EDITOR_API void Render() override;
-
-        void SetHandler(rengine::Object* handler) { m_pHandler = handler; }
-
     private:
-        int m_item_current = 0;
+        void Draw() override;
 
+    protected:
         vector<string> m_items;
-
-        // component handler;
-        rengine::Object* m_pHandler;
-
-        // property
-        rttr::property m_prop;
     };
 }

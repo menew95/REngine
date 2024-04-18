@@ -35,6 +35,12 @@ namespace graphics
 
         math::Matrix _worldViewProj;
 
+        math::Matrix _viewProj;
+
+        math::Matrix _viewProjInv;
+
+        math::Matrix _viewProjInvTranspose;
+
         float _near = 0.1f;
         float _far = 1000.f;
         float pad2[2];

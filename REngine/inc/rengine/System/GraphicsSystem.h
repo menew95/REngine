@@ -8,6 +8,8 @@
 
 #include <rengine\rengine_dllexport.h>
 
+#include <rengine\System\GraphicsSetting.h>
+
 namespace graphics
 {
 	class GraphicsEngine;
@@ -57,6 +59,11 @@ namespace rengine
 			@retval  - renderobject hash 값을 반환
 		**/
 		RENGINE_API uint64 ObjectPicking(const math::Vector2& imageSize, const math::Vector2& mousePosition);
+
+		/**
+		    @brief 현재 씬에 적용된 graphics setting를 엔진에 적용
+		**/
+		RENGINE_API void SetGraphicsSetting(const GraphicsSetting& setting);
 
 		/**
 		    @brief Graphics Render

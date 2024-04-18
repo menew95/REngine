@@ -6,10 +6,8 @@
 
 namespace editor
 {
-	ComboBox::ComboBox(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags)
-		: Widget(id, flags)
-		, m_pHandler(handler)
-		, m_prop(prop)
+	ComboBox::ComboBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags)
+	: WidgetData<int>(id, obj, prop, flags)
 	{
 		/*
 			enumeration enum_align = enum_type.get_enumeration();
@@ -20,7 +18,7 @@ namespace editor
 		*/
 
 		// char*를 캐싱 해두어야 하기때문에 string list를 미리 생성할 필요가 있다.
-		rttr::type _enumType = rttr::type::get_by_name(m_prop.get_name());
+		rttr::type _enumType = rttr::type::get_by_name(prop.get_name());
 
 		rttr::enumeration _enums = _enumType.get_enumeration();
 
@@ -30,6 +28,7 @@ namespace editor
 		{
 			m_items.push_back(_name.to_string());
 		}
+
 	}
 
 	ComboBox::~ComboBox()
@@ -37,12 +36,8 @@ namespace editor
 
 	}
 
-	void ComboBox::Render()
+	void ComboBox::Draw()
 	{
-		auto _val = m_prop.get_value(m_pHandler);
-
-		m_item_current = _val.convert<uint32>();
-
 		vector<const char*> _items;
 
 		for (auto& _name : m_items)
@@ -50,9 +45,9 @@ namespace editor
 			_items.push_back(_name.c_str());
 		}
 
-		if (ImGui::Combo(m_id.c_str(), &m_item_current, _items.data(), static_cast<int>(_items.size())))
+		if (ImGui::Combo(m_id.c_str(), &m_data, _items.data(), static_cast<int>(_items.size())))
 		{
-			m_prop.set_value(m_pHandler, (uint32)m_item_current);
+			m_isValChange = true;
 		}
 	}
 }

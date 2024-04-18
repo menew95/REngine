@@ -6,6 +6,8 @@
 #include <graphics_core\resource\MaterialBuffer.h>
 #include <graphics_core\resource\MeshBuffer.h>
 
+#include <graphics_core\GraphicsEngineFlags.h>
+
 #include <graphics_core\renderer\Renderer.h>
 
 #include <graphics_module\CommandBuffer.h>
@@ -90,5 +92,12 @@ namespace graphics
 		__super::EndExcute(command);
 
 		command->EndRenderPass();
+	}
+
+	void PostProcessRenderPass::SetPostProcessingSetting(const PostProcessingSetting& setting)
+	{
+		MaterialBuffer* _matBuffer = ResourceManager::GetInstance()->GetMaterialBuffer(TEXT("Tone Mapping"));
+
+		_matBuffer->SetFloat(TEXT("_exposure"), setting._toneMappingSetting._exposure);
 	}
 }

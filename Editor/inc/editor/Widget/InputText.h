@@ -10,11 +10,7 @@
 **/
 #pragma once
 
-#include <editor\Widget\Widget.h>
-
-#include <editor\Core\Event.h>
-
-#include <rttr\registration.h>
+#include <editor\Widget\WidgetData.h>
 
 namespace rengine
 {
@@ -23,30 +19,23 @@ namespace rengine
 
 namespace editor
 {
-    class InputText : public Widget
+    class InputText : public WidgetData<tstring>
     {
     public:
-        InputText(const string& id, rengine::Object* handler, rttr::property& prop, uint32 flags = 32);
+        InputText(const string& id, rttr::instance& obj, rttr::property& prop, const string& hint, uint32 flags = 32);
 
         ~InputText();
 
-        EDITOR_API void Render() override;
-
-        EDITOR_API void SetHandler(rengine::Object* handler) { m_pHandler = handler;}
-
     private:
-        // object handler;
-        rengine::Object* m_pHandler;
+        void Draw() override;
 
-        // property
-        rttr::property m_prop;
+    protected:
+        string m_hint;
 
-        char m_pInputText[256];
+        char m_buf[256];
 
-        /*std::string m_label;
-        std::string& m_text;
-        char m_pInputText[256];
+        ImGuiInputTextCallback m_callback = NULL;
 
-        Event<rengine::Object, void, string> m_event;*/
+        void* m_userData = NULL;
     };
 }

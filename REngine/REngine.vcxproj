@@ -203,6 +203,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\component\MeshFilter.h" />
     <ClInclude Include="inc\rengine\core\component\MeshRenderer.h" />
     <ClInclude Include="inc\rengine\core\component\Renderer.h" />
+    <ClInclude Include="inc\rengine\core\component\TestComponent.h" />
     <ClInclude Include="inc\rengine\core\component\Transform.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
     <ClInclude Include="inc\rengine\core\object\MetaFile.h" />
@@ -235,6 +236,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\component\MeshFilter.cpp" />
     <ClCompile Include="src\rengine\core\component\MeshRenderer.cpp" />
     <ClCompile Include="src\rengine\core\component\Renderer.cpp" />
+    <ClCompile Include="src\rengine\core\component\TestComponent.cpp" />
     <ClCompile Include="src\rengine\core\Resources.cpp" />
     <ClCompile Include="src\rengine\core\resource\AnimationClip.cpp" />
     <ClCompile Include="src\rengine\core\resource\Material.cpp" />

@@ -4,11 +4,9 @@
 #include <rengine/core/component/Component.h>
 namespace editor
 {
-	Button::Button(const string& id, rengine::Object* handler, rttr::property& prop, math::Vector2 size, uint32 flags)
+	Button::Button(const string& id, math::Vector2 size, uint32 flags)
 		: Widget(id, flags)
 		, m_rectSize{ size.x, size.y }
-		, m_pHandler(handler)
-		, m_prop(prop)
 	{
 	}
 
