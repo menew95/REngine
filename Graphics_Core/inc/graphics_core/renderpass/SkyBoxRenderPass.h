@@ -31,9 +31,15 @@ namespace graphics
         void SetSkyBox(class TextureBuffer* texture);
 
     private:
-        class MaterialBuffer* m_pSkyBoxMatBuffer = nullptr;
+        class MaterialBuffer* m_pSkyBox_CubedMatBuffer = nullptr;
+
+        class MaterialBuffer* m_pSkyBox_PanoramicMatBuffer = nullptr;
+
+        class MaterialBuffer* m_pSkyBox_ProceduralMatBuffer = nullptr;
 
         class MeshObject* m_pSkyBoxMesh = nullptr;
+
+        class MeshObject* m_pSkySphereMesh = nullptr;
 
         class TextureBuffer* m_pSkyBoxTexture = nullptr;
 

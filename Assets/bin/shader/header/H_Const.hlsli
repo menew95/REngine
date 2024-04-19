@@ -11,6 +11,10 @@ cbuffer PerFrame : register(b0)
 
     uint _lightCnt = 0;
 
+    // direction light;
+    float4 _WorldSpaceLightPos0;
+    float4 _LightColor0;
+
     CascadeShadow _shadow;
 }
 

@@ -36,8 +36,7 @@ namespace rengine
             return m_pGameObject; 
         }
 
-        inline RENGINE_API auto GetTransform() { return m_pTransform; }
-        inline RENGINE_API void SetTransform(auto transform) { m_pTransform = transform; }
+        RENGINE_API std::shared_ptr<Transform> GetTransform();
 
         bool GetEnable() { return m_bEnable; }
         void SetEnable(bool value);
@@ -67,8 +66,6 @@ namespace rengine
         inline void SetGameObject(std::weak_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
 
         std::weak_ptr<GameObject> m_pGameObject;
-        
-        std::weak_ptr<Transform> m_pTransform;
 
         bool m_bEnable = false;
 

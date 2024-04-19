@@ -7,6 +7,7 @@
 #include <graphics_module\CommandBuffer.h>
 
 #include <graphics_core\object\MeshObject.h>
+#include <graphics_core\object\PerFrame.h>
 
 #include <graphics_core\resource\CameraBuffer.h>
 #include <graphics_core\resource\MeshBuffer.h>
@@ -38,48 +39,13 @@ namespace graphics
 		m_pCommandBuffer->SetResource(*m_pTransBuffer, 1, BindFlags::ConstantBuffer, StageFlags::AllStages);
 	}
 
-	struct alignas(16) PostProcess
-	{
-		// sslr
-		Vector2 _depthBufferSize; // dimensions of the z-buffer
-		float _zThickness = 0.2f; // thickness to ascribe to each pixel in the depth buffer
-		float _nearPlaneZ; // the camera's near z plane
-
-		float _stride = 1.0f; // Step in horizontal or vertical pixels between samples. This is a float
-		// because integer math is slow on GPUs, but should be set to an integer >= 1.
-		float _maxSteps = 1000.f; // Maximum number of iterations. Higher gives better images but may be slow.
-		float _maxDistance = 300.f; // Maximum camera-space distance to trace before returning a miss.
-		float _strideZCutoff; // More distant pixels are smaller in screen space. This value tells at what point to
-		// start relaxing the stride to give higher quality reflections for objects far from
-		// the camera.
-
-		float _numMips = 7.f; // the number of mip levels in the convolved color buffer
-		float _fadeStart = 0.09f; // determines where to start screen edge fading of effect
-		float _fadeEnd = 1.f; // determines where to end screen edge fading of effect
-
-		// tone map
-		float g_fHardExposure = 1.0f;
-
-		Vector4 _pad;  // 64bit
-	};
-
-	struct alignas(16) PerFrame
-	{
-		CameraInfo _camera;
-		PostProcess _postProcess;
-
-		uint _lightCnt = 0;
-
-		CascadedInfo _shadow;
-	};
-
 	void Renderer::SetCamera(CameraBuffer* cameraBuffer)
 	{
 		PerFrame _perFrame;
 
 		_perFrame._camera = cameraBuffer->GetCameraInfo();
 
-		_perFrame._lightCnt = 1;
+		LightManager::GetInstance()->GetPerFrame(_perFrame);
 
 		m_pCommandBuffer->UpdateBuffer(*m_pFrameBuffer, 0, &_perFrame, sizeof(PerFrame));
 

@@ -189,14 +189,6 @@ namespace rengine
 				}
 			}
 		}
-
-		for (auto& _comp : m_Components)
-		{
-			if (auto _ptr = _comp.lock())
-			{
-				_ptr->SetTransform(m_pTransform);
-			}
-		}
 	}
 
 	inline void GameObject::SetActive(bool val)

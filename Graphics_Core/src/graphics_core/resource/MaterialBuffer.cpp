@@ -71,7 +71,12 @@ namespace graphics
 		case graphics::FieldType::FLOAT2:
 			break;
 		case graphics::FieldType::FLOAT3:
+		{
+			// 만약 이름에 Color가 붙으면 Color 타입을 반환, 아닐 경우 일반 vector타입을 반환
+			if (field._name.find(TEXT("Color")) != tstring::npos) return MaterialBufferProperty::PropertyType::Color;
+			else return MaterialBufferProperty::PropertyType::Vector;
 			break;
+		}
 		case graphics::FieldType::FLOAT4:
 		{
 			// 만약 이름에 Color가 붙으면 Color 타입을 반환, 아닐 경우 일반 vector타입을 반환

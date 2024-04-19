@@ -1,7 +1,7 @@
 ﻿[
   {
-    "UUID": "SkyBox",
-    "ShaderProgram": "SkyBox",
+    "UUID": "SkyBox-Cubed",
+    "ShaderProgram": "SkyBox-Cubed",
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "NoDepth",
     "StencilDesc": "NoDepth",
@@ -92,6 +92,24 @@
   {
     "UUID": "ToneMapping_Uncharted",
     "ShaderProgram": "ToneMapping_Uncharted",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Skybox-Procedural",
+    "ShaderProgram": "Skybox-Procedural",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "NoDepth",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Skybox-Panoramic",
+    "ShaderProgram": "Skybox-Panoramic",
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "NoDepth",
     "StencilDesc": "NoDepth",

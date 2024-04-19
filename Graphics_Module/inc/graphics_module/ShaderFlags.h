@@ -105,6 +105,8 @@ namespace graphics
 		uint32		_offset;	// offset(byte) const buffer
 		FieldType	_type;
 		void*		_defaultValue; // default value(not set then nullptr)
+
+		float		_default[4] = {0, 0, 0, 0};
 	};
 
 	// Constant Buffer 정보

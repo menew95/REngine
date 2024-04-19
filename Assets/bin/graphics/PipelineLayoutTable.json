@@ -1,6 +1,6 @@
 ﻿[
   {
-    "UUID": "SkyBox",
+    "UUID": "SkyBox-Cubed",
     "Count": 1,
     "Description": "WrapLinear",
     "ResourceType": "Sampler",
@@ -54,6 +54,15 @@
   },
   {
     "UUID": "IBL_Radiance",
+    "Count": 1,
+    "Description": "WrapLinear",
+    "ResourceType": "Sampler",
+    "StageFlags": [ "PS" ],
+    "Slot": 0,
+    "ArraySize": 1
+  },
+  {
+    "UUID": "Skybox-Panoramic",
     "Count": 1,
     "Description": "WrapLinear",
     "ResourceType": "Sampler",

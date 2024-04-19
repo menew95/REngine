@@ -72,7 +72,7 @@ namespace rengine
 	{
 		graphics::CameraInfo _info;
 
-		auto _trans = GetTransform().lock();
+		auto _trans = GetTransform();
 
 		if(_trans == nullptr)
 			return;

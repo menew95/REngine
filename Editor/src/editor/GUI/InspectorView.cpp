@@ -12,6 +12,7 @@
 #include <rengine\core\component\Component.h>
 #include <rengine\core\component\TestComponent.h>
 
+#include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\Texture.h>
 
@@ -266,16 +267,24 @@ namespace editor
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				if (ObjectButton* _widget = reinterpret_cast<ObjectButton*>(container.GetChild(_propName)))
-				{
-					//_widget->SetHandler(component);
-				}
-				else
+				ObjectButton* _widget = reinterpret_cast<ObjectButton*>(container.GetChild(_propName));
+
+				if (_widget == nullptr)
 				{
 					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName, obj, prop);
 
 					container.AddWidget(_widget);
 				}
+
+				_widget->RegisterGetter([prop, obj]()
+					{
+						return prop.get_value(obj);
+					});
+
+				_widget->RegisterSetter([prop, obj](rttr::variant& value)
+					{
+						assert(prop.set_value(obj, value));
+					});
 
 				break;
 			}

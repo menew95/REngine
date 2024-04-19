@@ -154,7 +154,7 @@ namespace rengine
 
 	void Renderer::Update()
 	{
-		auto _trans = GetTransform().lock();
+		auto _trans = m_pGameObject.lock()->GetTransform();
 
 		if(_trans == nullptr)
 			return;

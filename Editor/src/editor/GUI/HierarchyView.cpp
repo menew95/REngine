@@ -70,7 +70,6 @@ namespace editor
 		{
 			if (ImGui::MenuItem("Add Object"))
 			{
-				// 부모가 존재하는 오브젝트를 생성
 				auto _newGO = rengine::GameObject::Instantiate(nullptr);
 
 				_newGO->GetScene()->AddRootGameObject(_newGO->GetShared());
@@ -207,6 +206,8 @@ namespace editor
 				if (ImGui::MenuItem("Delete Object"))
 				{
 					rengine::Object::Destroy(m_pFocusGameObject->GetShared());
+
+					EventManager::GetInstance()->SetFocusObject(nullptr);
 
 					m_bPopUpMenu = false;
 				}

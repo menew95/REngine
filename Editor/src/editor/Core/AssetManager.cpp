@@ -182,12 +182,16 @@ namespace editor
 					{
 						// 그런데 이전에 등록된 uuid와 다를 경우 새로운 uuid로 교체함
 						m_assetList[fs::absolute(_path)] = _metainfo._guid;
+
+						m_bIsDirty = true;
 					}
 				}
 				else
 				{
 					// 해당 경로에 해당하는 uuid가 없음
 					m_assetList.insert(make_pair(fs::absolute(_path), _metainfo._guid));
+
+					m_bIsDirty = true;
 				}
 
 				return;
@@ -244,9 +248,9 @@ namespace editor
 
 		_ifs.close();
 
-		for (auto& _assetPath : m_assetList)
+		for (auto& [_assetPath, _uuid] : m_assetList)
 		{
-			LoadAsset(_assetPath.second);
+			LoadAsset(_assetPath);
 		}
 	}
 

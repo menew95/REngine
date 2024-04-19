@@ -427,6 +427,12 @@ namespace graphics
 								_info._offset = varDesc.StartOffset;
 								_info._defaultValue = varDesc.DefaultValue;
 
+								if (_info._defaultValue != nullptr && _info._size  <= 16)
+								{
+									memcpy(&_info._default, _info._defaultValue, _info._size);
+								}
+								
+
 								_info._type = GetFieldType(_typeDesc);
 
 								_constBufferDesc._fields.push_back(_info);

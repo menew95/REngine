@@ -69,6 +69,16 @@ namespace rengine
 		return m_pGameObject.lock()->GetTransform();
 	}*/
 
+	std::shared_ptr<Transform> Component::GetTransform()
+	{
+		if (auto _go = m_pGameObject.lock())
+		{
+			return _go->GetTransform();
+		}
+
+		return nullptr;
+	}
+
 	void Component::SetEnable(bool value)
 	{
 		if (m_pGameObject.lock() && m_pGameObject.lock()->GetActiveInHierarchy() && m_bEnable != value)

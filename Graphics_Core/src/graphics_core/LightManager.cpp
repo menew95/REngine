@@ -8,6 +8,7 @@
 #include <graphics_module\Texture.h>
 #include <graphics_module\RenderTarget.h>
 #include <graphics_module\CommandBuffer.h>
+#include <graphics_core\object\PerFrame.h>
 
 namespace graphics
 {
@@ -58,6 +59,14 @@ namespace graphics
 		UpdateLightBuffer(command);
 	}
 
+	void graphics::LightManager::GetPerFrame(PerFrame& perFrame)
+	{
+		perFrame._lightCnt = m_curLightCnt;
+
+		perFrame._LightPos = m_directionalLightPos;
+		perFrame._LightColor = m_directionalLightColor;
+	}
+
 	void graphics::LightManager::CreateResource()
 	{
 		BufferDesc _desc;
@@ -98,6 +107,8 @@ namespace graphics
 
 		size_t _offset = 0;
 
+		bool _isDirectionalLight = false;
+
 		for (auto& [_uuid, _buffer] : m_lightBufferMap)
 		{
 			if(!_buffer->GetEnable())
@@ -108,6 +119,27 @@ namespace graphics
 			memcpy(_data + _offset, &_buffer->GetLightInfo(), _stride);
 
 			_offset += _stride;
+
+			if (!_isDirectionalLight && _buffer->GetLightInfo()._type == (uint32)LightType::Directional)
+			{
+				_isDirectionalLight = true;
+
+				m_directionalLightPos = 
+				{
+					_buffer->GetLightInfo()._direction.x,
+					_buffer->GetLightInfo()._direction.y,
+					_buffer->GetLightInfo()._direction.z,
+					0.0f
+				};
+
+				m_directionalLightColor = 
+				{
+					_buffer->GetLightInfo()._color.x,
+					_buffer->GetLightInfo()._color.y,
+					_buffer->GetLightInfo()._color.z,
+					1.0f
+				};
+			}
 		}
 
 		command->UpdateBuffer(*m_lightBuffer, 0, _data, _dataSize);

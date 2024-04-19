@@ -45,6 +45,17 @@ namespace graphics
 
 			m_constBuffers[m_propertyDesc._bindBuffers[0]._name] =
 				ResourceManager::GetInstance()->GetBuffer(m_propertyDesc._bindBuffers[0]._name);
+
+			for (auto& _field : m_propertyDesc._bindBuffers[0]._fields)
+			{
+				if (_field._defaultValue == nullptr || _field._size > 16)
+					continue;
+
+				m_constantBlock[TEXT("PerMaterial")].second->UpdateBuffer(
+					&_field._default,
+					_field._size, _field._offset
+				);
+			}
 		}
 
 		for (auto& resource : desc._bindResources)

@@ -43,6 +43,7 @@ namespace editor
     private:
         virtual void Draw() abstract;
 
+    protected:
         function<TData(void)> m_getter;
         function<void(TData&)> m_setter;
 
@@ -54,10 +55,9 @@ namespace editor
         // property
         rttr::property m_prop;
 
-    protected:
         TData m_data;
 
-        bool m_isValChange;
+        bool m_isValChange = false;
     };
 
     template<typename TData>

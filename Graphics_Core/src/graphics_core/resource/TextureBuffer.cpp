@@ -95,30 +95,35 @@ namespace graphics
 
 		ScratchImage image;
 
+		HRESULT _hr = S_FALSE;
+
 		switch (CheckFileFormat(path))
 		{
 			case FileFormat::DDS:
 			{
-				LoadFromDDSFile(path.c_str(), DDS_FLAGS_NONE, nullptr, image);
+				_hr = LoadFromDDSFile(path.c_str(), DDS_FLAGS_NONE, nullptr, image);
 				break;
 			}
 			case FileFormat::TGA:
 			{
-				LoadFromTGAFile(path.c_str(), TGA_FLAGS_NONE, nullptr, image);
+				_hr = LoadFromTGAFile(path.c_str(), TGA_FLAGS_NONE, nullptr, image);
 				break;
 			}
 			case FileFormat::HDR:
 			{
-				LoadFromHDRFile(path.c_str(), nullptr, image);
+				_hr = LoadFromHDRFile(path.c_str(), nullptr, image);
+
 				break;
 			}
 			case FileFormat::WIC:
 			default:
 			{
-				LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, image);
+				_hr = LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, image);
 				break;
 			}
 		}
+
+		assert(_hr == S_OK);
 
 		TextureDesc _texDesc;
 		_texDesc._extend = { 
@@ -130,10 +135,6 @@ namespace graphics
 		_texDesc._mipLevels = static_cast<uint32>(image.GetMetadata().mipLevels);
 		
 		_texDesc._format = (graphics::Format)image.GetMetadata().format;
-
-		//_texDesc._samples = 1;
-		//_texDesc._bindFlags;
-		//_texDesc._miscFlags;
 
 		if (image.GetMetadata().IsCubemap())
 		{

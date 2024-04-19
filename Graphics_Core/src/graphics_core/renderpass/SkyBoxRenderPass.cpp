@@ -32,7 +32,13 @@ namespace graphics
 	{
 		delete m_pSkyBoxMesh;
 
-		ResourceManager::GetInstance()->RelaseMaterialBuffer(TEXT("SkyBox"));
+		delete m_pSkySphereMesh;
+
+		ResourceManager::GetInstance()->RelaseMaterialBuffer(TEXT("SkyBox-Cubed"));
+
+		ResourceManager::GetInstance()->RelaseMaterialBuffer(TEXT("SkyBox-Panoramic"));
+
+		ResourceManager::GetInstance()->RelaseMaterialBuffer(TEXT("SkyBox-Procedural"));
 	}
 
 	void SkyBoxRenderPass::Init()
@@ -43,15 +49,45 @@ namespace graphics
 
 		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
 
-		m_pSkyBoxMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Default_SkyBox"));
+#pragma region Cubed
 
-		m_pSkyBoxMatBuffer->SetPipelineID(TEXT("SkyBox"));
+		m_pSkyBox_CubedMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox-Cubed"));
+
+		m_pSkyBox_CubedMatBuffer->SetPipelineID(TEXT("SkyBox-Cubed"));
 
 		m_pSkyBoxTexture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("fe6f153f-d693-4675-9b0e-65b8be91f35b"));
+		
+		m_pSkyBox_CubedMatBuffer->SetTexture(TEXT("gTexture"), m_pSkyBoxTexture);
 
-		m_pSkyBoxMatBuffer->SetTexture(TEXT("gSkyBox"), m_pSkyBoxTexture);
+#pragma endregion
+
+
+#pragma region Panoramic
+
+		m_pSkySphereMesh = new MeshObject(TEXT("SkyBox Object"));
+
+		m_pSkySphereMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000003")));
+
+		m_pSkyBox_PanoramicMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Skybox-Panoramic"));
+
+		m_pSkyBox_PanoramicMatBuffer->SetPipelineID(TEXT("Skybox-Panoramic"));
+		
+		m_pSkyBoxTexture = ResourceManager::GetInstance()->GetTextureBuffer(TEXT("491bdb39-3a7e-4554-b37a-c81add3326b4"));
+
+		m_pSkyBox_PanoramicMatBuffer->SetTexture(TEXT("gTexture"), m_pSkyBoxTexture);
+
+#pragma endregion
+
+
+#pragma region Procedural
+
+		m_pSkyBox_ProceduralMatBuffer = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("SkyBox-Procedural"));
+
+		m_pSkyBox_ProceduralMatBuffer->SetPipelineID(TEXT("Skybox-Procedural"));
 
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
+
+#pragma endregion
 	}
 
 	void SkyBoxRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
@@ -85,11 +121,11 @@ namespace graphics
 	{
 		__super::Excute(command);
 
-		m_pSkyBoxMatBuffer->BindPipelineState(command);
+		m_pSkyBox_PanoramicMatBuffer->BindPipelineState(command);
 
-		m_pSkyBoxMatBuffer->BindResource(command);
+		m_pSkyBox_PanoramicMatBuffer->BindResource(command);
 
-		Renderer::GetInstance()->RenderMesh(m_pSkyBoxMesh, 0);
+		Renderer::GetInstance()->RenderMesh(m_pSkySphereMesh, 0);
 	}
 
 	void SkyBoxRenderPass::EndExcute(CommandBuffer* command)
@@ -101,6 +137,6 @@ namespace graphics
 	{
 		m_pSkyBoxTexture = texture;
 
-		m_pSkyBoxMatBuffer->SetTexture(TEXT("g_SkyBox"), texture);
+		m_pSkyBox_CubedMatBuffer->SetTexture(TEXT("gTexture"), texture);
 	}
 }

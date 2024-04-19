@@ -97,14 +97,6 @@ namespace graphics
 
 				_renderPass->EndExcute(m_pCommandBuffer);
 			}
-
-			/*auto* _skyBox = ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox"));
-
-			_skyBox->BeginExcute(m_pCommandBuffer, _camBuf);
-
-			_skyBox->Excute(m_pCommandBuffer);
-
-			_skyBox->EndExcute(m_pCommandBuffer);*/
 		}
 
 		AttachmentClear _clear{ math::Color::Black, 0 };

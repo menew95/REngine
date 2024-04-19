@@ -56,6 +56,8 @@ namespace graphics
         **/
         void Excute(CommandBuffer* command);
 
+        void GetPerFrame(struct PerFrame& perFrame);
+
     private:
         /**
             @brief light관련 리소스들을 생성
@@ -80,6 +82,9 @@ namespace graphics
         Texture* m_spotLightShadowMap = nullptr;
         Texture* m_pointLightShadowMap = nullptr;
         Texture* m_cascadedShadowMap = nullptr;
+
+        Vector4 m_directionalLightPos;
+        Vector4 m_directionalLightColor;
 
         friend class ShadowRenderPass;
         friend class DeferredLightPass;

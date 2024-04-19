@@ -111,6 +111,9 @@
     <ClInclude Include="inc\graphics_core\renderpass\PostProcessRenderPass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\graphics_core\object\PerFrame.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics_core\GraphicsEngine.cpp">
