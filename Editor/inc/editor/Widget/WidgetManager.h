@@ -14,6 +14,8 @@
 
 #include <common\singleton.h>
 
+#include <editor\Widget\Menu.h>
+#include <editor\Widget\MenuItem.h>
 #include <editor\Widget\TextColored.h>
 #include <editor\Widget\Button.h>
 #include <editor\Widget\Columns.h>
@@ -67,6 +69,7 @@ namespace editor
 
 		CollapsingHeader* GetCollapsWidget(const string& name, uint32 flags = 0);
 
+
 		template<typename T, typename ... Args>
 		T* CreateWidget(const string& name, Args... args)
 		{
@@ -95,7 +98,10 @@ namespace editor
 			return _newWidget;
 		}
 
+
 	private:
+		void RegistWidget(Widget* widget);
+		
 		std::map<string, Widget*> m_widgets;
 		std::map<string, Widget*> m_columnWidgets;
 		std::map<string, Widget*> m_collapsWidgets; //하나의 컴포넌트에 대응이 될지도

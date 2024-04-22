@@ -3,6 +3,7 @@
 #include <common\AssetPath.h>
 
 #include <editor\Core\AssetManager.h>
+#include <editor\Widget\WidgetManager.h>
 
 #include <editor\GUI\ProjectView.h>
 #include <editor\GUI\EditorStyle.h>
@@ -88,6 +89,8 @@ namespace editor
 		m_fileIcon = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + TEXT("icon\\file_icon.png"));
 
 		CheckMetaFile(m_currPath);
+
+		CreatePopupWidget();
 	}
 
 	ProjectView::~ProjectView()
@@ -123,6 +126,8 @@ namespace editor
 		ImGui::NextColumn();
 
 		DrawDirectory();
+
+		DrawPopup();
 
 		//ImGui::Columns(1);
 	}
@@ -376,6 +381,82 @@ namespace editor
 	{
 
 
+	}
+
+	void ProjectView::DrawPopup()
+	{
+		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		{
+			ImGui::OpenPopup("ProjectView Popup");
+		}
+
+		if (ImGui::BeginPopup("ProjectView Popup"))
+		{
+			m_popupMenu->Render();
+
+			/*if (ImGui::BeginMenu("Test"))
+			{
+				if (ImGui::MenuItem("T1", "", nullptr, true))
+				{
+
+				}
+
+				if (ImGui::BeginMenu("Test2"))
+				{
+					if (ImGui::MenuItem("T1/T2", "", nullptr, true))
+					{
+						int a = 0;
+
+					}
+					ImGui::EndMenu();
+				}
+
+				ImGui::EndMenu();
+			}*/
+
+			ImGui::EndPopup();
+		}
+	}
+
+	void ProjectView::CreatePopupWidget()
+	{
+		m_popupMenu = WidgetManager::GetInstance()->CreateWidget<Menu>("ProjectView Menu", 0);
+
+		{
+			auto* _menu = WidgetManager::GetInstance()->CreateWidget<Menu>("Create", 0);
+
+			m_popupMenu->AddWidget(_menu);
+
+			auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Folder", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);
+
+			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Scene", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);
+
+			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Material", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);
+		}
+
+		{
+			auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Open", "", false, false, 0);
+
+			m_popupMenu->AddWidget(_menuItem);
+
+			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Delete", "", false, false, 0);
+
+			m_popupMenu->AddWidget(_menuItem);
+		}
+
+		/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("", "", false, false, 0);
+
+		m_popupMenu->AddWidget(_menuItem);
+
+		_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("", "", false, false, 0);
+
+		m_popupMenu->AddWidget(_menuItem);*/
 	}
 
 	void ProjectView::CheckMetaFile(const tstring& path)

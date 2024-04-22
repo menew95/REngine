@@ -17,7 +17,7 @@ namespace editor
     class ObjectButton : public WidgetData<rttr::variant>
     {
     public:
-        ObjectButton(const string& id, rttr::instance& obj, rttr::property& prop, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
+        ObjectButton(const string& id, math::Vector2 size = { 0, 0 }, uint32 flags = 0);
 
         ~ObjectButton();
 

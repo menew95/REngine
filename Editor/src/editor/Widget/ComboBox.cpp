@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	ComboBox::ComboBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags)
-	: WidgetData<int>(id, obj, prop, flags)
+	ComboBox::ComboBox(const string& id, rttr::property& prop, uint32 flags)
+	: WidgetData<int>(id, flags)
 	{
 		/*
 			enumeration enum_align = enum_type.get_enumeration();
@@ -38,16 +38,26 @@ namespace editor
 
 	void ComboBox::Draw()
 	{
-		vector<const char*> _items;
-
-		for (auto& _name : m_items)
+		if (ImGui::BeginCombo(m_id.c_str(), m_items[m_data].c_str()))
 		{
-			_items.push_back(_name.c_str());
-		}
+			for (size_t i = 0; i < m_items.size(); i++)
+			{
+				bool selected = (i == m_data);
 
-		if (ImGui::Combo(m_id.c_str(), &m_data, _items.data(), static_cast<int>(_items.size())))
-		{
-			m_isValChange = true;
+				if (ImGui::Selectable(m_items[i].c_str(), selected))
+				{
+					if (!selected)
+					{
+						ImGui::SetItemDefaultFocus();
+
+						m_data = i;
+
+						m_isValChange = true;
+					}
+				}
+			}
+
+			ImGui::EndCombo();
 		}
 	}
 }

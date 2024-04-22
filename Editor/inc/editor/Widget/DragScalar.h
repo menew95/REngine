@@ -24,9 +24,9 @@ namespace editor
         using WidgetData<array<TData, Size>>::m_id;
 
     public:
-        using WidgetData<array<TData, Size>>::SetHandler;
-        DragScalar(const string& id, rttr::instance& obj, rttr::property& prop, TData min, TData max, float speed, string format, uint32 flags)
-        : WidgetData<array<TData, Size>>(id, obj, prop, flags)
+
+        DragScalar(const string& id, TData min, TData max, float speed, string format, uint32 flags)
+        : WidgetData<array<TData, Size>>(id, flags)
         , m_min(min)
         , m_max(max)
         , m_speed(speed)

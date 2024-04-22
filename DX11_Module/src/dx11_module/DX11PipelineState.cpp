@@ -183,16 +183,45 @@ namespace graphics
 				
 				for (const auto& _curBindBuf : _curPropertyDesc->_bindBuffers)
 				{
-					m_PropertyDesc._bindBuffers.push_back(_curBindBuf);
-					m_PropertyDesc._bindBuffers.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
+					auto _iter = find_if(begin(m_PropertyDesc._bindBuffers), end(m_PropertyDesc._bindBuffers), 
+						[&_curBindBuf](auto& _desc)
+						{
+							return _desc._name == _curBindBuf._name;
+						});
+
+					if (_iter == m_PropertyDesc._bindBuffers.end())
+					{
+						m_PropertyDesc._bindBuffers.push_back(_curBindBuf);
+						m_PropertyDesc._bindBuffers.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
+					}
+					else
+					{
+						_iter->_stageFlags |= GetStageFlags(_shader->GetShaderType());
+					}
+
 					_bufferStageFlags[_curBindBuf._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}
 
 				m_PropertyDesc._bindResources.reserve(m_PropertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
+				
 				for (const auto& _curBindRes : _curPropertyDesc->_bindResources)
 				{
-					m_PropertyDesc._bindResources.push_back(_curBindRes);
-					m_PropertyDesc._bindResources.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
+					auto _iter = find_if(begin(m_PropertyDesc._bindResources), end(m_PropertyDesc._bindResources),
+						[&_curBindRes](auto& _desc)
+						{
+							return _desc._name == _curBindRes._name;
+						});
+
+					if (_iter == m_PropertyDesc._bindResources.end())
+					{
+						m_PropertyDesc._bindResources.push_back(_curBindRes);
+						m_PropertyDesc._bindResources.back()._stageFlags |= GetStageFlags(_shader->GetShaderType());
+					}
+					else
+					{
+						_iter->_stageFlags |= GetStageFlags(_shader->GetShaderType());
+					}
+
 					_resourceStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}
 

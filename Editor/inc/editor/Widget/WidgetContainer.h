@@ -31,8 +31,21 @@ namespace editor
         {
             return m_childs;
         }
-        
+
+        /*template <typename TWidget, typename ... Args>
+        TWidget* AddWidget(Args&&... args);*/
+
     protected:
         vector<Widget*> m_childs;
     };
+
+    /*template <typename TWidget, typename ... Args>
+    TWidget* WidgetContainer::AddWidget(Args&&... args)
+    {
+        auto* _newWidget = WidgetManager::GetInstance()->CreateWidget<TWidget>(std::forward<Args>(args)...);
+
+        m_childs.emplace_back(_newWidget);
+
+        return _newWidget;
+    }*/
 }

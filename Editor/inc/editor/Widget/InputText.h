@@ -22,7 +22,7 @@ namespace editor
     class InputText : public WidgetData<tstring>
     {
     public:
-        InputText(const string& id, rttr::instance& obj, rttr::property& prop, const string& hint, uint32 flags = 32);
+        InputText(const string& id, const string& hint, uint32 flags = 32);
 
         ~InputText();
 

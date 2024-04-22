@@ -85,6 +85,30 @@ namespace editor
 		return nullptr;
 	}
 
+	void WidgetManager::RegistWidget(Widget* widget)
+	{
+		if (dynamic_cast<TreeNode*>(widget) != nullptr)
+		{
+			m_treeNodeWidgets.insert(std::make_pair(widget->GetID(), widget));
+		}
+		else if (dynamic_cast<CollapsingHeader*>(widget) != nullptr)
+		{
+			m_collapsWidgets.insert(std::make_pair(widget->GetID(), widget));
+		}
+		else if (dynamic_cast<Columns<1>*>(widget) != nullptr
+			|| dynamic_cast<Columns<2>*>(widget) != nullptr
+			|| dynamic_cast<Columns<3>*>(widget) != nullptr
+			|| dynamic_cast<Columns<4>*>(widget) != nullptr
+			|| dynamic_cast<Columns<5>*>(widget) != nullptr)
+		{
+			m_columnWidgets.insert(std::make_pair(widget->GetID(), widget));
+		}
+		else
+		{
+			m_widgets.insert(std::make_pair(widget->GetID(), widget));
+		}
+	}
+
 	/*template<>
 	TreeNode* WidgetManager::CreateWidget(string name, uint32 flags)
 	{

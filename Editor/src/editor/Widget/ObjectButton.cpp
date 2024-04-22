@@ -13,9 +13,8 @@ namespace fs = std::filesystem;
 
 namespace editor
 {
-	ObjectButton::ObjectButton(const string& id, rttr::instance& obj, rttr::property& prop, math::Vector2 size, uint32 flags)
-		//: Button(id, size, flags)
-		: WidgetData<rttr::variant>(id, obj, prop, flags)
+	ObjectButton::ObjectButton(const string& id, math::Vector2 size, uint32 flags)
+		: WidgetData<rttr::variant>(id, flags)
 		, m_rectSize{ size.x, size.y }
 	{
 		m_flags |= ImGuiButtonFlags_PressedOnDoubleClick;
@@ -347,51 +346,12 @@ namespace editor
 				_seq.set_value(_this->m_arrayIndex, _var);
 
 			_this->m_setter(_this->m_data);
-			
-			//assert(_this->m_prop.set_value(_this->m_instance, _varSeq));
 		}
 		else
 		{
 			_this->m_data = obj;
 
-			assert(_this->m_data.convert(_this->m_prop.get_type()));
-
 			_this->m_setter(_this->m_data);
-			//ssert(_this->m_prop.set_value(_this->m_instance, _var));
 		}
-
-		//auto test = _this->m_data.convert<shared_ptr<rengine::Mesh>>();
-		//_this->m_isValChange = true;
-
-		//if (_this->m_bIsArray)
-		//{
-		//	auto _varSeq = _this->m_prop.get_value(_this->m_instance);
-
-		//	auto _seq = _varSeq.create_sequential_view();
-
-		//	// shared_ptr<object> => shared_ptr<해당클래스>
-		//	rttr::variant _var = obj;
-
-		//	assert(_var.convert(_seq.get_value_type()));
-
-
-		//	if (_seq.get_size() == 0)
-		//	{
-		//		_seq.set_size(1);
-		//		_seq.set_value(0, _var);
-		//	}
-		//	else
-		//		_seq.set_value(_this->m_arrayIndex, _var);
-
-		//	assert(_this->m_prop.set_value(_this->m_instance, _varSeq));
-		//}
-		//else
-		//{
-		//	rttr::variant _var = obj;
-
-		//	assert(_var.convert(_this->m_prop.get_type()));
-
-		//	assert(_this->m_prop.set_value(_this->m_instance, _var));
-		//}
 	}
 }

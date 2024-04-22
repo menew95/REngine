@@ -12,14 +12,14 @@ Texture2D gTexture;
 
 cbuffer PerMaterial : register(b2)
 {
-    float4 _MainTex_TexelSize = float4(1 / 3072, 1 / 1536, 1, 1);
-    float4 _MainTex_HDR = float4(1., 124., 1., 1.);
-    float4 _Tint = float4(.5, .5, .5, .5);
-    float _Exposure = 1.0;
-    float _Rotation = 0;
+    float4 _MainTex_TexelSize : packoffset(c0) = float4(1 / 3072, 1 / 1536, 1, 1);
+    float4 _MainTex_HDR : packoffset(c1) = float4(1., 124., 1., 1.);
+    float4 _Tint : packoffset(c2) = float4(.5, .5, .5, .5);
+    float _Exposure : packoffset(c3.x)  = 1.0;
+    float _Rotation : packoffset(c3.y)  = 0;
     #ifndef _MAPPING_6_FRAMES_LAYOUT
-    int _MirrorOnBack = 0;
-    int _ImageType = 0; // 360 degree = 0  180 degree = 1 
+    int _MirrorOnBack : packoffset(c3.z)  = 0;
+    int _ImageType : packoffset(c3.w)  = 0; // 360 degree = 0  180 degree = 1 
     //int _Layout = 0; // None = 0, Side by Side = 1, Over Under = 2
     #endif
 }
@@ -195,9 +195,9 @@ float4 frag (v2f i) : SV_Target
     float4 tex = gTexture.Sample(gSamWrapLinearMipPoint, tc);
     //float3 c = DecodeHDR (tex, _MainTex_HDR);
     float3 c = DecodeRGBE (tex, _MainTex_HDR.x, _MainTex_HDR.y);
-
-    c = tex.xyz * /*_Tint.rgb **/ colorSpaceDouble.rgb;// * _Exposure;
-    //c *= _Exposure;
+    
+    c = tex.xyz * _Tint.rgb * colorSpaceDouble.rgb;
+    c *= _Exposure;
     
     return float4(c, 1.0f);
 }

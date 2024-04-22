@@ -154,7 +154,7 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, obj, prop, "", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, "", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -183,7 +183,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, obj, prop, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -212,7 +212,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, obj, prop, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -241,7 +241,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, obj, prop, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -271,7 +271,7 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName, obj, prop);
+					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName);
 
 					container.AddWidget(_widget);
 				}
@@ -283,6 +283,8 @@ namespace editor
 
 				_widget->RegisterSetter([prop, obj](rttr::variant& value)
 					{
+						assert(value.convert(prop.get_type()));
+
 						assert(prop.set_value(obj, value));
 					});
 
@@ -294,7 +296,7 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName, obj, prop);
+					_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName);
 
 					container.AddWidget(_widget);
 				}
@@ -323,7 +325,7 @@ namespace editor
 
 					uint32 _min = numeric_limits<uint32>::lowest(), _max = numeric_limits<uint32>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, obj, prop, _min, _max, 1.0f, "%u", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -352,7 +354,7 @@ namespace editor
 
 					int32 _min = numeric_limits<int32>::lowest(), _max = numeric_limits<int32>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, obj, prop, _min, _max, 1.0f, "%d", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -381,7 +383,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, obj, prop, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -410,7 +412,7 @@ namespace editor
 
 					double _min = numeric_limits<double>::lowest(), _max = numeric_limits<double>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, obj, prop, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -437,7 +439,7 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, obj, prop, _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, prop, _flags);
 
 					container.AddWidget(_widget);
 				}
@@ -464,12 +466,10 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, obj, prop, _flags);
+					_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, _flags);
 
 					container.AddWidget(_widget);
 				}
-
-				_widget->SetHandler(val);
 
 				_widget->RegisterGetter([prop, obj, _widget]()
 					{
@@ -514,7 +514,7 @@ namespace editor
 			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Active Self");
 
-			CheckBox _widget{ "##Active Self", _instance, _prop };
+			CheckBox _widget{ "##Active Self" };
 
 			_widget.Render();
 		}
@@ -528,7 +528,7 @@ namespace editor
 			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Static");
 
-			CheckBox _widget{ "##Static", _instance, _prop };
+			CheckBox _widget{ "##Static" };
 
 			_widget.Render();
 		}
@@ -544,7 +544,7 @@ namespace editor
 
 			rttr::property _prop = gameobject_type.get_property("m_objectName");
 
-			InputText _widget{"##Name", _instance, _prop, "GameObject"};
+			InputText _widget{"##Name", "GameObject"};
 
 			_widget.Render();
 		}

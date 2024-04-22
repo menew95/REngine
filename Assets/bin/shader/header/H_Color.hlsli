@@ -32,17 +32,15 @@ inline float3 DecodeHDR (float4 data, float4 decodeInstructions)
     #endif
 }
 
-inline float3 DecodeRGBE(float4 rgbe, float exposure, int exponent)
+float3 DecodeRGBE(float4 rgbe, float exposure, int exponent)
 {
     const float gamma = 1.0 / 2.2;
 
-    // Decode RGBE to RGB
-    float3 rgb;
-    rgb.x = pow(rgbe.x * exposure, gamma);
-    rgb.y = pow(rgbe.y * exposure, gamma);
-    rgb.z = pow(rgbe.z * exposure, gamma);
-
-    return rgb;
+    #if defined(COLORSPACE_GAMMA)
+        return pow(rgbe.xyz * exposure, gamma);
+    #else
+        return rgbe.xyz * exposure;
+    #endif
 }
 
 // Decodes HDR textures

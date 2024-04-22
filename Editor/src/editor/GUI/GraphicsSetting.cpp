@@ -101,7 +101,7 @@ namespace editor
 					{
 						uint32 _flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, obj, _prop, "", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, "", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -132,7 +132,7 @@ namespace editor
 
 						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -162,7 +162,7 @@ namespace editor
 
 						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -192,7 +192,7 @@ namespace editor
 
 						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -228,7 +228,7 @@ namespace editor
 
 					if (_widget == nullptr)
 					{
-						_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName, obj, _prop);
+						_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName);
 
 						root->AddWidget(_widget);
 					}
@@ -258,7 +258,7 @@ namespace editor
 
 						uint32 _min = numeric_limits<uint32>::lowest(), _max = numeric_limits<uint32>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%u", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -288,7 +288,7 @@ namespace editor
 
 						int32 _min = numeric_limits<int32>::lowest(), _max = numeric_limits<int32>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%d", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -318,7 +318,7 @@ namespace editor
 
 						float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -348,7 +348,7 @@ namespace editor
 
 						double _min = numeric_limits<double>::lowest(), _max = numeric_limits<double>::max();
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, obj, _prop, _min, _max, 1.0f, "%.3f", _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -376,7 +376,7 @@ namespace editor
 					{
 						uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, obj, _prop, _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, _prop, _flags);
 
 						root->AddWidget(_widget);
 					}
@@ -404,7 +404,7 @@ namespace editor
 					{
 						uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-						_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, obj, _prop, _flags);
+						_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, _flags);
 
 						root->AddWidget(_widget);
 					}

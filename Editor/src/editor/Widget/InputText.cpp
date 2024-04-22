@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	InputText::InputText(const string& id, rttr::instance& obj, rttr::property& prop, const string& hint, uint32 flags)
-	: WidgetData<tstring>(id, obj, prop, flags)
+	InputText::InputText(const string& id, const string& hint, uint32 flags)
+	: WidgetData<tstring>(id, flags)
 	, m_hint(hint)
 	{
 		memset(m_buf, 0, sizeof(m_buf));

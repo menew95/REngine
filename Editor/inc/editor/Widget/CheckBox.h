@@ -17,7 +17,7 @@ namespace editor
     class CheckBox : public WidgetData<bool>
     {
     public:
-        CheckBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags = 0);
+        CheckBox(const string& id, uint32 flags = 0);
 
         ~CheckBox();
 

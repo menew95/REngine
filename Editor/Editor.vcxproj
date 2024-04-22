@@ -230,6 +230,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\Widget\InputFloat3.h" />
     <ClInclude Include="inc\editor\Widget\InputFloat4.h" />
     <ClInclude Include="inc\editor\Widget\InputText.h" />
+    <ClInclude Include="inc\editor\Widget\Menu.h" />
+    <ClInclude Include="inc\editor\Widget\MenuItem.h" />
     <ClInclude Include="inc\editor\Widget\ObjectButton.h" />
     <ClInclude Include="inc\editor\Widget\TextBox.h" />
     <ClInclude Include="inc\editor\Widget\TextColored.h" />
@@ -353,6 +355,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\editor\Widget\Button.cpp" />
     <ClCompile Include="src\editor\Widget\InputFloat.cpp" />
     <ClCompile Include="src\editor\Widget\InputText.cpp" />
+    <ClCompile Include="src\editor\Widget\Menu.cpp" />
+    <ClCompile Include="src\editor\Widget\MenuItem.cpp" />
     <ClCompile Include="src\editor\Widget\ObjectButton.cpp" />
     <ClCompile Include="src\editor\Widget\TextColored.cpp" />
     <ClCompile Include="src\editor\Widget\TreeNode.cpp" />

@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	CheckBox::CheckBox(const string& id, rttr::instance& obj, rttr::property& prop, uint32 flags)
-	: WidgetData<bool>(id, obj, prop, flags)
+	CheckBox::CheckBox(const string& id, uint32 flags)
+	: WidgetData<bool>(id, flags)
 	{
 	}
 
