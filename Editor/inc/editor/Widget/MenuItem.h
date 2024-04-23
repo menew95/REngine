@@ -22,7 +22,7 @@ namespace editor
     class MenuItem : public Widget
     {
     public:
-        MenuItem(const string& lable = "", const string& shortcut = "", bool isSelectedable = true, bool m_isSelected = true, uint32 flags = 0);
+        MenuItem(const string& lable = "", const string& shortcut = "", bool isSelectedable = true, bool m_isSelected = true, bool m_isEnable = true, uint32 flags = 0);
 
         ~MenuItem();
 

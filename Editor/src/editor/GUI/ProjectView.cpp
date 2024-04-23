@@ -396,13 +396,13 @@ namespace editor
 		{
 			auto* _menu = m_popupMenu->AddWidget<Menu>("Create", 0);
 
-			auto* _menuItem = _menu->AddWidget<MenuItem>("Folder", "", false, false, 0);
+			auto* _menuItem = _menu->AddWidget<MenuItem>("Folder", "", false, false, true, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					AssetManager::GetInstance()->CreateFolder(m_currPath, TEXT("Folder"));
 				});
 
-			_menuItem = _menu->AddWidget<MenuItem>("Scene", "", false, false, 0);
+			_menuItem = _menu->AddWidget<MenuItem>("Scene", "", false, false, true, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Scene"), TEXT(".scene"));
@@ -414,7 +414,7 @@ namespace editor
 					AssetManager::GetInstance()->CreateAsset(_scene.get(), _path);
 				});
 
-			_menuItem = _menu->AddWidget<MenuItem>("Material", "", false, false, 0);
+			_menuItem = _menu->AddWidget<MenuItem>("Material", "", false, false, true, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Material"), TEXT(".mat"));
@@ -432,9 +432,9 @@ namespace editor
 		}
 
 		{
-			auto* _menuItem = m_popupMenu->AddWidget<MenuItem>("Open", "", false, false, 0);
+			auto* _menuItem = m_popupMenu->AddWidget<MenuItem>("Open", "", false, false, true, 0);
 
-			_menuItem = m_popupMenu->AddWidget<MenuItem>("Delete", "", false, false, 0);
+			_menuItem = m_popupMenu->AddWidget<MenuItem>("Delete", "", false, false, true, 0);
 		}
 	}
 

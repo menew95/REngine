@@ -40,14 +40,14 @@ namespace editor
 	{
 		auto* _edit = AddWidget<Menu>("Edit");
 
-		_edit->AddWidget<MenuItem>("Flag: Save Scene", "", false, false, 0)->SetClickEvent(
+		_edit->AddWidget<MenuItem>("Flag: Save Scene", "", false, false, true, 0)->SetClickEvent(
 			[]()
 			{
 				EventManager::GetInstance()->SaveScene();
 			}
 		);
 
-		_edit->AddWidget<MenuItem>("Flag: Exit", "", false, false, 0)->SetClickEvent(
+		_edit->AddWidget<MenuItem>("Flag: Exit", "", false, false, true, 0)->SetClickEvent(
 			[]()
 			{
 				EventManager::GetInstance()->ExitEditor();
@@ -58,7 +58,7 @@ namespace editor
 
 		//auto* _gameView = EventManager::GetInstance()->GetView("Game View");
 
-		_view->AddWidget<MenuItem>("Flag: Game View", "", true, true, 0)->SetClickEvent(
+		_view->AddWidget<MenuItem>("Flag: Game View", "", true, true, true, 0)->SetClickEvent(
 			[]()
 			{
 				auto* _gameView = EventManager::GetInstance()->GetView("Game View");
@@ -69,7 +69,7 @@ namespace editor
 
 		//auto* _hierarchyView = EventManager::GetInstance()->GetView("Hierarchy View");
 
-		_view->AddWidget<MenuItem>("Flag: Hierarchy View", "", true, true, 0)->SetClickEvent(
+		_view->AddWidget<MenuItem>("Flag: Hierarchy View", "", true, true, true, 0)->SetClickEvent(
 			[]()
 			{
 				auto* _hierarchyView = EventManager::GetInstance()->GetView("Hierarchy View");
@@ -80,7 +80,7 @@ namespace editor
 
 		//auto* _inspectorView = EventManager::GetInstance()->GetView("Inspector View");
 
-		_view->AddWidget<MenuItem>("Flag: Inspector View", "", true, true, 0)->SetClickEvent(
+		_view->AddWidget<MenuItem>("Flag: Inspector View", "", true, true, true, 0)->SetClickEvent(
 			[]()
 			{
 				auto* _inspectorView = EventManager::GetInstance()->GetView("Inspector View");
@@ -91,7 +91,7 @@ namespace editor
 
 		//auto* _projectView = EventManager::GetInstance()->GetView("Project View");
 
-		_view->AddWidget<MenuItem>("Flag: Project View", "", true, true, 0)->SetClickEvent(
+		_view->AddWidget<MenuItem>("Flag: Project View", "", true, true, true, 0)->SetClickEvent(
 			[]()
 			{
 				auto* _projectView = EventManager::GetInstance()->GetView("Project View");
@@ -104,7 +104,7 @@ namespace editor
 
 		auto* _setting = AddWidget<Menu>("Settings");
 
-		_setting->AddWidget<MenuItem>("Flag: Graphics Setting", "", true, true, 0)->SetClickEvent(
+		_setting->AddWidget<MenuItem>("Flag: Graphics Setting", "", true, true, true, 0)->SetClickEvent(
 			[]()
 			{
 				auto* _graphicsSetting = EventManager::GetInstance()->GetView("Graphics Setting");

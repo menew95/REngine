@@ -644,8 +644,8 @@ namespace editor
 				}
 			);
 
-			_popup->AddWidget<MenuItem>("Reset Component", "", false, false, 0);
-			_popup->AddWidget<MenuItem>("Delete Component", "", false, _componentWidget->GetLable() == "Transform" ? false : true, 0)->SetClickEvent(
+			_popup->AddWidget<MenuItem>("Reset Component", "", false, false, true, 0);
+			_popup->AddWidget<MenuItem>("Delete Component", "", false, false, _componentWidget->GetLable() == "Transform" ? false : true, 0)->SetClickEvent(
 				[&_componentWidget]()
 				{
 					auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());

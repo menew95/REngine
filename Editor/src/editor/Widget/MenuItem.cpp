@@ -4,11 +4,12 @@
 
 namespace editor
 {
-	MenuItem::MenuItem(const string& lable, const string& shortcut, bool isSelectedable, bool m_isSelected, uint32 flags)
+	MenuItem::MenuItem(const string& lable, const string& shortcut, bool isSelectedable, bool isSelected, bool enable, uint32 flags)
 		: Widget(lable, flags)
 		, m_shortcut(shortcut)
 		, m_isSelectedable(isSelectedable)
-		, m_isSelected(m_isSelected)
+		, m_isSelected(isSelected)
+		, m_isEnable(enable),
 	{
 
 	}
