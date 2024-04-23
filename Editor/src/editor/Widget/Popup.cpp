@@ -11,7 +11,7 @@ namespace editor
 
 	void Popup::Render()
 	{
-		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
+		if (m_openPopupCheckFunc())
 		{
 			ImGui::OpenPopup((m_lable + m_idString).c_str());
 		}

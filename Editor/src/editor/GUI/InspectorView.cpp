@@ -631,6 +631,37 @@ namespace editor
 			| ImGuiTreeNodeFlags_AllowOverlap
 			| ImGuiTreeNodeFlags_FramePadding);
 
+		Popup* _popup = reinterpret_cast<Popup*>(_componentWidget->GetChild("Component Popup"));
+
+		if (_popup == nullptr)
+		{
+			_popup = _componentWidget->AddWidget<Popup>("Component Popup");
+
+			_popup->SetCheckFunction(
+				[]()
+				{
+					return ImGui::IsItemClicked(1);
+				}
+			);
+
+			_popup->AddWidget<MenuItem>("Reset Component", "", false, false, 0);
+			_popup->AddWidget<MenuItem>("Delete Component", "", false, _componentWidget->GetLable() == "Transform" ? false : true, 0)->SetClickEvent(
+				[&_componentWidget]()
+				{
+					auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
+
+					for (auto& _comp : _go->GetComponents())
+					{
+						if (_comp.lock()->GetTypeStr() == _componentWidget->GetLable())
+						{
+							rengine::ObjectFactory::GetInstance()->ReserveDestroyObject(_comp.lock());
+						}
+					}
+				}
+			);
+		}
+
+
 		Columns<2>* _columns = reinterpret_cast<Columns<2>*>(_componentWidget->GetChild(comp->GetTypeStr() + "_Columes"));
 		
 		if (_columns == nullptr)

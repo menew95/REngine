@@ -130,8 +130,6 @@ namespace editor
 		ImGui::NextColumn();
 
 		DrawDirectory();
-
-		DrawPopup();
 	}
 
 	void ProjectView::DrawFileTreeNode(tstring path)
@@ -386,46 +384,23 @@ namespace editor
 
 	}
 
-	void ProjectView::DrawPopup()
-	{
-		if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right))
-		{
-			ImGui::OpenPopup("ProjectView Popup");
-		}
-
-		if (ImGui::BeginPopup("ProjectView Popup"))
-		{
-			m_popupMenu->RenderChild();
-
-			ImGui::EndPopup();
-		}
-	}
-
 	void ProjectView::CreatePopupWidget()
 	{
 		m_popupMenu = AddWidget<Popup>("ProjectView Popup");
 
-		//WidgetManager::GetInstance()->CreateWidget<WidgetContainer>("ProjectView Menu", 0);
+		m_popupMenu->SetCheckFunction([]()
+			{
+				return ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right);
+			});
 
 		{
-			//auto* _menu = WidgetManager::GetInstance()->CreateWidget<Menu>("Create", 0);
-
 			auto* _menu = m_popupMenu->AddWidget<Menu>("Create", 0);
-
-			/*auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Folder", "", false, false, 0);
-
-			_menu->AddWidget(_menuItem);*/
 
 			auto* _menuItem = _menu->AddWidget<MenuItem>("Folder", "", false, false, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					AssetManager::GetInstance()->CreateFolder(m_currPath, TEXT("Folder"));
 				});
-
-
-			/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Scene", "", false, false, 0);
-
-			_menu->AddWidget(_menuItem);*/
 
 			_menuItem = _menu->AddWidget<MenuItem>("Scene", "", false, false, 0);
 
@@ -438,11 +413,6 @@ namespace editor
 
 					AssetManager::GetInstance()->CreateAsset(_scene.get(), _path);
 				});
-
-
-			/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Material", "", false, false, 0);
-
-			_menu->AddWidget(_menuItem);*/
 
 			_menuItem = _menu->AddWidget<MenuItem>("Material", "", false, false, 0);
 
@@ -462,14 +432,6 @@ namespace editor
 		}
 
 		{
-			/*auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Open", "", false, false, 0);
-
-			m_popupMenu->AddWidget(_menuItem);
-
-			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Delete", "", false, false, 0);
-
-			m_popupMenu->AddWidget(_menuItem);*/
-
 			auto* _menuItem = m_popupMenu->AddWidget<MenuItem>("Open", "", false, false, 0);
 
 			_menuItem = m_popupMenu->AddWidget<MenuItem>("Delete", "", false, false, 0);

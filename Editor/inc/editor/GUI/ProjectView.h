@@ -83,6 +83,6 @@ namespace editor
 
         map<tstring, rengine::Texture*> g_iconTextureMap; // extension, texture
 
-        class WidgetContainer* m_popupMenu = nullptr;
+        class Popup* m_popupMenu = nullptr;
     };
 }

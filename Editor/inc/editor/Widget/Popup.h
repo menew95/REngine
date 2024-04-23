@@ -22,5 +22,10 @@ namespace editor
         Popup(const string lable, uint32 flags = 0);
 
         void Render();
+
+        void SetCheckFunction(function<bool()> func) { m_openPopupCheckFunc = func; }
+
+    private:
+        function<bool()> m_openPopupCheckFunc;
     };
 }
