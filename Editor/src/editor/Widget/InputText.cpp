@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	InputText::InputText(const string& id, const string& hint, uint32 flags)
-	: WidgetData<tstring>(id, flags)
+	InputText::InputText(const string& lable, const string& hint, uint32 flags)
+	: WidgetData<tstring>(lable, flags)
 	, m_hint(hint)
 	{
 		memset(m_buf, 0, sizeof(m_buf));
@@ -23,7 +23,7 @@ namespace editor
 
 		strcpy_s(m_buf, _str.c_str());
 
-		if (ImGui::InputTextEx(m_id.c_str(), m_hint.c_str(), m_buf, IM_ARRAYSIZE(m_buf), ImVec2(.0f, .0f), m_flags, m_callback, m_userData))
+		if (ImGui::InputTextEx((m_lable + m_idString).c_str(), m_hint.c_str(), m_buf, IM_ARRAYSIZE(m_buf), ImVec2(.0f, .0f), m_flags, m_callback, m_userData))
 		{
 			m_isValChange = true;
 

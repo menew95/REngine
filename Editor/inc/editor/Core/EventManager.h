@@ -21,6 +21,21 @@ namespace rengine
 
 namespace editor
 {
+    enum class EditorMode
+    {
+        // Stop Button
+        Edit
+
+        // Play Button
+        , Play
+
+        // Pause Button
+        , Pause
+
+        // Next Button
+        , FRAME_BY_FRAME
+    };
+
     class EventManager
     {
         DECLARE_SINGLETON_CLASS(EventManager);
@@ -37,7 +52,29 @@ namespace editor
             return m_curFocusObject;
         }
 
+        void SaveScene();
+
+        void OpenScene(const tstring& path);
+
+        void SetEditorMode(EditorMode editorMode);
+
+        void StartGame();
+
+        void PauseGame();
+
+        void StopGame();
+
+        void NextFrame();
+
+        void ExitEditor();
+
+        class View* GetView(const string& viewName);
+
     private:
         rengine::Object* m_curFocusObject = nullptr;
+
+        class Editor* m_editor = nullptr;
+
+        friend class Editor;
     };
 }

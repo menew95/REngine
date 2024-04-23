@@ -12,16 +12,18 @@
 
 #include <common\common.h>
 
+#include <editor\Widget\Widget.h>
+
 #include <editor\Widget\WidgetContainer.h>
 
 #include <rttr\registration>
 
 namespace editor
 {
-    class CollapsingHeader : public WidgetContainer
+    class CollapsingHeader : public Widget, public WidgetContainer
     {
     public:
-        CollapsingHeader(const string& id, uint32 flags = 0);
+        CollapsingHeader(const string& lable = "", uint32 flags = 0);
         ~CollapsingHeader();
 
         EDITOR_API void Render() override;

@@ -24,7 +24,7 @@ namespace editor
     class Button : public Widget
     {
     public:
-        Button(const string& id,math::Vector2 size = {0, 0}, uint32 flags = 0);
+        Button(const string& lable = "", math::Vector2 size = {0, 0}, uint32 flags = 0);
 
         ~Button();
 

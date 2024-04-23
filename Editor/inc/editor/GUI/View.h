@@ -14,9 +14,13 @@
 
 #include <editor\Editor_dllexport.h>
 
+#include <editor\GUI\GUI.h>
+
+#include <editor\Widget\WidgetManager.h>
+
 namespace editor
 {
-	class View
+	class View : public GUI, public WidgetContainer
 	{
 	public:
 		View(std::string name);
@@ -32,7 +36,7 @@ namespace editor
 		inline bool GetOpen() { return m_bOpen; }
 		inline void SetOpen(bool val) { m_bOpen = val; }
 
-		virtual void LoadSetting();
+		inline const string& GetName() { return m_viewName; }
 
 	protected:
 		bool _test = false;

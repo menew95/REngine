@@ -10,16 +10,16 @@
 **/
 #pragma once
 
-#pragma once
+#include <editor\Widget\Widget.h>
 
 #include <editor\Widget\WidgetContainer.h>
 
 namespace editor
 {
-    class Menu : public WidgetContainer
+    class Menu : public Widget, public WidgetContainer
     {
     public:
-        Menu(const string& id, uint32 flags = 0);
+        Menu(const string& lable = "", uint32 flags = 0);
         ~Menu();
 
         EDITOR_API void Render() override;

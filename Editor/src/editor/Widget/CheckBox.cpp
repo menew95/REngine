@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	CheckBox::CheckBox(const string& id, uint32 flags)
-	: WidgetData<bool>(id, flags)
+	CheckBox::CheckBox(const string& lable, uint32 flags)
+	: WidgetData<bool>(lable, flags)
 	{
 	}
 
@@ -16,7 +16,7 @@ namespace editor
 
 	void CheckBox::Draw()
 	{
-		if (ImGui::Checkbox(m_id.c_str(), &m_data))
+		if (ImGui::Checkbox((m_lable + m_idString).c_str(), &m_data))
 		{
 			m_isValChange = true;
 		}

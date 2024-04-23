@@ -6,38 +6,29 @@
 
 namespace editor
 {
-	WidgetContainer::WidgetContainer(const string& id, uint32 flags)
-	: Widget(id, flags)
+	WidgetContainer::WidgetContainer()
 	{
 
 	}
 
 	WidgetContainer::~WidgetContainer()
 	{
-	
+		RemoveAllWidget();
 	}
 
-	void WidgetContainer::Render()
+	void WidgetContainer::RenderChild()
 	{
 		for (auto* _childs : m_childs)
 		{
 			_childs->Render();
 		}
 	}
-	
-	void WidgetContainer::AddWidget(Widget* widget)
+
+	Widget* WidgetContainer::GetChild(const string& lable)
 	{
-		assert(widget != nullptr);
-
-		m_childs.push_back(widget);
-
-	}
-
-	Widget* WidgetContainer::GetChild(const string& name)
-	{
-		auto _find = find_if(m_childs.begin(), m_childs.end(), [&name](auto& childs)
+		auto _find = find_if(m_childs.begin(), m_childs.end(), [&lable](auto& childs)
 			{
-				return childs->GetID() == name;
+				return childs->GetLable() == lable;
 			});
 
 		if (_find != m_childs.end())
@@ -46,5 +37,33 @@ namespace editor
 		}
 
 		return nullptr;
+	}
+
+	void WidgetContainer::RemoveWidget(Widget* widget)
+	{
+		for (auto _iter = m_childs.begin(); _iter != m_childs.end(); _iter++)
+		{
+			if (*_iter == widget)
+			{
+				delete widget;
+
+				m_childs.erase(_iter);
+
+				break;
+			}
+		}
+	}
+
+	void WidgetContainer::RemoveAllWidget()
+	{
+		for (auto* _child : m_childs)
+		{
+			if(_child == nullptr)
+				continue;
+
+			delete _child;
+		}
+
+		m_childs.clear();
 	}
 }

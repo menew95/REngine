@@ -107,9 +107,11 @@ namespace editor
 
 	void EDITOR_API ProjectView::Render()
 	{
-		__super::Render();
+		//__super::Render();
 
 		Draw();
+
+		RenderChild();
 	}
 
 	void EDITOR_API ProjectView::End()
@@ -130,8 +132,6 @@ namespace editor
 		DrawDirectory();
 
 		DrawPopup();
-
-		//ImGui::Columns(1);
 	}
 
 	void ProjectView::DrawFileTreeNode(tstring path)
@@ -395,52 +395,39 @@ namespace editor
 
 		if (ImGui::BeginPopup("ProjectView Popup"))
 		{
-			m_popupMenu->Render();
-
-			/*if (ImGui::BeginMenu("Test"))
-			{
-				if (ImGui::MenuItem("T1", "", nullptr, true))
-				{
-
-				}
-
-				if (ImGui::BeginMenu("Test2"))
-				{
-					if (ImGui::MenuItem("T1/T2", "", nullptr, true))
-					{
-						int a = 0;
-
-					}
-					ImGui::EndMenu();
-				}
-
-				ImGui::EndMenu();
-			}*/
+			m_popupMenu->RenderChild();
 
 			ImGui::EndPopup();
 		}
 	}
 
-	const tstring& CheckFileExist();
-
 	void ProjectView::CreatePopupWidget()
 	{
-		m_popupMenu = WidgetManager::GetInstance()->CreateWidget<WidgetContainer>("ProjectView Menu", 0);
+		m_popupMenu = AddWidget<Popup>("ProjectView Popup");
+
+		//WidgetManager::GetInstance()->CreateWidget<WidgetContainer>("ProjectView Menu", 0);
 
 		{
-			auto* _menu = WidgetManager::GetInstance()->CreateWidget<Menu>("Create", 0);
+			//auto* _menu = WidgetManager::GetInstance()->CreateWidget<Menu>("Create", 0);
 
-			m_popupMenu->AddWidget(_menu);
+			auto* _menu = m_popupMenu->AddWidget<Menu>("Create", 0);
 
-			auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Folder", "", false, false, 0);
+			/*auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Folder", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);*/
+
+			auto* _menuItem = _menu->AddWidget<MenuItem>("Folder", "", false, false, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					AssetManager::GetInstance()->CreateFolder(m_currPath, TEXT("Folder"));
 				});
 
-			_menu->AddWidget(_menuItem);
 
-			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Scene", "", false, false, 0);
+			/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Scene", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);*/
+
+			_menuItem = _menu->AddWidget<MenuItem>("Scene", "", false, false, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Scene"), TEXT(".scene"));
@@ -452,9 +439,12 @@ namespace editor
 					AssetManager::GetInstance()->CreateAsset(_scene.get(), _path);
 				});
 
-			_menu->AddWidget(_menuItem);
 
-			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Material", "", false, false, 0);
+			/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Material", "", false, false, 0);
+
+			_menu->AddWidget(_menuItem);*/
+
+			_menuItem = _menu->AddWidget<MenuItem>("Material", "", false, false, 0);
 
 			_menuItem->SetClickEvent([&]() {
 					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Material"), TEXT(".mat"));
@@ -469,27 +459,21 @@ namespace editor
 
 					AssetManager::GetInstance()->CreateAsset(_material.get(), _path);
 				});
-
-			_menu->AddWidget(_menuItem);
 		}
 
 		{
-			auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Open", "", false, false, 0);
+			/*auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Open", "", false, false, 0);
 
 			m_popupMenu->AddWidget(_menuItem);
 
 			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Delete", "", false, false, 0);
 
-			m_popupMenu->AddWidget(_menuItem);
+			m_popupMenu->AddWidget(_menuItem);*/
+
+			auto* _menuItem = m_popupMenu->AddWidget<MenuItem>("Open", "", false, false, 0);
+
+			_menuItem = m_popupMenu->AddWidget<MenuItem>("Delete", "", false, false, 0);
 		}
-
-		/*_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("", "", false, false, 0);
-
-		m_popupMenu->AddWidget(_menuItem);
-
-		_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("", "", false, false, 0);
-
-		m_popupMenu->AddWidget(_menuItem);*/
 	}
 
 	void ProjectView::CheckMetaFile(const tstring& path)

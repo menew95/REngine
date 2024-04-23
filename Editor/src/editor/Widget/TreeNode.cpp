@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	TreeNode::TreeNode(const string& id, uint32 flags)
-		: WidgetContainer(id, flags)
+	TreeNode::TreeNode(const string& lable, uint32 flags)
+		: Widget(lable, flags)
 	{
 		
 	}
@@ -17,12 +17,9 @@ namespace editor
 
 	void TreeNode::Render()
 	{
-		if (ImGui::TreeNodeEx(m_id.c_str(), GetFlags()))
+		if (ImGui::TreeNodeEx((m_lable + m_idString).c_str(), GetFlags()))
 		{
-			for (auto* _child : GetChilds())
-			{
-				_child->Render();
-			}
+			RenderChild();
 
 			ImGui::TreePop();
 		}

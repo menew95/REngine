@@ -17,7 +17,7 @@ namespace editor
     class CheckBox : public WidgetData<bool>
     {
     public:
-        CheckBox(const string& id, uint32 flags = 0);
+        CheckBox(const string& lable = "", uint32 flags = 0);
 
         ~CheckBox();
 

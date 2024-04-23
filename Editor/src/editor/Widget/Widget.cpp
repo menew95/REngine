@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	Widget::Widget(const string& id, uint32 flags)
-		: m_id(id)
+	Widget::Widget(const string& lable, uint32 flags)
+		: m_lable(lable)
 		, m_flags(flags)
 	{
 	}

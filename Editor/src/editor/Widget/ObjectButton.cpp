@@ -13,8 +13,8 @@ namespace fs = std::filesystem;
 
 namespace editor
 {
-	ObjectButton::ObjectButton(const string& id, math::Vector2 size, uint32 flags)
-		: WidgetData<rttr::variant>(id, flags)
+	ObjectButton::ObjectButton(const string& lable, math::Vector2 size, uint32 flags)
+		: WidgetData<rttr::variant>(lable, flags)
 		, m_rectSize{ size.x, size.y }
 	{
 		m_flags |= ImGuiButtonFlags_PressedOnDoubleClick;
@@ -66,134 +66,6 @@ namespace editor
 		return _obj->GetNameStr();
 	}
 
-	//void ObjectButton::Render()
-	//{
-	//	auto _var = m_prop.get_value(m_instance);
-	//	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-
-	//	string _objName = GetObjectName(_var);
-	//	string _lable = "None(" + _objName + ")";
-
-	//	ButtonEvent _buttonEvent = nullptr;
-	//	bool _openSeachView = false;
-
-	//	if (_var.is_sequential_container())
-	//	{
-	//		auto _seq = _var.create_sequential_view();
-	//		m_bIsArray = true;
-
-	//		if (_seq.get_size() == 0)
-	//		{
-	//			if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
-	//				_openSeachView = true;
-
-	//			if (ImGui::BeginDragDropTarget())
-	//			{
-	//				auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
-
-	//				if (_payload != nullptr && _payload->IsDelivery())
-	//				{
-	//					const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
-
-	//					fs::path _payloadPath(_wstr);
-
-	//					auto _type_name = StringHelper::StringToWString(_var.get_type().get_name().to_string());
-
-	//					auto _asset = AssetManager::GetInstance()->AssetFromPath(
-	//						fs::absolute(_payloadPath).c_str()
-	//						, StringHelper::StringToWString(_objName)
-	//					);
-
-	//					// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
-	//					if (_asset != nullptr)
-	//						SetProperty(this, _asset);
-	//				}
-
-	//				ImGui::EndDragDropTarget();
-	//			}
-	//		}
-	//		else
-	//		{
-	//			for (size_t i = 0; i < _seq.get_size(); i++)
-	//			{
-	//				auto _extractVar = _seq.get_value(i).extract_wrapped_value();
-
-	//				if (_extractVar != nullptr)
-	//					_lable = GetLableName(_extractVar);
-
-	//				if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
-	//				{
-	//					_openSeachView = true;
-	//					m_arrayIndex = i;
-	//				}
-
-	//				if (ImGui::BeginDragDropTarget())
-	//				{
-	//					auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
-
-	//					if (_payload != nullptr && _payload->IsDelivery())
-	//					{
-	//						const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
-
-	//						fs::path _payloadPath(_wstr);
-
-	//						auto _asset = AssetManager::GetInstance()->AssetFromPath(
-	//							fs::absolute(_payloadPath).c_str()
-	//							, StringHelper::StringToWString(_objName)
-	//						);
-
-	//						// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
-	//						if (_asset != nullptr)
-	//							SetProperty(this, _asset);
-	//					}
-
-	//					ImGui::EndDragDropTarget();
-	//				}
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		m_bIsArray = false;
-
-	//		if(_var != nullptr)
-	//			_lable = GetLableName(_var);
-
-	//		if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
-	//			_openSeachView = true;
-
-	//		if (ImGui::BeginDragDropTarget())
-	//		{
-	//			auto* _payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM");
-
-	//			if (_payload != nullptr && _payload->IsDelivery())
-	//			{
-	//				const wchar_t* _wstr = static_cast<const wchar_t*>(_payload->Data);
-
-	//				fs::path _payloadPath(_wstr);
-
-	//				auto _asset = AssetManager::GetInstance()->AssetFromPath(
-	//						fs::absolute(_payloadPath).c_str()
-	//						, StringHelper::StringToWString(_objName)
-	//					);
-
-	//				// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
-	//				if(_asset != nullptr)
-	//					SetProperty(this, _asset);
-	//			}
-
-	//			ImGui::EndDragDropTarget();
-	//		}
-	//	}
-
-	//	if (_openSeachView)
-	//	{
-	//		SearchView::OpenSeachView(_objName, this, &ObjectButton::SetProperty);
-	//	}
-
-	//	ImGui::PopStyleColor();
-	//}
-
 	void ObjectButton::Draw()
 	{
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
@@ -211,7 +83,7 @@ namespace editor
 
 			if (_seq.get_size() == 0)
 			{
-				if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
+				if (ImGui::ButtonEx((_lable + m_idString).c_str(), m_rectSize, GetFlags()))
 					_openSeachView = true;
 
 				if (ImGui::BeginDragDropTarget())
@@ -248,7 +120,7 @@ namespace editor
 					if (_extractVar != nullptr)
 						_lable = GetLableName(_extractVar);
 
-					if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
+					if (ImGui::ButtonEx((_lable + m_idString).c_str(), m_rectSize, GetFlags()))
 					{
 						_openSeachView = true;
 						m_arrayIndex = i;
@@ -286,7 +158,7 @@ namespace editor
 			if (m_data != nullptr)
 				_lable = GetLableName(m_data);
 
-			if (ImGui::ButtonEx(_lable.c_str(), m_rectSize, GetFlags()))
+			if (ImGui::ButtonEx((_lable + m_idString).c_str(), m_rectSize, GetFlags()))
 			{
 				_openSeachView = true;
 			}

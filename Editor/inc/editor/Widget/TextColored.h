@@ -19,12 +19,13 @@ namespace editor
     class TextColored : public Widget
     {
     public:
-        TextColored(const string& id, const math::Color& color);
+        TextColored(const string& text = "", const math::Color& color = math::Color::White);
         ~TextColored() = default;
 
         void Render() override;
 
     protected:
+        string m_text = "";
         math::Color m_textColor = math::Color::White;
     };
 }

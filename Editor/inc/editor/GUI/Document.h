@@ -12,11 +12,13 @@
 
 #include <common\common.h>
 
+#include <editor\GUI\GUI.h>
+
 #include <editor\Editor_dllexport.h>
 
 namespace editor
 {
-    class Document
+    class Document : public GUI
     {
     public:
         Document(std::string name);
@@ -29,11 +31,41 @@ namespace editor
 
         virtual EDITOR_API void End();
 
+        template <typename TView, typename ...Args>
+        TView* AddView(Args&&... args) requires std::derived_from<TView, class View>;
+
+        template <typename TView>
+        TView* GetView() requires std::derived_from<TView, class View>;
+
+        View* GetView(const string& name);
+
     protected:
-        vector<class View*> m_childs;
+        void SetDockingSpace();
+        
+        vector<shared_ptr<class View>> m_childs;
 
         std::string m_documentName;
 
-        uint32 m_flags = 0;
+        bool m_isDockingEnable = true;
     };
+
+    template <typename TView, typename ...Args>
+    TView* Document::AddView(Args&&... args) requires std::derived_from<TView, class View>
+    {
+        m_childs.emplace_back(std::make_shared<TView>(args...));
+
+        return static_cast<TView*>(m_childs.back().get());
+    }
+
+    template <typename TView>
+    TView* Document::GetView() requires std::derived_from<TView, class View>
+    {
+        for (auto& _view : m_childs)
+        {
+            if (std::dynamic_pointer_cast<TView>(_view) != nullptr)
+                return static_cast<TView*>(_view.get());
+        }
+
+        return nullptr;
+    }
 }

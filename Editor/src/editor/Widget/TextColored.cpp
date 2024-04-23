@@ -4,8 +4,9 @@
 
 namespace editor
 {
-	TextColored::TextColored(const string& id, const math::Color& color)
-		: Widget(id)
+	TextColored::TextColored(const string& text, const math::Color& color)
+		: Widget(text)
+		, m_text(text)
 		, m_textColor(color)
 	{
 	}
@@ -13,6 +14,6 @@ namespace editor
 	
 	void TextColored::Render()
 	{
-		ImGui::TextColored(Utility::ToImVec4(m_textColor), m_id.c_str());
+		ImGui::TextColored(Utility::ToImVec4(m_textColor), m_text.c_str());
 	}
 }

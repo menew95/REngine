@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	ColorEdit::ColorEdit(const string& id, uint32 flags)
-		: WidgetData<Color>(id, flags)
+	ColorEdit::ColorEdit(const string& lable, uint32 flags)
+		: WidgetData<Color>(lable, flags)
 	{
 	}
 
@@ -20,7 +20,7 @@ namespace editor
 	{
 		memcpy(m_colorBuf, &m_data, sizeof(m_data));
 
-		if (ImGui::ColorEdit4(m_id.c_str(), m_colorBuf, m_flags))
+		if (ImGui::ColorEdit4((m_lable + m_idString).c_str(), m_colorBuf, m_flags))
 		{
 			memcpy(&m_data, m_colorBuf, sizeof(m_colorBuf));
 

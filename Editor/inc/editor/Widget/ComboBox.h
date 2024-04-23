@@ -17,7 +17,7 @@ namespace editor
     class ComboBox : public WidgetData<int>
     {
     public:
-        ComboBox(const string& id, rttr::property& prop, uint32 flags = 0);
+        ComboBox(const string& lable, const rttr::property& prop, uint32 flags = 0);
 
         ~ComboBox();
 

@@ -22,7 +22,7 @@ namespace editor
     class ColorEdit : public WidgetData<Color>
     {
     public:
-        ColorEdit(const string& id, uint32 flags = 0);
+        ColorEdit(const string& lable = "", uint32 flags = 0);
 
         ~ColorEdit();
 

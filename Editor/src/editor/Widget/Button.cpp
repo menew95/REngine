@@ -4,8 +4,8 @@
 #include <rengine/core/component/Component.h>
 namespace editor
 {
-	Button::Button(const string& id, math::Vector2 size, uint32 flags)
-		: Widget(id, flags)
+	Button::Button(const string& lable, math::Vector2 size, uint32 flags)
+		: Widget(lable, flags)
 		, m_rectSize{ size.x, size.y }
 	{
 	}
@@ -17,7 +17,7 @@ namespace editor
 
 	void Button::Render()
 	{
-		if (ImGui::ButtonEx(m_id.c_str(), m_rectSize, GetFlags()))
+		if (ImGui::ButtonEx((m_lable + m_idString).c_str(), m_rectSize, GetFlags()))
 		{
 
 		}

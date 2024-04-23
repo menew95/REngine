@@ -14,25 +14,25 @@
 
 #include <common\math.h>
 
-#include <editor\Editor.h>
+#include <editor\GUI\GUI.h>
 
 namespace editor
 {
-    class Widget
+    class Widget : public GUI
     {
     public:
-        Widget(const string& id, uint32 flags = 0);
+        Widget(const string& lable = "", uint32 flags = 0);
 
         virtual ~Widget();
 
         virtual EDITOR_API void Render() abstract;
 
-        EDITOR_API const string& GetID() { return m_id; }
+        EDITOR_API const string& GetLable() { return m_lable; }
 
         EDITOR_API uint32 GetFlags() { return m_flags; }
 
     protected:
-        string m_id;
+        string m_lable;
 
         uint32 m_flags = 0;
     };

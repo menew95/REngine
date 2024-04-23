@@ -10,20 +10,24 @@
 **/
 #pragma once
 
+#include <editor\Widget\Widget.h>
+
 #include <editor\Widget\WidgetContainer.h>
 
 namespace editor
 {
     template<size_t Size>
-    class Columns : public WidgetContainer
+    class Columns : public Widget, public WidgetContainer
     {
         static_assert(Size > 0 && Size <= 5, "Invalid scalar size(Size >= 1)");
 
         using WidgetContainer::m_childs;
-        using WidgetContainer::m_id;
+        using Widget::m_lable;
+        using Widget::m_idString;
+
     public:
-        Columns(const string& name, uint32 flags)
-        : WidgetContainer(name, flags)
+        Columns(const string& lable = "")
+        : Widget(lable)
         {
             m_columnsWidth.fill(-1.f);
         }
@@ -32,7 +36,7 @@ namespace editor
         {
             uint32 _counter = 0;
 
-            ImGui::Columns(Size, m_id.c_str());
+            ImGui::Columns(Size, (m_lable + m_idString).c_str());
 
             for (auto iter = m_childs.begin(); iter != m_childs.end(); iter++)
             {

@@ -2,6 +2,8 @@
 
 #include <editor\GUI\View.h>
 
+#include <editor\Widget\Widget.h>
+
 namespace editor
 {
 	View::View(std::string name)
@@ -17,19 +19,16 @@ namespace editor
 
 	void View::Begin()
 	{
-		if (!_test)
-		{
-			_test = true;
-
-			LoadSetting();
-		}
-
 		ImGui::Begin(m_viewName.c_str(), &m_bOpen, m_flags);
 	}
 
 	void View::Render()
 	{
-
+		RenderChild();
+		/*for (auto* _widget : m_childWidget)
+		{
+			_widget->Render();
+		}*/
 	}
 
 	void View::End()
@@ -38,15 +37,5 @@ namespace editor
 			return;*/
 
 		ImGui::End();
-	}
-
-	void View::LoadSetting()
-	{
-		auto _id = ImGui::GetID(m_viewName.c_str());
-
-		auto* _settings = ImGui::FindSettingsHandler(m_viewName.c_str());
-
-		auto* _window = ImGui::FindWindowByName(m_viewName.c_str());
-		//m_bOpen = _settings->Collapsed;
 	}
 }

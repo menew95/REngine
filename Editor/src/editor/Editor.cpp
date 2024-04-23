@@ -10,6 +10,14 @@
 
 #include <rengine\System\GraphicsSystem.h>
 
+#include <editor\GUI\GameView.h>
+#include <editor\GUI\HierarchyView.h>
+#include <editor\GUI\InspectorView.h>
+#include <editor\GUI\ProjectView.h>
+#include <editor\GUI\SearchView.h>
+#include <editor\GUI\GraphicsSetting.h>
+#include <editor\GUI\MainMenuBar.h>
+
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -26,12 +34,21 @@ namespace editor
 		m_pDevice = rengine::GraphicsSystem::GetInstance()->GetDevice();
 		m_pContext = rengine::GraphicsSystem::GetInstance()->GetContext();
 
-
 		InitImGui();
 
 		m_pEditorDocment = new EditorDocument();
 
+		m_pEditorDocment->AddView<MainMenuBar>();
+		m_pEditorDocment->AddView<GameView>();
+		m_pEditorDocment->AddView<InspectorView>();
+		m_pEditorDocment->AddView<HierarchyView>();
+		m_pEditorDocment->AddView<ProjectView>();
+		m_pEditorDocment->AddView<SearchView>();
+		m_pEditorDocment->AddView<GraphicsSetting>();
+
 		AssetManager::GetInstance()->Initialze();
+
+		EventManager::GetInstance()->m_editor = this;
 	}
 
 	bool Editor::Update()
@@ -60,9 +77,9 @@ namespace editor
 
 	void Editor::Begin()
 	{
-		ImGui_ImplDX11_NewFrame();
+		/*ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
-		ImGui::NewFrame();
+		ImGui::NewFrame();*/
 
 		m_pEditorDocment->Begin();
 	}
@@ -79,7 +96,7 @@ namespace editor
 	{
 		m_pEditorDocment->End();
 
-		ImGuiIO& io = ImGui::GetIO();
+		/*ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2((float)m_Width, (float)m_Height);
 
 		ImGui::Render();
@@ -94,7 +111,7 @@ namespace editor
 			ImGui::RenderPlatformWindowsDefault();
 
 			ImGui::SetCurrentContext(_context);
-		}
+		}*/
 	}
 
 	

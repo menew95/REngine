@@ -4,8 +4,8 @@
 
 namespace editor
 {
-	Menu::Menu(const string& id, uint32 flags)
-		: WidgetContainer(id, flags)
+	Menu::Menu(const string& lable, uint32 flags)
+		: Widget(lable, flags)
 	{
 
 	}
@@ -17,14 +17,14 @@ namespace editor
 
 	void Menu::Render()
 	{
-		if (ImGui::BeginMenu(m_id.c_str(), &m_isOpened))
+		if (ImGui::BeginMenu((m_lable + m_idString).c_str(), &m_isOpened))
 		{
 			/*if (!m_isOpened)
 			{
 				m_isOpened = true;
 			}*/
 
-			WidgetContainer::Render();
+			RenderChild();
 
 			ImGui::EndMenu();
 		}

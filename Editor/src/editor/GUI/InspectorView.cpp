@@ -94,18 +94,22 @@ namespace editor
 				| ImGuiTreeNodeFlags_AllowOverlap
 				| ImGuiTreeNodeFlags_FramePadding;
 
-			_widget = WidgetManager::GetInstance()->CreateWidget<CollapsingHeader>(_propName + "header", _flags);
+			/*_widget = WidgetManager::GetInstance()->CreateWidget<CollapsingHeader>(_propName + "header", _flags);
 
-			root.AddWidget(_widget);
+			root.AddWidget(_widget);*/
+
+			_widget = root.AddWidget<CollapsingHeader>(_propName + "header", _flags);
 		}
 
 		auto* _columns = reinterpret_cast<Columns<2>*>(_widget->GetChild(_propName + "_columes"));
 
 		if (_columns == nullptr)
 		{
-			_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(_propName + "_columes", 0);
+			/*_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(_propName + "_columes");
 
-			_widget->AddWidget(_columns);
+			_widget->AddWidget(_columns);*/
+
+			_columns = _widget->AddWidget<Columns<2>>(_propName + "_columes");
 		}
 
 		auto _var = property.get_value(obj);
@@ -137,9 +141,11 @@ namespace editor
 
 		if (type != rengine::MetaDataType::Structure && _name_widget == nullptr)
 		{
-			_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+			/*_name_widget = WidgetManager::GetInstance()->CreateWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
 
-			container.AddWidget(_name_widget);
+			container.AddWidget(_name_widget);*/
+
+			_name_widget = container.AddWidget<TextColored>(_propName, math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
 		}
 
 		_propName = "##" + _propName;
@@ -154,9 +160,11 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, "", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<InputText>(_propName, "", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<InputText>(_propName, "", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -183,9 +191,11 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -212,9 +222,11 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -241,9 +253,11 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -271,9 +285,11 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<ObjectButton>(_propName);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -296,9 +312,11 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<CheckBox>(_propName);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -325,9 +343,11 @@ namespace editor
 
 					uint32 _min = numeric_limits<uint32>::lowest(), _max = numeric_limits<uint32>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -354,9 +374,11 @@ namespace editor
 
 					int32 _min = numeric_limits<int32>::lowest(), _max = numeric_limits<int32>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -383,9 +405,11 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -412,9 +436,11 @@ namespace editor
 
 					double _min = numeric_limits<double>::lowest(), _max = numeric_limits<double>::max();
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -439,9 +465,11 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, prop, _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<ComboBox>(_propName, prop, _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<ComboBox>(_propName, prop, _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -466,9 +494,11 @@ namespace editor
 				{
 					uint32 _flags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
-					_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, _flags);
+					/*_widget = WidgetManager::GetInstance()->CreateWidget<ColorEdit>(_propName, _flags);
 
-					container.AddWidget(_widget);
+					container.AddWidget(_widget);*/
+
+					_widget = container.AddWidget<ColorEdit>(_propName, _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj, _widget]()
@@ -605,11 +635,11 @@ namespace editor
 		
 		if (_columns == nullptr)
 		{
-			uint32 _flags = 0;
+			/*_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(comp->GetTypeStr() + "_Columes");
 
-			_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(comp->GetTypeStr() + "_Columes", _flags);
+			_componentWidget->AddWidget(_columns);*/
 
-			_componentWidget->AddWidget(_columns);
+			_columns = _componentWidget->AddWidget<Columns<2>>(comp->GetTypeStr() + "_Columes");
 		}
 
         for (rttr::property _prop : component_type.get_properties())

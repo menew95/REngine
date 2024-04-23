@@ -10,42 +10,63 @@
 **/
 #pragma once
 
+#ifndef WIDGET_CONTAINER
+#define WIDGET_CONTAINER
+
 #include <editor\Widget\Widget.h>
 
 namespace editor
 {
-    class WidgetContainer : public Widget
+    class WidgetContainer
     {
     public:
-        WidgetContainer(const string& id, uint32 flags = 0);
+        WidgetContainer();
 
         virtual ~WidgetContainer();
 
-        EDITOR_API virtual void Render();
-
-        EDITOR_API void AddWidget(Widget* widget);
+        EDITOR_API virtual void RenderChild();
   
-        EDITOR_API Widget* GetChild(const string& name);
+        EDITOR_API Widget* GetChild(const string& lable);
 
         EDITOR_API vector<Widget*>& GetChilds()
         {
             return m_childs;
         }
+        
+        template<typename TWidget, typename ... Args>
+        TWidget* AddWidget(Args&&... args) requires std::derived_from<TWidget, Widget>;
 
-        /*template <typename TWidget, typename ... Args>
-        TWidget* AddWidget(Args&&... args);*/
+        template <typename TWidget>
+        TWidget* GetWidgetByLable(const string& lable) requires std::derived_from<TWidget, Widget>;
+
+        void RemoveWidget(Widget* widget);
+
+        void RemoveAllWidget();
 
     protected:
         vector<Widget*> m_childs;
     };
 
-    /*template <typename TWidget, typename ... Args>
-    TWidget* WidgetContainer::AddWidget(Args&&... args)
+    template<typename TWidget, typename ...Args>
+    inline TWidget* WidgetContainer::AddWidget(Args && ...args)
+        requires std::derived_from<TWidget, Widget>
     {
-        auto* _newWidget = WidgetManager::GetInstance()->CreateWidget<TWidget>(std::forward<Args>(args)...);
+        m_childs.emplace_back(new TWidget(std::forward<Args>(args)...));
 
-        m_childs.emplace_back(_newWidget);
+        return static_cast<TWidget*>(m_childs.back());
+    }
 
-        return _newWidget;
-    }*/
+    template<typename TWidget>
+    inline TWidget* WidgetContainer::GetWidgetByLable(const string& lable)
+        requires std::derived_from<TWidget, Widget>   
+    {
+        for (auto& widget : m_childs)
+        {
+            if (dynamic_cast<TWidget*>(widget) != nullptr && widget->GetLable() == lable)
+                return static_cast<TWidget*>(widget);
+        }
+
+        return nullptr;
+    }
 }
+#endif // !1

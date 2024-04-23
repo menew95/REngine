@@ -6,8 +6,8 @@
 
 namespace editor
 {
-	ComboBox::ComboBox(const string& id, rttr::property& prop, uint32 flags)
-	: WidgetData<int>(id, flags)
+	ComboBox::ComboBox(const string& lable, const rttr::property& prop, uint32 flags)
+	: WidgetData<int>(lable, flags)
 	{
 		/*
 			enumeration enum_align = enum_type.get_enumeration();
@@ -38,7 +38,7 @@ namespace editor
 
 	void ComboBox::Draw()
 	{
-		if (ImGui::BeginCombo(m_id.c_str(), m_items[m_data].c_str()))
+		if (ImGui::BeginCombo((m_lable + m_idString).c_str(), m_items[m_data].c_str()))
 		{
 			for (size_t i = 0; i < m_items.size(); i++)
 			{
@@ -50,7 +50,7 @@ namespace editor
 					{
 						ImGui::SetItemDefaultFocus();
 
-						m_data = i;
+						m_data = (int)i;
 
 						m_isValChange = true;
 					}

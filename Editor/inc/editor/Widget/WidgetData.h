@@ -22,19 +22,13 @@ namespace editor
     class WidgetData : public Widget
     {
     public:
-        WidgetData(const string& id, uint32 flags)
-        :   Widget(id, flags)
-        //, m_instance(obj)
-        //, m_prop(prop)
+        WidgetData(const string& lable, uint32 flags = 0)
+        :   Widget(lable, flags)
         {}
 
         ~WidgetData() {}
 
         EDITOR_API void Render() override;
-
-        //EDITOR_API void SetHandler(const rttr::variant& var) { m_variant = var; }
-
-        //EDITOR_API const rttr::variant& GetHandler() { return m_variant; }
 
         void RegisterGetter(function<TData(void)> getter) { m_getter = getter; }
 
@@ -47,14 +41,6 @@ namespace editor
         function<TData(void)> m_getter;
         function<void(TData&)> m_setter;
 
-        //// object instance;
-        //rttr::instance m_instance;
-
-        //rttr::variant m_variant;
-
-        //// property
-        //rttr::property m_prop;
-
         TData m_data;
 
         bool m_isValChange = false;
@@ -64,24 +50,18 @@ namespace editor
     void WidgetData<TData>::Render()
     {
         if(m_getter != nullptr)
-            m_data = m_getter();
-        /*else
         {
-            rttr::variant _var = m_prop.get_value(m_instance);
-
-            assert(_var.can_convert<TData>());
-
-            m_data = _var.convert<TData>();
-        }*/
+            m_data = m_getter();
+        }
 
         Draw();
 
         if (m_isValChange)
         {
             if(m_setter != nullptr)
+            {
                 m_setter(m_data);
-            /*else
-                assert(m_prop.set_value(m_instance, m_data));*/
+            }
 
             m_isValChange = false;
         }

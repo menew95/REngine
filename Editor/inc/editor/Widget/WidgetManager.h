@@ -14,6 +14,7 @@
 
 #include <common\singleton.h>
 
+#include <editor\Widget\Popup.h>
 #include <editor\Widget\Menu.h>
 #include <editor\Widget\MenuItem.h>
 #include <editor\Widget\TextColored.h>
@@ -24,19 +25,15 @@
 #include <editor\Widget\TreeNode.h>
 #include <editor\Widget\ColorEdit.h>
 #include <editor\Widget\InputText.h>
-#include <editor\Widget\DragFloat.h>
-#include <editor\Widget\DragFloat2.h>
-#include <editor\Widget\DragFloat3.h>
-#include <editor\Widget\DragFloat4.h>
 #include <editor\Widget\DragScalar.h>
-#include <editor\Widget\InputFloat.h>
-#include <editor\Widget\InputFloat2.h>
-#include <editor\Widget\InputFloat3.h>
-#include <editor\Widget\InputFloat4.h>
+#include <editor\Widget\InputScalr.h>
 #include <editor\Widget\ObjectButton.h>
 #include <editor\Widget\CollapsingHeader.h>
 
 #include <log/log.h>
+
+#ifndef WIDGET_MANAGER
+#define WIDGET_MANAGER
 
 namespace editor
 {
@@ -45,26 +42,9 @@ namespace editor
         DECLARE_SINGLETON_CLASS(WidgetManager)
     
     public:
-		void ClearColumnWidget();
-		void ClearCollapsWidget();
-		void ClearTreeNodeWidget();
-
-		template<size_t Size>
-		Columns<Size>* GetColumnWidget(const string& name, uint32 flags = 0)
-		{
-			auto _find = m_treeNodeWidgets.find(name);
-
-			if (_find != m_treeNodeWidgets.end())
-				return reinterpret_cast<Columns<Size>*>(_find->second);
-
-			if (Columns<Size>* _ret = CreateWidget<Columns<Size>>(name, flags))
-			{
-				return _ret;
-			}
-
-			return nullptr;
-		}
-
+		// 위젯 매니저가 소유한 위젯들은 보통 고유하다고 가정
+		// 추후에 고유하지 않은 경우가 생길경우 로직을 바꿀 필요가 있음
+		// ex) component의 경우 component 마다 하나의 CollapsingHeader에 대응 가능함
 		TreeNode* GetTreeNodeWidget(const string& name, uint32 flags = 0);
 
 		CollapsingHeader* GetCollapsWidget(const string& name, uint32 flags = 0);
@@ -72,8 +52,16 @@ namespace editor
 
 		template<typename T, typename ... Args>
 		T* CreateWidget(const string& name, Args... args)
+			requires std::is_same_v<T, CollapsingHeader>
+			|| std::is_same_v<T, TreeNode>
+			|| std::is_same_v<T, Columns<1>>
+			|| std::is_same_v<T, Columns<2>>
+			|| std::is_same_v<T, Columns<3>>
+			|| std::is_same_v<T, Columns<4>>
+			|| std::is_same_v<T, Columns<5>>
+			|| std::is_same_v<T, WidgetContainer>
 		{
-			T* _newWidget = new T(name, args...);
+			auto _newWidget = make_shared<T>(name, args...);
 
 			if constexpr (std::is_same_v<T, TreeNode>)
 			{
@@ -92,19 +80,21 @@ namespace editor
 			}
 			else
 			{
+				// create widget의 경우 container의 하위로 생성하도록 로직을 변경했음
+				//assert(false);
 				m_widgets.insert(std::make_pair(name, _newWidget));
 			}
 
-			return _newWidget;
+			return _newWidget.get();
 		}
 
 
 	private:
-		void RegistWidget(Widget* widget);
 		
-		std::map<string, Widget*> m_widgets;
-		std::map<string, Widget*> m_columnWidgets;
-		std::map<string, Widget*> m_collapsWidgets; //하나의 컴포넌트에 대응이 될지도
-		std::map<string, Widget*> m_treeNodeWidgets;
+		std::map<string, shared_ptr<Widget>> m_widgets;
+		std::map<string, shared_ptr<Widget>> m_columnWidgets;
+		std::map<string, shared_ptr<Widget>> m_collapsWidgets; //하나의 컴포넌트에 대응이 될지도
+		std::map<string, shared_ptr<Widget>> m_treeNodeWidgets;
     };
 }
+#endif

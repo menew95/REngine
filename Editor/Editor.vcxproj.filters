@@ -111,18 +111,6 @@
     <ClInclude Include="inc\editor\Core\Event.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\editor\Widget\InputFloat.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\InputFloat2.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\InputFloat3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\InputFloat4.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\editor\Widget\CollapsingHeader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -153,18 +141,6 @@
     <ClInclude Include="inc\ImGui\ImGuizmo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\editor\Widget\DragFloat.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\DragFloat3.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\DragFloat4.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\editor\Widget\DragFloat2.h">
-      <Filter>소스 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\editor\GUI\GraphicsSetting.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -184,6 +160,24 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="inc\editor\Widget\MenuItem.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\Separator.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\SameLine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\GUI\MainMenuBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\GUI\GUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\InputScalr.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\Popup.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -266,18 +260,6 @@
     <ClCompile Include="src\editor\Core\Event.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\Widget\InputFloat.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\InputFloat2.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\InputFloat3.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\InputFloat4.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -311,18 +293,6 @@
     <ClCompile Include="inc\ImGui\ImGuizmo.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\Widget\DragFloat.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\DragFloat2.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\DragFloat3.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\editor\Widget\DragFloat4.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\editor\GUI\GraphicsSetting.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -336,6 +306,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Widget\MenuItem.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\Separator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\SameLine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\MainMenuBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\GUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\Popup.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

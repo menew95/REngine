@@ -70,5 +70,7 @@ namespace editor
         Document* m_pEditorDocment;
 
         EditorDesc m_desc;
+
+        friend class EventManager;
     };
 }
