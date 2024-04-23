@@ -135,6 +135,8 @@ namespace graphics
 				_prop._type = MaterialBufferProperty::PropertyType::Texture;
 			}
 
+			SetTexture(_resourceDesc._name, (Texture*)nullptr);
+
 			m_properties.push_back(_prop);
 		}
 

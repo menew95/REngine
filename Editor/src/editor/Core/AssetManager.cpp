@@ -1,10 +1,20 @@
 ﻿#include <Editor_pch.h>
 #include <editor\Core\AssetManager.h>
+
 #include <common\AssetPath.h>
+
 #include <importer\Importer.h>
+
 #include <rengine\core\resources.h>
+#include <rengine\core\resource\Mesh.h>
+#include <rengine\core\resource\Texture.h>
+#include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\AnimationClip.h>
+
 #include <rengine\System\ObjectFactory.h>
+
 #include <Serialize\Serializer.h>
+
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -41,6 +51,13 @@ namespace editor
 	{
 		m_bIsDirty = true;
 		
+		utility::Serializer::CreateMetaInfo(path, object);
+
+		utility::Serializer::Serialize(path, object);
+
+		m_assetList.insert(make_pair(path, object->GetUUID()));
+
+		SaveAssetData();
 	}
 	
 	void AssetManager::ImportAsset(const tstring& path)
@@ -59,7 +76,7 @@ namespace editor
 		m_assetList.insert(make_pair(_resource->GetPath(), _resource->GetUUID()));
 	}
 
-	void AssetManager::LoadAsset(const tstring& path)
+	rengine::Object* AssetManager::LoadAsset(const tstring& path)
 	{
 		fs::path _path(path);
 
@@ -69,21 +86,23 @@ namespace editor
 
 		if (_extension == ".mat")
 		{
-			rengine::Resources::GetInstance()->Load<rengine::Material>(_path.wstring());
+			return rengine::Resources::GetInstance()->Load<rengine::Material>(_path.wstring()).get();
 		}
 		else if (_extension == ".mesh")
 		{
-			rengine::Resources::GetInstance()->Load<rengine::Mesh>(_path.wstring());
+			return rengine::Resources::GetInstance()->Load<rengine::Mesh>(_path.wstring()).get();
 		}
 		else if (_extension == ".anim")
 		{
-			rengine::Resources::GetInstance()->Load<rengine::AnimationClip>(_path.wstring());
+			return rengine::Resources::GetInstance()->Load<rengine::AnimationClip>(_path.wstring()).get();
 		}
 		else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
 			|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
 		{
-			rengine::Resources::GetInstance()->Load<rengine::Texture>(_path.wstring());
+			return rengine::Resources::GetInstance()->Load<rengine::Texture>(_path.wstring()).get();
 		}
+
+		return nullptr;
 	}
 	
 	void AssetManager::MoveAsset(const tstring& oldPath, const tstring& newPath)
@@ -140,11 +159,49 @@ namespace editor
 		return nullptr;
 	}
 
+	void AssetManager::CreateFolder(const tstring& path, const tstring& name)
+	{
+		tstring _folderString = MakeNewPath(path, name);
+
+		fs::path _folderpath(_folderString);
+
+		fs::create_directory(_folderpath);
+	}
+
 	void AssetManager::Refresh()
 	{
 		CheckMetaFile(g_assetPath);
 
 		SaveAssetData();
+	}
+
+	tstring AssetManager::MakeNewPath(const tstring& path, const tstring& name, const tstring& extension)
+	{
+		// 파일 경로와 이름 조합
+		tstring _pathString = path + name;
+
+		// 파일 경로, 이름과 확장자 조합
+		tstring _pathExtensionString = _pathString + extension;
+
+		fs::path _path(_pathExtensionString);
+
+		if (fs::is_directory(_path) || fs::exists(_path))
+		{
+			int _idx = -1;
+			bool _fileExist = true;
+
+			while (_fileExist)
+			{
+				_idx++;
+
+				_pathExtensionString = _pathString + to_wstring(_idx) + extension;
+
+				_fileExist = fs::is_directory(_pathExtensionString)
+					|| fs::exists(_pathExtensionString);
+			}
+		}
+
+		return _pathExtensionString;
 	}
 
 	void AssetManager::CheckMetaFile(const tstring& path)
@@ -248,9 +305,19 @@ namespace editor
 
 		_ifs.close();
 
+		vector<tstring> _nullPath;
+
 		for (auto& [_assetPath, _uuid] : m_assetList)
 		{
-			LoadAsset(_assetPath);
+			if (LoadAsset(_assetPath) == nullptr)
+			{
+				_nullPath.emplace_back(_assetPath);
+			}
+		}
+
+		for (auto& _path : _nullPath)
+		{
+			m_assetList.erase(_path);
 		}
 	}
 

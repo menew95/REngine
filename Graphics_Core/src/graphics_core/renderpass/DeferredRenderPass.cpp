@@ -69,6 +69,8 @@ namespace graphics
 		{
 			assert(_matBuf != nullptr);
 
+			if(_matBuf->GetRenderObjectList().size() <= 0) continue;
+
 			_matBuf->BindPipelineState(command);
 			
 			_matBuf->BindResource(command);

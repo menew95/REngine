@@ -44,10 +44,11 @@ namespace editor
         void ImportAsset(const tstring& path);
 
         /**
-            @brief 
-            @param path - 
+            @brief 해당 경로에 있는 에셋을 로드함
+            @param path - 에셋의 경로
+            @retval      - asset raw pointer(invalid asset path return nullptr)
         **/
-        void LoadAsset(const tstring& path);
+        rengine::Object* LoadAsset(const tstring& path);
 
         /**
             @brief 
@@ -78,9 +79,26 @@ namespace editor
         shared_ptr<rengine::Object> AssetFromPath(const tstring& path, const tstring& type = TEXT(""));
 
         /**
+            @brief 해당 위치에 새로운 폴더를 생성
+            @param path - 폴더를 생성할 위치
+            @param name - 폴더의 이름
+        **/
+        void CreateFolder(const tstring& path, const tstring& name);
+
+        /**
             @brief 변경된 Asset들을 체크함
         **/
         void Refresh();
+
+
+        /**
+            @brief  경로와 파일 이름을 조합하여 경로를 생성(이미 해당 경로와 중복된 경로가 존재하면 인덱스를 붙여 새로운 경로를 생성)
+            @param  path      - 생성할 경로
+            @param  name      - 생성할 파일 \ 폴더 이름
+            @param  extension - 생성할 파일 확장자
+            @retval           - 생성된 경로
+        **/
+        static tstring MakeNewPath(const tstring& path, const tstring& name, const tstring& extension = TEXT(""));
 
         const auto& GetComponentList() { return m_componentList; }
 

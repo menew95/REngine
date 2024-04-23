@@ -12,6 +12,8 @@
 
 #include <editor\editor_api.h>
 
+#include <rengine\core\sceneManager.h>
+#include <rengine\core\scene\scene.h>
 #include <rengine\core\Resources.h>
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\Texture.h>
@@ -190,9 +192,10 @@ namespace editor
 		{
 			if (ImGui::Button("<-"))
 			{
-				m_currPath = _cur_path.parent_path().wstring();
+				// 경로 마지막을 \\를 붙이기 위하여 이렇게 함
+				m_currPath = _cur_path.parent_path().parent_path().wstring() + TEXT("\\");
 
-				_cur_path = _cur_path.parent_path();
+				_cur_path = m_currPath;
 			}
 		}
 
@@ -321,7 +324,7 @@ namespace editor
 					{
 						m_selected.clear();
 
-						m_currPath = (fs::path(m_currPath) / _path.filename()).wstring();
+						m_currPath = (fs::path(m_currPath) / _path.filename()).wstring() + TEXT("\\");
 					}
 					else
 					{
@@ -418,9 +421,11 @@ namespace editor
 		}
 	}
 
+	const tstring& CheckFileExist();
+
 	void ProjectView::CreatePopupWidget()
 	{
-		m_popupMenu = WidgetManager::GetInstance()->CreateWidget<Menu>("ProjectView Menu", 0);
+		m_popupMenu = WidgetManager::GetInstance()->CreateWidget<WidgetContainer>("ProjectView Menu", 0);
 
 		{
 			auto* _menu = WidgetManager::GetInstance()->CreateWidget<Menu>("Create", 0);
@@ -429,13 +434,41 @@ namespace editor
 
 			auto* _menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Folder", "", false, false, 0);
 
+			_menuItem->SetClickEvent([&]() {
+					AssetManager::GetInstance()->CreateFolder(m_currPath, TEXT("Folder"));
+				});
+
 			_menu->AddWidget(_menuItem);
 
 			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Scene", "", false, false, 0);
 
+			_menuItem->SetClickEvent([&]() {
+					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Scene"), TEXT(".scene"));
+
+					auto _scene = rengine::SceneManager::GetInstance()->CreateScene(TEXT("New Scene"));
+
+					_scene->SetPath(_path);
+
+					AssetManager::GetInstance()->CreateAsset(_scene.get(), _path);
+				});
+
 			_menu->AddWidget(_menuItem);
 
 			_menuItem = WidgetManager::GetInstance()->CreateWidget<MenuItem>("Material", "", false, false, 0);
+
+			_menuItem->SetClickEvent([&]() {
+					auto _path = AssetManager::MakeNewPath(m_currPath, TEXT("New Material"), TEXT(".mat"));
+
+					auto _material = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
+
+					_material->SetPath(_path);
+
+					_material->SetRenderPassID(TEXT("Deferred Pass"));
+
+					_material->SetPipelineID(TEXT("Standard"));
+
+					AssetManager::GetInstance()->CreateAsset(_material.get(), _path);
+				});
 
 			_menu->AddWidget(_menuItem);
 		}

@@ -26,6 +26,8 @@ namespace editor
 
         ~MenuItem();
 
+        void SetClickEvent(const function<void()>& event) { m_clickedEvent = event; }
+
     private:
         void Render() override;
 
