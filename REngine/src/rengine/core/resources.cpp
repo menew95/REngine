@@ -44,7 +44,7 @@ namespace rengine
 		return true;
 	}
 
-	bool Resources::DeleteResource(shared_ptr<Resource>& res)
+	bool Resources::DeleteResource(const shared_ptr<Resource>& res)
 	{
 		assert(res != nullptr);
 

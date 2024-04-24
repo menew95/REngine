@@ -58,16 +58,13 @@ namespace rengine
 	: Object(uuid, type, type)
 	//, m_pGameObject(gameObj)
 	{
+
 	}
 
 	Component::~Component()
 	{
+		
 	}
-
-	/*inline auto Component::GetTransform()
-	{
-		return m_pGameObject.lock()->GetTransform();
-	}*/
 
 	std::shared_ptr<Transform> Component::GetTransform()
 	{
@@ -93,6 +90,17 @@ namespace rengine
 			{
 				OnDisable();
 			}
+		}
+	}
+
+	void Component::PreDestroy()
+	{
+		// 게임 오브젝트에 등록되어 있을 경우 게임오브젝트 목록으로 부터 삭제
+		auto _gameObject = m_pGameObject.lock();
+
+		if (_gameObject != nullptr)
+		{
+			_gameObject->RemoveComponent(this);
 		}
 	}
 }

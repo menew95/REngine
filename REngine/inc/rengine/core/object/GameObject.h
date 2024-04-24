@@ -80,10 +80,20 @@ namespace rengine
         shared_ptr<GameObject> GetShared() { return shared_from_this(); }
 
     private:
-        template<typename T>
-        bool RemoveComponent(shared_ptr<T> comp);
+        /**
+            @brief 등록된 컴포넌트들을 삭제.
+        **/
+        void PreDestroy() override;
 
         bool RemoveComponent(tstring type);
+
+        /**
+            @brief  컴포넌트가 삭제 될때 호출됨 게임 오브젝트에 등록된 컴포넌트 목록으로 부터 삭제
+            @param  component - 삭제된 컴포넌트
+        **/
+        void RemoveComponent(const shared_ptr<Component>& component);
+
+        void RemoveComponent(Component* uuid);
 
         /**
             @brief 모든 컴포넌트를 삭제 대기에 걸고 자식 게임 오브젝트 또한 삭제 대기한다.
@@ -105,7 +115,10 @@ namespace rengine
         uint32 m_layer = 0;
         
         friend class ObjectFactory;
+
         friend class ComponentManager;
+
+        friend class Component;
 
         RTTR_ENABLE(rengine::Object);
 

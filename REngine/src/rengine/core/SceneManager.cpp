@@ -116,4 +116,15 @@ namespace rengine
     {
         utility::Serializer::Serialize(m_pCurrentScene->GetPath(), m_pCurrentScene.get());
     }
+
+    void SceneManager::ReloadCurrentScene()
+    {
+        auto _path = m_pCurrentScene->GetPath();
+
+        ObjectFactory::GetInstance()->ReserveDestroyObject(m_pCurrentScene);
+
+        auto _scene = utility::Serializer::DeSerialize(_path);
+
+        m_scenes.push_back(std::static_pointer_cast<Scene>(_scene));
+    }
 }

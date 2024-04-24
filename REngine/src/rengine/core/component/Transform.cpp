@@ -78,21 +78,29 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	/*Transform::Transform(std::shared_ptr<GameObject>& gameObj)
-	: Component(gameObj)
-	{
-		SetName(TEXT("Transform"));
-	}*/
-
-	Transform::Transform(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid)
-	: Component(/*gameObj, */uuid, TEXT("Transform"))
+	Transform::Transform(uuid uuid)
+	: Component(uuid, TEXT("Transform"))
 	{
 
 	}
 
 	Transform::~Transform()
 	{
+		//for (auto& child : m_childs)
+		//{
+		//	auto _childTrans = child.lock();
+		//	
+		//	// 자식 포인터가 연결이 끊겼다면 이상한거임
+		//	assert(_childTrans != nullptr);
 
+		//	auto _gameObject = _childTrans->GetGameObject().lock();
+
+		//	// 게임 오브젝트 연결이 끊겼다면 이상한거임
+		//	assert(_gameObject != nullptr);
+
+		//	// 자식 게임오브젝트 또한 삭제함
+		//	Destroy(_gameObject);
+		//}
 	}
 
 	void Transform::OnDestroy()
@@ -303,6 +311,27 @@ namespace rengine
 			assert(false);
 
 		m_local = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
+	}
+
+	void Transform::PreDestroy()
+	{
+		__super::PreDestroy();
+
+		for (auto& child : m_childs)
+		{
+			auto _childTrans = child.lock();
+
+			// 자식 포인터가 연결이 끊겼다면 이상한거임
+			assert(_childTrans != nullptr);
+
+			auto _gameObject = _childTrans->GetGameObject().lock();
+
+			// 게임 오브젝트 연결이 끊겼다면 이상한거임
+			assert(_gameObject != nullptr);
+
+			// 자식 게임오브젝트 또한 삭제함
+			Destroy(_gameObject);
+		}
 	}
 
 	void Transform::UpdateWorld()

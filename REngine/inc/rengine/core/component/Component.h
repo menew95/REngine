@@ -31,7 +31,7 @@ namespace rengine
 
         virtual ~Component();
 
-        inline RENGINE_API std::weak_ptr<GameObject> GetGameObject()
+        inline RENGINE_API std::weak_ptr<GameObject> GetGameObject() 
         { 
             return m_pGameObject; 
         }
@@ -61,8 +61,13 @@ namespace rengine
         virtual void OnDisable() {}
 
         virtual void OnDestroy() {}
-
+    
     protected:
+        /**
+            @brief 
+        **/
+        void PreDestroy() override;
+
         inline void SetGameObject(std::weak_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
 
         std::weak_ptr<GameObject> m_pGameObject;

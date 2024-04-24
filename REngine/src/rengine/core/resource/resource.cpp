@@ -1,5 +1,7 @@
 ﻿#include <rengine\core\resource\Resource.h>
 
+#include <rengine\core\resources.h>
+
 #include <rttr\registration.h>
 
 //RTTR_REGISTRATION

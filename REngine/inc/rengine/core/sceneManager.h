@@ -70,6 +70,11 @@ namespace rengine
 
         RENGINE_API void SaveScene();
 
+        /**
+            @brief  현재 로드된 씬를 다시 로드함
+        **/
+        RENGINE_API void ReloadCurrentScene();
+
     private:
         std::shared_ptr<Scene> m_pCurrentScene;
 

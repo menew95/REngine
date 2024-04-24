@@ -17,9 +17,10 @@ namespace rengine
 
 	}
 
-	void Components::AddComponent(std::shared_ptr<Component>& addComponent)
+	void Components::AddComponent(const std::shared_ptr<Component>& addComponent)
 	{
-		m_reserveAddComponents.push(addComponent);
+		m_reserveAddComponents.emplace_back(addComponent);
+
 		addComponent->Awake();
 
 		/*if (addComponent->GetEnable() && addComponent->GetGameObject()->GetActiveInHierarchy())
@@ -28,42 +29,48 @@ namespace rengine
 		}*/
 	}
 
-	void Components::DeleteComponent(std::shared_ptr<Component>& deleteComponent)
+	void Components::DeleteComponent(const std::shared_ptr<Component>& deleteComponent)
 	{
-		auto _find = std::ranges::find(m_reserveDeleteComponents, deleteComponent);
+		deleteComponent->OnDestroy();
 
-		if (_find == m_reserveDeleteComponents.end())
-		{
-			m_reserveDeleteComponents.emplace_back(deleteComponent);
-		}
+		auto _updateiter = std::ranges::find_if(std::begin(m_updateComponents), std::end(m_updateComponents), 
+			[&](auto& comp)
+			{
+				return deleteComponent == comp;
+			});
+
+		if(_updateiter != std::end(m_updateComponents)) m_updateComponents.erase(_updateiter);
+
+		auto _additer = std::ranges::find_if(std::begin(m_reserveAddComponents), std::end(m_reserveAddComponents),
+			[&](auto& comp)
+			{
+				return deleteComponent == comp;
+			});
+
+		if (_additer != std::end(m_reserveAddComponents)) m_reserveAddComponents.erase(_additer);
 	}
 
 
 	void Components::StartComponents()
 	{
-		size_t _count = m_reserveAddComponents.size();
-
-		for (size_t i = 0; i < _count; i++)
+		for (auto _iter = m_reserveAddComponents.begin(); _iter != m_reserveAddComponents.end();)
 		{
-			auto _component = m_reserveAddComponents.front();
+			// 컴포넌트가 활성화가 안되었거나 게임 오브젝트가 활성화 상태가 아니라면 스킾
+			if (!(*_iter)->GetEnable() && !(*_iter)->GetGameObject().lock()->GetActiveInHierarchy())
+				continue;
 
-			m_reserveAddComponents.pop();
+			// Start를 호출하고 컴포넌트 Update 목록에 추가
+			(*_iter)->Start();
+			m_updateComponents.push_back((*_iter));
 
-			if (_component->GetEnable() && _component->GetGameObject().lock()->GetActiveInHierarchy())
-			{
-				_component->Start();
-				m_components.push_back(_component);
-			}
-			else
-			{
-				m_reserveAddComponents.push(_component);
-			}
+			// 추가 대기 목록에서 삭제
+			_iter = m_reserveAddComponents.erase(_iter);
 		}
 	}
 
 	void Components::UpdateComponents()
 	{
-		for (auto& _componentIter : m_components)
+		for (auto& _componentIter : m_updateComponents)
 		{
 			if (_componentIter->GetEnable() && _componentIter->GetGameObject().lock()->GetActiveInHierarchy())
 			{
@@ -71,52 +78,12 @@ namespace rengine
 			}
 		}
 
-		for (auto& _componentIter : m_components)
+		for (auto& _componentIter : m_updateComponents)
 		{
 			if (_componentIter->GetEnable() && _componentIter->GetGameObject().lock()->GetActiveInHierarchy())
 			{
 				_componentIter->LateUpdate();
 			}
 		}
-	}
-
-	/*void Components::RenderComponents()
-	{
-		if (m_IsRender == false)
-			return;
-
-		for (auto& _componentIter : m_Components)
-		{
-			if (_componentIter->GetEnable() && _componentIter->GetGameObject()->GetActiveInHierarchy())
-			{
-				_componentIter->Render();
-			}
-		}
-	}*/
-
-	void Components::DestroyComponents()
-	{
-		for (auto& _componentIter : m_reserveDeleteComponents)
-		{
-			auto _find = std::ranges::find(m_components, _componentIter);
-
-			if (_find != m_components.end())
-			{
-				(*_find)->SetEnable(false);
-
-				(*_find)->OnDestroy();
-
-				m_components.erase(_find);
-			}
-#ifdef _DEBUG
-			else
-			{
-				// m_Components 안에 없다면 에러
-				assert(false);
-			}
-#endif
-		}
-
-		m_reserveDeleteComponents.clear();
 	}
 }

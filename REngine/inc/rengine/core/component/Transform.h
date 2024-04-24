@@ -82,7 +82,13 @@ namespace rengine
         RENGINE_API math::Vector3 GetLocalScale();
         RENGINE_API void SetLocalScale(math::Vector3 val);
 
-    private:
+    protected:
+        /**
+            @brief
+        **/
+        void PreDestroy() override;
+
+
         void UpdateWorld();
 
         weak_ptr<Transform> m_parent;

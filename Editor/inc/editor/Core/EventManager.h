@@ -70,7 +70,12 @@ namespace editor
 
         class View* GetView(const string& viewName);
 
+        const EditorMode& GetEditorMode() const { return m_editorMode; }
+        void SetEditorMode(const auto& val) { m_editorMode = val; }
+
     private:
+        EditorMode m_editorMode;
+
         rengine::Object* m_curFocusObject = nullptr;
 
         class Editor* m_editor = nullptr;

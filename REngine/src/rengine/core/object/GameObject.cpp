@@ -68,17 +68,6 @@ namespace rengine
 		return _newGO;
 	}
 
-	/*GameObject::GameObject()
-		: Object()
-	{
-	}
-
-	GameObject::GameObject(uuid uuid)
-		: Object(uuid)
-	{
-
-	}*/
-
 	GameObject::GameObject(uuid uuid)
 		: Object(uuid, TEXT("Game Object"), TEXT("GameObject"))
 	{
@@ -86,7 +75,6 @@ namespace rengine
 
 	GameObject::~GameObject()
 	{
-		
 	}
 
 	void GameObject::AddComponent(string type)
@@ -121,6 +109,24 @@ namespace rengine
 		m_Components.emplace_back(_newComponent);
 	}
 
+	void GameObject::PreDestroy()
+	{
+		// 등록된 컴포넌트들을 삭제
+		for (auto& _comp : m_Components)
+		{
+			Destroy(_comp.lock());
+
+			_comp.reset();
+		}
+
+		m_pTransform.reset();
+
+		/*if(m_pScene.lock() != nullptr)
+			m_pScene.lock()->RemoveGameObject(shared_from_this());*/
+
+		m_pScene.reset();
+	}
+
 	bool GameObject::RemoveComponent(tstring type)
 	{
 		for (size_t i = 0; i < m_Components.size(); i++)
@@ -134,6 +140,32 @@ namespace rengine
 		}
 
 		return false;
+	}
+
+	void GameObject::RemoveComponent(const shared_ptr<Component>& component)
+	{
+		for (size_t i = 0; i < m_Components.size(); i++)
+		{
+			if (component == m_Components[i].lock())
+			{
+				m_Components.erase(m_Components.begin() + i);
+
+				return;
+			}
+		}
+	}
+
+	void GameObject::RemoveComponent(Component* compoent)
+	{
+		for (size_t i = 0; i < m_Components.size(); i++)
+		{
+			if (compoent->GetUUID() == m_Components[i].lock()->GetUUID())
+			{
+				m_Components.erase(m_Components.begin() + i);
+
+				return;
+			}
+		}
 	}
 
 	void GameObject::DestroyGameObject()

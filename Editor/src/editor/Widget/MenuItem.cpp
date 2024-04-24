@@ -9,7 +9,7 @@ namespace editor
 		, m_shortcut(shortcut)
 		, m_isSelectedable(isSelectedable)
 		, m_isSelected(isSelected)
-		, m_isEnable(enable),
+		, m_isEnable(enable)
 	{
 
 	}

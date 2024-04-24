@@ -3,6 +3,7 @@
 #include <rengine\core\ComponentManager.h>
 #include <rengine\core\Resources.h>
 #include <rengine\core\object\GameObject.h>
+#include <rengine\core\scene\scene.h>
 
 #include <rengine\System\Time.h>
 
@@ -24,7 +25,102 @@ namespace rengine
 
 	void ObjectFactory::Update()
 	{
-		for (auto& _pair : m_reserveDestroyObjectsQueue)
+		// 이번 프레임에 삭제되지 않은 오브젝트
+		vector<pair<float, shared_ptr<Object>>> _nextFrame;
+
+		// 현재 삭제 등록된 오브젝트를 순회하며 만약 이번프레임에 삭제가 되지 않을 경우 다음 프레임으로 넘긴다.
+		for(auto _iter = m_reserveDestroyObjectsQueue.begin(); _iter != m_reserveDestroyObjectsQueue.end();)
+		{
+			(*_iter).first -= static_cast<float>(Time::GetDeltaTime());
+
+			if ((*_iter).first < 0.001f)
+			{
+				// variant 에 shared_ptr이 물고 있어서 스코프를 하나 더 늘렸다.
+				{
+					rttr::variant _var = (*_iter).second;
+
+					rttr::instance obj = _var;
+					rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
+
+					if (_derived_type.is_derived_from(rttr::type::get_by_name("GameObject")))
+					{
+						auto _gameObject = static_pointer_cast<GameObject>((*_iter).second);
+
+						if (_gameObject->GetScene() != nullptr)
+						{
+							_gameObject->GetScene()->RemoveGameObject(_gameObject);
+						}
+					}
+					else if (_derived_type.is_derived_from(rttr::type::get_by_name("Component")))
+					{
+						auto _comp = static_pointer_cast<Component>((*_iter).second);
+
+						ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+					}
+					else if (_derived_type.is_derived_from(rttr::type::get_by_name("Resource")))
+					{
+						auto _resource = static_pointer_cast<Resource>((*_iter).second);
+
+						Resources::GetInstance()->DeleteResource(_resource);
+					}
+				}
+
+				(*_iter).second->PreDestroy();
+
+				m_objectsMap[(*_iter).second->GetType()].erase((*_iter).second->GetUUID());
+
+				_iter = m_reserveDestroyObjectsQueue.erase(_iter);
+			}
+			else
+			{
+				_nextFrame.emplace_back((*_iter));
+			}
+		}
+
+		// 이번 프레임에 삭제가 안되었을 경우 다음프레임으로 넘김
+		m_reserveDestroyObjectsQueue = _nextFrame;
+
+		/*for (auto _iter = m_reserveDestroyObjectsQueue.begin();
+			_iter != m_reserveDestroyObjectsQueue.end();)
+		{
+			(*_iter).first -= static_cast<float>(Time::GetDeltaTime());
+
+			if ((*_iter).first < 0.001f)
+			{
+				rttr::variant _var = (*_iter).second;
+
+				rttr::instance obj = _var;
+				rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
+
+				if (_derived_type.is_derived_from(rttr::type::get_by_name("GameObject")))
+				{
+					auto _gameObject = static_pointer_cast<GameObject>((*_iter).second);
+
+					if (_gameObject->GetScene() != nullptr)
+					{
+						_gameObject->GetScene()->RemoveGameObject(_gameObject);
+					}
+				}
+				else if (_derived_type.is_derived_from(rttr::type::get_by_name("Component")))
+				{
+					auto _comp = static_pointer_cast<Component>((*_iter).second);
+
+					ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+				}
+				else if (_derived_type.is_derived_from(rttr::type::get_by_name("Resource")))
+				{
+					auto _resource = static_pointer_cast<Resource>((*_iter).second);
+
+					Resources::GetInstance()->DeleteResource(_resource);
+				}
+
+				m_objectsMap[(*_iter).second->GetType()].erase((*_iter).second->GetUUID());
+
+				_iter = m_reserveDestroyObjectsQueue.erase(_iter);
+			}
+		}*/
+
+		/*for (auto& _pair : m_reserveDestroyObjectsQueue)
 		{
 			if(_pair.first == TEXT("GameObject"))	continue;
 			
@@ -58,26 +154,26 @@ namespace rengine
 				}
 				else _iter++;
 			}
-		}
+		}*/
 
-		// 게임 오브젝트는 가장 나중에 파괴가 되어야한다. 그래야 OnDestroy에서 GameObject를 사용 할 수가 있다.
-		// 구조 개선이 필요해보임 일단은 이대로 진행
-		ComponentManager::GetInstance()->DestoryComponent();
+		//// 게임 오브젝트는 가장 나중에 파괴가 되어야한다. 그래야 OnDestroy에서 GameObject를 사용 할 수가 있다.
+		//// 구조 개선이 필요해보임 일단은 이대로 진행
+		//ComponentManager::GetInstance()->DestoryComponent();
 
-		auto _reserveDestoryGO = m_reserveDestroyObjectsQueue[TEXT("GameObject")];
+		//auto _reserveDestoryGO = m_reserveDestroyObjectsQueue[TEXT("GameObject")];
 
-		for (auto _iter = _reserveDestoryGO.begin(); _iter != _reserveDestoryGO.end(); )
-		{
-			_iter->first -= static_cast<float>(Time::GetDeltaTime());
+		//for (auto _iter = _reserveDestoryGO.begin(); _iter != _reserveDestoryGO.end(); )
+		//{
+		//	_iter->first -= static_cast<float>(Time::GetDeltaTime());
 
-			if (_iter->first < 0.001f)
-			{
-				m_objectsMap[_iter->second->GetType()].erase(_iter->second->GetUUID());
+		//	if (_iter->first < 0.001f)
+		//	{
+		//		m_objectsMap[_iter->second->GetType()].erase(_iter->second->GetUUID());
 
-				_iter = _reserveDestoryGO.erase(_iter);
-			}
-			else _iter++;
-		}
+		//		_iter = _reserveDestoryGO.erase(_iter);
+		//	}
+		//	else _iter++;
+		//}
 	}
 
 	shared_ptr<Object> ObjectFactory::CreateObject(string type, uuid _uuid)
@@ -111,47 +207,106 @@ namespace rengine
 		return _object;
 	}
 
-	void ObjectFactory::ReserveDestroyObject(shared_ptr<Object> deleteObject, float t)
+	void ObjectFactory::ReserveDestroyObject(const shared_ptr<Object>& deleteObject, float t)
 	{
-		auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
+		if(deleteObject == nullptr)
+			return;
 
-		if (_delMapIter != m_reserveDestroyObjectsQueue.end()
-			&& _delMapIter->second.end() != std::ranges::find_if(_delMapIter->second.begin()
-			, _delMapIter->second.end(), 
-			[deleteObject](auto _pair)
-				{
-					return _pair.second == deleteObject;
-				}))
+		auto _iter = std::ranges::find_if(std::begin(m_reserveDestroyObjectsQueue), std::end(m_reserveDestroyObjectsQueue)
+			, [&deleteObject](auto pair)
+			{
+				return deleteObject->GetUUID() == pair.second.get()->GetUUID();
+			});
+
+		// 현재 이미 등록 되어있음
+		if (_iter != std::end(m_reserveDestroyObjectsQueue))
 		{
-			// 이미 삭제 대기중임
+			// 더 적은 시간을 적용
+			// 새로 들어온 시간으로 교체를 해야하는지 아니면 더 적은 시간을 적용해야하는지 잘 모르겠음
+			_iter->first = _iter->first < t ? _iter->first : t;
+
 			return;
 		}
 
+#ifdef _DEBUG
+		// 오브젝트 팩토리에서 생성한적 없는 타입임
 		auto _mapIter = m_objectsMap.find(deleteObject->GetType());
 
 		assert(_mapIter != m_objectsMap.end());
 
+
+		// 오브젝트 팩토리에서 생성한적 없는 오브젝트임
 		auto _objIter = _mapIter->second.find(deleteObject->GetUUID());
 
 		assert(_objIter != _mapIter->second.end());
+#endif // _DEBUG
 
-		if (deleteObject->GetType() == TEXT("GameObject"))
-		{
-			reinterpret_cast<GameObject*>(deleteObject.get())->DestroyGameObject();
-		}
 
-		m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(t, deleteObject));
+		//if (deleteObject->GetType() == TEXT("GameObject"))
+		//{
+		//	reinterpret_cast<GameObject*>(deleteObject.get())->DestroyGameObject();
+		//}
 
-		/*auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
+		m_reserveDestroyObjectsQueue.emplace_back(make_pair(t, deleteObject.get()));
+	}
 
-		if (_delMapIter != m_reserveDestroyObjectsQueue.end())
-		{
-			m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(0, deleteObject));
-		}
-		else
-		{
-			m_reserveDestroyObjectsQueue[deleteObject->GetType()].push_back(make_pair(0, deleteObject));
-		}*/
+	void rengine::ObjectFactory::DestroyImmediate(const shared_ptr<Object>& deleteObject)
+	{
+		//auto _delMapIter = m_reserveDestroyObjectsQueue.find(deleteObject->GetType());
+
+		//// 이미 삭제 대기중이면 삭제 예약 목록에서 삭제
+		//if (_delMapIter != m_reserveDestroyObjectsQueue.end())
+		//{
+		//	auto _iter = std::ranges::find_if(_delMapIter->second.begin(), _delMapIter->second.end(),
+		//		[deleteObject](auto _pair)
+		//		{
+		//			return _pair.second == deleteObject;
+		//		});
+
+		//	if (_iter != _delMapIter->second.end())
+		//	{
+		//		_delMapIter->second.erase(_iter);
+		//	}
+		//}
+
+		//rttr::variant _var = deleteObject;
+
+		//rttr::instance obj = _var;
+		//rttr::type _derived_type = obj.get_wrapped_instance().get_derived_type();
+
+		//if (_derived_type.is_derived_from(rttr::type::get_by_name("Component")))
+		//{
+		//	auto _comp = static_pointer_cast<Component>(deleteObject);
+
+		//	ComponentManager::GetInstance()->ReserveDeleteComponent(_comp);
+		//}
+		//else if (_derived_type.is_derived_from(rttr::type::get_by_name("Resource")))
+		//{
+		//	auto _resource = static_pointer_cast<Resource>(deleteObject);
+
+		//	Resources::GetInstance()->DeleteResource(_resource);
+		//}
+
+		//m_objectsMap[deleteObject->GetType()].erase(deleteObject->GetUUID());
+
+		//// 게임 오브젝트는 가장 나중에 파괴가 되어야한다. 그래야 OnDestroy에서 GameObject를 사용 할 수가 있다.
+		//// 구조 개선이 필요해보임 일단은 이대로 진행
+		//ComponentManager::GetInstance()->DestoryComponent();
+
+		//auto _reserveDestoryGO = m_reserveDestroyObjectsQueue[TEXT("GameObject")];
+
+		//for (auto _iter = _reserveDestoryGO.begin(); _iter != _reserveDestoryGO.end(); )
+		//{
+		//	_iter->first -= static_cast<float>(Time::GetDeltaTime());
+
+		//	if (_iter->first < 0.001f)
+		//	{
+		//		m_objectsMap[_iter->second->GetType()].erase(_iter->second->GetUUID());
+
+		//		_iter = _reserveDestoryGO.erase(_iter);
+		//	}
+		//	else _iter++;
+		//}
 	}
 
 	shared_ptr<Object> ObjectFactory::Find(uuid uuid)

@@ -16,7 +16,7 @@ namespace rengine
 
 		});
 
-	void ComponentManager::ReserveAddComponent(std::shared_ptr<Component> component)
+	void ComponentManager::ReserveAddComponent(const std::shared_ptr<Component>& component)
 	{
 		auto _iter = std::ranges::find_if(m_componentsList.begin()
 			, m_componentsList.end()
@@ -40,7 +40,7 @@ namespace rengine
 		}
 	}
 
-	void ComponentManager::ReserveDeleteComponent(std::shared_ptr<Component> component)
+	void ComponentManager::ReserveDeleteComponent(const std::shared_ptr<Component>& component)
 	{
 		auto _iter = std::ranges::find_if(m_componentsList.begin()
 			, m_componentsList.end()
@@ -52,7 +52,12 @@ namespace rengine
 
 		assert(_iter != m_componentsList.end());
 
-		component->GetGameObject().lock()->RemoveComponent(component);
+		auto _gameObject = component->GetGameObject().lock();
+
+		if (_gameObject != nullptr)
+		{
+			_gameObject->RemoveComponent(component);
+		}
 
 		(*_iter).second.DeleteComponent(component);
 	}
@@ -62,16 +67,17 @@ namespace rengine
 		for (auto& _comps : m_componentsList)
 		{
 			_comps.second.StartComponents();
+
 			_comps.second.UpdateComponents();
 		}
 	}
 
 	void ComponentManager::DestoryComponent()
 	{
-		for (auto& _comps : m_componentsList)
+		/*for (auto& _comps : m_componentsList)
 		{
 			_comps.second.DestroyComponents();
-		}
+		}*/
 	}
 
 	void ComponentManager::RenderComponent()
@@ -85,5 +91,28 @@ namespace rengine
 	void ComponentManager::ClearComponentsList()
 	{
 		m_componentsList.clear();
+	}
+
+	void ComponentManager::DeleteComponent(const std::shared_ptr<Component>& component)
+	{
+		auto _iter = std::ranges::find_if(m_componentsList.begin()
+			, m_componentsList.end()
+			, [&component](auto& pair)
+			{
+				return pair.first == component->GetType();
+			}
+		);
+
+		assert(_iter != m_componentsList.end());
+
+		auto _gameObject = component->GetGameObject().lock();
+
+		// 만약 아직도 게임오브젝트에 컴포넌트가 등록이 되어있다면 삭제 시켜줌
+		if (_gameObject != nullptr)
+		{
+			_gameObject->RemoveComponent(component);
+		}
+
+		(*_iter).second.DeleteComponent(component);
 	}
 }

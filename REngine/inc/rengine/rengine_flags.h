@@ -14,6 +14,11 @@
 
 namespace rengine
 {
+    enum class PlayMode
+    {
+
+    };
+
     struct REngineDesc
     {
         WindowInfo _windowInfo;

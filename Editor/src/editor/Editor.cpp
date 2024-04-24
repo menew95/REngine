@@ -59,7 +59,7 @@ namespace editor
 
 		End();
 
-		return EnginePlugin::GetInstance()->GetEngine()->Update();;
+		return EnginePlugin::GetInstance()->GetEngine()->Update() && !m_editorExit;
 	}
 
 	bool Editor::Quit()

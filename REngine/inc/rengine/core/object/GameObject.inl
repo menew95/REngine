@@ -25,21 +25,6 @@ namespace rengine
 	}
 
 	template<typename T>
-	inline bool GameObject::RemoveComponent(shared_ptr<T> comp)
-	{
-		for (size_t i = 0; i < m_Components.size(); i++)
-		{
-			if (comp.get() == m_Components[i].lock().get())
-			{
-				m_Components.erase(m_Components.begin() + i);
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	template<typename T>
 	inline std::shared_ptr<T> GameObject::GetComponent()
 	{
 		for (auto& component : m_Components)

@@ -67,6 +67,8 @@ namespace editor
         void* m_pDevice;
         void* m_pContext;
 
+        bool m_editorExit = false;
+
         Document* m_pEditorDocment;
 
         EditorDesc m_desc;

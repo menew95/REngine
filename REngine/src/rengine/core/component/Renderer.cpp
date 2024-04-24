@@ -174,4 +174,20 @@ namespace rengine
 	{
 		m_pRenderObject->SetEnable(false);
 	}
+
+	void Renderer::OnDestroy()
+	{
+		// 각 머티리얼에 할당된 렌더패스에서 등록된 오브젝트 삭제
+		for (auto& _mat : m_materials)
+		{
+			auto _material = _mat.lock();
+
+			if (_material == nullptr)
+				continue;
+
+			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+		}
+
+		graphics::RenderQueue::GetInstance()->DeleteObject(m_pRenderObject);
+	}
 }

@@ -180,6 +180,12 @@
     <ClInclude Include="inc\editor\Widget\Popup.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\editor\GUI\ToolBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\editor\Widget\ImageButton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\editor\Editor.cpp">
@@ -321,6 +327,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\editor\Widget\Popup.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\GUI\ToolBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\editor\Widget\ImageButton.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

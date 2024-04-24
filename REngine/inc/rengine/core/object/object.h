@@ -43,8 +43,18 @@ namespace rengine
 		
 		static void Destroy(shared_ptr<Object> obj, float t = 0.f);
 
+
+	protected:
+		/**
+		    @brief 오브젝트가 파괴 되기전에 해야할 작업을 하는 함수
+		**/
+		virtual void PreDestroy() {};
+
 	private:
 		class Impl* m_pImpl;
+
+
+		friend class ObjectFactory;
 
 		RTTR_ENABLE()
 

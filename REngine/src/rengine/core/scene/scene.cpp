@@ -69,7 +69,11 @@ namespace rengine
 		);
 
 		if (_iter != m_gameObjects.end())
+		{
 			m_gameObjects.erase(_iter);
+			
+			RemoveRootGameObject(go);
+		}
 	}
 
 	void Scene::AddRootGameObject(std::shared_ptr<GameObject> go)

@@ -23,12 +23,19 @@ namespace rengine
         DECLARE_SINGLETON_CLASS(ComponentManager);
 
     public:
-        void RegistComponent(uint32 order, const tstring& componentName, bool render = false);
+        //void RegistComponent(uint32 order, const tstring& componentName, bool render = false);
 
-        void ReserveAddComponent(std::shared_ptr<Component> component);
+        /**
+            @brief 컴포넌트 add 대기열에 등록
+            @param component - 등록할 컴포넌트
+        **/
+        void ReserveAddComponent(const std::shared_ptr<Component>& component);
 
-        void ReserveDeleteComponent(std::shared_ptr<Component> component);
+        void ReserveDeleteComponent(const std::shared_ptr<Component>& component);
 
+        /**
+            @brief components들을 update 
+        **/
         void UpdateComponent();
 
         void DestoryComponent();
@@ -38,8 +45,16 @@ namespace rengine
         void ClearComponentsList();
 
     private:
+        /**
+            @brief 오브젝트 팩토리에서 컴포넌트가 삭제 될경우 컴포넌트 목록으로부터 삭제함
+            @param component - 삭제된 컴포넌트
+        **/
+        void DeleteComponent(const std::shared_ptr<Component>& component);
+
         vector<pair<tstring, Components>> m_componentsList;
 
         vector<pair<tstring, Components>> m_renderComponentsList;
+
+        friend class ObjectFactory;
     };
 }

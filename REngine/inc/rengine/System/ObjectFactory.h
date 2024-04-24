@@ -84,7 +84,13 @@ namespace rengine
             @brief 오브젝트를 삭제 예약을 걸어둔다. 오브젝트 맵에 있는 오브젝트를 찾고, 삭제 대기 큐에 푸쉬, 만약 이미 삭제 예약 대기중이면 무시
             @param deleteObject - 삭제할 오브젝트
         **/
-        RENGINE_API void ReserveDestroyObject(shared_ptr<Object> deleteObject, float t = 0.f);
+        RENGINE_API void ReserveDestroyObject(const shared_ptr<Object>& deleteObject, float t = 0.f);
+
+        /**
+            @brief 오브젝트를 즉시 삭제한다.
+            @param deleteObject - 삭제할 오브젝트
+        **/
+        RENGINE_API void DestroyImmediate(const shared_ptr<Object>& deleteObject);
 
         RENGINE_API shared_ptr<Object> Find(uuid uuid);
 
@@ -113,8 +119,7 @@ namespace rengine
 
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
 
-        map<tstring, vector<pair<float, shared_ptr<Object>>>> m_reserveDestroyObjectsQueue;
-
-
+        vector<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
+        //list<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
     };
 }

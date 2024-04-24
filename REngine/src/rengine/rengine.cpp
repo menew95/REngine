@@ -75,6 +75,7 @@ namespace rengine
 
 		_timer.Lap();
 		{
+			
 			ComponentManager::GetInstance()->UpdateComponent();
 
 			ComponentManager::GetInstance()->RenderComponent();

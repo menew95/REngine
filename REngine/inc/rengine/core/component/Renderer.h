@@ -47,6 +47,8 @@ namespace rengine
 
         void OnDisable() override;
 
+        void OnDestroy() override;
+
     protected:
         weak_ptr<Mesh> m_mesh;
         

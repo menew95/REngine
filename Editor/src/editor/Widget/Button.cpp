@@ -17,9 +17,19 @@ namespace editor
 
 	void Button::Render()
 	{
+		if (m_isDisabled)
+		{
+			ImGui::BeginDisabled();
+		}
+
 		if (ImGui::ButtonEx((m_lable + m_idString).c_str(), m_rectSize, GetFlags()))
 		{
+			m_clickEvent();
+		}
 
+		if (m_isDisabled)
+		{
+			ImGui::EndDisabled();
 		}
 	}
 }

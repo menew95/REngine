@@ -214,6 +214,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\editor\GUI\GUI.h" />
     <ClInclude Include="inc\editor\GUI\HierarchyView.h" />
     <ClInclude Include="inc\editor\GUI\MainMenuBar.h" />
+    <ClInclude Include="inc\editor\GUI\ToolBar.h" />
+    <ClInclude Include="inc\editor\Widget\ImageButton.h" />
     <ClInclude Include="inc\editor\Widget\Popup.h" />
     <ClInclude Include="inc\editor\GUI\SearchView.h" />
     <ClInclude Include="inc\editor\GUI\ProjectView.h" />
@@ -262,6 +264,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="src\Editor_pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\editor\GUI\ToolBar.cpp" />
+    <ClCompile Include="src\editor\Widget\ImageButton.cpp" />
     <ClCompile Include="src\editor\Widget\Popup.cpp" />
     <ClCompile Include="inc\ImGui\ImGuizmo.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

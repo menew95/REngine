@@ -30,7 +30,15 @@ namespace editor
 
         virtual EDITOR_API void Render() override;
 
-    private:
+        void SetClickEvent(function<void()> event) { m_clickEvent = event; }
+
+        void SetDisable(bool val) { m_isDisabled = val; }
+
+    protected:
+        bool m_isDisabled;
+
         ImVec2 m_rectSize;
+
+        function<void()> m_clickEvent;
     };
 }
