@@ -57,14 +57,20 @@ namespace rengine
 		
 		auto _newGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
 
-		_newGO->SetScene(rengine::SceneManager::GetInstance()->GetCurrentScene());
+		//_newGO->SetScene(rengine::SceneManager::GetInstance()->GetCurrentScene());
+		rengine::SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(_newGO);
+
+		_newGO->m_pScene = rengine::SceneManager::GetInstance()->GetCurrentScene();
 
 		auto _trans = _newGO->AddComponent<Transform>();
 
 		_newGO->SetTransform(_trans);
 
-		if(parent != nullptr) _trans->SetParent(parent);
-
+		if(parent != nullptr)
+		{
+			_trans->SetParent(parent);
+		}
+		
 		return _newGO;
 	}
 
@@ -75,6 +81,7 @@ namespace rengine
 
 	GameObject::~GameObject()
 	{
+		PreDestroy();
 	}
 
 	void GameObject::AddComponent(string type)
@@ -120,9 +127,6 @@ namespace rengine
 		}
 
 		m_pTransform.reset();
-
-		/*if(m_pScene.lock() != nullptr)
-			m_pScene.lock()->RemoveGameObject(shared_from_this());*/
 
 		m_pScene.reset();
 	}
@@ -188,7 +192,7 @@ namespace rengine
 		}
 	}
 
-	inline void GameObject::SetScene(const std::shared_ptr<Scene>& scene)
+	/*inline void GameObject::SetScene(const std::shared_ptr<Scene>& scene)
 	{
 		auto _scene = m_pScene.lock();
 
@@ -203,7 +207,7 @@ namespace rengine
 		}
 
 		m_pScene = scene;
-	}
+	}*/
 
 	void GameObject::SetComponents(std::vector<std::weak_ptr<Component>> comps)
 	{

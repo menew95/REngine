@@ -33,10 +33,14 @@ namespace rengine
 
 	Scene::~Scene()
 	{
-		for (auto& _go : m_rootGameObjects)
+		for (auto& _go : m_gameObjects)
 		{
-			_go.reset();
+			Destroy(_go);
 		}
+
+		m_gameObjects.clear();
+
+		m_rootGameObjects.clear();
 	}
 
 	std::shared_ptr<GameObject> Scene::FindGameObject(tstring& objectName)
@@ -56,7 +60,21 @@ namespace rengine
 
 	void Scene::AddGameObject(const std::shared_ptr<GameObject>& go)
 	{
-		m_gameObjects.push_back(go);
+		// 게임 오브젝트 리스트에 등록된 게임 오브젝트가 아니라면 추가
+		auto _iter = std::ranges::find_if(std::begin(m_gameObjects), std::end(m_gameObjects), 
+				[&](auto& obj)
+				{
+					return obj->GetUUID() == go->GetUUID();
+				}
+			);
+
+		if(_iter == std::end(m_gameObjects))
+			m_gameObjects.push_back(go);
+
+		/*if (go->GetTransform() != nullptr && go->GetTransform()->GetParent() == nullptr)
+		{
+			AddRootGameObject(go);
+		}*/
 	}
 
 	void Scene::RemoveGameObject(const std::shared_ptr<GameObject>& go)
@@ -68,17 +86,26 @@ namespace rengine
 			}
 		);
 
-		if (_iter != m_gameObjects.end())
-		{
-			m_gameObjects.erase(_iter);
+		// 오브젝트 팩토리에서 삭제할때 게임 오브젝트에 씬이 할당 되어있는데 찾지 못함
+		assert(_iter != m_gameObjects.end());
+
+		m_gameObjects.erase(_iter);
 			
-			RemoveRootGameObject(go);
-		}
+		RemoveRootGameObject(go);
 	}
 
 	void Scene::AddRootGameObject(std::shared_ptr<GameObject> go)
 	{
-		m_rootGameObjects.push_back(go);
+		// 루트 게임 오브젝트 리스트에 등록된 게임 오브젝트가 아니라면 추가
+		auto _iter = std::ranges::find_if(std::begin(m_rootGameObjects), std::end(m_rootGameObjects),
+			[&](auto& obj)
+			{
+				return obj->GetUUID() == go->GetUUID();
+			}
+		);
+
+		if (_iter == std::end(m_rootGameObjects))
+			m_rootGameObjects.push_back(go);
 	}
 
 	void Scene::RemoveRootGameObject(std::shared_ptr<GameObject> go)

@@ -98,16 +98,18 @@ namespace rengine
 
         _camGO->AddComponent<Camera>();
 
-        _camGO->SetScene(_newScene);
+        _newScene->AddRootGameObject(_camGO);
+        //_camGO->SetScene(_newScene);
 
         auto _lightGO = GameObject::Instantiate();
 
         _lightGO->SetName(L"Directional Light");
 
-        _lightGO->SetScene(_newScene);
-
-        _newScene->AddRootGameObject(_camGO);
         _newScene->AddRootGameObject(_lightGO);
+        //_lightGO->SetScene(_newScene);
+
+        //_newScene->AddRootGameObject(_camGO);
+        //_newScene->AddRootGameObject(_lightGO);
 
         return _newScene;
     }

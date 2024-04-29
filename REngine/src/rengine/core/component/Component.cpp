@@ -63,7 +63,7 @@ namespace rengine
 
 	Component::~Component()
 	{
-		
+		PreDestroy();
 	}
 
 	std::shared_ptr<Transform> Component::GetTransform()

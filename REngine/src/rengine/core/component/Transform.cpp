@@ -105,15 +105,39 @@ namespace rengine
 
 	void Transform::OnDestroy()
 	{
+		for (auto& child : m_childs)
+		{
+			auto _childTrans = child.lock();
+			
+			// 자식 포인터가 연결이 끊겼다면 이상한거임
+			assert(_childTrans != nullptr);
+
+			auto _gameObject = _childTrans->GetGameObject().lock();
+
+			// 게임 오브젝트 연결이 끊겼다면 이상한거임
+			assert(_gameObject != nullptr);
+
+			// 자식 게임오브젝트 또한 삭제함
+			Destroy(_gameObject);
+		}
+
+		// 모두 삭제 등록을 하고 자식들의 부모를 해제
 		DetachChildren();
 
-		if (m_parent.lock() == nullptr)
+		// 트랜스폼은 사용자가 삭제가 불가능해야하기 때문에 게임 오브젝트가 삭제가 되면 트랜스폼도 삭제됨
+		// 게임 오브젝트 삭제할 당시에 씬에 등록되어 있을 경우 삭제하도록 되어 있기에 이곳에서는 불필요함
+		/*if (m_parent.lock() == nullptr)
 		{
 			auto _go = GetGameObject().lock();
 
+			if(_go == nullptr)
+				return;
+
 			_go->GetScene()->RemoveRootGameObject(_go);
-		}
-		else
+		}*/
+
+		// 부모가 있을 경우 부모의 자식 리스트에서 삭제함
+		if(m_parent.lock() != nullptr)
 		{
 			m_parent.lock()->DetachChild(shared_from_this());
 		}
@@ -130,7 +154,7 @@ namespace rengine
 		{
 			_parent->DetachChild(shared_from_this());
 		}
-		else
+		else if (GetGameObject().lock()->GetScene() != nullptr)
 		{
 			GetGameObject().lock()->GetScene()->RemoveRootGameObject(GetGameObject().lock());
 		}
@@ -143,11 +167,12 @@ namespace rengine
 
 			m_local = m_world * parent->GetWorld().Invert();
 		}
-		else
+		else 
 		{
 			m_local = m_world;
 
-			GetGameObject().lock()->GetScene()->AddRootGameObject(GetGameObject().lock());
+			if (GetGameObject().lock()->GetScene() != nullptr)
+				GetGameObject().lock()->GetScene()->AddRootGameObject(GetGameObject().lock());
 		}
 	}
 

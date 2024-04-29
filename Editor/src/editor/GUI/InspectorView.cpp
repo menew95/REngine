@@ -7,6 +7,7 @@
 #include <editor\GUI\SearchView.h>
 
 #include <editor\Widget\WidgetManager.h>
+#include <editor\Widget\Container.h>
 
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\component\Component.h>
@@ -27,7 +28,7 @@ namespace editor
     InspectorView::InspectorView()
     : View("Inspector View")
     {
-
+		CreateInspectorWidget();
     }
 
     InspectorView::~InspectorView()
@@ -42,6 +43,8 @@ namespace editor
     void InspectorView::Render()
     {
         __super::Render();
+
+		m_gamObjectWidget->SetEnable(false);
 
         if (EventManager::GetInstance()->GetFocusObject() == nullptr)
 			return;
@@ -77,6 +80,31 @@ namespace editor
         __super::End();
 
     }
+
+	void InspectorView::CreateInspectorWidget()
+	{
+#pragma region GameObject Info Widget
+		m_gamObjectWidget = AddWidget<Container>();
+
+		auto* _columns = m_gamObjectWidget->AddWidget<Columns<2>>("GameObject Info");
+
+		_columns->AddWidget<TextColored>("Active Self", math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+		_columns->AddWidget<CheckBox>("##Active Self");
+
+		_columns->AddWidget<TextColored>("Static", math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+		_columns->AddWidget<CheckBox>("##Static");
+
+		_columns->AddWidget<TextColored>("Name", math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+		_columns->AddWidget<InputText>("##Name", "GameObject");
+
+		/*_columns->AddWidget<TextColored>("Tag", math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+		_columns->AddWidget<ComboBox>("##Tag", );
+
+		_columns->AddWidget<TextColored>("Layer", math::Color{ 0.35f, 0.85f, 0.65f, 1.f });
+		_columns->AddWidget<ComboBox>("##Layer", );*/
+#pragma endregion
+
+	}
 
 	void GetProperty(WidgetContainer& root, WidgetContainer& container, rengine::MetaDataType type, rttr::property& prop, rttr::instance obj, rttr::variant val);
 
@@ -531,52 +559,61 @@ namespace editor
 
 	void InspectorView::DrawGameObject(rengine::GameObject* go)
 	{
+		m_gamObjectWidget->SetEnable(true);
+
 		const rttr::type gameobject_type = rttr::type::get_by_name("GameObject");
 
 		rttr::instance _instance = go;
 
-		ImGui::Columns(4, "Test", false);
+		auto* _columns = reinterpret_cast<Columns<2>*>(m_gamObjectWidget->GetChild("GameObject Info"));
 
 		{
-			TextColored _textColored{ "Active Self", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
-
-			_textColored.Render();
-			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Active Self");
 
-			CheckBox _widget{ "##Active Self" };
+			auto _widget = reinterpret_cast<CheckBox*>(_columns->GetChild("##Active Self"));
 
-			_widget.Render();
+			_widget->RegisterGetter(
+				std::bind(&rengine::GameObject::GetActiveSelf, go)
+			);
+
+			_widget->RegisterSetter(
+				[_prop, _instance](auto& val)
+				{
+					_prop.set_value(_instance, val);
+				}
+			);
 		}
 
-		ImGui::NextColumn();
-
 		{
-			TextColored _textColored{ "Static", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
-
-			_textColored.Render();
-			ImGui::NextColumn();
 			rttr::property _prop = gameobject_type.get_property("Static");
 
-			CheckBox _widget{ "##Static" };
+			auto _widget = reinterpret_cast<CheckBox*>(_columns->GetChild("##Static"));
 
-			_widget.Render();
+			_widget->RegisterGetter(
+				std::bind(&rengine::GameObject::GetIsStatic, go)
+			);
+			_widget->RegisterSetter(
+				[_prop, _instance](auto& val)
+				{
+					_prop.set_value(_instance, val);
+				}
+			);
 		}
-
-		ImGui::Columns(2);
 		
 		{
-			TextColored _textColored{ "Name", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
-
-			_textColored.Render();
-
-			ImGui::NextColumn();
-
 			rttr::property _prop = gameobject_type.get_property("m_objectName");
 
-			InputText _widget{"##Name", "GameObject"};
+			auto _widget = reinterpret_cast<InputText*>(_columns->GetChild("##Name"));
 
-			_widget.Render();
+			_widget->RegisterGetter(
+				std::bind(&rengine::GameObject::GetName, go)
+			);
+			_widget->RegisterSetter(
+				[_prop, _instance](auto& val)
+				{
+					_prop.set_value(_instance, val);
+				}
+			);
 		}
 
 		ImGui::Columns(1);
@@ -584,12 +621,6 @@ namespace editor
 		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
 
 		{
-			/*TextColored _textColored{ "Tag", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
-
-			_textColored.Render();
-
-			ImGui::SameLine();*/
-
 			rttr::property _prop = gameobject_type.get_property("Tag");
 
 			if (ImGui::BeginCombo("Tag", "Tag Test", ImGuiComboFlags_PopupAlignLeft))
@@ -604,12 +635,6 @@ namespace editor
 		ImGui::SetNextItemWidth(ImGui::GetWindowSize().x / 2);
 
 		{
-			/*TextColored _textColored{ "Layer", math::Color{ 0.35f, 0.85f, 0.65f, 1.f } };
-
-			_textColored.Render();
-
-			ImGui::SameLine();*/
-
 			rttr::property _prop = gameobject_type.get_property("Layer");
 
 			if (ImGui::BeginCombo("Layer", "Layer Test", ImGuiComboFlags_PopupAlignLeft))

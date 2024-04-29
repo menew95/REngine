@@ -20,7 +20,8 @@ namespace editor
 	{
 		for (auto* _childs : m_childs)
 		{
-			_childs->Render();
+			if(_childs->GetEnable())
+				_childs->Render();
 		}
 	}
 

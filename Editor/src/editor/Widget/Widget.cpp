@@ -14,4 +14,13 @@ namespace editor
 	{
 
 	}
+
+	void Widget::Draw()
+	{
+		if (m_isEnable)
+		{
+			Render();
+		}
+
+	}
 }

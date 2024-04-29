@@ -119,7 +119,9 @@ namespace rengine
 
         map<tstring, map<uuid, shared_ptr<Object>>> m_objectsMap;
 
-        vector<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
+        //vector<pair<float, Object*>> m_reserveDestroyObjectsQueue;
+        //vector<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
         //list<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
+        list<pair<float, Object*>> m_reserveDestroyObjectsQueue;
     };
 }

@@ -83,10 +83,13 @@ namespace utility
 
 				auto _go = _trans_comp->GetGameObject().lock();
 
-				_go->SetScene(_scene);
-
+				// 딱히 루트게임 오브젝트 임을 알릴 필요가 있는가? 트랜스폼에서 부모를 등록할때 삭제가 될듯 싶은데 ...
 				if(_node.second.get_child("m_parent").data() == "")
 					_scene->AddRootGameObject(_go);
+				else
+				{
+					_scene->AddGameObject(_go);
+				}
 			}
 
 			ObjectSerializer::DeSerialize(_node, _list[_idx++]);

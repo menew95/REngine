@@ -15,3 +15,5 @@
 const tstring g_assetPath = TEXT("..\\..\\..\\..\\Assets\\");
 
 const tstring g_editorPath = TEXT("..\\..\\..\\..\\");
+
+const tstring g_editorLibraryPath = TEXT("..\\..\\..\\..\\Library");

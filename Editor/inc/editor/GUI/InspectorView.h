@@ -37,14 +37,19 @@ namespace editor
 
 	private:
 		/**
-		  @brief gameobject의 정보들을 위젯으로 그림
-		  @param go - gameobject pointer
+			@brief 인스펙터에서 사용하는 위젯을 생성
+		**/
+		void CreateInspectorWidget();
+
+		/**
+			@brief gameobject의 정보들을 위젯으로 그림
+			@param go - gameobject pointer
 		**/
 		void DrawGameObject(rengine::GameObject* go);
 
 		/**
-		  @brief component의 직렬화가 되는 정보들을 노출
-		  @param comp - component pointer
+			@brief component의 직렬화가 되는 정보들을 노출
+			@param comp - component pointer
 		**/
 		void DrawComponent(rengine::Component* comp);
 
@@ -59,6 +64,8 @@ namespace editor
 		void DrawMaterialProperty();
 
 		tstring m_propName;
+
+		class Container* m_gamObjectWidget;
 	};
 
 }

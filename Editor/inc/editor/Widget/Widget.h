@@ -24,14 +24,27 @@ namespace editor
         Widget(const string& lable = "", uint32 flags = 0);
 
         virtual ~Widget();
+        
+        /**
+            @brief 위젯이 활성화 되어 있으면 렌더함(ImGui에 렌더 데이터를 추가)
+        **/
+        virtual void Draw();
 
+        /**
+            @brief 렌더(ImGui에 렌더 데이터를 추가)
+        **/
         virtual EDITOR_API void Render() abstract;
 
         EDITOR_API const string& GetLable() { return m_lable; }
 
         EDITOR_API uint32 GetFlags() { return m_flags; }
 
+        auto GetEnable() const { return m_isEnable; }
+        void SetEnable(auto val) { m_isEnable = val; }
+
     protected:
+        bool m_isEnable = true;
+
         string m_lable;
 
         uint32 m_flags = 0;
