@@ -53,6 +53,13 @@ namespace rengine
         RENGINE_API void LoadScene(size_t idx);
 
         /**
+            @brief  해당 경로의 씬을 로드함
+            @param  name - Scene 파일의 경로
+            @retval      - 로드된 씬
+        **/
+        RENGINE_API const std::shared_ptr<Scene>& LoadScene(const tstring& path);
+
+        /**
             @brief  새로운 Scene 파일을 생성함
             @param  name - Scene 파일의 이름
             @retval      - 생성된 Scene

@@ -2,6 +2,8 @@
 
 #include <editor\Core\EventManager.h>
 
+#include <editor\Core\EnginePlugin.h>
+
 #include <editor\GUI\Document.h>
 
 #include <editor\Editor.h>
@@ -11,13 +13,14 @@
 #include <rengine\core\resources.h>
 
 #include <rengine\core\scene\scene.h>
+
 #include <rengine\core\sceneManager.h>
 
 namespace editor
 {
 	DEFINE_SINGLETON_CLASS(EventManager,
 		{
-
+			SetEditorMode(EditorMode::Edit);
 		}, 
 		{
 
@@ -39,7 +42,12 @@ namespace editor
 
 	void EventManager::SetEditorMode(EditorMode editorMode)
 	{
+		m_editorMode = editorMode;
 
+		if(m_editorMode == EditorMode::Edit)
+			EnginePlugin::GetInstance()->SetEngineUpdate(false);
+		else
+			EnginePlugin::GetInstance()->SetEngineUpdate(true);
 	}
 
 	View* EventManager::GetView(const string& viewName)
@@ -52,15 +60,11 @@ namespace editor
 		// 에디트 모드에서 실행할 때
 		if (m_editorMode == EditorMode::Edit)
 		{
-			// Play Event ..?
-
-			// TODO : 저장할 것입니다. 그래도 실행하시겠습니까 ..?
-
 			int button = MessageBox
 			(
 				nullptr,
-				TEXT("Play Mode"),
 				TEXT("Is it okay to save \n and enter play mode? "),
+				TEXT("Play Mode"),
 				MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2
 			);
 
@@ -74,11 +78,8 @@ namespace editor
 			}
 
 			SaveScene();
-		}
-		// 아닌 경우
-		else
-		{
-			// 그대로 스타트 하는건가 ?
+
+			SetEditorMode(EditorMode::Play);
 		}
 	}
 
@@ -89,19 +90,16 @@ namespace editor
 
 	void EventManager::StopGame()
 	{
+		if(m_curFocusObject->GetType() == TEXT("GameObject"))
+			m_curFocusObject = nullptr;
+
 		if (m_editorMode != EditorMode::Edit)
 		{
 			rengine::Scene* _currentScene = rengine::SceneManager::GetInstance()->GetCurrentScene().get();
 
-			const tstring& _currentSceneName = _currentScene->GetName();
+			const tstring& _currentScenePath = _currentScene->GetPath();
 
-			
-			//ameObjectUnselectedEvent.Invoke();
-
-			// 현재 씬 파일을 자동으로 로드해서 가져옵니다. 여기서 Scene Changed Event On..
-
-
-			//rengine::SceneManager::GetInstance()->LoadSceneFileFrom(currentScene->GetPath());
+			rengine::SceneManager::GetInstance()->LoadScene(_currentScenePath);
 		}
 
 		SetEditorMode(EditorMode::Edit);

@@ -33,12 +33,16 @@ namespace rengine
 
 	Scene::~Scene()
 	{
-		for (auto& _go : m_gameObjects)
-		{
-			Destroy(_go);
-		}
-
+		// 게임 오브젝트에 등록된 스마트 포인터부터 먼저 삭제
 		m_gameObjects.clear();
+
+		// 씬에 등록된 게임 루트 오브젝트들을 삭제
+		for (auto& _go : m_rootGameObjects)
+		{
+			DestroyImmediate(_go);
+
+			_go.reset();
+		}
 
 		m_rootGameObjects.clear();
 	}

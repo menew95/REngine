@@ -9,12 +9,14 @@
 
 #include <editor\Core\Event.h>
 
+#include <common\AssetPath.h>
+
 namespace editor
 {
 	ToolBar::ToolBar()
 		: View("Tool Bar")
 	{
-
+		CreateToolBarWidget();
 	}
 
 	ToolBar::~ToolBar()
@@ -24,10 +26,14 @@ namespace editor
 
 	void ToolBar::CreateToolBarWidget()
 	{
-		m_playTexture = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(TEXT("")).get();
-		m_stopTexture = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(TEXT("")).get();
-		m_pauseTexture = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(TEXT("")).get();
-		m_stepTexture = rengine::Resources::GetInstance()->GetResource<rengine::Texture>(TEXT("")).get();
+		m_playTexture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(
+			TEXT("editor_toolbar_play_button"), g_editorLibraryPath + TEXT("bin\\editor\\play.png")).get();
+		m_stopTexture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(
+			TEXT("editor_toolbar_stop_button"), g_editorLibraryPath + TEXT("bin\\editor\\stop.png")).get();
+		m_pauseTexture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(
+			TEXT("editor_toolbar_pause_button"), g_editorLibraryPath + TEXT("bin\\editor\\pause.png")).get();
+		m_stepTexture = rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(
+			TEXT("editor_toolbar_step_button"), g_editorLibraryPath + TEXT("bin\\editor\\step.png")).get();
 
 		m_playStopButton = AddWidget<ImageButton>(
 			m_playTexture->GetTextureID(),
@@ -36,9 +42,20 @@ namespace editor
 		);
 
 		m_playStopButton->SetClickEvent(
-			[]()
+			[this]()
 			{
-				EventManager::GetInstance()->StartGame();
+				if (EventManager::GetInstance()->GetEditorMode() == EditorMode::Edit)
+				{
+					m_playStopButton->SetTextureID(m_stopTexture->GetTextureID());
+
+					EventManager::GetInstance()->StartGame();
+				}
+				else
+				{
+					m_playStopButton->SetTextureID(m_playTexture->GetTextureID());
+
+					EventManager::GetInstance()->StopGame();
+				}
 			}
 		);
 

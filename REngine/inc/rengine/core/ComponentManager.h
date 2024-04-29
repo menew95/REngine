@@ -16,6 +16,8 @@
 
 #include <rengine\core\Components.h>
 
+#include <rengine\core\RenderComponents.h>
+
 namespace rengine
 {
     class ComponentManager
@@ -53,7 +55,7 @@ namespace rengine
 
         vector<pair<tstring, Components>> m_componentsList;
 
-        vector<pair<tstring, Components>> m_renderComponentsList;
+        vector<pair<tstring, RenderComponents>> m_renderComponentsList;
 
         friend class ObjectFactory;
     };

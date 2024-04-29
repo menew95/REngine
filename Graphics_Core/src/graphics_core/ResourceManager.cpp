@@ -29,6 +29,8 @@ bool RemoveFromUnorderedMap(std::unordered_map<uuid, T*>& cont, uuid uuid)
 	if (it == std::end(cont))
 		return false;
 
+	delete it->second;
+
 	cont.erase(it);
 	return true;
 }

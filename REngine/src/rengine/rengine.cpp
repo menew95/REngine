@@ -59,7 +59,7 @@ namespace rengine
 	{
 		Resources::Release();
 
-		//ObjectFactory::Release();
+		ObjectFactory::Release();
 
 		GraphicsSystem::Release();
 
@@ -75,8 +75,8 @@ namespace rengine
 
 		_timer.Lap();
 		{
-			
-			ComponentManager::GetInstance()->UpdateComponent();
+			if(m_isEngineUpdate)
+				ComponentManager::GetInstance()->UpdateComponent();
 
 			ComponentManager::GetInstance()->RenderComponent();
 		}

@@ -152,11 +152,21 @@ namespace rengine
 		else m_pRenderObject->SetMeshBuffer(m_mesh.lock()->GetMeshBuffer());
 	}
 
-	void Renderer::Update()
+	/*void Renderer::Update()
 	{
 		auto _trans = m_pGameObject.lock()->GetTransform();
 
 		if(_trans == nullptr)
+			return;
+
+		m_pRenderObject->SetWorld(_trans->GetWorld());
+	}*/
+
+	void Renderer::Render()
+	{
+		auto _trans = m_pGameObject.lock()->GetTransform();
+
+		if (_trans == nullptr)
 			return;
 
 		m_pRenderObject->SetWorld(_trans->GetWorld());

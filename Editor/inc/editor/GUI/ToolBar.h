@@ -30,13 +30,13 @@ namespace editor
     private:
         void CreateToolBarWidget();
 
-        ImageButton* m_playStopButton;
-        ImageButton* m_pauseButton;
-        ImageButton* m_stepButton;
+        ImageButton* m_playStopButton = nullptr;
+        ImageButton* m_pauseButton = nullptr;
+        ImageButton* m_stepButton = nullptr;
 
-        rengine::Texture* m_playTexture;
-        rengine::Texture* m_stopTexture;
-        rengine::Texture* m_pauseTexture;
-        rengine::Texture* m_stepTexture;
+        rengine::Texture* m_playTexture = nullptr;
+        rengine::Texture* m_stopTexture = nullptr;
+        rengine::Texture* m_pauseTexture = nullptr;
+        rengine::Texture* m_stepTexture = nullptr;
     };
 }

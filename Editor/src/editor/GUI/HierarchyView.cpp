@@ -72,8 +72,6 @@ namespace editor
 			{
 				auto _newGO = rengine::GameObject::Instantiate(nullptr);
 
-				_newGO->GetScene()->AddRootGameObject(_newGO->GetShared());
-
 				_newGO->SetName(L"Game Object");
 
 				ImGui::CloseCurrentPopup();

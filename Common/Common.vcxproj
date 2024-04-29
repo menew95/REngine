@@ -163,6 +163,7 @@
     <ClInclude Include="inc\common\AssetPath.h" />
     <ClInclude Include="inc\common\common.h" />
     <ClInclude Include="inc\common\cpp.h" />
+    <ClInclude Include="inc\common\Event.h" />
     <ClInclude Include="inc\common\math.h" />
     <ClInclude Include="inc\common\Module.h" />
     <ClInclude Include="inc\common\prefix.h" />

@@ -17,6 +17,7 @@
 #include <editor\GUI\SearchView.h>
 #include <editor\GUI\GraphicsSetting.h>
 #include <editor\GUI\MainMenuBar.h>
+#include <editor\GUI\ToolBar.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -45,6 +46,7 @@ namespace editor
 		m_pEditorDocment->AddView<ProjectView>();
 		m_pEditorDocment->AddView<SearchView>();
 		m_pEditorDocment->AddView<GraphicsSetting>();
+		m_pEditorDocment->AddView<ToolBar>();
 
 		AssetManager::GetInstance()->Initialze();
 

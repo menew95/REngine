@@ -118,7 +118,7 @@ namespace rengine
 			assert(_gameObject != nullptr);
 
 			// 자식 게임오브젝트 또한 삭제함
-			Destroy(_gameObject);
+			DestroyImmediate(_gameObject);
 		}
 
 		// 모두 삭제 등록을 하고 자식들의 부모를 해제

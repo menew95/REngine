@@ -29,7 +29,11 @@ namespace rengine
 
         RENGINE_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
+        RENGINE_API bool GetEngineUpdate() { return m_isEngineUpdate; }
+        RENGINE_API void SetEngineUpdate(bool val) { m_isEngineUpdate = val; }
+
     private:
+        bool m_isEngineUpdate = true;
 
         REngineDesc m_desc;
 

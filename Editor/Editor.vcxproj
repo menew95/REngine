@@ -201,7 +201,6 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="inc\editor\Core\AssetManager.h" />
-    <ClInclude Include="inc\editor\Core\Event.h" />
     <ClInclude Include="inc\editor\Core\EventManager.h" />
     <ClInclude Include="inc\editor\Core\EnginePlugin.h" />
     <ClInclude Include="inc\editor\editor_api.h" />

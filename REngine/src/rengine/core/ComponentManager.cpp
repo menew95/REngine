@@ -18,6 +18,32 @@ namespace rengine
 
 	void ComponentManager::ReserveAddComponent(const std::shared_ptr<Component>& component)
 	{
+		// 렌더러 컴포넌트 일 경우 렌더러 목록에 추가
+		if (component->GetType() == TEXT("MeshRenderer") || component->GetType() == TEXT("SkinnedRenderer"))
+		{
+			// 렌더러 컴포넌트는 따로 분류
+			auto _iter = std::ranges::find_if(m_renderComponentsList.begin()
+				, m_renderComponentsList.end()
+				, [&component](auto& pair)
+				{
+					return pair.first == component->GetType();
+				}
+			);
+
+			if (_iter != m_renderComponentsList.end())
+			{
+				(*_iter).second.AddComponent((Renderer*)component.get());
+			}
+			else
+			{
+				auto _renderComponents = make_pair(component->GetType(), RenderComponents(component->GetType()));
+
+				_renderComponents.second.AddComponent((Renderer*)component.get());
+
+				m_renderComponentsList.push_back(_renderComponents);
+			}
+		}
+
 		auto _iter = std::ranges::find_if(m_componentsList.begin()
 			, m_componentsList.end()
 			, [&component](auto& pair)
@@ -82,9 +108,9 @@ namespace rengine
 
 	void ComponentManager::RenderComponent()
 	{
-		for (auto& _comps : m_renderComponentsList)
+		for (auto& _rendererComps : m_renderComponentsList)
 		{
-			_comps.second.UpdateComponents();
+			_rendererComps.second.RenderComponent();
 		}
 	}
 

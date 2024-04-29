@@ -36,4 +36,9 @@ namespace editor
 
 		m_pRengine->Initialize(&_desc);
 	}
+
+	void EnginePlugin::SetEngineUpdate(bool val)
+	{
+		((rengine::REngine*)m_pRengine)->SetEngineUpdate(val);
+	}
 }

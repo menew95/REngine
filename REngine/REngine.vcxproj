@@ -205,10 +205,12 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\component\Renderer.h" />
     <ClInclude Include="inc\rengine\core\component\TestComponent.h" />
     <ClInclude Include="inc\rengine\core\component\Transform.h" />
+    <ClInclude Include="inc\rengine\core\EventManager.h" />
     <ClInclude Include="inc\rengine\core\object\GameObject.h" />
     <ClInclude Include="inc\rengine\core\object\MetaFile.h" />
     <ClInclude Include="inc\rengine\core\object\MetaInfo.h" />
     <ClInclude Include="inc\rengine\core\object\object_impl.h" />
+    <ClInclude Include="inc\rengine\core\RenderComponents.h" />
     <ClInclude Include="inc\rengine\core\Resources.h" />
     <ClInclude Include="inc\rengine\core\resource\AnimationClip.h" />
     <ClInclude Include="inc\rengine\core\resource\Material.h" />
@@ -237,6 +239,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\component\MeshRenderer.cpp" />
     <ClCompile Include="src\rengine\core\component\Renderer.cpp" />
     <ClCompile Include="src\rengine\core\component\TestComponent.cpp" />
+    <ClCompile Include="src\rengine\core\EventManager.cpp" />
+    <ClCompile Include="src\rengine\core\RenderComponents.cpp" />
     <ClCompile Include="src\rengine\core\Resources.cpp" />
     <ClCompile Include="src\rengine\core\resource\AnimationClip.cpp" />
     <ClCompile Include="src\rengine\core\resource\Material.cpp" />

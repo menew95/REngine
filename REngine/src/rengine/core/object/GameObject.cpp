@@ -70,7 +70,11 @@ namespace rengine
 		{
 			_trans->SetParent(parent);
 		}
-		
+		else
+		{
+			rengine::SceneManager::GetInstance()->GetCurrentScene()->AddRootGameObject(_newGO);
+		}
+
 		return _newGO;
 	}
 
@@ -121,7 +125,7 @@ namespace rengine
 		// 등록된 컴포넌트들을 삭제
 		for (auto& _comp : m_Components)
 		{
-			Destroy(_comp.lock());
+			DestroyImmediate(_comp.lock());
 
 			_comp.reset();
 		}

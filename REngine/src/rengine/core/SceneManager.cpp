@@ -87,6 +87,38 @@ namespace rengine
         UpdateGraphicsSetting();
     }
 
+    const std::shared_ptr<Scene>& SceneManager::LoadScene(const tstring& path)
+    {
+        auto _iter = std::ranges::find_if(std::begin(m_scenes), std::end(m_scenes),
+            [&path](auto& scene)
+            {
+                return scene->GetPath() == path;
+            });
+
+        // 해당 경로의 씬 파일은 이미 로드한 상태임
+        if (_iter != std::end(m_scenes))
+        {
+            // 해당 경로 씬 파일이 지금 씬이라면 레퍼런스 카운트를 위해 리셋
+            if (m_pCurrentScene->GetPath() == path)
+                m_pCurrentScene.reset();
+
+            // 해당 씬을 바로 파괴함
+            Object::DestroyImmediate(*_iter);
+
+            // 씬을 초기화
+            _iter->reset();
+        }
+
+        auto _scene = utility::Serializer::DeSerialize(g_assetPath + TEXT("Main Scene.scene"));
+
+        // 원래 있던 인덱스 자리에 새롭게 할당
+        (*_iter) = std::static_pointer_cast<Scene>(_scene);
+
+        m_pCurrentScene = (*_iter);
+
+        return m_scenes.back();
+    }
+
     RENGINE_API std::shared_ptr<Scene> SceneManager::CreateScene(tstring name)
     {
         auto _newScene = ObjectFactory::GetInstance()->CreateObject<Scene>();

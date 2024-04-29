@@ -13,7 +13,7 @@
 #include <common\common.h>
 #include <any>
 
-namespace editor
+namespace common
 {
     using EventListenerID = uint64;
 

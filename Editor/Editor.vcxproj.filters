@@ -108,9 +108,6 @@
     <ClInclude Include="inc\editor\Widget\TextBox.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="inc\editor\Core\Event.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="inc\editor\Widget\CollapsingHeader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>

@@ -39,12 +39,11 @@ namespace editor
     {
         __super::Begin();
 
+		m_gamObjectWidget->SetEnable(false);
     }
     void InspectorView::Render()
     {
         __super::Render();
-
-		m_gamObjectWidget->SetEnable(false);
 
         if (EventManager::GetInstance()->GetFocusObject() == nullptr)
 			return;

@@ -30,44 +30,18 @@ namespace rengine
 
 	}
 
-	//void MeshRenderer::Render()
-	//{
-	//	__super::Render();
-
-	//	graphics::MeshObject* _meshObj = reinterpret_cast<graphics::MeshObject*>(m_pRenderObject);
-
-	//	GetGameObject().lock()->GetComponent<Transform>();
-
-	//	/*auto _meshFilter = GetGameObject().lock()->GetComponent<MeshFilter>();
-
-	//	if(_meshFilter == nullptr)
-	//		return;
-
-	//	auto _mesh = _meshFilter->GetMesh().lock();
-
-	//	if(_mesh == nullptr)
-	//		return;
-
-	//	_meshObj->SetMeshBuffer(_mesh->GetMeshBuffer());
-
-	//	vector<graphics::MaterialBuffer*> _mats;
-
-	//	for (auto& _mat : m_materials)
-	//	{
-	//		auto _material = _mat.lock();
-
-	//		if(_material == nullptr)
-	//			return;
-
-	//		_mats.push_back(_material->GetMaterialBuffer());
-	//	}
-
-	//	_meshObj->SetMaterialBuffers(_mats);*/
-	//}
-
 	void MeshRenderer::Awake()
 	{
 		m_pRenderObject = (graphics::MeshObject*)graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
-		
+	}
+
+	void MeshRenderer::Render()
+	{
+		auto _trans = m_pGameObject.lock()->GetTransform();
+
+		if (_trans == nullptr)
+			return;
+
+		m_pRenderObject->SetWorld(_trans->GetWorld());
 	}
 }

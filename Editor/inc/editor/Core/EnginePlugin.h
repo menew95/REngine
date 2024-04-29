@@ -36,6 +36,8 @@ namespace editor
             return m_pRengine;
         }
 
+        void SetEngineUpdate(bool val);
+
     private:
         AppBase* m_pRengine;
     };

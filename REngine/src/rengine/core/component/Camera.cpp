@@ -110,7 +110,7 @@ namespace rengine
 
 	void Camera::OnDestroy()
 	{
-		assert(graphics::ResourceManager::GetInstance()->RelaseTextureBuffer(GetUUID()));
+		assert(graphics::ResourceManager::GetInstance()->RelaseCameraBuffer(GetUUID()));
 
 		m_pCameraBuffer = nullptr;
 	}
