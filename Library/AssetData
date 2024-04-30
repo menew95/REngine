@@ -17,10 +17,10 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_LowerBody_MAT.mat
   -	UUID: 5d18939b-4d09-4ec8-b7fd-9838cb1c4fda
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Hands_diffuse.png
-  -	UUID: 00000000-0000-0000-0000-000000000002
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Quard.mesh
   -	UUID: e2c6bf0a-abc9-4728-ba76-68447b5aa1aa
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\anim\Layer0.anim
+  -	UUID: 00000000-0000-0000-0000-000000000002
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Quard.mesh
   -	UUID: 12bf6233-e32b-4ad0-852e-3f7e4415b3c2
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_UpperBody_Geo.mesh
   -	UUID: 5161489f-dbda-4916-b832-9598f07657cd
@@ -33,18 +33,16 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Scarf_diffuse.png
   -	UUID: 926183b0-037d-4ee1-aa38-8a5ec9a2497b
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_UpperBody_MAT.mat
-  -	UUID: 7b2dad39-6279-420d-be48-13797b1d0f07
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Shoes_Geo.mesh
   -	UUID: ac0d0692-c0e2-4367-bb49-f1a7ca1a14a1
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Hair_Geo.mesh
+  -	UUID: 7b2dad39-6279-420d-be48-13797b1d0f07
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Shoes_Geo.mesh
   -	UUID: 4fdbc988-d22f-46ef-95dc-6b71842ab112
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Hands_Geo.mesh
   -	UUID: 41bd8593-dd26-47b4-98e5-6ad87a0d8c9b
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_LowerBody_Geo.mesh
   -	UUID: 00000000-0000-0000-0000-000000000001
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Cube.mesh
-  -	UUID: e53f8216-46e4-4ddc-b28a-12ee3a7c1870
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\folder_icon.png
   -	UUID: 00000000-0000-0000-0000-000000000003
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Sphere.mesh
   -	UUID: 6d1f5217-65b5-4016-8bdd-91ea64570d8f
@@ -57,10 +55,6 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\SkyBox.dds
   -	UUID: 491bdb39-3a7e-4554-b37a-c81add3326b4
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\grace-new.hdr
-  -	UUID: ffaa3510-714b-4fef-8676-347cf5c32eba
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\file_icon.png
-  -	UUID: 8e7d7f0d-38dd-4737-adba-d4673b2f4542
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\icon\material_icon.png
   -	UUID: 
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Joy.fbx
   -	UUID: 66780df0-a99c-4359-97ed-43b420f80815

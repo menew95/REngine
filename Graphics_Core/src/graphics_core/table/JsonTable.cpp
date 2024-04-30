@@ -23,7 +23,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _renderTargetTable = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RenderTargetTable.json"));
+		auto _renderTargetTable = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/RenderTargetTable.json"));
 
 		const TCHAR* UUID = _T("UUID");
 		const TCHAR* sample = _T("Sample");
@@ -114,7 +114,7 @@ namespace graphics
 			resourceManager->CreateRenderTarget(_uuid, _renderTargetDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RenderTargetTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/RenderTargetTable.json"));
 
 		return true;
 	}
@@ -123,7 +123,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _shaderTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/ShaderTable.json"));
+		auto _shaderTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/ShaderTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* shaderType = TEXT("ShaderType");
@@ -225,7 +225,7 @@ namespace graphics
 			resourceManager->CreateShader(_uuid, _shaderDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/ShaderTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/ShaderTable.json"));
 
 		return true;
 	}
@@ -241,7 +241,7 @@ namespace graphics
 		std::map<uuid, BlendDesc> _blendDescMap;
 
 		{
-			auto _shaderProgramTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/ShaderProgramTable.json"));
+			auto _shaderProgramTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/ShaderProgramTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 
@@ -295,11 +295,11 @@ namespace graphics
 				_shaderProgramMap.insert(make_pair(_uuid, _program));
 			}
 
-			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/ShaderProgramTable.json"));
+			_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/ShaderProgramTable.json"));
 		}
 
 		{
-			auto _depthStencilTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
+			auto _depthStencilTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 
@@ -445,11 +445,11 @@ namespace graphics
 				_stencilDescMap.insert(std::make_pair(_uuid, _stencilDesc));
 			}
 
-			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
+			_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/DepthStencilStateTable.json"));
 		}
 
 		{
-			auto _rasterizerTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RasterizerStateTable.json"));
+			auto _rasterizerTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/RasterizerStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			const TCHAR* fillMode = TEXT("FillMode");
@@ -536,11 +536,11 @@ namespace graphics
 				_rasterizerDescMap.insert(std::make_pair(_uuid, _rasterizerDesc));
 			}
 
-			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RasterizerStateTable.json"));
+			_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/RasterizerStateTable.json"));
 		}
 
 		{
-			auto _blendTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/BlendStateTable.json"));
+			auto _blendTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/BlendStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			const TCHAR* alphaToCoverageEnable = TEXT("AlphaToCoverageEnable");
@@ -663,11 +663,11 @@ namespace graphics
 				_blendDescMap.insert(std::make_pair(_uuid, _blendDesc));
 			}
 
-			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/BlendStateTable.json"));
+			_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/BlendStateTable.json"));
 		}
 
 		{
-			auto _pipelineStateTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/PipelineStateTable.json"));
+			auto _pipelineStateTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/PipelineStateTable.json"));
 
 			const TCHAR* UUID = TEXT("UUID");
 			//const TCHAR* pipelineLayoutUUID = TEXT("PipelineLayout");
@@ -821,7 +821,7 @@ namespace graphics
 				resourceManager->CreatePipelineState(_uuid, _pipelineStateDesc);
 			}
 
-			_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/PipelineStateTable.json"));
+			_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/PipelineStateTable.json"));
 		}
 
 
@@ -832,7 +832,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _pipelineLayoutTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
+		auto _pipelineLayoutTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* count = TEXT("Count");
@@ -968,7 +968,7 @@ namespace graphics
 			resourceManager->CreatePipelineLayout(_uuid, _pipelineLayoutDesc);
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/PipelineLayoutTable.json"));
 
 		return true;
 	}
@@ -977,7 +977,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _textureTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/TextureTable.json"));
+		auto _textureTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/TextureTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* imageDesc = TEXT("ImageDesc");
@@ -1085,7 +1085,7 @@ namespace graphics
 			resourceManager->CreateTexture(_uuid, _textureDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/TextureTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/TextureTable.json"));
 
 		return true;
 	}
@@ -1094,7 +1094,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _samplerTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/SamplerTable.json"));
+		auto _samplerTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/SamplerTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* filter = TEXT("Filter");
@@ -1198,7 +1198,7 @@ namespace graphics
 			resourceManager->CreateSampler(_uuid, _samplerDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/SamplerTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/SamplerTable.json"));
 
 		return true;
 	}
@@ -1207,7 +1207,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _bufferTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/BufferTable.json"));
+		auto _bufferTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/BufferTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* size = TEXT("Size");
@@ -1292,7 +1292,7 @@ namespace graphics
 			resourceManager->CreateBuffer(_uuid, _bufferDesc)->SetName(StringHelper::WStringToString(_uuid).c_str());
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/BufferTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/BufferTable.json"));
 
 		return true;
 	}
@@ -1301,7 +1301,7 @@ namespace graphics
 	{
 		auto* _jsonReader = utility::JsonReader::GetInstance();
 
-		auto _renderPassTables = _jsonReader->LoadJson(g_assetPath + TEXT("bin/graphics/RenderPassTable.json"));
+		auto _renderPassTables = _jsonReader->LoadJson(g_editorLibraryPath + TEXT("bin/graphics/RenderPassTable.json"));
 
 		const TCHAR* UUID = TEXT("UUID");
 		const TCHAR* pipelineStateUUID = TEXT("PipelineState");
@@ -1392,7 +1392,7 @@ namespace graphics
 			resourceManager->CreateRenderPass(_uuid, _renderPassDesc);
 		}
 
-		_jsonReader->UnloadJson(g_assetPath + TEXT("bin/graphics/RenderPassTable.json"));
+		_jsonReader->UnloadJson(g_editorLibraryPath + TEXT("bin/graphics/RenderPassTable.json"));
 
 		return true;
 	}

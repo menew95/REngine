@@ -33,7 +33,7 @@
     "DepthDesc": "Light",
     "StencilDesc": "Light",
     "RasterizerDesc": "NoCull",
-    "BlendDesc": "AlphaBlend"
+    "BlendDesc": "Default"
   },
   {
     "UUID": "IBL_BRDF",
