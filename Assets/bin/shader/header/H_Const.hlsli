@@ -27,6 +27,13 @@ cbuffer PerObject : register(b1)
     matrix _worldInvTranspose;
 }
 
+#define BONE_MAX_CNT 128
+
+cbuffer PerSkin : register(b3)
+{
+    matrix _boneTransforms[BONE_MAX_CNT];
+}
+
 cbuffer Debug : register(b5)
 {
     // 격자 두께 설정

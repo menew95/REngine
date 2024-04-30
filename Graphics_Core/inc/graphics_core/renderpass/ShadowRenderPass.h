@@ -27,5 +27,10 @@ namespace graphics
         void Excute(class CommandBuffer* command) override;
 
         void EndExcute(class CommandBuffer* command) override;
+
+    private:
+        MaterialBuffer* m_spotLightShadow = nullptr;
+        MaterialBuffer* m_cascadedLightShadow = nullptr;
+        MaterialBuffer* m_pointLightShadow = nullptr;
     };
 }

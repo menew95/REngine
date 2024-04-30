@@ -115,5 +115,32 @@
     "StencilDesc": "NoDepth",
     "RasterizerDesc": "NoCull",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Spot_Light_Shadow",
+    "ShaderProgram": "Spot_Light_Shadow",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "Standard",
+    "StencilDesc": "Standard",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "CasCaded_Light_Shadow",
+    "ShaderProgram": "CasCaded_Light_Shadow",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "Standard",
+    "StencilDesc": "Standard",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Point_Light_Shadow",
+    "ShaderProgram": "Point_Light_Shadow",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "Standard",
+    "StencilDesc": "Standard",
+    "RasterizerDesc": "Default",
+    "BlendDesc": "Default"
   }
 ]

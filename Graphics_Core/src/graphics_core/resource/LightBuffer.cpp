@@ -2,6 +2,8 @@
 
 #include <graphics_core\ResourceManager.h>
 
+#include <graphics_core\LightManager.h>
+
 #include <graphics_module\RenderTarget.h>
 #include <graphics_module\Texture.h>
 
@@ -32,16 +34,27 @@ namespace graphics
 			return; 
 
 		m_lightInfo._type = value;
+
+		if (m_isSetShadowMapSpace)
+			assert(LightManager::GetInstance()->ReleaseShadowMapSpace(this));
+
+		m_isSetShadowMapSpace = LightManager::GetInstance()->SetShadowMapSpace(this);
 	}
 
 	void LightBuffer::SetResolution(uint32 value)
 	{
 		m_shadowInfo._resolution = value;
 
-		ResourceManager::GetInstance()->ReleaseTexture(m_pTexture);
-		ResourceManager::GetInstance()->ReleaseRenderTarget(m_pRenderTarget);
+		if(m_isSetShadowMapSpace)
+			assert(LightManager::GetInstance()->ReleaseShadowMapSpace(this));
 
-		CreateRenderTarget();
+		m_isSetShadowMapSpace = LightManager::GetInstance()->SetShadowMapSpace(this);
+		
+		//ResourceManager::GetInstance()->ReleaseTexture(m_pTexture);
+		
+		//ResourceManager::GetInstance()->ReleaseRenderTarget(m_pRenderTarget);
+
+		//CreateRenderTarget();
 	}
 
 	void LightBuffer::SetWorld(Matrix& world)
@@ -65,19 +78,24 @@ namespace graphics
 		switch (type)
 		{
 			case graphics::LightType::Spot:
-				_resolution = 1024.f;
+				_resolution = 512.f;
 				break;
 			case graphics::LightType::Directional:
-				_resolution = 2048.f;
+				_resolution = 1024.f;
 				break;
 			case graphics::LightType::Point:
-				_resolution = 512.f;
+				_resolution = 256.f;
 				break;
 			default:
 				break;
 		}
 
 		return math::Vector2(_resolution, _resolution) * _multiply[resolution];
+	}
+
+	math::Vector2 LightBuffer::GetResolution()
+	{
+		return CalcResolution((LightType)m_lightInfo._type, m_shadowInfo._resolution);
 	}
 
 	void LightBuffer::CreateRenderTarget()

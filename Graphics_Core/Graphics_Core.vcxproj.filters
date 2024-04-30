@@ -117,6 +117,9 @@
     <ClInclude Include="inc\graphics_core\utility\Culling.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\graphics_core\resource\TextureAtlas.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics_core\GraphicsEngine.cpp">
@@ -192,6 +195,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\graphics_core\utility\Culling.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphics_core\resource\TextureAtlas.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

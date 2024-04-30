@@ -35,6 +35,9 @@ struct Light // 1 + 1 + 1 + 1 + 1 + 1 + 4 * 6 = 30 ... 30 * 30 = 900
     uint _shadowState;
     int _pad;
 
+    float2 _uv0[6];
+    float2 _uv1[6];
+
     matrix _shadowMatrix[6]; 
 };
 

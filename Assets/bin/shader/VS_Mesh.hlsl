@@ -37,9 +37,9 @@ VSOutput main(VSInput input)
     {
         if (input.bone[i] >= 0)
         {
-            posL        += input.weight[i] * mul(float4(input.posL, 1.0f), boneTransforms[input.bone[i]]).xyz;
-            normalL     += input.weight[i] * mul(input.normal, (float3x3)boneTransforms[input.bone[i]]).xyz;
-            tangentL    += input.weight[i] * mul(input.tangent, (float3x3)boneTransforms[input.bone[i]]).xyz;
+            posL        += input.weight[i] * mul(float4(input.posL, 1.0f), _boneTransforms[input.bone[i]]).xyz;
+            normalL     += input.weight[i] * mul(input.normal, (float3x3)_boneTransforms[input.bone[i]]).xyz;
+            tangentL    += input.weight[i] * mul(input.tangent, (float3x3)_boneTransforms[input.bone[i]]).xyz;
         }
     }
 

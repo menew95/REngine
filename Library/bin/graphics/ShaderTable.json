@@ -191,5 +191,42 @@
     "SourceSize": 0,
     "EntryPoint": "frag",
     "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0022-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\Shadow.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "VSMain",
+    "Profile": "vs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0023-000000000000",
+    "ShaderType": "Vertex",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\Shadow.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "VSMain",
+    "Profile": "vs_5_0",
+    "Defines": [ "SKIN", "" ]
+  },
+  {
+    "UUID": "00000000-0000-0000-0024-000000000000",
+    "ShaderType": "Geometry",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\Shadow.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "CascadeGSMain",
+    "Profile": "gs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0025-000000000000",
+    "ShaderType": "Geometry",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\Shadow.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "PointGSMain",
+    "Profile": "gs_5_0"
   }
 ]

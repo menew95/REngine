@@ -47,6 +47,9 @@ namespace graphics
         uint _shadowState;
         int _pad;
 
+        Vector2 _uv0[6];
+        Vector2 _uv1[6];
+
         Matrix _shadowMatrix[6];
     };
 
@@ -115,10 +118,13 @@ namespace graphics
 
         GRAPHICS_API void SetWorld(Matrix& world);
 
-
         const LightInfo& GetLightInfo() { return m_lightInfo; }
 
         const ShadowInfo& GetShadowInfo() { return m_shadowInfo; }
+
+        math::Vector2 GetResolution();
+
+        void BakeShadow();
 
     private:
         void CreateRenderTarget();
@@ -131,6 +137,8 @@ namespace graphics
 
         ShadowInfo m_shadowInfo;
 
+        bool m_isSetShadowMapSpace = false;
+
         // shadow map texture
         class Texture* m_pTexture = nullptr;
 
@@ -138,5 +146,8 @@ namespace graphics
 
         // shadow map render target
         class RenderTarget* m_pRenderTarget = nullptr;
+
+        friend class ShadowRenderPass;
+        friend class LightManager;
     };
 }
