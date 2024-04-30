@@ -22,7 +22,7 @@ namespace rengine
 				return addComponent == comp;
 			});
 
-		assert(_iter != m_components.end());
+		assert(_iter == m_components.end());
 
 		m_components.push_back(addComponent);
 	}
@@ -35,7 +35,7 @@ namespace rengine
 				return deleteComponent == comp;
 			});
 
-		assert(_iter == m_components.end());
+		assert(_iter != m_components.end());
 
 		m_components.erase(_iter);
 	}

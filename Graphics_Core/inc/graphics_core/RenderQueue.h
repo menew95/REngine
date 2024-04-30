@@ -40,6 +40,11 @@ namespace graphics
         **/
         GRAPHICS_API void DeleteObject(RenderObject* object);
 
+        /**
+            @brief 프러스텀 컬링을 실시한다. 컬링 패스를 못한 렌더 오브젝트의 컬링 상태를 false로 설정한다.
+            @param frustum - 컬링을 실시할 프러스텀
+        **/
+        void FrustumCulling(const struct Frustum& frustum);
 
     private:
         unordered_map<uuid, std::unique_ptr<MeshObject>> m_meshObjectList;

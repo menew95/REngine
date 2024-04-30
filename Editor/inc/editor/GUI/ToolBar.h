@@ -27,6 +27,8 @@ namespace editor
         ToolBar();
         ~ToolBar();
 
+        void Begin() override;
+
     private:
         void CreateToolBarWidget();
 

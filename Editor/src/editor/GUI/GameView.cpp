@@ -110,7 +110,7 @@ namespace editor
 			}
 		}
 
-		if (ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused() && !rengine::Input::GetKeyPress(rengine::EVirtualKey::MouseRight))
 		{
 			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::Key_W))
 			{
@@ -255,12 +255,17 @@ namespace editor
 
 		graphics::CameraInfo _info;
 
+		float _aspectRatio =  1.0f;
+		float _fov = 90.f * math::Deg2Rad;
+
 		_info._cameraWorldPos = _camWorld.Translation();
 		_info._near = 0.1f;
 		_info._far = 1000.f;
+		_info._aspectRatio = _aspectRatio;
+		_info._fov = _fov;
 
 		_info._view = math::Matrix::CreateLookAt(_info._cameraWorldPos, _info._cameraWorldPos + _camWorld.Forward(), _camWorld.Up());
-		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(90.f * math::Deg2Rad, 1.0f, 0.1f, 1000.f);
+		_info._proj = math::Matrix::CreatePerspectiveFieldOfView(_fov, _aspectRatio, 0.1f, 1000.f);
 		_info._projInv = _info._proj.Invert();
 		_info._viewToTexSpace = _info._view * _info._proj * math::Matrix(
 			0.5f, 0.0f, 0.0f, 0.0f,

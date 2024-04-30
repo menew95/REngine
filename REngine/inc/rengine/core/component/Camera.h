@@ -43,8 +43,8 @@ namespace rengine
         float   GetFOV() { return m_fFieldOfView; }
         void    SetFOV(float val) { m_fFieldOfView = val, m_bIsDirty = true; }
 
-        float   GetAspect() { return m_fAspectRadio; }
-        void    SetAspect(float val) { m_fAspectRadio = val, m_bIsDirty = true; }
+        float   GetAspect() { return m_fAspectRatio; }
+        void    SetAspect(float val) { m_fAspectRatio = val, m_bIsDirty = true; }
 
         void Awake() override;
 
@@ -60,7 +60,7 @@ namespace rengine
         float m_fNear = 0.1f;
         float m_fFar = 1000.0f;
         float m_fFieldOfView = 90;
-        float m_fAspectRadio = 1.0f;
+        float m_fAspectRatio = 1.0f;
 
         static std::weak_ptr<Camera> m_MainCamera;
 

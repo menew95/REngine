@@ -263,9 +263,6 @@
     <ClCompile Include="src\editor\Widget\InputText.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="src\editor\Core\Event.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="src\editor\Widget\CollapsingHeader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

@@ -34,5 +34,7 @@ namespace graphics
         class MeshBuffer* m_pMeshBuffer = nullptr;
 
         vector<class MaterialBuffer*> m_materialBuffers;
+
+        friend class RenderQueue;
     };
 }

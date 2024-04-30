@@ -99,6 +99,9 @@ namespace graphics
             m_perObject._worldInv = val.Invert();
         }
 
+        GRAPHICS_API virtual void SetBoundinBoxMin(const math::Vector3& min) { m_boundingBoxMin = min; }
+        GRAPHICS_API virtual void SetBoundinBoxMax(const math::Vector3& max) { m_boundingBoxMax = max; }
+
         virtual RenderType GetRenderType() abstract;
 
     protected:
@@ -114,5 +117,10 @@ namespace graphics
         bool m_bIsCull = false;
 
         PerObject m_perObject;
+
+        math::Vector3 m_boundingBoxMin;
+        math::Vector3 m_boundingBoxMax;
+
+        friend class RenderQueue;
     };
 }

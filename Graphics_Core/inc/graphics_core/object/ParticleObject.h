@@ -28,5 +28,7 @@ namespace graphics
 
     private:
         Buffer* m_pParticleStreamBuffer = nullptr;
+
+        friend class RenderQueue;
     };
 }

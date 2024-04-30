@@ -80,6 +80,8 @@ namespace rengine
 		void SetResolution(uint32 value);
 
 	private:
+		void UpdateLightBuffer();
+
 		graphics::LightBuffer* m_pLightBuffer = nullptr;
 
 		math::Vector3 m_prevPosition = math::Vector3::Zero;

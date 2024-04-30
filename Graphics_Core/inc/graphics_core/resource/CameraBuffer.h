@@ -43,7 +43,8 @@ namespace graphics
 
         float _near = 0.1f;
         float _far = 1000.f;
-        float pad2[2];
+        float _fov = 60.f * math::Deg2Rad;
+        float _aspectRatio = 1.0f;
     };
 
     struct alignas(16) CascadedInfo
@@ -113,5 +114,7 @@ namespace graphics
         class Texture* m_pDepthTexture = nullptr;
 
         vector<class RenderPass*> m_renderPassList;
+
+        friend class CullingHelper;
     };
 }

@@ -78,6 +78,19 @@ namespace rengine
 	void Light::Awake()
 	{
 		m_pLightBuffer = graphics::ResourceManager::GetInstance()->CreateLightBuffer(GetUUID());
+
+		auto _trans = GetTransform();
+
+		if (_trans == nullptr)
+			return;
+
+		auto _world = _trans->GetWorld();
+
+		m_pLightBuffer->SetDirection(_world.Forward());
+
+		m_pLightBuffer->SetPosition(_world.Translation());
+
+		m_pLightBuffer->SetUp(_world.Up());
 	}
 	
 	void Light::Update()
@@ -88,8 +101,6 @@ namespace rengine
 			return;
 
 		auto _world = _trans->GetWorld();
-
-		//m_pLightBuffer->SetWorld(_world);
 
 		m_pLightBuffer->SetDirection(_world.Forward());
 

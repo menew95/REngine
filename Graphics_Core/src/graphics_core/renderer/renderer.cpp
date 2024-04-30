@@ -13,6 +13,9 @@
 #include <graphics_core\resource\MeshBuffer.h>
 #include <graphics_core\resource\MaterialBuffer.h>
 
+#include <graphics_core\RenderQueue.h>
+#include <graphics_core\utility\Culling.h>
+
 namespace graphics
 {
 	Renderer* Renderer::s_pRenderer = nullptr;
@@ -49,7 +52,11 @@ namespace graphics
 
 		m_pCommandBuffer->UpdateBuffer(*m_pFrameBuffer, 0, &_perFrame, sizeof(PerFrame));
 
-		//cameraBuffer->UpdateBuffer(m_pCommandBuffer, m_pFrameBuffer);
+		Frustum _frustum;
+
+		CullingHelper::CreateFrustumFromCamera(cameraBuffer->GetCameraInfo(), _frustum);
+
+		RenderQueue::GetInstance()->FrustumCulling(_frustum);
 	}
 
 	void Renderer::RenderMesh(vector<RenderObject*>& renderObjects, vector<RenderPass*>& renderPassList)

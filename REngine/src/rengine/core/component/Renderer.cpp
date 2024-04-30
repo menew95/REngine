@@ -149,7 +149,13 @@ namespace rengine
 		m_mesh = mesh;
 
 		if(mesh == nullptr) m_pRenderObject->SetMeshBuffer(nullptr);
-		else m_pRenderObject->SetMeshBuffer(m_mesh.lock()->GetMeshBuffer());
+		else
+		{
+			m_pRenderObject->SetMeshBuffer(m_mesh.lock()->GetMeshBuffer());
+
+			m_pRenderObject->SetBoundinBoxMin(m_mesh.lock()->GetBoundingBoxMin());
+			m_pRenderObject->SetBoundinBoxMax(m_mesh.lock()->GetBoundingBoxMax());
+		}
 	}
 
 	/*void Renderer::Update()

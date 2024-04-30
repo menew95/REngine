@@ -20,7 +20,7 @@ namespace editor
 {
 	DEFINE_SINGLETON_CLASS(EventManager,
 		{
-			SetEditorMode(EditorMode::Edit);
+
 		}, 
 		{
 

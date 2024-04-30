@@ -78,9 +78,6 @@ namespace editor
 
         vector<tstring> m_selected;
 
-        shared_ptr<rengine::Texture> m_folderIcon;
-        shared_ptr<rengine::Texture> m_fileIcon;
-
         map<tstring, rengine::Texture*> g_iconTextureMap; // extension, texture
 
         class Popup* m_popupMenu = nullptr;

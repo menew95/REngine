@@ -1,5 +1,6 @@
 ﻿#include <graphics_core\RenderQueue.h>
 
+#include <graphics_core\utility\Culling.h>
 
 namespace graphics
 {
@@ -79,5 +80,30 @@ namespace graphics
 			}
 		}
 
+	}
+
+	void RenderQueue::FrustumCulling(const Frustum& frustum)
+	{
+		for (auto& [_uuid, _renderObject] : m_meshObjectList)
+		{
+			if (CullingHelper::ViewFrustumCullingBoundingBox(
+					frustum,
+					_renderObject->m_perObject._world,
+					_renderObject->m_boundingBoxMin,
+					_renderObject->m_boundingBoxMax
+				))
+			{
+				_renderObject->SetCulling(false);
+			}
+			else
+			{
+				_renderObject->SetCulling(true);
+			}
+		}
+
+		for (auto& _renderObject : m_particleObjectList)
+		{
+
+		}
 	}
 }

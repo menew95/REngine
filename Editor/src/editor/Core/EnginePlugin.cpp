@@ -35,6 +35,8 @@ namespace editor
 		_desc._windowInfo = winInfo;
 
 		m_pRengine->Initialize(&_desc);
+
+		((rengine::REngine*)m_pRengine)->SetEngineUpdate(false);
 	}
 
 	void EnginePlugin::SetEngineUpdate(bool val)

@@ -7,8 +7,6 @@
 #include <rengine\core\resources.h>
 #include <rengine\core\resource\Texture.h>
 
-#include <editor\Core\Event.h>
-
 #include <common\AssetPath.h>
 
 namespace editor
@@ -16,12 +14,31 @@ namespace editor
 	ToolBar::ToolBar()
 		: View("Tool Bar")
 	{
+		m_windowSettings._notitleBar = true;
+		m_windowSettings._noCollapse = true;
+		m_windowSettings._noResize = true;
+		m_windowSettings._noScrollbar = true;
+
 		CreateToolBarWidget();
 	}
 
 	ToolBar::~ToolBar()
 	{
 
+	}
+
+	void ToolBar::Begin()
+	{
+		__super::Begin();
+
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		float size = ImGui::CalcTextSize("Tool Bar").x + style.FramePadding.x * 2.0f;
+		float avail = ImGui::GetContentRegionAvail().x;
+
+		float off = (avail - size) * 0.5f;
+		if (off > 0.0f)
+			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + off);
 	}
 
 	void ToolBar::CreateToolBarWidget()
@@ -58,11 +75,6 @@ namespace editor
 				}
 			}
 		);
-
-		
-		Event<void> _event;
-
-		_event += std::bind(&EventManager::StartGame, EventManager::GetInstance());
 
 		AddWidget<SameLine>();
 

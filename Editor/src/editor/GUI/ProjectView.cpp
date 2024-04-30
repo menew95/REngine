@@ -87,8 +87,18 @@ namespace editor
 		: View("Project View")
 		, m_currPath(g_assetPath)
 	{
-		m_folderIcon = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + TEXT("icon\\folder_icon.png"));
-		m_fileIcon = rengine::Resources::GetInstance()->Load<rengine::Texture>(g_assetPath + TEXT("icon\\file_icon.png"));
+		g_iconTextureMap.insert(make_pair(
+			TEXT("folder_icon"),
+			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("folder_icon"), g_editorLibraryPath + TEXT("bin\\editor\\folder_icon.png")).get()
+		));
+		g_iconTextureMap.insert(make_pair(
+			TEXT("file_icon"),
+			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("file_icon"), g_editorLibraryPath + TEXT("bin\\editor\\file_icon.png")).get()
+		));
+		g_iconTextureMap.insert(make_pair(
+			TEXT("material_icon"),
+			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("material_icon"), g_editorLibraryPath + TEXT("bin\\editor\\file_icon.png")).get()
+		));
 
 		CheckMetaFile(m_currPath);
 
@@ -267,7 +277,9 @@ namespace editor
 			}
 			else
 			{
-				_texId = _directoryEntry.is_directory() ? m_folderIcon->GetTextureBuffer()->GetTextureID() : m_fileIcon->GetTextureBuffer()->GetTextureID();
+				_texId = _directoryEntry.is_directory() 
+					? g_iconTextureMap[TEXT("folder_icon")]->GetTextureID() 
+					: g_iconTextureMap[TEXT("file_icon")]->GetTextureID();
 
 				_top = { 0, 0 };
 				_bot = { 1, 1 };
