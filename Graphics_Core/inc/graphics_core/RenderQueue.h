@@ -49,5 +49,7 @@ namespace graphics
     private:
         unordered_map<uuid, std::unique_ptr<MeshObject>> m_meshObjectList;
         unordered_map<uuid, std::unique_ptr<ParticleObject>> m_particleObjectList;
+
+        friend class ShadowRenderPass;
     };
 }

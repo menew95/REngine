@@ -228,5 +228,14 @@
     "SourceSize": 0,
     "EntryPoint": "PointGSMain",
     "Profile": "gs_5_0"
+  },
+  {
+    "UUID": "00000000-0000-0000-0026-000000000000",
+    "ShaderType": "Geometry",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\Shadow.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "SpotGSMain",
+    "Profile": "gs_5_0"
   }
 ]

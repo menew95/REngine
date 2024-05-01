@@ -28,7 +28,7 @@ namespace editor
   
         EDITOR_API Widget* GetChild(const string& lable);
 
-        EDITOR_API vector<Widget*>& GetChilds()
+        EDITOR_API const vector<shared_ptr<Widget>>& GetChilds()
         {
             return m_childs;
         }
@@ -44,16 +44,16 @@ namespace editor
         void RemoveAllWidget();
 
     protected:
-        vector<Widget*> m_childs;
+        vector<shared_ptr<Widget>> m_childs;
     };
 
     template<typename TWidget, typename ...Args>
     inline TWidget* WidgetContainer::AddWidget(Args && ...args)
         requires std::derived_from<TWidget, Widget>
     {
-        m_childs.emplace_back(new TWidget(std::forward<Args>(args)...));
+        m_childs.emplace_back(make_shared<TWidget>(std::forward<Args>(args)...));
 
-        return static_cast<TWidget*>(m_childs.back());
+        return static_cast<TWidget*>(m_childs.back().get());
     }
 
     template<typename TWidget>
@@ -62,8 +62,8 @@ namespace editor
     {
         for (auto& widget : m_childs)
         {
-            if (dynamic_cast<TWidget*>(widget) != nullptr && widget->GetLable() == lable)
-                return static_cast<TWidget*>(widget);
+            if (widget != nullptr && widget->GetLable() == lable)
+                return static_cast<TWidget*>(widget.get());
         }
 
         return nullptr;

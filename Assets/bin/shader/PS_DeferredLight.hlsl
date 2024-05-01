@@ -177,6 +177,6 @@ float4 main(VSOutput input) : SV_TARGET
 
     // //Set Alpha
     // Output.w = albedo.w;
-
+    
 	return color;
 }

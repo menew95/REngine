@@ -14,6 +14,18 @@
 
 namespace graphics
 {
+    class Buffer;
+
+    /**
+        @struct ProjectedShadowInfo
+        @brief  그림자를 그리기 위한 라이트 버퍼와 해당 그림자를 그리기 위한 정보 구조체
+    **/
+    struct ProjectedShadowInfo
+    {
+        class LightBuffer* _lightBuffer;
+        vector<class RenderObject*> _primitives;
+    };
+
     class ShadowRenderPass : public RenderPass
     {
     public:
@@ -29,8 +41,36 @@ namespace graphics
         void EndExcute(class CommandBuffer* command) override;
 
     private:
+        
+
+        /**
+            @brief 라이트에 그릴 이번 프레임에 처리할 매쉬 선별
+            @param shadowInfo - 그림자 정보 구조체
+        **/
+        void BeginCulling(ProjectedShadowInfo* shadowInfo);
+
+        /**
+            @brief CSM에서 사용될 프리미티브 데이터 선별
+            @param projectedShadowInfo - 그림자 정보 구조체
+        **/
+        void FinishGatherShadowPrimitives(ProjectedShadowInfo& projectedShadowInfo);
+
+        /**
+            @brief 그림자 맵을 그림
+            @param command             - command buffer
+            @param projectedShadowInfo - 그림자 정보 구조체
+        **/
+        void RenderDepth(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo);
+
+        void CopyToShadowAtlas(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo);
+
         MaterialBuffer* m_spotLightShadow = nullptr;
         MaterialBuffer* m_cascadedLightShadow = nullptr;
         MaterialBuffer* m_pointLightShadow = nullptr;
+
+        Buffer* m_pTransBuffer = nullptr;
+        Buffer* m_pMaterialBuffer = nullptr;
+
+        vector<ProjectedShadowInfo> m_projectedShadowInfos;
     };
 }

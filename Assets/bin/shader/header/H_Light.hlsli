@@ -4,10 +4,10 @@
 #include "header\H_PBR.hlsli"
 #include "header\H_Gbuffer.hlsli"
 
+static const uint Spot = 0u;
 static const uint Directional = 1u;
 static const uint Point = 2u;
-static const uint Spot = 3u;
-static const uint AreaRect = 4u;
+static const uint AreaRect = 3u;
 
 #define MAX_LIGHT_CNT 30
 
@@ -34,11 +34,11 @@ struct Light // 1 + 1 + 1 + 1 + 1 + 1 + 4 * 6 = 30 ... 30 * 30 = 900
     int _dynamicShadowMapIdx;
     uint _shadowState;
     int _pad;
+    
+    matrix _shadowMatrix[6]; 
 
     float2 _uv0[6];
     float2 _uv1[6];
-
-    matrix _shadowMatrix[6]; 
 };
 
 struct CascadeShadow //18

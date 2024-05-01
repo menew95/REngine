@@ -18,7 +18,7 @@ namespace editor
 
 	void WidgetContainer::RenderChild()
 	{
-		for (auto* _childs : m_childs)
+		for (auto& _childs : m_childs)
 		{
 			if(_childs->GetEnable())
 				_childs->Render();
@@ -34,7 +34,7 @@ namespace editor
 
 		if (_find != m_childs.end())
 		{
-			return *_find;
+			return (*_find).get();
 		}
 
 		return nullptr;
@@ -44,10 +44,8 @@ namespace editor
 	{
 		for (auto _iter = m_childs.begin(); _iter != m_childs.end(); _iter++)
 		{
-			if (*_iter == widget)
+			if ((*_iter)->GetLable() == widget->GetLable())
 			{
-				delete widget;
-
 				m_childs.erase(_iter);
 
 				break;
@@ -57,13 +55,15 @@ namespace editor
 
 	void WidgetContainer::RemoveAllWidget()
 	{
-		for (auto* _child : m_childs)
+		/*for (auto* _child : m_childs)
 		{
 			if(_child == nullptr)
 				continue;
 
 			delete _child;
-		}
+
+			_child = nullptr;
+		}*/
 
 		m_childs.clear();
 	}

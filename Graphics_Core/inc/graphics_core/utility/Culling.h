@@ -37,6 +37,17 @@ namespace graphics
 		math::Vector3 _position;
 	};
 
+	struct FrustumInfo
+	{
+		float _near;
+		float _far;
+		float _aspect;
+		float _fov;
+		Vector3 _position;
+
+		Matrix _view;
+	};
+
 	struct Frustum
 	{
 		Frustum() :
@@ -73,9 +84,9 @@ namespace graphics
 	public:
 		static bool ViewFrustumCullingBoundingBox(
 			const Frustum& frustum,
-			math::Matrix& worldTM,
-			math::Vector3& boundMin,
-			math::Vector3& boundMax
+			const math::Matrix& worldTM,
+			const math::Vector3& boundMin,
+			const math::Vector3& boundMax
 		);
 
 		static bool ViewFrustumCullingBoundingBox(
@@ -100,6 +111,8 @@ namespace graphics
 		);
 
 		static void CreateFrustumFromCamera(const CameraInfo& camera, Frustum& outFrustum);
+
+		static Frustum CreateFrustum(const FrustumInfo& info);
 
 	private:
 		static bool IsForwardPlane(

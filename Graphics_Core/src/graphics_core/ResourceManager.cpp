@@ -122,7 +122,7 @@ namespace graphics
 		{
 			auto _renderPass = new ShadowRenderPass();
 
-			m_renderPassMap.insert(make_pair(TEXT("Grid Pass"), _renderPass));
+			m_renderPassMap.insert(make_pair(TEXT("Shadow Pass"), _renderPass));
 		}
 
 		{

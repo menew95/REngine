@@ -93,8 +93,8 @@ namespace rengine
 			//   |  \
 			//  [i+1]-[i+2]
 			_indices[0].push_back(0);
-			_indices[0].push_back(i + 2);
 			_indices[0].push_back(i + 1);
+			_indices[0].push_back(i + 2);
 		}
 
 		// 몸통 인덱스
@@ -127,8 +127,8 @@ namespace rengine
 			//  |      /
 			//  [bottom]
 			_indices[0].push_back(_bottomIndex);
-			_indices[0].push_back(_lastRingStartIndex + i);
 			_indices[0].push_back(_lastRingStartIndex + i + 1);
+			_indices[0].push_back(_lastRingStartIndex + i);
 		}
 
 

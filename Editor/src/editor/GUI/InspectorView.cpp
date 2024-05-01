@@ -39,9 +39,13 @@ namespace editor
     {
         __super::Begin();
 
-		m_gamObjectWidget->SetEnable(false);
-    }
-    void InspectorView::Render()
+		if (EventManager::GetInstance()->GetFocusObject() == nullptr)
+			return;
+
+		m_gamObjectWidget->SetEnable(EventManager::GetInstance()->GetFocusObject()->GetType() == TEXT("GameObject"));
+	}
+    
+	void InspectorView::Render()
     {
         __super::Render();
 
@@ -74,6 +78,7 @@ namespace editor
 			DrawMaterialProperty();
 		}
     }
+
     void InspectorView::End()
     {
         __super::End();
@@ -558,8 +563,6 @@ namespace editor
 
 	void InspectorView::DrawGameObject(rengine::GameObject* go)
 	{
-		m_gamObjectWidget->SetEnable(true);
-
 		const rttr::type gameobject_type = rttr::type::get_by_name("GameObject");
 
 		rttr::instance _instance = go;

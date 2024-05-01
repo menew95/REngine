@@ -90,7 +90,7 @@ namespace editor
 
 	void EventManager::StopGame()
 	{
-		if(m_curFocusObject->GetType() == TEXT("GameObject"))
+		if(m_curFocusObject != nullptr && m_curFocusObject->GetType() == TEXT("GameObject"))
 			m_curFocusObject = nullptr;
 
 		if (m_editorMode != EditorMode::Edit)

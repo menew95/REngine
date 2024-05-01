@@ -102,14 +102,14 @@ namespace rengine
 	void Renderer::SetMaterials(vector<shared_ptr<Material>> val)
 	{
 		// 각 머티리얼에 할당된 렌더패스에서 등록된 오브젝트 삭제
-		for (auto& _mat : m_materials)
+		for (uint32 i = 0; i < m_materials.size(); i++)
 		{
-			auto _material = _mat.lock();
+			auto _material = m_materials[i].lock();
 
 			if (_material == nullptr)
 				continue;
 
-			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject, i);
 		}
 
 		m_materials.resize(val.size());
@@ -135,7 +135,7 @@ namespace rengine
 			return;
 
 		if(m_materials[i].lock() != nullptr)
-			m_materials[i].lock()->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+			m_materials[i].lock()->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject, i);
 
 		m_materials[i] = mat;
 
@@ -194,14 +194,14 @@ namespace rengine
 	void Renderer::OnDestroy()
 	{
 		// 각 머티리얼에 할당된 렌더패스에서 등록된 오브젝트 삭제
-		for (auto& _mat : m_materials)
+		for (uint32 i = 0; i < m_materials.size(); i++)
 		{
-			auto _material = _mat.lock();
+			auto _material = m_materials[i].lock();
 
 			if (_material == nullptr)
 				continue;
 
-			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject);
+			_material->GetMaterialBuffer()->RemoveRenderObject(m_pRenderObject, i);
 		}
 
 		graphics::RenderQueue::GetInstance()->DeleteObject(m_pRenderObject);

@@ -88,6 +88,9 @@ namespace graphics
         GRAPHICS_API inline const PerObject& GetTrans() const { return m_perObject; }
         GRAPHICS_API inline const math::Matrix& GetWorld() const { return m_perObject._world; }
         GRAPHICS_API inline const math::Matrix& GetWorldInv() const { return m_perObject._worldInv; }
+       
+        GRAPHICS_API inline const math::Vector3& GetBoundinBoxMin() const { return m_boundingBoxMin; }
+        GRAPHICS_API inline const math::Vector3& GetBoundinBoxMax() const { return m_boundingBoxMax; }
 
         GRAPHICS_API inline void SetHash(uint64 val) { m_hash = val, m_perObject._objID = EncodeSelectionId(m_hash); }
         GRAPHICS_API inline void SetEnable(bool val) { m_bEnable = val; }

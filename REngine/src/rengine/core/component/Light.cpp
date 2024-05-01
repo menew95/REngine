@@ -79,6 +79,8 @@ namespace rengine
 	{
 		m_pLightBuffer = graphics::ResourceManager::GetInstance()->CreateLightBuffer(GetUUID());
 
+		m_pLightBuffer->Initialize();
+
 		auto _trans = GetTransform();
 
 		if (_trans == nullptr)

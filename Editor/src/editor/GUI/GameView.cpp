@@ -148,6 +148,8 @@ namespace editor
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("SkyBox Pass")));
 
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Deferred Pass")));
+
+		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Shadow Pass")));
 		
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Deferred Light Pass")));
 		

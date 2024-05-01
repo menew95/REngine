@@ -126,7 +126,7 @@
     "BlendDesc": "Default"
   },
   {
-    "UUID": "CasCaded_Light_Shadow",
+    "UUID": "Cascaded_Light_Shadow",
     "ShaderProgram": "CasCaded_Light_Shadow",
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "Standard",

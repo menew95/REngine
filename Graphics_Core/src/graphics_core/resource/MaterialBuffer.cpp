@@ -156,12 +156,12 @@ namespace graphics
 		m_renderObjectList.emplace_back(obj, subMeshIdx);
 	}
 
-	void MaterialBuffer::RemoveRenderObject(RenderObject* obj)
+	void MaterialBuffer::RemoveRenderObject(RenderObject* obj, uint32 subMeshIdx)
 	{
 		auto _it = find_if(std::begin(m_renderObjectList), std::end(m_renderObjectList), 
-			[&obj](auto& pair)
+			[&obj, &subMeshIdx](auto& pair)
 			{
-				return obj == pair.first;
+				return obj == pair.first && subMeshIdx == pair.second;
 			});
 
 		if (_it != std::end(m_renderObjectList))

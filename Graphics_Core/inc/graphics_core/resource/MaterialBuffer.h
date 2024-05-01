@@ -71,9 +71,10 @@ namespace graphics
 
         /**
             @brief pass에 등록 된 render object 제거
-            @param obj - render object ptr
+            @param obj        - render object ptr
+            @param subMeshIdx - 머티리얼이 적용된 서브 매쉬 인덱스
         **/
-        GRAPHICS_API void RemoveRenderObject(class RenderObject* obj);
+        GRAPHICS_API void RemoveRenderObject(class RenderObject* obj, uint32 subMeshIdx);
 
         /**
             @brief material의 color값 설정

@@ -1,19 +1,43 @@
 #include "header\H_Const.hlsli"
 #include "header\H_Input.hlsli"
 
-StructuredBuffer<Light> gLightTexture : register(t12);
-
-cbuffer PerMaterial : register(b2)
+cbuffer PerLight : register(b2)
 {
-    int _current_light_idx;
+    //int _current_light_idx;
+    uint _type; 
+    float3 _direction;
+    
+    float3 _position;
+    float _attenuationRadius;
+    
+    float3 _color;
+    float _intensity;
+  
+    float _angle;
+    float _innerAngle;
+    float _fallOffExponential;
+    float _width;
+
+    float3 _up;
+    float _height;
+
+    int _staticShadowMapIdx;
+    int _dynamicShadowMapIdx;
+    uint _shadowState;
+    int _pad;
+
+    matrix _shadowMatrix[6]; 
+
+    float2 _uv0[6];
+    float2 _uv1[6];
 }
 
 struct VSShadowOutput
 {
-    float4 posH : SV_POSITION;
+    float4 posW : SV_POSITION;
     float2 uv : TEXCOORD0;
-
 };
+
 struct GSOutput
 {
     float4 posH : SV_POSITION;
@@ -32,9 +56,7 @@ VSShadowOutput VSMain(VSInput input)
 
 #if !defined(SKIN)
 
-    float4 posW = mul(float4(input.posL, 1.0f), _world);
-    float4 posV = mul(posW, _camera._view);
-    output.posH = mul(posV, _camera._proj);
+    output.posW = mul(float4(input.posL, 1.0f), _world);
 
 #else   //SKIN
 
@@ -49,12 +71,14 @@ VSShadowOutput VSMain(VSInput input)
         }
     }
 
-    float4 posW = mul(float4(posL, 1.0f), _world);
-    float4 posV = mul(posW, _camera._view);
-    output.posH = mul(posV, _camera._proj);
+    output.posW = mul(float4(posL, 1.0f), _world);
 
 #endif
     output.uv = input.uv;
+
+#if defined(SPOT_LIGHT)
+    output.posW = mul(output.posW, _shadowMatrix[0])
+#endif
 
     return output;
 }
@@ -73,7 +97,7 @@ void CascadeGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutp
 
         for (int i = 0; i < 3; ++i)
         {
-            output.posH = mul(input[i].posH, _shadow._shadowTransform[cascade]);
+            output.posH = mul(input[i].posW, _shadow._shadowTransform[cascade]);
             output.uv = input[i].uv;
 
             stream.Append(output);
@@ -84,7 +108,7 @@ void CascadeGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutp
 }
 
 [maxvertexcount(3)] // 1(shadow slice) * 3
-void SpotGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> stream)
+void SpotGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutput> stream)
 {
     for (int i = 0; i < 3; ++i)
     {
@@ -92,9 +116,9 @@ void SpotGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> strea
 
         output.RTIndex = 0;
 
-        output.posH = mul(input[i].posH, gLightTexture[_current_light_idx]._shadowMatrix[0]);
+        output.posH = mul(input[i].posW, _shadowMatrix[0]);
         output.uv = input[i].uv;
-        
+
         stream.Append(output);
     }
 
@@ -102,7 +126,7 @@ void SpotGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> strea
 }
 
 [maxvertexcount(18)] // 6(shadow slice) * 3
-void PointGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> stream)
+void PointGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutput> stream)
 {
     for (int directionIdx = 0; directionIdx < 6 ;directionIdx++)
     {
@@ -112,7 +136,7 @@ void PointGSMain(triangle VSOutput input[3], inout TriangleStream<GSOutput> stre
 
         for (int i = 0; i < 3; ++i)
         {
-            output.posH = mul(input[i].posH, gLightTexture[_current_light_idx]._shadowMatrix[directionIdx]);
+            output.posH = mul(input[i].posW, _shadowMatrix[directionIdx]);
             output.uv = input[i].uv;
 
             stream.Append(output);

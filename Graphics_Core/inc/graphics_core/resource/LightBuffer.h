@@ -26,39 +26,42 @@ namespace graphics
     struct alignas(16)LightInfo
     {
         uint32 _type;
-        Vector3 _direction;
+        Vector3 _direction = Vector3::Forward;
 
-        Vector3 _position;
-        float _attenuationRadius;
+        Vector3 _position = Vector3::Zero;
+        float _attenuationRadius = 5.0f;
 
-        Vector3 _color;
-        float _intensity;
+        Vector3 _color = Vector3::One;
+        float _intensity = 2.5f;
 
-        float _angle;               // radian
-        float _innerAngle;          // radian
+        float _angle = 30.f * Deg2Rad;      // radian
+        float _innerAngle = 21.80208f * Deg2Rad; // radian
         float _fallOffExponential;
-        float _width;
+        float _width = 1.f;
 
-        Vector3 _up;
-        float _height;
+        Vector3 _up = Vector3::Up;
+        float _height = 1.0f;
 
         int _staticShadowMapIdx;
         int _dynamicShadowMapIdx;
         uint _shadowState;
         int _pad;
 
+        Matrix _shadowMatrix[6];
+
         Vector2 _uv0[6];
         Vector2 _uv1[6];
-
-        Matrix _shadowMatrix[6];
     };
 
     struct ShadowInfo
     {
-        uint32 _resolution;
+        uint32 _resolution = 3;
         uint32 _bias;
         uint32 _normalBias;
         uint32 _near;
+
+        Matrix _view[6];
+        Matrix _proj;
     };
 
     class LightBuffer : public ResourceBuffer
@@ -68,6 +71,8 @@ namespace graphics
         ~LightBuffer();
 
         GRAPHICS_API virtual void SetName(const char* name);
+
+        GRAPHICS_API void Initialize();
 
         BufferType GetBufferType()
         {
@@ -127,7 +132,11 @@ namespace graphics
         void BakeShadow();
 
     private:
-        void CreateRenderTarget();
+        void CreateShadowMap();
+
+        void ReleaseShadowMap();
+
+        void UpdateLightTransform();
 
         bool m_enable = false;
 

@@ -87,7 +87,7 @@ namespace graphics
 				&m_Errors);
 			HR(_hr, "failed to complie shader file");
 
-			if (_hr == E_FAIL)
+			if (_hr != S_OK)
 			{
 				auto error = (char*)m_Errors->GetBufferPointer();
 

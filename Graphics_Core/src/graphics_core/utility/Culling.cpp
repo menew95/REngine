@@ -4,7 +4,7 @@
 
 namespace graphics
 {
-	bool CullingHelper::ViewFrustumCullingBoundingBox(const Frustum& frustum, math::Matrix& worldTM, math::Vector3& boundMin, math::Vector3& boundMax)
+	bool CullingHelper::ViewFrustumCullingBoundingBox(const Frustum& frustum, const math::Matrix& worldTM, const math::Vector3& boundMin, const math::Vector3& boundMax)
 	{
 		math::Vector3 center = (boundMax + boundMin) / 2;
 		math::Vector3 extents = (boundMax - boundMin) / 2;
@@ -159,6 +159,58 @@ namespace graphics
 		outFrustum._leftFace._normal.Normalize();
 		outFrustum._topFace._normal.Normalize();
 		outFrustum._bottomFace._normal.Normalize();
+	}
+
+	Frustum CullingHelper::CreateFrustum(const FrustumInfo& info)
+	{
+		Frustum _result;
+
+		auto _viewInv = info._view.Invert();
+
+		_result._camRight = math::Vector3{ _viewInv.m[0][0], _viewInv.m[0][1], _viewInv.m[0][2] };
+		_result._camUp = math::Vector3{ _viewInv.m[1][0], _viewInv.m[1][1], _viewInv.m[1][2] };
+		_result._camLook = math::Vector3{ _viewInv.m[2][0], _viewInv.m[2][1], _viewInv.m[2][2] };
+
+		_result._camLook.Normalize();
+		_result._camRight.Normalize();
+		_result._camUp.Normalize();
+
+		_result._nearFace = { _result._camLook , info._position + _result._camLook * info._near };
+		_result._farFace = { -_result._camLook , info._position + _result._camLook * info._far };
+
+		math::Vector3 FarVec = _result._camLook * info._far;
+		float halfHorizon = info._far * tanf(info._fov * 0.5f);//halfVertical * info._aspectRatio;
+		float halfVertical = halfHorizon * info._aspect;//info._far * tanf(info._fov * 0.5f);
+
+		math::Vector3 rightNormal = FarVec + _result._camRight * halfHorizon;
+		math::Vector3 leftNormal = FarVec - _result._camRight * halfHorizon;
+
+		rightNormal.Normalize();
+		leftNormal.Normalize();
+
+		_result._rightFace = { rightNormal.Cross(_result._camUp) , info._position };
+		_result._leftFace = { _result._camUp.Cross(leftNormal) , info._position };
+
+		math::Vector3 upNormal = FarVec + _result._camUp * halfVertical;
+		math::Vector3 downNormal = FarVec - _result._camUp * halfVertical;
+
+		upNormal.Normalize();
+		downNormal.Normalize();
+
+		//_result._topFace = {  upNormal.Cross(_result._camRight) , info._infoPosition };
+		//_result._bottomFace = { _result._camRight.Cross(downNormal) , info._infoPosition };
+
+		_result._topFace = { _result._camRight.Cross(upNormal) , info._position };
+		_result._bottomFace = { downNormal.Cross(_result._camRight) , info._position };
+
+		_result._nearFace._normal.Normalize();
+		_result._farFace._normal.Normalize();
+		_result._rightFace._normal.Normalize();
+		_result._leftFace._normal.Normalize();
+		_result._topFace._normal.Normalize();
+		_result._bottomFace._normal.Normalize();
+
+		return _result;
 	}
 
 	bool CullingHelper::IsForwardPlane(math::Vector3& centerPos, math::Vector3& boundingBox, const Plane& plane)

@@ -35,7 +35,7 @@ namespace editor
         void SetDisable(bool val) { m_isDisabled = val; }
 
     protected:
-        bool m_isDisabled;
+        bool m_isDisabled = false;
 
         ImVec2 m_rectSize;
 
