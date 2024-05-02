@@ -88,5 +88,23 @@
     "Back/DepthFailOp": "Keep",
     "Back/DepthPassOp": "Keep",
     "Back/CompareOp": "Equal"
+  },
+  {
+    "UUID": "CopyShadow",
+    "DepthEnable": true,
+    "WriteEnabled": true,
+    "CompareOp": "AlwaysPass",
+    "StencilEnable": false,
+    "ReadMask": 255,
+    "WriteMask": 255,
+    "StencilRef": 1,
+    "Front/StencilFailOp": "Keep",
+    "Front/DepthFailOp": "Keep",
+    "Front/DepthPassOp": "Keep",
+    "Front/CompareOp": "Equal",
+    "Back/StencilFailOp": "Keep",
+    "Back/DepthFailOp": "Keep",
+    "Back/DepthPassOp": "Keep",
+    "Back/CompareOp": "Equal"
   }
 ]

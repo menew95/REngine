@@ -24,6 +24,9 @@ namespace graphics
     {
         class LightBuffer* _lightBuffer;
         vector<class RenderObject*> _primitives;
+
+        // point와 cascaded의 인스턴스 데이터를 채워넣기 위한 변수
+        vector<vector<int>> _instanceData;
     };
 
     class ShadowRenderPass : public RenderPass
@@ -53,7 +56,7 @@ namespace graphics
             @brief CSM에서 사용될 프리미티브 데이터 선별
             @param projectedShadowInfo - 그림자 정보 구조체
         **/
-        void FinishGatherShadowPrimitives(ProjectedShadowInfo& projectedShadowInfo);
+        void BeginGatherCSMShadowPrimitives(CameraBuffer* camBuffer);
 
         /**
             @brief 그림자 맵을 그림

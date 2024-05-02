@@ -142,5 +142,23 @@
     "StencilDesc": "Standard",
     "RasterizerDesc": "Default",
     "BlendDesc": "Default"
+  },
+  {
+    "UUID": "Copy2DDepth",
+    "ShaderProgram": "Copy2DDepth",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "CopyShadow",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
+  },
+  {
+    "UUID": "CopyCubeDepth",
+    "ShaderProgram": "CopyCubeDepth",
+    "PrimitiveTopology": "TriangleList",
+    "DepthDesc": "CopyShadow",
+    "StencilDesc": "NoDepth",
+    "RasterizerDesc": "NoCull",
+    "BlendDesc": "Default"
   }
 ]

@@ -14,7 +14,6 @@
 
 #include <common\math.h>
 
-
 namespace graphics
 {
     class Buffer;
@@ -50,7 +49,7 @@ namespace graphics
     struct alignas(16) CascadedInfo
     {
         math::Matrix _lightTransform[4];
-        math::Vector4 _cascadeOffset;
+        Vector4 _cascadeOffset[5];
         math::Vector4 _cascadeScale;
     };
 
@@ -85,6 +84,7 @@ namespace graphics
         auto* GetDepthTexture() const { return m_pDepthTexture; }
 
         GRAPHICS_API const auto& GetCameraInfo() { return m_cameraInfo; }
+        GRAPHICS_API const auto& GetCascadedInfo() { return m_cascadedInfo; }
 
         GRAPHICS_API const bool& GetEnable() { return m_bIsEnable; }
 

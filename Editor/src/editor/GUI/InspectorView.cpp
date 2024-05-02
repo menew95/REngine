@@ -39,19 +39,18 @@ namespace editor
     {
         __super::Begin();
 
-		if (EventManager::GetInstance()->GetFocusObject() == nullptr)
-			return;
-
-		m_gamObjectWidget->SetEnable(EventManager::GetInstance()->GetFocusObject()->GetType() == TEXT("GameObject"));
+		m_gamObjectWidget->SetEnable(false);
 	}
     
 	void InspectorView::Render()
     {
-        __super::Render();
-
         if (EventManager::GetInstance()->GetFocusObject() == nullptr)
 			return;
-        
+
+		m_gamObjectWidget->SetEnable(EventManager::GetInstance()->GetFocusObject()->GetType() == TEXT("GameObject"));
+
+        __super::Render();
+
 		rengine::Object* _object = reinterpret_cast<rengine::Object*>(EventManager::GetInstance()->GetFocusObject());
 
 		if(_object->GetType() == TEXT("GameObject"))

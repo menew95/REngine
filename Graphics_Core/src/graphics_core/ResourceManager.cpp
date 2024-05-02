@@ -144,6 +144,7 @@ namespace graphics
 		}
 
 		TextureBuffer::CreateDefaultTextureBuffer();
+
 	}
 
 	void ResourceManager::InitRenderPass()

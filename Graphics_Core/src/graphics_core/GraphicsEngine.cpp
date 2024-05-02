@@ -49,12 +49,12 @@ namespace graphics
 	void GraphicsEngine::LoadGraphicsResource()
 	{
 		ResourceManager::GetInstance()->LoadGraphicsResource();
-
-		m_pRenderer = new Renderer(m_pCommandBuffer);
 	}
 
 	void GraphicsEngine::InitRenderPass()
 	{
+		m_pRenderer = new Renderer(m_pCommandBuffer);
+
 		ResourceManager::GetInstance()->InitRenderPass();
 	}
 

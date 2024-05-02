@@ -253,7 +253,7 @@
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\CopyShadowMap.hlsl",
     "SourceSize": 0,
-    "EntryPoint": "CopyCubeDepthPS",
+    "EntryPoint": "CopyCubeArrayDepthPS",
     "Profile": "ps_5_0"
   },
   {

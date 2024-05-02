@@ -256,6 +256,7 @@ namespace graphics
 
 	void graphics::LightManager::UpdateLightBuffer(CommandBuffer* command)
 	{
+		m_cascadedSet = false;
 
 		uint32 _stride = sizeof(LightInfo);
 		uint32 _dataSize = (uint32)m_lightBufferMap.size() * _stride;
@@ -300,6 +301,13 @@ namespace graphics
 					_buffer->GetLightInfo()._color.z,
 					1.0f
 				};
+			}
+
+			if (!m_cascadedSet && _buffer->m_lightInfo._type == (uint32)LightType::Directional)
+			{
+				m_cascadedSet = true;
+				m_cascadedDir = _buffer->m_lightInfo._direction;
+				m_cascadedLightBuffer = _buffer;
 			}
 		}
 

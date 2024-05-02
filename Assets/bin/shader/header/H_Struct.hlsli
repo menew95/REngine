@@ -4,7 +4,7 @@
 struct Camera
 {
     float3 _world;
-
+	float _pad0;
     matrix _view;
     matrix _proj;
     matrix _projInv;
@@ -17,6 +17,7 @@ struct Camera
 
     float _near;
     float _far;
+	float2 _pad1;
 };
 
 struct PostProcess

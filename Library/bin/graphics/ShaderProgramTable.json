@@ -87,7 +87,6 @@
   {
     "UUID": "CopyCubeDepth",
     "Vertex": "ScreenVS",
-    "Pixel": "CopyCubeDepthPS",
-    "Geometry": "CopyCubeDepthGS"
+    "Pixel": "CopyCubeDepthPS"
   }
 ]

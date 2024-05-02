@@ -81,6 +81,8 @@ namespace graphics
 				m_projectedShadowInfos.push_back(_shadowInfo);
 		}
 
+		BeginGatherCSMShadowPrimitives(camBuffer);
+
 		command->SetResource(*m_pMaterialBuffer, 2, BindFlags::ConstantBuffer, StageFlags::GS);
 	}
 	
@@ -107,6 +109,7 @@ namespace graphics
 		shadowInfo->_lightBuffer->UpdateLightTransform();
 
 		shadowInfo->_primitives.reserve(RenderQueue::GetInstance()->m_meshObjectList.size());
+		shadowInfo->_instanceData.reserve(RenderQueue::GetInstance()->m_meshObjectList.size());
 
 		Frustum _frustum[6];
 
@@ -169,6 +172,7 @@ namespace graphics
 				case LightType::Point:
 				{
 					bool _isCulled = true;
+					vector<int> _instance;
 
 					for (uint32 i = 0; i < 6; i++)
 					{
@@ -181,6 +185,7 @@ namespace graphics
 						))
 						{
 							_isCulled = false;
+							_instance.push_back(i);
 							break;
 						}
 					}
@@ -191,6 +196,29 @@ namespace graphics
 				}
 			}
 		}
+	}
+
+	void ShadowRenderPass::BeginGatherCSMShadowPrimitives(CameraBuffer* camBuffer)
+	{
+		// cascaded가 설정이 안되어있다면 스킾
+		if(!LightManager::GetInstance()->m_cascadedSet)
+			return;
+		
+		ProjectedShadowInfo _projectedShadowInfo;
+
+		_projectedShadowInfo._lightBuffer = LightManager::GetInstance()->m_cascadedLightBuffer;
+
+
+		// 프리미티브를 순회하며 선별 작업
+		for (auto& [_uuid, _meshObj] : RenderQueue::GetInstance()->m_meshObjectList)
+		{
+			// 비활성화 상태이거나 매쉬가 설정이 안되어 있을 경우 넘어감
+			if (!_meshObj->GetEnable() || _meshObj->GetMeshBuffer() == nullptr) continue;
+
+			_projectedShadowInfo._primitives.emplace_back(_meshObj.get());
+		}
+
+		m_projectedShadowInfos.push_back(_projectedShadowInfo);
 	}
 
 	void ShadowRenderPass::RenderDepth(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo)
@@ -215,7 +243,7 @@ namespace graphics
 			case LightType::Directional:
 			{
 				m_cascadedLightShadow->BindPipelineState(command);
-				return;
+				break;
 			}
 		}
 
@@ -259,6 +287,8 @@ namespace graphics
 
 	void ShadowRenderPass::CopyToShadowAtlas(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo)
 	{
+		command->SetRenderTarget(*LightManager::GetInstance()->m_shadowMapAtlasRT, 0, nullptr);
+
 		switch ((LightType)projectedShadowInfo._lightBuffer->m_lightInfo._type)
 		{
 			case LightType::Spot:
@@ -267,8 +297,8 @@ namespace graphics
 				{
 					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].x,
 					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].y,
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].x,
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].y,
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].x - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].x,
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].y - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].y,
 					0.f, 1.0f
 				};
 
@@ -276,36 +306,70 @@ namespace graphics
 
 				m_copy2DDepth->BindPipelineState(command);
 
+				m_copy2DDepth->SetTexture(TEXT("ShadowDepthTexture"), projectedShadowInfo._lightBuffer->m_pDepthTexture);
+				
+				m_copy2DDepth->BindResource(command);
+
+				Renderer::GetInstance()->DrawRectangle();
 				break;
 			}
 			case LightType::Point:
 			{
-				Viewport _viewPorts[6];
+				m_copyCubeDepth->SetTexture(TEXT("ShadowDepthArrayTexture"), projectedShadowInfo._lightBuffer->m_pDepthTexture);
+				
+				m_copyCubeDepth->BindPipelineState(command);
 
 				for (uint32 i = 0; i < 6; i++)
 				{
-					_viewPorts[i] = {
+					Viewport _viewPort = {
 						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].x,
 						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].y,
-						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].x,
-						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].y,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].x - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].x,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].y - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].y,
 						0.f, 1.0f
 					};
+
+					m_copyCubeDepth->SetInteger(TEXT("index"), i);
+
+					m_copyCubeDepth->BindResource(command);
+
+					command->SetViewport(_viewPort);
+
+					Renderer::GetInstance()->DrawRectangle();
 				}
-
-				command->SetViewports(6, _viewPorts);
-
-				m_copyCubeDepth->BindPipelineState(command);
 
 				break;
 			}
 			case LightType::Directional:
 			{
-				
+				return;
+				m_copyCubeDepth->SetTexture(TEXT("ShadowDepthArrayTexture"), projectedShadowInfo._lightBuffer->m_pDepthTexture);
+
+				m_copyCubeDepth->BindPipelineState(command);
+
+				for (uint32 i = 0; i < NUM_CASCADES; i++)
+				{
+					Viewport _viewPort = {
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].x,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].y,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].x - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].x,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].y - projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].y,
+						0.f, 1.0f
+					};
+
+					m_copyCubeDepth->SetInteger(TEXT("index"), i);
+
+					m_copyCubeDepth->BindResource(command);
+
+					command->SetViewport(_viewPort);
+
+					Renderer::GetInstance()->DrawRectangle();
+				}
+
 				return;
 			}
 		}
 
-		command->SetRenderTarget(*LightManager::GetInstance()->m_shadowMapAtlasRT, 0, nullptr);
+		
 	}
 }

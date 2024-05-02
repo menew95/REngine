@@ -103,3 +103,20 @@ void CopyCubeDepthPS(
 	OutColor = 0;
 	OutDepth = TextureCubeSampleLevel(ShadowDepthCubeTexture, ShadowDepthSampler, CubeCoordinates, 0).x;
 }
+
+Texture2DArray ShadowDepthArrayTexture;
+
+cbuffer PerMaterial : register(b2)
+{
+    int index;
+}
+
+void CopyCubeArrayDepthPS(
+	VSOutput Input,
+	out float OutDepth : SV_DEPTH,
+	out float4 OutColor : SV_Target0
+	)
+{ 
+	OutColor = 0;
+	OutDepth = ShadowDepthArrayTexture.SampleLevel(ShadowDepthSampler, float3(Input.uv, index), 0).x;
+}

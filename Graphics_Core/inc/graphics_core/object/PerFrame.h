@@ -47,12 +47,20 @@ namespace graphics
 	struct alignas(16) PerFrame
 	{
 		CameraInfo _camera;
-		PostProcess _postProcess;
+		//PostProcess _postProcess;
 
 		uint _lightCnt = 0;
+		Vector3 _pad;
 
 		Vector4 _LightPos;
 		Vector4 _LightColor;
+
+		CascadedInfo _shadow;
+	};
+
+	struct alignas(16) PerCamera
+	{
+		CameraInfo _camera;
 
 		CascadedInfo _shadow;
 	};

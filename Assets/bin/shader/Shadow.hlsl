@@ -24,7 +24,7 @@ cbuffer PerLight : register(b2)
     int _staticShadowMapIdx;
     int _dynamicShadowMapIdx;
     uint _shadowState;
-    int _pad;
+    int _pad0;
 
     matrix _shadowMatrix[6]; 
 

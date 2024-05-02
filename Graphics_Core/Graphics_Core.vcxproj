@@ -258,6 +258,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\graphics_core\table\JsonMacro.h" />
     <ClInclude Include="inc\graphics_core\renderpass\ShadowRenderPass.h" />
     <ClInclude Include="inc\graphics_core\utility\Culling.h" />
+    <ClInclude Include="inc\graphics_core\utility\ShadowHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\graphics_core\LightManager.cpp" />
@@ -286,6 +287,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\graphics_core\resource\ResourceBuffer.cpp" />
     <ClCompile Include="src\graphics_core\resource\TextureBuffer.cpp" />
     <ClCompile Include="src\graphics_core\utility\Culling.cpp" />
+    <ClCompile Include="src\graphics_core\utility\ShadowHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">

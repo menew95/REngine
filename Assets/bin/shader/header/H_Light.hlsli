@@ -44,7 +44,7 @@ struct Light // 1 + 1 + 1 + 1 + 1 + 1 + 4 * 6 = 30 ... 30 * 30 = 900
 struct CascadeShadow //18
 {
     matrix _shadowTransform[4]; // 4 * 4 
-    float4 _cascadeOffset; 
+    float4 _cascadeOffset[5]; 
     float4 _cascadeScale;
 };
 

@@ -19,6 +19,7 @@
 #include <graphics_core\Graphics_core_dllexport.h>
 
 #define NUM_CASCADES 4
+#define NUM_FRUSTUM_CORNERS 8
 #define NUM_SPOTLIGHT 24
 #define NUM_POINTLIGHT 12
 #define SHADOWMAP_ATLAS_SIZE 8192
@@ -121,6 +122,11 @@ namespace graphics
         uint32 GetTextureArrayLayerForPointRenderTarget();
 
         uint32 m_curLightCnt;
+
+        bool m_cascadedSet = false;
+        LightBuffer* m_cascadedLightBuffer = nullptr;
+        Vector3 m_cascadedDir;
+
         unordered_map<uuid, LightBuffer*> m_lightBufferMap;
 
         Buffer* m_lightBuffer = nullptr;
@@ -145,5 +151,6 @@ namespace graphics
         friend class ShadowRenderPass;
         friend class DeferredLightPass;
         friend class LightBuffer;
+        friend class Renderer;
     };
 }

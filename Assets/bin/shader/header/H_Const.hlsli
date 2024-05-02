@@ -7,9 +7,10 @@
 cbuffer PerFrame : register(b0)
 {
     Camera _camera;
-    PostProcess _postProcess;
+    //PostProcess _postProcess;
 
     uint _lightCnt = 0;
+    float3 _pad;
 
     // direction light;
     float4 _WorldSpaceLightPos0;
