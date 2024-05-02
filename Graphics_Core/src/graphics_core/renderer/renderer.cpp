@@ -54,7 +54,7 @@ namespace graphics
 
 		if (LightManager::GetInstance()->m_cascadedSet)
 		{
-			float cascadeOffset[4]{ 0.05f, 0.18f, 0.6f, 1.0f };
+			/*float cascadeOffset[4]{ 0.05f, 0.18f, 0.6f, 1.0f };
 
 			CascadeShadowSlice slice[4];
 			ShadowHelper::CalculateCascadeShadowSlices2(
@@ -81,10 +81,10 @@ namespace graphics
 			_perFrame._shadow._cascadeScale.x = slice[0]._frustumRadius * 2;
 			_perFrame._shadow._cascadeScale.y = slice[1]._frustumRadius * 2;
 			_perFrame._shadow._cascadeScale.z = slice[2]._frustumRadius * 2;
-			_perFrame._shadow._cascadeScale.w = slice[3]._frustumRadius * 2;
+			_perFrame._shadow._cascadeScale.w = slice[3]._frustumRadius * 2;*/
 
-			//cameraBuffer->UpdateCascadeShadow(LightManager::GetInstance()->m_cascadedDir);
-			//_perFrame._shadow = cameraBuffer->GetCascadedInfo();
+			cameraBuffer->UpdateCascadeShadow(LightManager::GetInstance()->m_cascadedDir);
+			_perFrame._shadow = cameraBuffer->GetCascadedInfo();
 		}
 
 		LightManager::GetInstance()->GetPerFrame(_perFrame);

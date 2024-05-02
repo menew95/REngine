@@ -87,7 +87,7 @@ namespace graphics
 		math::Matrix CamInv = m_cameraInfo._view;
 
 		// Get the light space transform
-		math::Matrix LightM = math::Matrix::CreateLookAt(math::Vector3(0.0f, 0.0f, 0.0f), directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
+		//math::Matrix LightM = math::Matrix::CreateLookAt(math::Vector3(0.0f, 0.0f, 0.0f), directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
 
 		float tanHalfHFOV = std::tanf((m_cameraInfo._fov / 2.0f));
 		float tanHalfVFOV = std::tanf(((m_cameraInfo._fov * m_cameraInfo._aspectRatio) / 2.0f));
@@ -100,10 +100,10 @@ namespace graphics
 
 			math::Vector4 frustumCorners[NUM_FRUSTUM_CORNERS] = {
 				// near face
-				math::Vector4(xn, yn, m_cascadedInfo._cascadeOffset[i].x, 0.0),
-				math::Vector4(-xn, yn, m_cascadedInfo._cascadeOffset[i].x, 0.0),
-				math::Vector4(xn, -yn, m_cascadedInfo._cascadeOffset[i].x, 0.0),
-				math::Vector4(-xn, -yn, m_cascadedInfo._cascadeOffset[i].x, 0.0),
+				math::Vector4(xn, yn, m_cascadedInfo._cascadeOffset[i].x, 1.0),
+				math::Vector4(-xn, yn, m_cascadedInfo._cascadeOffset[i].x, 1.0),
+				math::Vector4(xn, -yn, m_cascadedInfo._cascadeOffset[i].x, 1.0),
+				math::Vector4(-xn, -yn, m_cascadedInfo._cascadeOffset[i].x, 1.0),
 
 				// far face
 				math::Vector4(xf, yf, m_cascadedInfo._cascadeOffset[i + 1].x, 1.0),
@@ -121,20 +121,50 @@ namespace graphics
 			float minZ = std::numeric_limits<float>::max();
 			float maxZ = std::numeric_limits<float>::min();
 
-			for (uint j = 0; j < NUM_FRUSTUM_CORNERS; j++) {
 
-				// Transform the frustum coordinate from view to world space
-				math::Vector4 vW = math::Vector4::Transform(frustumCorners[j], CamInv);
+			Vector4 _cornerCenter = Vector4::Zero;
 
+			for (uint j = 0; j < NUM_FRUSTUM_CORNERS; j++)
+			{
+				// 각 코너를 월드 좌표로 옮김
+				frustumCornersL[j] = math::Vector4::Transform(frustumCorners[j], CamInv);
+				frustumCornersL[j] /= frustumCornersL[j].w;
+				_cornerCenter += frustumCornersL[j];
+
+				//// Transform the frustum coordinate from view to world space
+				//Vector4f vW = CamInv * frustumCorners[j];
+
+				//// Transform the frustum coordinate from world to light space
+				//frustumCornersL[j] = LightM * vW;
+
+				//minX = min(minX, frustumCornersL[j].x);
+				//maxX = max(maxX, frustumCornersL[j].x);
+				//minY = min(minY, frustumCornersL[j].y);
+				//maxY = max(maxY, frustumCornersL[j].y);
+				//minZ = min(minZ, frustumCornersL[j].z);
+				//maxZ = max(maxZ, frustumCornersL[j].z);
+			}
+
+			// 모든 코너들의 중점을 구함
+			_cornerCenter *= (1.f / 8.f);
+
+			//라이트의 위치 조정
+			Vector3 _lightPos = _cornerCenter - directionalLightDir * 200.f;
+
+			// Get the light space transform
+			math::Matrix LightM = math::Matrix::CreateLookAt(_lightPos, _lightPos +  directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
+			
+			for (uint j = 0; j < NUM_FRUSTUM_CORNERS; j++)
+			{
 				// Transform the frustum coordinate from world to light space
-				frustumCornersL[j] = math::Vector4::Transform(vW, LightM);
+				frustumCornersL[j] = math::Vector4::Transform(frustumCornersL[j], LightM);
 
-				minX = std::min(minX, frustumCornersL[j].x);
-				maxX = std::max(maxX, frustumCornersL[j].x);
-				minY = std::min(minY, frustumCornersL[j].y);
-				maxY = std::max(maxY, frustumCornersL[j].y);
-				minZ = std::min(minZ, frustumCornersL[j].z);
-				maxZ = std::max(maxZ, frustumCornersL[j].z);
+				minX = min(minX, frustumCornersL[j].x);
+				maxX = max(maxX, frustumCornersL[j].x);
+				minY = min(minY, frustumCornersL[j].y);
+				maxY = max(maxY, frustumCornersL[j].y);
+				minZ = min(minZ, frustumCornersL[j].z);
+				maxZ = max(maxZ, frustumCornersL[j].z);
 			}
 
 			m_cascadedInfo._lightTransform[i] = LightM * math::Matrix::CreateOrthographicOffCenter(

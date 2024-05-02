@@ -30,7 +30,7 @@ namespace graphics
 			,{+1.f, +1.f, +1.f} //far
 		};
 
-		auto viewProjInv = perFrame._camera._viewProj;
+		auto viewProjInv = perFrame._camera._viewProjInv;
 
 		for (int pointIdx = 0; pointIdx < 8; ++pointIdx)
 		{
