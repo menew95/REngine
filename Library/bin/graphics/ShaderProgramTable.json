@@ -16,7 +16,7 @@
   },
   {
     "UUID": "Deferred Light",
-    "Vertex": "00000000-0000-0000-0007-000000000000",
+    "Vertex": "ScreenVS",
     "Pixel": "00000000-0000-0000-0008-000000000000"
   },
   {
@@ -36,22 +36,22 @@
   },
   {
     "UUID": "Final",
-    "Vertex": "00000000-0000-0000-0007-000000000000",
+    "Vertex": "ScreenVS",
     "Pixel": "00000000-0000-0000-0014-000000000000"
   },
   {
     "UUID": "ToneMapping_Reinhard",
-    "Vertex": "00000000-0000-0000-0007-000000000000",
+    "Vertex": "ScreenVS",
     "Pixel": "00000000-0000-0000-0015-000000000000"
   },
   {
     "UUID": "ToneMapping_Filmic",
-    "Vertex": "00000000-0000-0000-0007-000000000000",
+    "Vertex": "ScreenVS",
     "Pixel": "00000000-0000-0000-0016-000000000000"
   },
   {
     "UUID": "ToneMapping_Uncharted",
-    "Vertex": "00000000-0000-0000-0007-000000000000",
+    "Vertex": "ScreenVS",
     "Pixel": "00000000-0000-0000-0017-000000000000"
   },
   {
@@ -78,5 +78,16 @@
     "UUID": "Point_Light_Shadow",
     "Vertex": "00000000-0000-0000-0022-000000000000",
     "Geometry": "00000000-0000-0000-0025-000000000000"
+  },
+  {
+    "UUID": "Copy2DDepth",
+    "Vertex": "ScreenVS",
+    "Pixel": "Copy2DDepthPS"
+  },
+  {
+    "UUID": "CopyCubeDepth",
+    "Vertex": "ScreenVS",
+    "Pixel": "CopyCubeDepthPS",
+    "Geometry": "CopyCubeDepthGS"
   }
 ]

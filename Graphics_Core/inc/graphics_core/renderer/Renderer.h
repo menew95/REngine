@@ -35,6 +35,8 @@ namespace graphics
 
         void RenderMesh(class MeshObject* meshObject, uint32 subMeshIdx);
 
+        void DrawRectangle();
+
         void RenderShadow(class MeshObject* meshObject);
 
         void RenderParticle(class ParticleObject* particleObject);
@@ -48,5 +50,7 @@ namespace graphics
 
         class Buffer* m_pFrameBuffer = nullptr;
         class Buffer* m_pTransBuffer = nullptr;
+
+        class MeshBuffer* m_pQuadMesh = nullptr;
     };
 }

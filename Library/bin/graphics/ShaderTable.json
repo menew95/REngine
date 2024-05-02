@@ -54,7 +54,7 @@
     "Profile": "ps_5_0"
   },
   {
-    "UUID": "00000000-0000-0000-0007-000000000000",
+    "UUID": "ScreenVS",
     "ShaderType": "Vertex",
     "ShaderSourceType": "HLSL",
     "FilePath": "bin\\shader\\VS_Mesh.hlsl",
@@ -236,6 +236,33 @@
     "FilePath": "bin\\shader\\Shadow.hlsl",
     "SourceSize": 0,
     "EntryPoint": "SpotGSMain",
+    "Profile": "gs_5_0"
+  },
+  {
+    "UUID": "Copy2DDepthPS",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\CopyShadowMap.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "Copy2DDepthPS",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "CopyCubeDepthPS",
+    "ShaderType": "Pixel",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\CopyShadowMap.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "CopyCubeDepthPS",
+    "Profile": "ps_5_0"
+  },
+  {
+    "UUID": "CopyCubeDepthGS",
+    "ShaderType": "Geometry",
+    "ShaderSourceType": "HLSL",
+    "FilePath": "bin\\shader\\CopyShadowMap.hlsl",
+    "SourceSize": 0,
+    "EntryPoint": "CopyCubeDepthGS",
     "Profile": "gs_5_0"
   }
 ]

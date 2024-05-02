@@ -68,6 +68,9 @@ namespace graphics
         MaterialBuffer* m_cascadedLightShadow = nullptr;
         MaterialBuffer* m_pointLightShadow = nullptr;
 
+        MaterialBuffer* m_copy2DDepth = nullptr;
+        MaterialBuffer* m_copyCubeDepth = nullptr;
+
         Buffer* m_pTransBuffer = nullptr;
         Buffer* m_pMaterialBuffer = nullptr;
 

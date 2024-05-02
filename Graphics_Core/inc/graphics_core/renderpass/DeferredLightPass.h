@@ -31,8 +31,6 @@ namespace graphics
     private:
         class MaterialBuffer* m_pMatBuffer = nullptr;
 
-        class MeshObject* m_pScreenMesh = nullptr;
-
         class RenderTarget* m_pRenderTarget = nullptr;
 
         friend class LightManager;

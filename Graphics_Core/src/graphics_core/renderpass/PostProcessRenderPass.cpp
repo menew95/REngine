@@ -32,15 +32,11 @@ namespace graphics
 
 	PostProcessRenderPass::~PostProcessRenderPass()
 	{
-		delete m_pScreenMesh;
+
 	}
 	
 	void PostProcessRenderPass::Init()
 	{
-		m_pScreenMesh = new MeshObject(TEXT("Screen Object"));
-
-		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
-
 		m_pPostProcessRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("PostProcessFrame"));
 
 		m_pPostProcessFrameColorTexture = ResourceManager::GetInstance()->GetTexture(TEXT("PostProcessFrame"));
@@ -79,7 +75,7 @@ namespace graphics
 
 			_matBuf->BindResource(command);
 
-			Renderer::GetInstance()->RenderMesh(m_pScreenMesh, 0);
+			Renderer::GetInstance()->DrawRectangle();
 
 			TextureLocation _empty;
 

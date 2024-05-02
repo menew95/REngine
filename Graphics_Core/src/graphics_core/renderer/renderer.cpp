@@ -29,6 +29,9 @@ namespace graphics
 
 		m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
 		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+
+		m_pQuadMesh = ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002"));
+
 	}
 
 	Renderer::~Renderer()
@@ -75,6 +78,17 @@ namespace graphics
 		m_pCommandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
 
 		auto& _subMeshBuf = _meshBuf->GetSubMesh(subMeshIdx);
+
+		m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
+
+		m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
+	}
+
+	void Renderer::DrawRectangle()
+	{
+		m_pCommandBuffer->SetVertexBuffer(*m_pQuadMesh->GetBuffer());
+
+		auto& _subMeshBuf = m_pQuadMesh->GetSubMesh(0);
 
 		m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 

@@ -192,7 +192,7 @@ namespace graphics
 
 		_shawdowMapRTDesc._attachments.push_back({ RenderTargetType::DepthStencil, m_shadowMapAtlasTexture, 0, 0, 0});
 
-		m_shadowMapAtlasRT = ResourceManager::GetInstance()->CreateRenderTarget(TEXT("Shadow Map RenderTarget"), _shawdowMapRTDesc);
+		m_shadowMapAtlasRT = ResourceManager::GetInstance()->CreateRenderTarget(TEXT("Shadow Map Depth"), _shawdowMapRTDesc);
 
 		BufferDesc _desc;
 

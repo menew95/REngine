@@ -137,7 +137,9 @@ namespace graphics
         Vector4 m_directionalLightColor;
 
         Texture* m_shadowMapAtlasTexture = nullptr;
+
         RenderTarget* m_shadowMapAtlasRT = nullptr;
+        
         shared_ptr<TextureAtlas> m_shadowMapAtlas;
 
         friend class ShadowRenderPass;

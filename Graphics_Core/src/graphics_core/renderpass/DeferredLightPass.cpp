@@ -33,7 +33,7 @@ namespace graphics
 	
 	DeferredLightPass::~DeferredLightPass()
 	{
-		delete m_pScreenMesh;
+
 	}
 	
 	void DeferredLightPass::Init()
@@ -54,10 +54,6 @@ namespace graphics
 		
 		m_pMatBuffer->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
 
-		m_pScreenMesh = new MeshObject(TEXT("Screen Object"));
-
-		m_pScreenMesh->SetMeshBuffer(ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002")));
-	
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}
 
@@ -89,7 +85,7 @@ namespace graphics
 		
 		m_pMatBuffer->BindResource(command);
 
-		Renderer::GetInstance()->RenderMesh(m_pScreenMesh, 0);
+		Renderer::GetInstance()->DrawRectangle();
 	}
 	
 	void DeferredLightPass::EndExcute(CommandBuffer* command)

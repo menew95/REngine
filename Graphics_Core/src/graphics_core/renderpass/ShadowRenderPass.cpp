@@ -46,19 +46,19 @@ namespace graphics
 		m_pMaterialBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerMaterial"));
 
 		m_spotLightShadow = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Spot_Light_Shadow"));
-
 		m_spotLightShadow->SetPipelineID(TEXT("Spot_Light_Shadow"));
-		m_spotLightShadow->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
 
 		m_cascadedLightShadow = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Cascaded_Light_Shadow"));
-
 		m_cascadedLightShadow->SetPipelineID(TEXT("Cascaded_Light_Shadow"));
-		m_spotLightShadow->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
 
 		m_pointLightShadow = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Point_Light_Shadow"));
-
 		m_pointLightShadow->SetPipelineID(TEXT("Point_Light_Shadow"));
-		m_spotLightShadow->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
+
+		m_copy2DDepth = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Copy2DDepth"));
+		m_copy2DDepth->SetPipelineID(TEXT("Copy2DDepth"));
+
+		m_copyCubeDepth = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("CopyCubeDepth"));
+		m_copyCubeDepth->SetPipelineID(TEXT("CopyCubeDepth"));
 	}
 	
 	void ShadowRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
@@ -196,6 +196,8 @@ namespace graphics
 	void ShadowRenderPass::RenderDepth(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo)
 	{	
 		command->UpdateBuffer(*m_pMaterialBuffer, 0, &projectedShadowInfo._lightBuffer->GetLightInfo(), sizeof(LightInfo));
+		
+		command->SetViewport(projectedShadowInfo._lightBuffer->m_pRenderTarget->GetResolution());
 
 		// 라이트 타입에 따른 파이프라인 바인드
 		switch ((LightType)projectedShadowInfo._lightBuffer->m_lightInfo._type)
@@ -203,23 +205,11 @@ namespace graphics
 			case LightType::Spot:
 			{
 				m_spotLightShadow->BindPipelineState(command);
-
-				Viewport _viewPort
-				{ 
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].x,
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].y,
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].x,
-					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].y,
-					0.f, 1.0f
-				};
-
-				command->SetViewport(_viewPort);
 				break;
 			}
 			case LightType::Point:
 			{
 				m_pointLightShadow->BindPipelineState(command);
-				command->SetViewport(projectedShadowInfo._lightBuffer->m_pRenderTarget->GetResolution());
 				break;
 			}
 			case LightType::Directional:
@@ -269,28 +259,43 @@ namespace graphics
 
 	void ShadowRenderPass::CopyToShadowAtlas(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo)
 	{
-		TextureLocation _dstLocation;
-		TextureLocation _srcLocation;
-
-		
 		switch ((LightType)projectedShadowInfo._lightBuffer->m_lightInfo._type)
 		{
 			case LightType::Spot:
 			{
-				_dstLocation._offset.x = projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].x;
-				_dstLocation._offset.y = projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].y;
+				Viewport _viewPort
+				{
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].x,
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv0[0].y,
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].x,
+					projectedShadowInfo._lightBuffer->m_lightInfo._uv1[0].y,
+					0.f, 1.0f
+				};
 
-				command->CopyTexture(
-					*LightManager::GetInstance()->m_shadowMapAtlasTexture,
-					_dstLocation,
-					*projectedShadowInfo._lightBuffer->m_pDepthTexture,
-					_srcLocation,
-					projectedShadowInfo._lightBuffer->m_pDepthTexture->GetResolution()
-				);
+				command->SetViewport(_viewPort);
+
+				m_copy2DDepth->BindPipelineState(command);
+
 				break;
 			}
 			case LightType::Point:
 			{
+				Viewport _viewPorts[6];
+
+				for (uint32 i = 0; i < 6; i++)
+				{
+					_viewPorts[i] = {
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].x,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv0[i].y,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].x,
+						projectedShadowInfo._lightBuffer->m_lightInfo._uv1[i].y,
+						0.f, 1.0f
+					};
+				}
+
+				command->SetViewports(6, _viewPorts);
+
+				m_copyCubeDepth->BindPipelineState(command);
 
 				break;
 			}
@@ -300,5 +305,7 @@ namespace graphics
 				return;
 			}
 		}
+
+		command->SetRenderTarget(*LightManager::GetInstance()->m_shadowMapAtlasRT, 0, nullptr);
 	}
 }

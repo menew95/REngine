@@ -86,7 +86,6 @@ namespace graphics
 
 		Buffer* m_pBuffer = nullptr;
 		
-		MeshBuffer* m_pQuardMeshBuffer = nullptr;
 		MeshBuffer* m_pCubeMeshBuffer = nullptr;
 
 		RenderTarget* m_integrateBRDF_RT = nullptr;

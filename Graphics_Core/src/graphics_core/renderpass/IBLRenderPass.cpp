@@ -50,8 +50,6 @@ namespace graphics
 
 		m_irradiance_Material->SetPipelineID(TEXT("IBL_Irradiance"));
 
-		m_pQuardMeshBuffer = ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002"));
-
 		m_pCubeMeshBuffer = ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000001"));
 	
 		m_integrateBRDF_RT = ResourceManager::GetInstance()->GetRenderTarget(TEXT("BRDFLookUpTable"));
@@ -95,10 +93,7 @@ namespace graphics
 
 		m_integrateBRDF_Material->BindPipelineState(command);
 
-		command->SetVertexBuffer(*m_pQuardMeshBuffer->GetBuffer());
-		command->SetIndexBuffer(*m_pQuardMeshBuffer->GetSubMesh(0).GetBuffer());
-
-		command->DrawIndexed(m_pQuardMeshBuffer->GetSubMesh(0).GetIndexCount(), 0);
+		Renderer::GetInstance()->DrawRectangle();
 
 		command->ClearState();
 

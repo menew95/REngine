@@ -33,8 +33,6 @@ namespace graphics
     private:
         class MaterialBuffer* m_pMatBuffer = nullptr;
 
-        class MeshObject* m_pScreenMesh = nullptr;
-
         class RenderTarget* m_pPostProcessRenderTarget = nullptr;
 
         class Texture* m_pPostProcessFrameColorTexture = nullptr;
