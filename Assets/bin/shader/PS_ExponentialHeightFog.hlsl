@@ -1,7 +1,7 @@
 #include "header\H_Const.hlsli"
 #include "header\H_Input.hlsli"
 
-cbuffer PerMaterial : register(b2)
+cbuffer PerMaterial : register(b3)
 {
     float _fogDensity;
     float _fogMaxOpacity;     // 최대 안개 수치(0~1사이의 값)

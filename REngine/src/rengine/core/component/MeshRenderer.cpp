@@ -13,16 +13,16 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::MeshRenderer>("MeshRenderer")
-	.constructor<tstring>()
+	.constructor<const uuid&>()
 	;
 }
 
 namespace rengine
 {
-	MeshRenderer::MeshRenderer(uuid uuid)
+	MeshRenderer::MeshRenderer(const uuid& uuid)
 		: Renderer(uuid, TEXT("MeshRenderer"))
 	{
-
+		m_pRenderObject = (graphics::MeshObject*)graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
 	}
 
 	MeshRenderer::~MeshRenderer()
@@ -32,7 +32,6 @@ namespace rengine
 
 	void MeshRenderer::Awake()
 	{
-		m_pRenderObject = (graphics::MeshObject*)graphics::RenderQueue::GetInstance()->CreateRenderObject(graphics::RenderType::MESH, GetUUID());
 	}
 
 	void MeshRenderer::Render()

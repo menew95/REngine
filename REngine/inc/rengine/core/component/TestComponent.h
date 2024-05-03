@@ -12,7 +12,7 @@ namespace rengine
     class TestComponent : public Component, public enable_shared_from_this<TestComponent>
     {
     public:
-        TestComponent(uuid uuid);
+        TestComponent(const uuid& uuid);
 
         TestComponent(const TestComponent& component) = default;
 

@@ -106,7 +106,7 @@ void CopyCubeDepthPS(
 
 Texture2DArray ShadowDepthArrayTexture;
 
-cbuffer PerMaterial : register(b2)
+cbuffer PerMaterial : register(b3)
 {
     int index;
 }

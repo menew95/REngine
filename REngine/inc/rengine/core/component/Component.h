@@ -13,6 +13,8 @@
 
 #include <rengine\core\object\object.h>
 
+#include <common\Event.h>
+
 namespace rengine
 {
     class GameObject;
@@ -23,7 +25,7 @@ namespace rengine
     public:
        // Component(std::shared_ptr<GameObject>& gameObj);
 
-        Component(uuid uuid, tstring type = TEXT("Component"));
+        Component(const uuid& uuid, const tstring& type = TEXT("Component"));
 
         Component(const Component& component) = default;
 
@@ -44,22 +46,38 @@ namespace rengine
         bool GetIsActiveAndEnabled() { return m_bIsActiveAndEnabled; }
         void SetIsActiveAndEnabled(bool value) { m_bIsActiveAndEnabled = value; }
 
+        /**
+            @brief 객체 생성시 호출
+        **/
         virtual void Awake() {}
+
+        /**
+            @brief 씬이 시작할때 한 번 호출
+        **/
+        virtual void Start() {}
 
         virtual void OnEnable() {}
 
-        virtual void Reset() {}
-
-        virtual void Start() {}
-
+        /**
+            @brief 고정 프레임마다 호출
+        **/
         virtual void FixedUpdate() {}
 
+        /**
+            @brief 매 프레임 호출
+        **/
         virtual void Update() {}
 
+        /**
+            @brief 매 프레임 Update 이후 호출
+        **/
         virtual void LateUpdate() {}
 
         virtual void OnDisable() {}
 
+        /**
+            @brief 객체가 파괴시 호출
+        **/
         virtual void OnDestroy() {}
     
     protected:
@@ -71,6 +89,8 @@ namespace rengine
         inline void SetGameObject(std::weak_ptr<GameObject> gameObject) { m_pGameObject = gameObject; }
 
         std::weak_ptr<GameObject> m_pGameObject;
+
+        bool m_isAwake = false;
 
         bool m_bEnable = false;
 

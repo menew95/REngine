@@ -77,27 +77,28 @@ namespace graphics
 
 	void CameraBuffer::UpdateCascadeShadow(math::Vector3 directionalLightDir)
 	{
+		float cascadeOffset[4]{ 0.05f, 0.18f, 0.6f, 1.0f };
+		
 		m_cascadedInfo._cascadeOffset[0].x = m_cameraInfo._near;
-		m_cascadedInfo._cascadeOffset[1].x = 10.0f,
-		m_cascadedInfo._cascadeOffset[2].x = 20.0f,
-		m_cascadedInfo._cascadeOffset[3].x = 40.0f,
+		m_cascadedInfo._cascadeOffset[1].x = lerp(m_cameraInfo._near, m_cameraInfo._far, cascadeOffset[0]);
+		m_cascadedInfo._cascadeOffset[2].x = lerp(m_cameraInfo._near, m_cameraInfo._far, cascadeOffset[1]);
+		m_cascadedInfo._cascadeOffset[3].x = lerp(m_cameraInfo._near, m_cameraInfo._far, cascadeOffset[2]);
 		m_cascadedInfo._cascadeOffset[4].x = m_cameraInfo._far;
 
-		// Get the inverse of the view transform
-		math::Matrix CamInv = m_cameraInfo._view;
-
-		// Get the light space transform
-		//math::Matrix LightM = math::Matrix::CreateLookAt(math::Vector3(0.0f, 0.0f, 0.0f), directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
+		// 카메라의 view inverse
+		math::Matrix CamInv = m_cameraInfo._view.Invert();
 
 		float tanHalfHFOV = std::tanf((m_cameraInfo._fov / 2.0f));
 		float tanHalfVFOV = std::tanf(((m_cameraInfo._fov * m_cameraInfo._aspectRatio) / 2.0f));
 
 		for (uint i = 0; i < NUM_CASCADES; i++) {
+			// offset를 기준으로 near, far평면의 half width와 height를 구함
 			float xn = m_cascadedInfo._cascadeOffset[i].x * tanHalfHFOV;
 			float xf = m_cascadedInfo._cascadeOffset[i + 1].x * tanHalfHFOV;
 			float yn = m_cascadedInfo._cascadeOffset[i].x * tanHalfVFOV;
 			float yf = m_cascadedInfo._cascadeOffset[i + 1].x * tanHalfVFOV;
 
+			// 카메라 공간의 offset를 기준으로 분할된 프러스텀의 각 코너를 만듬
 			math::Vector4 frustumCorners[NUM_FRUSTUM_CORNERS] = {
 				// near face
 				math::Vector4(xn, yn, m_cascadedInfo._cascadeOffset[i].x, 1.0),
@@ -128,36 +129,24 @@ namespace graphics
 			{
 				// 각 코너를 월드 좌표로 옮김
 				frustumCornersL[j] = math::Vector4::Transform(frustumCorners[j], CamInv);
-				frustumCornersL[j] /= frustumCornersL[j].w;
 				_cornerCenter += frustumCornersL[j];
-
-				//// Transform the frustum coordinate from view to world space
-				//Vector4f vW = CamInv * frustumCorners[j];
-
-				//// Transform the frustum coordinate from world to light space
-				//frustumCornersL[j] = LightM * vW;
-
-				//minX = min(minX, frustumCornersL[j].x);
-				//maxX = max(maxX, frustumCornersL[j].x);
-				//minY = min(minY, frustumCornersL[j].y);
-				//maxY = max(maxY, frustumCornersL[j].y);
-				//minZ = min(minZ, frustumCornersL[j].z);
-				//maxZ = max(maxZ, frustumCornersL[j].z);
 			}
 
 			// 모든 코너들의 중점을 구함
 			_cornerCenter *= (1.f / 8.f);
 
-			//라이트의 위치 조정
-			Vector3 _lightPos = _cornerCenter - directionalLightDir * 200.f;
-
-			// Get the light space transform
-			math::Matrix LightM = math::Matrix::CreateLookAt(_lightPos, _lightPos +  directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
 			
+			//라이트의 위치 조정(무한대로 측정을 하고싶지만 일단 그럴 수는 없기에 200를 곱했음)
+			Vector3 _lightPos = _cornerCenter - directionalLightDir * 100.f;
+
+			// 조정한 라이트의 위치를 가지고 ligth view matrix를 만든다.
+			math::Matrix LightM = math::Matrix::CreateLookAt(_lightPos, _lightPos +  directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
+
 			for (uint j = 0; j < NUM_FRUSTUM_CORNERS; j++)
 			{
-				// Transform the frustum coordinate from world to light space
+				// 각 코너를 라이트 공간으로 옮김
 				frustumCornersL[j] = math::Vector4::Transform(frustumCornersL[j], LightM);
+
 
 				minX = min(minX, frustumCornersL[j].x);
 				maxX = max(maxX, frustumCornersL[j].x);
@@ -165,7 +154,16 @@ namespace graphics
 				maxY = max(maxY, frustumCornersL[j].y);
 				minZ = min(minZ, frustumCornersL[j].z);
 				maxZ = max(maxZ, frustumCornersL[j].z);
+
 			}
+
+			m_slices[i]._frustumCenter.x = _cornerCenter.x;
+			m_slices[i]._frustumCenter.y = _cornerCenter.y;
+			m_slices[i]._frustumCenter.z = _cornerCenter.z;
+
+			m_slices[i]._width = maxX - minX;
+			m_slices[i]._height = maxY - minY;
+			m_slices[i]._depth = maxZ - minZ;
 
 			m_cascadedInfo._lightTransform[i] = LightM * math::Matrix::CreateOrthographicOffCenter(
 				minX,

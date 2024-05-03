@@ -110,7 +110,7 @@ namespace graphics
 
 		m_preFiltered_Material->BindResource(command);
 
-		command->SetResource(*m_pBuffer, 1, BindFlags::ConstantBuffer, StageFlags::PS);
+		command->SetResource(*m_pBuffer, 2, BindFlags::ConstantBuffer, StageFlags::PS);
 
 		int mipmapSize = 5;
 
@@ -180,7 +180,7 @@ namespace graphics
 
 		m_irradiance_Material->BindResource(command);
 
-		command->SetResource(*m_pBuffer, 1, BindFlags::ConstantBuffer, StageFlags::PS);
+		command->SetResource(*m_pBuffer, 2, BindFlags::ConstantBuffer, StageFlags::PS);
 
 		auto _irradianceTexture = ResourceManager::GetInstance()->GetTexture(TEXT("IrradianceMap"));
 

@@ -17,7 +17,7 @@ namespace rengine
     class RENGINE_API MeshFilter : public Component, public enable_shared_from_this<MeshFilter>
     {
     public:
-        MeshFilter(uuid uuid);
+        MeshFilter(const uuid& uuid);
 
         MeshFilter(const MeshFilter& filter) = default;
 

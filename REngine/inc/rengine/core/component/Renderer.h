@@ -25,7 +25,7 @@ namespace rengine
     class RENGINE_API Renderer : public Component, public enable_shared_from_this<Renderer>
     {
     public:
-        Renderer(uuid uuid, tstring type);
+        Renderer(const uuid& uuid, const tstring& type);
 
         Renderer(const Renderer& renderer) = default;
 
@@ -61,6 +61,8 @@ namespace rengine
         };
 
         graphics::MeshObject* m_pRenderObject = nullptr;
+
+        common::EventListenerID m_eventListenerID = UINT64_MAX;
 
         RTTR_ENABLE(Component);
 

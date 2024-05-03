@@ -8,6 +8,7 @@
 #include <rengine\core\component\Transform.h>
 #include <rengine\core\scene\scene.h>
 #include <rengine\core\sceneManager.h>
+#include <rengine\System\Input.h>
 
 rengine::GameObject* g_rootGO = nullptr;
 
@@ -105,8 +106,14 @@ namespace editor
 			nodeFlag |= ImGuiTreeNodeFlags_Leaf;
 		}
 
+		auto _iter = std::ranges::find_if(m_controlList,
+			[&](auto& iter)
+			{
+				return gameObj->GetUUID() == iter->GetUUID();
+			});
+
 		/// 특정 객체를 선택하면 그 객체만 아닌 자식 객체도 모두 색칠되어 일단 주석처리
-		if (gameObj == m_pFocusGameObject)
+		if (_iter == m_controlList.end())
 		{
 			ImGui::PushStyleColor(ImGuiCol_Header, EditorStyle::GetColor(ImGuiCol_Header));          // 기본 색상
 			ImGui::PushStyleColor(ImGuiCol_Text, EditorStyle::GetColor(ImGuiCol_Text));
@@ -126,7 +133,7 @@ namespace editor
 
 		ImGui::PopStyleColor(1);
 
-		if (gameObj == m_pFocusGameObject)
+		if (_iter == m_controlList.end())
 		{
 			ImGui::PopStyleColor(2);
 		}
@@ -136,9 +143,18 @@ namespace editor
 
 		if (ImGui::IsItemClicked())
 		{
-			m_pFocusGameObject = gameObj;
+			if (rengine::Input::GetKeyPress(rengine::EVirtualKey::LeftShift))
+			{
+				m_controlList.push_back(gameObj);
+			}
+			else
+			{
+				m_controlList.clear();
 
-			EventManager::GetInstance()->SetFocusObject(gameObj); // 인스펙터 창에서 알기위해서
+				m_controlList.push_back(gameObj);
+
+				EventManager::GetInstance()->SetFocusObject(gameObj);
+			}
 		}
 
 		DrawPopUp(open, gameObj);
@@ -181,8 +197,12 @@ namespace editor
 	{
 		if (ImGui::IsItemClicked(1))
 		{
+			m_controlList.clear();
+
+			m_controlList.push_back(gameObj);
+
 			EventManager::GetInstance()->SetFocusObject(gameObj);
-			m_pFocusGameObject = gameObj;
+
 			m_bPopUpMenu = true;
 		}
 
@@ -194,7 +214,7 @@ namespace editor
 				if (ImGui::MenuItem("Add Object"))
 				{
 					// 부모가 존재하는 오브젝트를 생성
-					auto _newGO = rengine::GameObject::Instantiate(m_pFocusGameObject->GetTransform());
+					auto _newGO = rengine::GameObject::Instantiate(m_controlList.at(0)->GetTransform());
 
 					_newGO->SetName(L"Game Object");
 
@@ -203,7 +223,7 @@ namespace editor
 
 				if (ImGui::MenuItem("Delete Object"))
 				{
-					rengine::Object::Destroy(m_pFocusGameObject->GetShared());
+					rengine::Object::Destroy(m_controlList.at(0)->GetShared());
 
 					EventManager::GetInstance()->SetFocusObject(nullptr);
 

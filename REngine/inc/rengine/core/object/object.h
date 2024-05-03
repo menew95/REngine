@@ -16,7 +16,7 @@ namespace rengine
 		class Impl;
 
 	public:
-		Object(uuid uuid, tstring name, tstring type);
+		Object(const uuid& uuid, const tstring& name, const tstring& type);
 
 		Object(const Object& object) = default;
 

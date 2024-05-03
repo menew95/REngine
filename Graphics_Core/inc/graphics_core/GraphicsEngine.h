@@ -54,7 +54,7 @@ namespace graphics
 		/**
 			@brief excute render data
 		**/
-		GRAPHICS_API void Excute();
+		GRAPHICS_API void Excute(const SceneInfo& sceneInfo);
 
 		GRAPHICS_API void Present();
 

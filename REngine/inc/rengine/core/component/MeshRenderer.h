@@ -19,7 +19,7 @@ namespace rengine
     public:
         //MeshRenderer(std::shared_ptr<GameObject>& gameObj);
 
-        MeshRenderer(uuid uuid);
+        MeshRenderer(const uuid& uuid);
 
         //MeshRenderer(std::shared_ptr<GameObject>& gameObj, uuid uuid, tstring name);
 

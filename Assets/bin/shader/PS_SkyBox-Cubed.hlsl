@@ -8,7 +8,7 @@ SamplerState gSamWrapLinearMipPoint : register(s0);
 
 TextureCube gTexture;// : register(t0);
 
-cbuffer PerMaterial: register(b2)
+cbuffer PerMaterial: register(b3)
 {
 	float4 _tex_HDR = float4(1.0f, 1.0f, 0.0f, 0.0f);
     float4 _tint = float4(.5f, .5f, .5f, .5f);

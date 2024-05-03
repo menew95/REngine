@@ -70,8 +70,8 @@ namespace graphics
 	{
 		perFrame._lightCnt = m_curLightCnt;
 
-		perFrame._LightPos = m_directionalLightPos;
-		perFrame._LightColor = m_directionalLightColor;
+		perFrame._WorldSpaceLightPos0 = m_directionalLightPos;
+		perFrame._LightColor0 = m_directionalLightColor;
 	}
 
 	uint32 graphics::LightManager::GetShadowMapTextureIndex(const LightInfo& light)

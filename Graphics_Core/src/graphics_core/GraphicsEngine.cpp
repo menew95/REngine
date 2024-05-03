@@ -73,11 +73,11 @@ namespace graphics
 		return m_pRenderSystem->GetDeviceContext();
 	}
 
-	void GraphicsEngine::Excute()
+	void GraphicsEngine::Excute(const SceneInfo& sceneInfo)
 	{
 		m_pCommandBuffer->SetViewport({0, 0, (float)m_windowInfo._width , (float)m_windowInfo._height });
 
-		m_pRenderer->SetFrameResource();
+		Renderer::GetInstance()->SetFrameResource();
 
 		LightManager::GetInstance()->Excute(m_pCommandBuffer);
 
@@ -87,7 +87,7 @@ namespace graphics
 			if(!_camBuf->GetEnable())
 				continue;
 
-			Renderer::GetInstance()->SetCamera(_camBuf);
+			Renderer::GetInstance()->SetCamera(sceneInfo, _camBuf);
 
 			for (auto& _renderPass : _camBuf->GetRenderPassList())
 			{

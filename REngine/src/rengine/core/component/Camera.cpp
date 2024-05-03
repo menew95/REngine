@@ -1,6 +1,7 @@
 ﻿#include <rengine\core\component\Camera.h>
 #include <rengine\core\component\Transform.h>
 
+#include <rengine\core\EventManager.h>
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\scene\Scene.h>
 
@@ -14,8 +15,7 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Camera>("Camera")
-	//.constructor<std::shared_ptr<rengine::GameObject>&>()
-	.constructor</*std::shared_ptr<rengine::GameObject>&, */uuid>()
+	.constructor<const uuid&>()
 	.property("Near", &rengine::Camera::GetNear, &rengine::Camera::SetNear)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::FLOAT),
@@ -43,8 +43,8 @@ namespace rengine
 {
 	std::weak_ptr<Camera> Camera::m_MainCamera;
 
-	Camera::Camera(/*std::shared_ptr<GameObject>& gameObj, */uuid uuid)
-		: Component(/*gameObj, */uuid, TEXT("Camera"))
+	Camera::Camera(const uuid& uuid)
+		: Component(uuid, TEXT("Camera"))
 	{
 
 	}
@@ -68,7 +68,27 @@ namespace rengine
 		m_pCameraBuffer->SetName(GetNameStr().c_str());
 	}
 
-	void Camera::Update()
+	void Camera::OnEnable()
+	{
+		if (m_eventListenerID == UINT64_MAX)
+		{
+			std::function<void()> _functor = std::bind(&Camera::UpdateCameraBuffer, this);
+
+			m_eventListenerID = EventManager::GetInstance()->AddEventFunction(TEXT("SceneRendering"), _functor);
+		}
+	}
+
+	void Camera::OnDisable()
+	{
+		if (m_eventListenerID != UINT64_MAX)
+		{
+			m_eventListenerID = EventManager::GetInstance()->RemoveEventFunction<void>(TEXT("SceneRendering"), m_eventListenerID);
+
+			m_eventListenerID = UINT64_MAX;
+		}
+	}
+
+	void Camera::UpdateCameraBuffer()
 	{
 		graphics::CameraInfo _info;
 

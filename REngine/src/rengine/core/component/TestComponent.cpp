@@ -5,7 +5,7 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::TestComponent>("TestComponent")
-	.constructor<uuid>()
+	.constructor<const uuid&>()
 	.property("m_tstring", &rengine::TestComponent::m_tstring)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::WSTRING)
@@ -65,7 +65,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	TestComponent::TestComponent(uuid uuid)
+	TestComponent::TestComponent(const uuid& uuid)
 		: Component(uuid, TEXT("TestComponent"))
 	{
 	}

@@ -1,8 +1,12 @@
 ﻿#include <common\Module.h>
 
 #include <rengine\system\GraphicsSystem.h>
+#include <rengine\system\Time.h>
+
+#include <rengine\core\EventManager.h>
 
 #include <graphics_core\GraphicsEngine_api.h>
+
 using namespace graphics;
 
 std::unique_ptr<Module> g_pGraphicsCoreModule;
@@ -166,7 +170,18 @@ namespace rengine
 
 	void GraphicsSystem::Render()
 	{
-		m_pGraphicsEngine->Excute();
+		graphics::SceneInfo _currentSceneInfo;
+
+		_currentSceneInfo._deltaTime = Time::GetDeltaTime();
+		_currentSceneInfo._timeStep = Time::GetGameTime();
+
+		// 1. SceneRender Event Invoke
+		EventManager::GetInstance()->InvokeEvent(TEXT("SceneRendering"));
+
+		// 2. SceneLighting Event Invoke
+		EventManager::GetInstance()->InvokeEvent(TEXT("SceneLighting"));
+
+		m_pGraphicsEngine->Excute(_currentSceneInfo);
 	}
 
 	void GraphicsSystem::Present()

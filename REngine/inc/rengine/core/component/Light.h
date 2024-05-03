@@ -40,7 +40,7 @@ namespace rengine
     class Light : public Component, public enable_shared_from_this<Light>
     {
 	public:
-		Light(uuid uuid);
+		Light(const uuid& uuid);
 
 		Light(const Light& filter) = default;
 
@@ -49,8 +49,6 @@ namespace rengine
 		~Light();
 
 		void Awake() override;
-
-		void Update() override;
 
 		void OnEnable() override;
 
@@ -92,6 +90,8 @@ namespace rengine
 		float m_range = 10.0f;
 		float m_spotAngle = 30.0f;
 		float m_innerSpotAngle = 21.80208f;	// _fallOffAngle
+
+		common::EventListenerID m_eventListenerID = UINT64_MAX;
 
 		// shadow
 		ShadowResolution m_resolution = ShadowResolution::VeryHigh;

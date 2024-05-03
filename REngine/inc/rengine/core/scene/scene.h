@@ -21,7 +21,7 @@ namespace rengine
 {
     class GameObject;
 
-    class Scene : public Object
+    class Scene : public Object, public enable_shared_from_this<Scene>
     {
     public:
         //Scene();

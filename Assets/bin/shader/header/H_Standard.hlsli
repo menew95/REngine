@@ -12,7 +12,7 @@ Texture2D AmbientOcclusionMap	: register(t5);
 
 SamplerState samWrapLinear : register(s0);
 
-cbuffer PerMaterial : register(b2)
+cbuffer PerMaterial : register(b3)
 {
     float4 _albedoColor = { 1.f, 1.f, 1.f, 1.f };
 	float _roughness = 0.5f;

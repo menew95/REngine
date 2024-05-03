@@ -74,8 +74,9 @@ namespace graphics
         MaterialBuffer* m_copy2DDepth = nullptr;
         MaterialBuffer* m_copyCubeDepth = nullptr;
 
-        Buffer* m_pTransBuffer = nullptr;
-        Buffer* m_pMaterialBuffer = nullptr;
+        Buffer* m_perObjectBuffer = nullptr;
+        Buffer* m_perMaterialBuffer = nullptr;
+        Buffer* m_perInstanceBuffer = nullptr;
 
         vector<ProjectedShadowInfo> m_projectedShadowInfos;
     };

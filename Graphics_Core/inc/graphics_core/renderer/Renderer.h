@@ -29,7 +29,7 @@ namespace graphics
 
         void SetFrameResource();
 
-        void SetCamera(class CameraBuffer* cameraBuffer);
+        void SetCamera(const struct SceneInfo& sceneInfo, class CameraBuffer* cameraBuffer);
 
         void RenderMesh(vector<class RenderObject*>& renderObjects, vector<class RenderPass*>& renderPassList);
 
@@ -43,14 +43,16 @@ namespace graphics
 
         void RenderSkyBox(class RenderPass* renderPass);
 
-        CommandBuffer* GetCommandBuffer() const { return m_pCommandBuffer; }
+        CommandBuffer* GetCommandBuffer() const { return m_commandBuffer; }
 
     protected:
-        class CommandBuffer* m_pCommandBuffer = nullptr;
+        class CommandBuffer* m_commandBuffer = nullptr;
 
-        class Buffer* m_pFrameBuffer = nullptr;
-        class Buffer* m_pTransBuffer = nullptr;
+        class Buffer* m_perFrameBuffer = nullptr;
+        class Buffer* m_perCameraBuffer = nullptr;
+        class Buffer* m_perObjectBuffer = nullptr;
+        class Buffer* m_perSkinedBuffer = nullptr;
 
-        class MeshBuffer* m_pQuadMesh = nullptr;
+        class MeshBuffer* m_quadMeshBuffer = nullptr;
     };
 }

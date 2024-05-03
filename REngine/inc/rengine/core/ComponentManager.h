@@ -42,7 +42,7 @@ namespace rengine
 
         void DestoryComponent();
 
-        void RenderComponent();
+        //void RenderComponent();
 
         void ClearComponentsList();
 
@@ -55,7 +55,7 @@ namespace rengine
 
         vector<pair<tstring, Components>> m_componentsList;
 
-        vector<pair<tstring, RenderComponents>> m_renderComponentsList;
+        //vector<pair<tstring, RenderComponents>> m_renderComponentsList;
 
         friend class ObjectFactory;
     };

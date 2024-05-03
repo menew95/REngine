@@ -47,11 +47,6 @@ namespace rengine
 		**/
 		virtual void UpdateComponents();
 
-		uint32 GetOrder() { return m_Order; }
-		void SetOrder(uint32 order) { m_Order = order; }
-
-		bool m_IsRender = false;
-
 	protected:
 		uint32 m_Order;
 

@@ -8,7 +8,7 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::MeshFilter>("MeshFilter")
-	.constructor<tstring>()
+	.constructor<const uuid&>()
 	.property("Mesh", &rengine::MeshFilter::GetMesh, &rengine::MeshFilter::SetMesh)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID)
@@ -18,7 +18,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	MeshFilter::MeshFilter(uuid uuid)
+	MeshFilter::MeshFilter(const uuid& uuid)
 		: Component(uuid, TEXT("MeshFilter"))
 	{
 

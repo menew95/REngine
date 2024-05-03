@@ -6,7 +6,7 @@ static const math::Vector3 g_vFLTMIN = { -FLT_MAX, -FLT_MAX, -FLT_MAX };
 
 namespace graphics
 {
-	void ShadowHelper::CalculateCascadeShadowSlices(PerFrame& perFrame, float near, float far, float fovAngleY, float aspectRatio, float* cascadeOffset
+	void ShadowHelper::CalculateCascadeShadowSlices(PerCamera& perFrame, float near, float far, float fovAngleY, float aspectRatio, float* cascadeOffset
 		, CascadeShadowSlice cascadeShadowInfos[4], int shadowMapTextureSize)
 	{
 		constexpr int cascadeCnt = 4;
@@ -140,7 +140,6 @@ namespace graphics
 
 		//프러스텀을 자른다
 		math::Vector3 cascadeBoundingBox[cascadeCnt][8];
-
 
 		for (int cascadeIdx = 0; cascadeIdx < cascadeCnt; ++cascadeIdx)
 		{

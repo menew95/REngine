@@ -72,6 +72,8 @@ namespace rengine
 				}
 			);
 
+		go->m_pScene = shared_from_this();
+
 		if(_iter == std::end(m_gameObjects))
 			m_gameObjects.push_back(go);
 
@@ -94,7 +96,9 @@ namespace rengine
 		assert(_iter != m_gameObjects.end());
 
 		m_gameObjects.erase(_iter);
-			
+		
+		go->m_pScene.reset();
+
 		RemoveRootGameObject(go);
 	}
 

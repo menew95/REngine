@@ -1,7 +1,7 @@
 #include "header\H_Const.hlsli"
 #include "header\H_Color.hlsli"
 
-cbuffer PerMaterial: register(b2)
+cbuffer PerMaterial: register(b3)
 {
     float _Exposure = 1.3;     // HDR exposure
     float3 _GroundColor = float3(.369, .349, .341);

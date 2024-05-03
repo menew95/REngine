@@ -8,7 +8,7 @@ RTTR_REGISTRATION
 	//.constructor<>()
 	//.constructor<tstring>()
 	//.constructor<tstring, tstring>()
-	.constructor<tstring, tstring, tstring>()
+	.constructor<const uuid&, const tstring&, const tstring&>()
 	.property_readonly("m_typeName", &rengine::Object::GetType)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::WSTRING)
@@ -23,7 +23,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Object::Object(uuid uuid, tstring name, tstring type)
+	Object::Object(const uuid& uuid, const tstring& name, const tstring& type)
 	: m_pImpl(new Object::Impl(uuid, name, type))
 	{
 

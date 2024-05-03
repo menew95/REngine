@@ -39,8 +39,7 @@ std::shared_ptr<rengine::Transform> converter_func_shared(const shared_ptr<rengi
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Transform>("Transform")
-	//.constructor<std::shared_ptr<rengine::GameObject>&>()
-	.constructor</*std::shared_ptr<rengine::GameObject>&, */uuid>()
+	.constructor<const uuid&>()
 	.property("m_world", &rengine::Transform::GetWorld, &rengine::Transform::SetWorld)
 	(
 		rttr::metadata(rengine::MetaData::Serializable, rengine::MetaDataType::MATRIX)
@@ -78,7 +77,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Transform::Transform(uuid uuid)
+	Transform::Transform(const uuid& uuid)
 	: Component(uuid, TEXT("Transform"))
 	{
 
@@ -224,6 +223,8 @@ namespace rengine
 
 	void Transform::SetWorld(Matrix m)
 	{
+		m_bIsDirty = true;
+
 		m_world = m;
 
 		if (m_parent.lock() != nullptr)
@@ -234,6 +235,8 @@ namespace rengine
 
 	void Transform::SetLocal(Matrix m)
 	{
+		m_bIsDirty = true;
+
 		m_local = m;
 
 		if(m_parent.lock() != nullptr)
@@ -370,6 +373,14 @@ namespace rengine
 		else
 		{
 			m_world = m_local;
+		}
+
+		for (auto& _child : m_childs)
+		{
+			if(_child.lock() == nullptr)
+				assert(false);
+
+			_child.lock()->UpdateWorld();
 		}
 	}
 }

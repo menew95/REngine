@@ -50,10 +50,14 @@ struct GSOutput
 // Vertex Shader
 //--------------------------------------------------------------------------------------
 
-VSShadowOutput VSMain(VSInput input)
+void VSMain(VSInput input
+    , out VSShadowOutput output
+#if USING_VERTEX_SHADER_LAYER 
+    , out uint LayerIndex : SV_RenderTargetArrayIndex
+	, out float ClipDistance : SV_ClipDistance0
+#endif
+)
 {
-    VSShadowOutput output;
-
 #if !defined(SKIN)
 
     output.posW = mul(float4(input.posL, 1.0f), _world);
@@ -80,7 +84,11 @@ VSShadowOutput VSMain(VSInput input)
     output.posW = mul(output.posW, _shadowMatrix[0])
 #endif
 
-    return output;
+#if USING_VERTEX_SHADER_LAYER
+    LayerIndex = Input.InstanceId / InstanceCount;
+	OutPosition = mul(WorldPos, _shadowMatrix[LayerIndex]);
+	ClipDistance = (MeshVisibleToFace[LayerIndex].x > 0) ? 1.0 : -1.0;
+#endif
 }
 
 //--------------------------------------------------------------------------------------

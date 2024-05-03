@@ -45,7 +45,9 @@ namespace rengine
         DECLARE_SINGLETON_CLASS(EventManager);
 
     public:
-        bool Initialize();
+        void Initialize();
+
+		void UnInitialize();
 
         void DispatchEventMessages();
 

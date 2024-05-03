@@ -25,7 +25,7 @@ namespace rengine
 
         //GameObject();
 
-        GameObject(uuid uuid);
+        GameObject(const uuid& uuid);
 
         //GameObject(uuid uuid, tstring name = TEXT("Game Object"));
 
@@ -119,6 +119,8 @@ namespace rengine
         friend class ComponentManager;
 
         friend class Component;
+
+        friend class Scene;
 
         RTTR_ENABLE(rengine::Object);
 

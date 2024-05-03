@@ -6,7 +6,7 @@ Texture2D gTexture : register(t0);
 
 SamplerState gSamLinearWrap : register(s0);
 
-cbuffer PerMaterial: register(b2)
+cbuffer PerMaterial: register(b3)
 {
     float _exposure = 1.0f;
     float4 _tone_padding0;

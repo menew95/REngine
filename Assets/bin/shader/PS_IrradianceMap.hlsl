@@ -4,7 +4,7 @@
 // register
 //--------------------------------------------------------------------------------------
 
-cbuffer PerObject : register(b1)
+cbuffer PerObject : register(b2)
 {
     int face;
 }

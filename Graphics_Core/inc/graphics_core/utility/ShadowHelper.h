@@ -42,7 +42,7 @@ namespace graphics
 		//void CalculateCascadeShadowSlices(ConstantBufferPerFrame& perFrameBuffer, float near, float far, float range);
 
 		//일단은 무조건 네개만 넣으세요..
-		static void CalculateCascadeShadowSlices(PerFrame& perCameraBuffer, float near, float far, float FovAngleY, float AspectRatio, float* cascadeOffset, CascadeShadowSlice cascadeShadowInfos[4], int
+		static void CalculateCascadeShadowSlices(PerCamera& perCameraBuffer, float near, float far, float FovAngleY, float AspectRatio, float* cascadeOffset, CascadeShadowSlice cascadeShadowInfos[4], int
 			shadowMapTextureSize);
 
 		static void CalculateCascadeShadowSlices2(const CameraInfo& cameraInfo, float* cascadeOffset, CascadeShadowSlice cascadeShadowInfos[4], int

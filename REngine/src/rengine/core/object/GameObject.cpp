@@ -20,7 +20,7 @@ std::weak_ptr<rengine::GameObject> converter_func(const weak_ptr<rengine::Object
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::GameObject>("GameObject")
-	.constructor<uuid>()
+	.constructor<const uuid&>()
 	.property("Active Self", &rengine::GameObject::m_bActiveSelf, rttr::detail::private_access())
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::BOOL),
@@ -57,10 +57,7 @@ namespace rengine
 		
 		auto _newGO = ObjectFactory::GetInstance()->CreateObject<GameObject>();
 
-		//_newGO->SetScene(rengine::SceneManager::GetInstance()->GetCurrentScene());
 		rengine::SceneManager::GetInstance()->GetCurrentScene()->AddGameObject(_newGO);
-
-		_newGO->m_pScene = rengine::SceneManager::GetInstance()->GetCurrentScene();
 
 		auto _trans = _newGO->AddComponent<Transform>();
 
@@ -78,7 +75,7 @@ namespace rengine
 		return _newGO;
 	}
 
-	GameObject::GameObject(uuid uuid)
+	GameObject::GameObject(const uuid& uuid)
 		: Object(uuid, TEXT("Game Object"), TEXT("GameObject"))
 	{
 	}
@@ -115,7 +112,7 @@ namespace rengine
 		_newComponent->SetGameObject(_this);
 
 		// 위치가 이게 맞는지 모르겠다.
-		_newComponent->SetEnable(true);
+		//_newComponent->SetEnable(true);
 
 		m_Components.emplace_back(_newComponent);
 	}
@@ -132,7 +129,9 @@ namespace rengine
 
 		m_pTransform.reset();
 
-		m_pScene.reset();
+
+		/*if(m_pScene.lock() != nullptr)
+			m_pScene.lock()->RemoveGameObject(shared_from_this());*/
 	}
 
 	bool GameObject::RemoveComponent(tstring type)

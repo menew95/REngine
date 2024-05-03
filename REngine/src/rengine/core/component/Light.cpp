@@ -1,6 +1,8 @@
 ﻿#include <rengine\core\component\Light.h>
 #include <rengine\core\component\Transform.h>
 
+#include <rengine\core\EventManager.h>
+
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\LightBuffer.h>
 
@@ -9,7 +11,7 @@
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Light>("Light")
-	.constructor<uuid>()
+	.constructor<const uuid&>()
 	.property("Light Type", &rengine::Light::GetLightType, &rengine::Light::SetLightType)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::ENUM),
@@ -65,10 +67,12 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Light::Light(uuid uuid)
+	Light::Light(const uuid& uuid)
 		: Component(uuid, TEXT("Light"))
 	{
+		m_pLightBuffer = graphics::ResourceManager::GetInstance()->CreateLightBuffer(GetUUID());
 
+		m_pLightBuffer->Initialize();
 	}
 	Light::~Light()
 	{
@@ -77,48 +81,31 @@ namespace rengine
 	
 	void Light::Awake()
 	{
-		m_pLightBuffer = graphics::ResourceManager::GetInstance()->CreateLightBuffer(GetUUID());
-
-		m_pLightBuffer->Initialize();
-
-		auto _trans = GetTransform();
-
-		if (_trans == nullptr)
-			return;
-
-		auto _world = _trans->GetWorld();
-
-		m_pLightBuffer->SetDirection(_world.Forward());
-
-		m_pLightBuffer->SetPosition(_world.Translation());
-
-		m_pLightBuffer->SetUp(_world.Up());
+		
 	}
-	
-	void Light::Update()
-	{
-		auto _trans = GetTransform();
 
-		if(_trans == nullptr)
-			return;
-
-		auto _world = _trans->GetWorld();
-
-		m_pLightBuffer->SetDirection(_world.Forward());
-
-		m_pLightBuffer->SetPosition(_world.Translation());
-
-		m_pLightBuffer->SetUp(_world.Up());
-	}
-	
 	void Light::OnEnable()
 	{
 		m_pLightBuffer->SetEnable(true);
+
+		if (m_eventListenerID == UINT64_MAX)
+		{
+			std::function<void()> _functor = std::bind(&Light::UpdateLightBuffer, this);
+
+			m_eventListenerID = EventManager::GetInstance()->AddEventFunction(TEXT("SceneLighting"), _functor);
+		}
 	}
 	
 	void Light::OnDisable()
 	{
 		m_pLightBuffer->SetEnable(false);
+
+		if (m_eventListenerID != UINT64_MAX)
+		{
+			EventManager::GetInstance()->RemoveEventFunction<void>(TEXT("SceneLighting"), m_eventListenerID);
+
+			m_eventListenerID = UINT64_MAX;
+		}
 	}
 	
 	void Light::OnDestroy()
@@ -175,5 +162,21 @@ namespace rengine
 		m_resolution = static_cast<ShadowResolution>(value);
 
 		m_pLightBuffer->SetResolution(value);
+	}
+
+	void Light::UpdateLightBuffer()
+	{
+		auto _trans = GetTransform();
+
+		if (_trans == nullptr)
+			return;
+
+		auto _world = _trans->GetWorld();
+
+		m_pLightBuffer->SetDirection(_world.Forward());
+
+		m_pLightBuffer->SetPosition(_world.Translation());
+
+		m_pLightBuffer->SetUp(_world.Up());
 	}
 }

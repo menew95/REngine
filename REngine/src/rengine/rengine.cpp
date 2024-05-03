@@ -7,6 +7,7 @@
 
 #include <rengine\core\SceneManager.h>
 #include <rengine\core\ComponentManager.h>
+#include <rengine\core\EventManager.h>
 #include <rengine\core\Resources.h>
 
 #include <rengine\utility\Timer.h>
@@ -57,6 +58,8 @@ namespace rengine
 
 	bool REngine::Quit()
 	{
+		EventManager::Release();
+
 		Resources::Release();
 
 		ObjectFactory::Release();
@@ -78,8 +81,10 @@ namespace rengine
 			if(m_isEngineUpdate)
 				ComponentManager::GetInstance()->UpdateComponent();
 
-			ComponentManager::GetInstance()->RenderComponent();
+			//ComponentManager::GetInstance()->RenderComponent();
 		}
+
+		EventManager::GetInstance()->Update();
 
 		// rendering 전에 오브젝트들을 삭제
 		ObjectFactory::GetInstance()->Update();

@@ -100,13 +100,13 @@ namespace graphics
 		switch (type)
 		{
 			case graphics::LightType::Spot:
-				_resolution = 512.f;
-				break;
-			case graphics::LightType::Directional:
 				_resolution = 1024.f;
 				break;
+			case graphics::LightType::Directional:
+				_resolution = 2048.f;
+				break;
 			case graphics::LightType::Point:
-				_resolution = 256.f;
+				_resolution = 512.f;
 				break;
 			default:
 				break;

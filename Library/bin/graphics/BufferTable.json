@@ -8,6 +8,14 @@
     "MiscFlags": [ "DynamicUsage" ]
   },
   {
+    "UUID": "PerCamera",
+    "Size": 1024,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 1,
+    "MiscFlags": [ "DynamicUsage" ]
+  },
+  {
     "UUID": "PerObject",
     "Size": 256,
     "Stride": 0,
@@ -34,6 +42,14 @@
   {
     "UUID": "PerDebug",
     "Size": 256,
+    "Stride": 0,
+    "BindFlags": [ "ConstantBuffer" ],
+    "Slot": 5,
+    "MiscFlags": [ "DynamicUsage" ]
+  },
+  {
+    "UUID": "PerInstance",
+    "Size": 72000,
     "Stride": 0,
     "BindFlags": [ "ConstantBuffer" ],
     "Slot": 5,

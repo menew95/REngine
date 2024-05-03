@@ -53,6 +53,17 @@ namespace graphics
         math::Vector4 _cascadeScale;
     };
 
+    struct CascadeSlice
+    {
+        Vector3 _frustumCenter;
+
+        float _frustumRadius = 0;
+
+        float _width = 0;
+        float _height = 0;
+        float _depth = 0;
+    };
+
     class CameraBuffer : public ResourceBuffer
     {
     public:
@@ -86,6 +97,8 @@ namespace graphics
         GRAPHICS_API const auto& GetCameraInfo() { return m_cameraInfo; }
         GRAPHICS_API const auto& GetCascadedInfo() { return m_cascadedInfo; }
 
+        const auto& GetCascadedSlice(auto idx) { return m_slices[idx]; }
+
         GRAPHICS_API const bool& GetEnable() { return m_bIsEnable; }
 
         GRAPHICS_API void* GetTextureID();
@@ -107,6 +120,8 @@ namespace graphics
 
         CascadedInfo m_cascadedInfo;
 
+        CascadeSlice m_slices[4];
+
         class RenderTarget* m_pRenderTarget = nullptr;
 
         class Texture* m_pColorTexture = nullptr;
@@ -116,5 +131,6 @@ namespace graphics
         vector<class RenderPass*> m_renderPassList;
 
         friend class CullingHelper;
+        friend class Renderer;
     };
 }

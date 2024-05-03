@@ -1,6 +1,6 @@
 // #include "header\H_Input.hlsli"
 
-// cbuffer PerMaterial : register(b2)
+// cbuffer PerMaterial : register(b3)
 // {
 //     float _exposure;     // HDR exposure
 //     float4 _groundColor;

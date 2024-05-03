@@ -1,4 +1,4 @@
-cbuffer matirxs : register(b1)
+cbuffer PerObject : register(b2)
 {
 	matrix g_View[6];
 	matrix g_Proj;

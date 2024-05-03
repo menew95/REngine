@@ -30,6 +30,12 @@ namespace graphics
 		WindowInfo _info;
 	};
 
+    struct SceneInfo
+    {
+        float _deltaTime;
+        float _timeStep;
+    };
+
 #pragma region ScreenSpaceReflection
     struct alignas(16) ScreenSpaceReflection
     {

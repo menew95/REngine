@@ -10,7 +10,7 @@ Texture2D gTexture;
 
 //#define _MAPPING_6_FRAMES_LAYOUT
 
-cbuffer PerMaterial : register(b2)
+cbuffer PerMaterial : register(b3)
 {
     float4 _MainTex_TexelSize : packoffset(c0) = float4(1 / 3072, 1 / 1536, 1, 1);
     float4 _MainTex_HDR : packoffset(c1) = float4(1., 124., 1., 1.);

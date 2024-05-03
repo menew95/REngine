@@ -19,43 +19,14 @@
 
 namespace graphics
 {
-	struct alignas(16) PostProcess
-	{
-		// sslr
-		Vector2 _depthBufferSize; // dimensions of the z-buffer
-		float _zThickness = 0.2f; // thickness to ascribe to each pixel in the depth buffer
-		float _nearPlaneZ; // the camera's near z plane
-
-		float _stride = 1.0f; // Step in horizontal or vertical pixels between samples. This is a float
-		// because integer math is slow on GPUs, but should be set to an integer >= 1.
-		float _maxSteps = 1000.f; // Maximum number of iterations. Higher gives better images but may be slow.
-		float _maxDistance = 300.f; // Maximum camera-space distance to trace before returning a miss.
-		float _strideZCutoff; // More distant pixels are smaller in screen space. This value tells at what point to
-		// start relaxing the stride to give higher quality reflections for objects far from
-		// the camera.
-
-		float _numMips = 7.f; // the number of mip levels in the convolved color buffer
-		float _fadeStart = 0.09f; // determines where to start screen edge fading of effect
-		float _fadeEnd = 1.f; // determines where to end screen edge fading of effect
-
-		// tone map
-		float g_fHardExposure = 1.0f;
-
-		Vector4 _pad;  // 64bit
-	};
-
 	struct alignas(16) PerFrame
 	{
-		CameraInfo _camera;
-		//PostProcess _postProcess;
+        uint _lightCnt = 0;
+        Vector3 _pad0;
 
-		uint _lightCnt = 0;
-		Vector3 _pad;
-
-		Vector4 _LightPos;
-		Vector4 _LightColor;
-
-		CascadedInfo _shadow;
+        // direction light;
+        Vector4 _WorldSpaceLightPos0;
+        Vector4 _LightColor0;
 	};
 
 	struct alignas(16) PerCamera
@@ -63,5 +34,31 @@ namespace graphics
 		CameraInfo _camera;
 
 		CascadedInfo _shadow;
+
+        Vector4 _time; // (t/20, t, t*2, t*3)
+        Vector4 _sinTime; // sin(t/8), sin(t/4), sin(t/2), sin(t)
+        Vector4 _cosTime; // cos(t/8), cos(t/4), cos(t/2), cos(t)
+
+        // dont use smoothdt
+        Vector4 _deltaTime; // dt, 1/dt, smoothdt, 1/smoothdt
+
+        // x = width
+       // y = height
+       // z = 1 + 1.0/width
+       // w = 1 + 1.0/height
+        Vector4 _screen;
+
+        /*
+            DX:
+            EZ  = (n * f) / (f - z * (f - n))
+            LZ  = (eyeZ - n) / (f - n) = z / (f - z * (f - n))
+            LZ2 = eyeZ / f = n / (f - z * (f - n))
+        */
+        // Values used to linearize the Z buffer (http://www.humus.name/temp/Linearize%20depth.txt)
+        // x = 1-far/near
+        // y = far/near
+        // z = x/far
+        // w = y/far
+        Vector4 _ZBufferParams;
 	};
 }

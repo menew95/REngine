@@ -42,8 +42,9 @@ namespace graphics
 	
 	void ShadowRenderPass::Init()
 	{
-		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
-		m_pMaterialBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerMaterial"));
+		m_perObjectBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+		m_perMaterialBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerMaterial"));
+		m_perInstanceBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerInstance"));
 
 		m_spotLightShadow = ResourceManager::GetInstance()->CreateMaterialBuffer(TEXT("Spot_Light_Shadow"));
 		m_spotLightShadow->SetPipelineID(TEXT("Spot_Light_Shadow"));
@@ -83,7 +84,7 @@ namespace graphics
 
 		BeginGatherCSMShadowPrimitives(camBuffer);
 
-		command->SetResource(*m_pMaterialBuffer, 2, BindFlags::ConstantBuffer, StageFlags::GS);
+		command->SetResource(*m_perMaterialBuffer, 2, BindFlags::ConstantBuffer, StageFlags::GS);
 	}
 	
 	void ShadowRenderPass::Excute(CommandBuffer* command)
@@ -208,6 +209,37 @@ namespace graphics
 
 		_projectedShadowInfo._lightBuffer = LightManager::GetInstance()->m_cascadedLightBuffer;
 
+		Frustum _sliceFrustum[NUM_CASCADES];
+
+		Vector3 _dir = _projectedShadowInfo._lightBuffer->m_lightInfo._direction;
+		Vector3 _up = _projectedShadowInfo._lightBuffer->m_lightInfo._up;
+		Vector3 _right = _up.Cross(_dir);
+
+		_right.Normalize();
+
+		for (uint32 i = 0; i < NUM_CASCADES; i++)
+		{
+			const auto& _slice = camBuffer->GetCascadedSlice(i);
+
+			float _halfWidth = fabs(_slice._width);
+			float _halfHeight = fabs(_slice._height);
+			float _halfDepth = fabs(_slice._depth);
+
+			_sliceFrustum[i]._nearFace._normal = _dir;
+			_sliceFrustum[i]._nearFace._position = _slice._frustumCenter - (_dir * _halfDepth);
+			_sliceFrustum[i]._farFace._normal = -_dir;
+			_sliceFrustum[i]._farFace._position = _slice._frustumCenter + (_dir * _halfDepth);
+
+			_sliceFrustum[i]._bottomFace._normal = _up;
+			_sliceFrustum[i]._bottomFace._position = _slice._frustumCenter - _up * _halfHeight;
+			_sliceFrustum[i]._topFace._normal = -_up;
+			_sliceFrustum[i]._topFace._position = _slice._frustumCenter + _up * _halfHeight;
+
+			_sliceFrustum[i]._leftFace._normal = _right;
+			_sliceFrustum[i]._leftFace._position = _slice._frustumCenter - _right * _halfWidth;
+			_sliceFrustum[i]._rightFace._normal = -_right;
+			_sliceFrustum[i]._rightFace._position = _slice._frustumCenter + _right * _halfWidth;
+		}
 
 		// 프리미티브를 순회하며 선별 작업
 		for (auto& [_uuid, _meshObj] : RenderQueue::GetInstance()->m_meshObjectList)
@@ -215,7 +247,30 @@ namespace graphics
 			// 비활성화 상태이거나 매쉬가 설정이 안되어 있을 경우 넘어감
 			if (!_meshObj->GetEnable() || _meshObj->GetMeshBuffer() == nullptr) continue;
 
-			_projectedShadowInfo._primitives.emplace_back(_meshObj.get());
+			bool _isCulled = true;
+			vector<int> _instance;
+
+			// 각 slice로부터 컬링를 체크, 만약 슬라이스를 통과하면 해당 슬라이스 넘버를 기록 추후 인스턴스 데이터로 활용
+			for (uint32 i = 0; i < NUM_CASCADES; i++)
+			{
+				// 컬링 패스 실패
+				if (CullingHelper::ViewFrustumCullingBoundingBox(
+					_sliceFrustum[i],
+					_meshObj->GetWorld(),
+					_meshObj->GetBoundinBoxMin(),
+					_meshObj->GetBoundinBoxMax()
+				))
+				{
+					_isCulled = false;
+					_instance.push_back(i);
+				}
+			}
+
+			if (!_isCulled)
+			{
+				_projectedShadowInfo._primitives.emplace_back(_meshObj.get());
+				_projectedShadowInfo._instanceData.emplace_back(_instance);
+			}
 		}
 
 		m_projectedShadowInfos.push_back(_projectedShadowInfo);
@@ -223,7 +278,7 @@ namespace graphics
 
 	void ShadowRenderPass::RenderDepth(CommandBuffer* command, ProjectedShadowInfo& projectedShadowInfo)
 	{	
-		command->UpdateBuffer(*m_pMaterialBuffer, 0, &projectedShadowInfo._lightBuffer->GetLightInfo(), sizeof(LightInfo));
+		command->UpdateBuffer(*m_perMaterialBuffer, 0, &projectedShadowInfo._lightBuffer->GetLightInfo(), sizeof(LightInfo));
 		
 		command->SetViewport(projectedShadowInfo._lightBuffer->m_pRenderTarget->GetResolution());
 
@@ -255,7 +310,7 @@ namespace graphics
 		for (auto* _renderObject : projectedShadowInfo._primitives)
 		{
 			// PerObject 버퍼 업데이트
-			command->UpdateBuffer(*m_pTransBuffer, 0, &_renderObject->GetTrans(), sizeof(PerObject));
+			command->UpdateBuffer(*m_perObjectBuffer, 0, &_renderObject->GetTrans(), sizeof(PerObject));
 
 			auto* _meshObj = reinterpret_cast<MeshObject*>(_renderObject);
 
@@ -342,7 +397,6 @@ namespace graphics
 			}
 			case LightType::Directional:
 			{
-				return;
 				m_copyCubeDepth->SetTexture(TEXT("ShadowDepthArrayTexture"), projectedShadowInfo._lightBuffer->m_pDepthTexture);
 
 				m_copyCubeDepth->BindPipelineState(command);

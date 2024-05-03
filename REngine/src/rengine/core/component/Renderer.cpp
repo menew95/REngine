@@ -1,6 +1,8 @@
 ﻿#include <rengine\core\component\Renderer.h>
 #include <rengine\core\component\Transform.h>
 
+#include <rengine\core\EventManager.h>
+
 #include <rengine\core\object\GameObject.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Material.h>
@@ -55,7 +57,7 @@ std::vector<shared_ptr<rengine::Material>> converter_func_shared_container(const
 RTTR_REGISTRATION
 {
 	rttr::registration::class_<rengine::Renderer>("Renderer")
-	.constructor<tstring, tstring>()
+	.constructor<const uuid&, const tstring&>()
 	.property("Mesh", &rengine::Renderer::GetMesh, &rengine::Renderer::SetMesh)
 	(
 		rttr::metadata(rengine::MetaData::Editor, rengine::MetaDataType::UUID),
@@ -74,7 +76,7 @@ RTTR_REGISTRATION
 
 namespace rengine
 {
-	Renderer::Renderer(uuid uuid, tstring type)
+	Renderer::Renderer(const uuid& uuid, const tstring& type)
 		: Component(uuid, type)
 	{
 
@@ -158,16 +160,6 @@ namespace rengine
 		}
 	}
 
-	/*void Renderer::Update()
-	{
-		auto _trans = m_pGameObject.lock()->GetTransform();
-
-		if(_trans == nullptr)
-			return;
-
-		m_pRenderObject->SetWorld(_trans->GetWorld());
-	}*/
-
 	void Renderer::Render()
 	{
 		auto _trans = m_pGameObject.lock()->GetTransform();
@@ -184,11 +176,25 @@ namespace rengine
 
 		if(m_pGameObject.lock() != nullptr)
 			m_pRenderObject->SetHash(m_pGameObject.lock()->GetHash());
+
+		if (m_eventListenerID == UINT64_MAX)
+		{
+			std::function<void()> _functor = std::bind(&Renderer::Render, this);
+
+			m_eventListenerID = EventManager::GetInstance()->AddEventFunction(TEXT("SceneRendering"), _functor);
+		}
 	}
 
 	void Renderer::OnDisable()
 	{
 		m_pRenderObject->SetEnable(false);
+
+		if (m_eventListenerID != UINT64_MAX)
+		{
+			EventManager::GetInstance()->RemoveEventFunction<void>(TEXT("SceneRendering"), m_eventListenerID);
+
+			m_eventListenerID = UINT64_MAX;
+		}
 	}
 
 	void Renderer::OnDestroy()

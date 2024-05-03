@@ -26,7 +26,7 @@ namespace rengine
     public:
         //Camera(std::shared_ptr<GameObject>& gameObj);
 
-        Camera(uuid uuid);
+        Camera(const uuid& uuid);
 
         Camera(const Camera& filter) = default;
 
@@ -48,9 +48,16 @@ namespace rengine
 
         void Awake() override;
 
-        void Update() override;
+        void OnEnable() override;
+
+        void OnDisable() override;
 
         void OnDestroy() override;
+
+        /**
+            @brief camera buffer update
+        **/
+        void UpdateCameraBuffer();
 
         static void* GetMainTextureID();
 
@@ -62,9 +69,11 @@ namespace rengine
         float m_fFieldOfView = 90;
         float m_fAspectRatio = 1.0f;
 
+        common::EventListenerID m_eventListenerID = UINT64_MAX;
+
         static std::weak_ptr<Camera> m_MainCamera;
 
-        math::Matrix m_camWorld;
+        math::Matrix m_camWorld = Matrix::Identity;
 
         graphics::CameraBuffer* m_pCameraBuffer;
 

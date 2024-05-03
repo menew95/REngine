@@ -2,8 +2,10 @@
 #include <graphics_core\RenderPass.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\LightManager.h>
+#include <graphics_core\GraphicsEngine.h>
 
 #include <graphics_module\Buffer.h>
+#include <graphics_module\RenderTarget.h>
 #include <graphics_module\CommandBuffer.h>
 
 #include <graphics_core\object\MeshObject.h>
@@ -23,16 +25,18 @@ namespace graphics
 	Renderer* Renderer::s_pRenderer = nullptr;
 
 	Renderer::Renderer(CommandBuffer* command)
-	: m_pCommandBuffer(command)
+	: m_commandBuffer(command)
 	{
 		assert(s_pRenderer == nullptr);
 
 		s_pRenderer = this;
 
-		m_pFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
-		m_pTransBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+		m_perFrameBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
+		m_perCameraBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerCamera"));
+		m_perObjectBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerObject"));
+		m_perSkinedBuffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerSkin"));
 
-		m_pQuadMesh = ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002"));
+		m_quadMeshBuffer = ResourceManager::GetInstance()->GetMeshBuffer(TEXT("00000000-0000-0000-0000-000000000002"));
 	}
 
 	Renderer::~Renderer()
@@ -42,15 +46,54 @@ namespace graphics
 
 	void Renderer::SetFrameResource()
 	{
-		m_pCommandBuffer->SetResource(*m_pFrameBuffer, 0, BindFlags::ConstantBuffer, StageFlags::AllStages);
-		m_pCommandBuffer->SetResource(*m_pTransBuffer, 1, BindFlags::ConstantBuffer, StageFlags::AllStages);
-	}
+		m_commandBuffer->SetResource(*m_perFrameBuffer, 0, BindFlags::ConstantBuffer, StageFlags::AllStages);
+		m_commandBuffer->SetResource(*m_perCameraBuffer, 1, BindFlags::ConstantBuffer, StageFlags::AllStages);
+		m_commandBuffer->SetResource(*m_perObjectBuffer, 2, BindFlags::ConstantBuffer, StageFlags::AllStages);
 
-	void Renderer::SetCamera(CameraBuffer* cameraBuffer)
-	{
 		PerFrame _perFrame;
 
-		_perFrame._camera = cameraBuffer->GetCameraInfo();
+		LightManager::GetInstance()->GetPerFrame(_perFrame);
+
+		m_commandBuffer->UpdateBuffer(*m_perFrameBuffer, 0, &_perFrame, sizeof(PerFrame));
+	}
+
+	void Renderer::SetCamera(const SceneInfo& sceneInfo, CameraBuffer* cameraBuffer)
+	{
+		PerCamera _perCamera;
+
+		_perCamera._time.x = sceneInfo._timeStep / 20.f;
+		_perCamera._time.y = sceneInfo._timeStep;
+		_perCamera._time.z = sceneInfo._timeStep * 2.f;
+		_perCamera._time.w = sceneInfo._timeStep * 3.f;
+
+		_perCamera._sinTime.x = sinf(sceneInfo._timeStep * 0.125f);
+		_perCamera._sinTime.y = sinf(sceneInfo._timeStep * 0.25f);
+		_perCamera._sinTime.z = sinf(sceneInfo._timeStep * 0.5f);
+		_perCamera._sinTime.w = sinf(sceneInfo._timeStep);
+
+		_perCamera._cosTime.x = cosf(sceneInfo._timeStep * 0.125f);
+		_perCamera._cosTime.y = cosf(sceneInfo._timeStep * 0.25f);
+		_perCamera._cosTime.z = cosf(sceneInfo._timeStep * 0.5f);
+		_perCamera._cosTime.w = cosf(sceneInfo._timeStep);
+
+		_perCamera._deltaTime.x = sceneInfo._deltaTime;
+		_perCamera._deltaTime.y = 1.f / sceneInfo._deltaTime;
+		_perCamera._deltaTime.z = sceneInfo._deltaTime * 2.f;
+		_perCamera._deltaTime.w = sceneInfo._deltaTime * 3.f;
+
+		_perCamera._screen = {
+			cameraBuffer->GetRenderTarget()->GetResolution().x,
+			cameraBuffer->GetRenderTarget()->GetResolution().y,
+			1.f / cameraBuffer->GetRenderTarget()->GetResolution().x,
+			1.f / cameraBuffer->GetRenderTarget()->GetResolution().y
+		};
+
+		_perCamera._ZBufferParams.x = (1 - cameraBuffer->m_cameraInfo._far) / cameraBuffer->m_cameraInfo._near;
+		_perCamera._ZBufferParams.y = cameraBuffer->m_cameraInfo._far / cameraBuffer->m_cameraInfo._near;
+		_perCamera._ZBufferParams.z = _perCamera._ZBufferParams.x / cameraBuffer->m_cameraInfo._far;
+		_perCamera._ZBufferParams.w = _perCamera._ZBufferParams.y / cameraBuffer->m_cameraInfo._far;
+		
+		_perCamera._camera = cameraBuffer->GetCameraInfo();
 
 		if (LightManager::GetInstance()->m_cascadedSet)
 		{
@@ -84,12 +127,10 @@ namespace graphics
 			_perFrame._shadow._cascadeScale.w = slice[3]._frustumRadius * 2;*/
 
 			cameraBuffer->UpdateCascadeShadow(LightManager::GetInstance()->m_cascadedDir);
-			_perFrame._shadow = cameraBuffer->GetCascadedInfo();
+			_perCamera._shadow = cameraBuffer->GetCascadedInfo();
 		}
 
-		LightManager::GetInstance()->GetPerFrame(_perFrame);
-
-		m_pCommandBuffer->UpdateBuffer(*m_pFrameBuffer, 0, &_perFrame, sizeof(PerFrame));
+		m_commandBuffer->UpdateBuffer(*m_perCameraBuffer, 0, &_perCamera, sizeof(PerCamera));
 
 		Frustum _frustum;
 
@@ -111,31 +152,31 @@ namespace graphics
 		if(_meshBuf == nullptr)
 			return;
 
-		m_pCommandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
+		m_commandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
 
 		auto& _subMeshBuf = _meshBuf->GetSubMesh(subMeshIdx);
 
-		m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
+		m_commandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 
-		m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
+		m_commandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
 	}
 
 	void Renderer::DrawRectangle()
 	{
-		m_pCommandBuffer->SetVertexBuffer(*m_pQuadMesh->GetBuffer());
+		m_commandBuffer->SetVertexBuffer(*m_quadMeshBuffer->GetBuffer());
 
-		auto& _subMeshBuf = m_pQuadMesh->GetSubMesh(0);
+		auto& _subMeshBuf = m_quadMeshBuffer->GetSubMesh(0);
 
-		m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
+		m_commandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 
-		m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
+		m_commandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
 	}
 
 	void Renderer::RenderShadow(MeshObject* meshObject)
 	{
 		MeshBuffer* _meshBuf = meshObject->GetMeshBuffer();
 
-		m_pCommandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
+		m_commandBuffer->SetVertexBuffer(*_meshBuf->GetBuffer());
 
 		for (size_t i = 0; i < _meshBuf->GetSubMeshCount(); i++)
 		{
@@ -144,11 +185,11 @@ namespace graphics
 			if (i < meshObject->GetMaterialBuffers().size() || meshObject->GetMaterialBuffers()[i] != nullptr)
 				continue;
 
-			meshObject->GetMaterialBuffers()[i]->BindResource(m_pCommandBuffer);
+			meshObject->GetMaterialBuffers()[i]->BindResource(m_commandBuffer);
 
-			m_pCommandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
+			m_commandBuffer->SetIndexBuffer(*_subMeshBuf.GetBuffer());
 
-			m_pCommandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
+			m_commandBuffer->DrawIndexed(_subMeshBuf.GetIndexCount(), 0, 0);
 		}
 	}
 

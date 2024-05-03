@@ -15,20 +15,20 @@ namespace rengine
 		{
 		}
 
-		Impl(uuid uuid) 
+		Impl(const uuid& uuid) 
 		: m_uuid(uuid)
 		, m_hash(GenerateHash())
 		{
 		}
 
-		Impl(uuid uuid, tstring name)
+		Impl(const uuid& uuid, const tstring& name)
 		: m_uuid(uuid)
 		, m_hash(GenerateHash())
 		, m_objectName(name)
 		{
 		}
 
-		Impl(uuid uuid, tstring name, tstring type)
+		Impl(const uuid& uuid, const tstring& name, const tstring& type)
 		: m_uuid(uuid)
 		, m_hash(GenerateHash())
 		, m_objectName(name)
