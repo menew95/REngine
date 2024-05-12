@@ -88,6 +88,6 @@ namespace graphics
         // texture1D, texture2D, texture3D 등 텍스처 프로퍼티와 대응
         // 구조적 버퍼와 같은 내용도 추가가 필요해짐
         map<tstring, pair<BindingDescriptor, class Resource*>> m_resourceBlock;
-        map<tstring, class Sampler*> m_samplerBlock;
+        map<tstring, pair<BindingDescriptor, class Sampler*>> m_samplerBlock;
     };
 }

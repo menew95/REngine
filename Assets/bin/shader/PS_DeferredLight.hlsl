@@ -2,21 +2,24 @@
 #include "header\H_Input.hlsli"
 #include "header\H_GBuffer.hlsli"
 #include "header\H_Light.hlsli"
+#include "header\H_ShadowHelper.hlsli"
 
 Texture2D gCameraGBufferTexture0    : register(t0); // albedo + metallic
 Texture2D gCameraGBufferTexture1    : register(t1);	// normal + roughness
 Texture2D gCameraGBufferTexture2    : register(t2);	// world + v depth
 Texture2D gCameraGBufferTexture3    : register(t3); // emission + ao
 Texture2D gCameraGBufferTexture4	: register(t4); // flag
-//Texture2D gCameraGBufferTexture5	: register(t5); // depth
 
 Texture2D gSSAO : register(t5);
 TextureCube gPreFilteredMap : register(t6);
 TextureCube gIrradianceMap : register(t7);
 Texture2D gIntegrateBRDFMap : register(t8);
-Texture2DArray gCascadedShadowMap : register(t9);
-Texture2DArray gSpotShadowMap : register(t10);
-TextureCubeArray gPointShadowMap : register(t11);
+
+Texture2D gShadowAtlas : register(t9);
+
+//Texture2DArray gCascadedShadowMap : register(t9);
+//Texture2DArray gSpotShadowMap : register(t10);
+//TextureCubeArray gPointShadowMap : register(t11);
 
 StructuredBuffer<Light> gLightTexture : register(t12);
 
@@ -24,15 +27,152 @@ StructuredBuffer<Light> gLightTexture : register(t12);
 Light GetLight(uint index) {
     return gLightTexture[index];
 }
-//Texture2D gReflect : register(t11);
 
 SamplerState gSamWrapLinear	: register(s0);
 SamplerComparisonState gSamCompShadow : register(s1);
 
-// float3 fresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
-// {
-//     return F0 + (max(float3(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
-// } 
+float CalcCascadedShadowFactor(
+    in SamplerComparisonState samShadow
+    , in Texture2D shadowMapAtlas
+    , Light light
+    , float3 worldPosition
+    , in float4x4 view
+    , in float near
+    , in float far
+    )
+{
+    const int CASCADE_MAX_COUNT = 4;
+
+    float viewpos = mul(float4(worldPosition, 1.f), view).z;
+    //viewpos /= (far - near);
+
+    int cascadeSlice;
+
+    for (cascadeSlice = 0; cascadeSlice < 4; cascadeSlice++)
+    {
+        if (viewpos < _shadow._cascadeOffset[cascadeSlice + 1].x)
+        {
+            break;
+        }
+    }
+
+    float2 shadowResolution = light._uv1[0] - light._uv0[0];
+
+    float shadowFactor = CalcShadowFactorFromShadowAtlas(samShadow
+    , shadowMapAtlas
+    , shadowResolution
+    , light._uv0[cascadeSlice]
+    , light._uv1[cascadeSlice]
+    , _shadowAtlasResolution
+    , light._shadowMatrix[cascadeSlice]
+    , worldPosition
+    );
+
+    return shadowFactor;
+}
+
+float SpotShadowFactor(
+    in SamplerComparisonState samShadow
+    , in Texture2D shadowMapAtlas
+    , Light light
+    , float3 worldPosition
+    )
+{
+    float2 shadowResolution = light._uv1[0] - light._uv0[0];
+
+    float shadowFactor = CalcShadowFactorFromShadowAtlas(samShadow
+    , shadowMapAtlas
+    , shadowResolution
+    , light._uv0[0]
+    , light._uv1[0]
+    , _shadowAtlasResolution
+    , light._shadowMatrix[0]
+    , worldPosition
+    );
+
+    return shadowFactor;
+}
+
+//vec3 doesn’t have to be normalized,
+//Translates from world space vector to a coordinate inside our 6xsize shadow map
+void GetSampleCoordinate(in float3 dir, out float2 uv, out int faceIdx)
+{
+    // X => right left
+    if (abs(dir.x) >= abs(dir.y) && abs(dir.x) >= abs(dir.z))
+    {
+        if (dir.x > 0) //Positive X
+        {
+            faceIdx = 0;
+            dir.z = -dir.z;
+            uv = normalize(dir.zy);
+        }
+        else
+        {
+            faceIdx = 1; //Negative X
+        }
+    }
+    // y => top bottom
+    else if(abs(dir.y) >= abs(dir.x) && abs(dir.y) >= abs(dir.z))
+    {
+        if (dir.x > 0) //Positive Y
+        {
+            faceIdx = 2;
+            dir.z = -dir.z;
+            uv = normalize(dir.xz);
+        }
+        else
+        {
+            faceIdx = 3; //Negative Y
+            uv = normalize(dir.xz);
+        }
+    }
+    // z => front back
+    else if(abs(dir.z) >= abs(dir.x) && abs(dir.z) >= abs(dir.y))
+    {
+        if (dir.x > 0) //Positive Z
+        {
+            faceIdx = 4;
+            uv = normalize(dir.xy);
+        }
+        else
+        {
+            faceIdx = 5; //Negative Z
+            dir.x = -dir.x;
+            uv = normalize(dir.xy);
+        }
+    }
+}
+
+float PointShadowFactor(
+    in SamplerComparisonState samShadow
+    , in Texture2D shadowMapAtlas
+    , Light light
+    , float3 worldPosition
+    )
+{
+    float2 shadowResolution = light._uv1[0] - light._uv0[0];
+
+    float3 dir = worldPosition - light._position;
+    
+    int faceIdx = 0;
+    float2 uv = float2(0, 0);
+
+    GetSampleCoordinate(dir, uv, faceIdx);
+
+    //GetSampleCoordinate(dir);
+
+    float shadowFactor = CalcShadowFactorFromShadowAtlas(samShadow
+    , shadowMapAtlas
+    , shadowResolution
+    , light._uv0[faceIdx]
+    , light._uv1[faceIdx]
+    , _shadowAtlasResolution
+    , light._shadowMatrix[faceIdx]
+    , worldPosition
+    );
+
+    return shadowFactor;
+}
 
 float3 FresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
 {
@@ -118,17 +258,15 @@ float4 main(VSOutput input) : SV_TARGET
 
         if (light._type == Directional)
         {
-            //float shadows = 1.0f;
+            float shadows = 1.0f;
 
-            //float clipSpaceDepth = posW.w;
-            //int cascadeSlice = 0;
-            // shadow
-            // 2048 -> hard code shader map size
-            //shadows *= CalcShadowFactor(g_samShadow, g_ShadowMap, posW.xyz, 2048.f, cascadeSlice);
-            // shadows = 1.0f;
-            //Output += CalcShadowColor(ComputePBRDirectionalLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic) * shadows, shadows);
+            float clipSpaceDepth = 1.0f;
 
-			color += ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
+            //shadows *= CalcCascadedShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition, _camera._view, _camera._near, _camera._far);
+
+            color += shadows * ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
+            // Output += CalcShadowColor(ComputePBRDirectionalLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic) * shadows, shadows);
+			//color += ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
         }
         else if (light._type == Point)
         {
@@ -151,8 +289,13 @@ float4 main(VSOutput input) : SV_TARGET
             // 2048 -> hard code shader map size
             //shadows *= CalcShadowFactorFromSpotShadowMap(g_samShadow, g_SpotShadowMap, posW.xyz, 1024.f, idx);
             //Output +=  CalcShadowColor(ComputePBRSpotLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows) ;
-			
-			color += ComputePBRSpotLight(light, data, c_spec, c_diff, eyeVec);
+			float shadows = 1.0f;
+
+            float clipSpaceDepth = 1.0f;
+
+            shadows *= SpotShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition);
+            
+			color += ComputePBRSpotLight(light, data, c_spec, c_diff, eyeVec) * shadows;
         }
         else if (light._type == AreaRect)
         {

@@ -77,7 +77,7 @@ namespace graphics
 
 	void CameraBuffer::UpdateCascadeShadow(math::Vector3 directionalLightDir)
 	{
-		float cascadeOffset[4]{ 0.05f, 0.18f, 0.6f, 1.0f };
+		float cascadeOffset[4]{ 0.01f, 0.18f, 0.6f, 1.0f };
 		
 		m_cascadedInfo._cascadeOffset[0].x = m_cameraInfo._near;
 		m_cascadedInfo._cascadeOffset[1].x = lerp(m_cameraInfo._near, m_cameraInfo._far, cascadeOffset[0]);
@@ -135,12 +135,15 @@ namespace graphics
 			// 모든 코너들의 중점을 구함
 			_cornerCenter *= (1.f / 8.f);
 
-			
+			m_slices[i]._frustumCenter.x = _cornerCenter.x;
+			m_slices[i]._frustumCenter.y = _cornerCenter.y;
+			m_slices[i]._frustumCenter.z = _cornerCenter.z;
+
 			//라이트의 위치 조정(무한대로 측정을 하고싶지만 일단 그럴 수는 없기에 200를 곱했음)
-			Vector3 _lightPos = _cornerCenter - directionalLightDir * 100.f;
+			Vector3 _lightPos = _cornerCenter - directionalLightDir * 50.f;
 
 			// 조정한 라이트의 위치를 가지고 ligth view matrix를 만든다.
-			math::Matrix LightM = math::Matrix::CreateLookAt(_lightPos, _lightPos +  directionalLightDir, math::Vector3(0.0f, 1.0f, 0.0f));
+			math::Matrix LightM = math::Matrix::CreateLookAt(_lightPos, m_slices[i]._frustumCenter, math::Vector3(0.0f, 1.0f, 0.0f));
 
 			for (uint j = 0; j < NUM_FRUSTUM_CORNERS; j++)
 			{
@@ -156,10 +159,6 @@ namespace graphics
 				maxZ = max(maxZ, frustumCornersL[j].z);
 
 			}
-
-			m_slices[i]._frustumCenter.x = _cornerCenter.x;
-			m_slices[i]._frustumCenter.y = _cornerCenter.y;
-			m_slices[i]._frustumCenter.z = _cornerCenter.z;
 
 			m_slices[i]._width = maxX - minX;
 			m_slices[i]._height = maxY - minY;

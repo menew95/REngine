@@ -23,11 +23,7 @@ namespace rengine
         
         static shared_ptr<GameObject> Instantiate(shared_ptr<Transform> parent = nullptr);
 
-        //GameObject();
-
         GameObject(const uuid& uuid);
-
-        //GameObject(uuid uuid, tstring name = TEXT("Game Object"));
 
         GameObject(const GameObject& object) = default;
 

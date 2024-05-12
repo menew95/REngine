@@ -77,6 +77,26 @@ namespace graphics
 				)
 			);
 		}
+
+		for (auto& resource : desc._bindSamplers)
+		{
+			BindingDescriptor _desc
+			{
+				resource._name,
+				(ResourceType)resource._resourceType,
+				BindFlags::ShaderResource,
+				resource._stageFlags,
+				resource._boundSlot,
+				resource._boundCount
+			};
+
+			m_samplerBlock.insert(
+				make_pair(
+					resource._name,
+					make_pair(_desc, nullptr)
+				)
+			);
+		}
 	}
 
 	void MaterialPropertyBlock::BindProperty(CommandBuffer* command)
@@ -99,21 +119,22 @@ namespace graphics
 
 		for(const auto& [name, pair] : m_resourceBlock)
 		{
-			//Texture* _tex = pair.second->GetTexture();
-
 			command->SetResource(
 				*pair.second,
 				pair.first._slot,
 				pair.first._bindFlags,
 				pair.first._stageFlags
 			);
+		}
 
-			/*command->SetResource(
-				*pair.second->GetSampler(),
+		for (const auto& [name, pair] : m_samplerBlock)
+		{
+			command->SetResource(
+				*pair.second,
 				pair.first._slot,
 				pair.first._bindFlags,
 				pair.first._stageFlags
-			);*/
+			);
 		}
 	}
 

@@ -17,10 +17,23 @@
 namespace graphics
 {
     class CameraBuffer;
+    class MaterialBuffer;
+    class Texture;
 }
 
 namespace editor
 {
+    enum class ViewMode
+    {
+        Default = 0,
+        Depth = 1,
+        Albedo = 2,
+        Normal = 3,
+        World = 4,
+        Emissive = 5,
+        Flag = 6,
+    };
+
     class GameView : public View
     {
     public:
@@ -37,6 +50,10 @@ namespace editor
     private:
         void CreateGameViewCamera();
 
+        void CreateGameViewWidget();
+
+        void CachingTexture();
+
         /**
             @brief 게임 뷰 카메라 움직임 제어
         **/
@@ -49,9 +66,19 @@ namespace editor
         **/
         void ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition);
 
+        /**
+            @brief 현재 view에 렌더링 될 이미지를 교체함(GBuffer Debug 용)
+            @param val - 인덱스
+        **/
+        void SetCurrentView(int val);
+
         float m_fSpeed = 5.0f;
 
         graphics::CameraBuffer* m_pGameViewCameraBuffer = nullptr;
+
+        ViewMode m_currentViewMode = ViewMode::Default;
+
+        graphics::Texture* m_textureList[7];
 
         IMGUIZMO_NAMESPACE::OPERATION m_currentOperation = IMGUIZMO_NAMESPACE::OPERATION::TRANSLATE;
 

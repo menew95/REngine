@@ -72,6 +72,8 @@ namespace graphics
 
 		perFrame._WorldSpaceLightPos0 = m_directionalLightPos;
 		perFrame._LightColor0 = m_directionalLightColor;
+
+		perFrame._shadowAtlasResolution = Vector2(SHADOWMAP_ATLAS_SIZE, SHADOWMAP_ATLAS_SIZE);
 	}
 
 	uint32 graphics::LightManager::GetShadowMapTextureIndex(const LightInfo& light)

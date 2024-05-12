@@ -27,6 +27,8 @@ namespace graphics
         // direction light;
         Vector4 _WorldSpaceLightPos0;
         Vector4 _LightColor0;
+
+        Vector2 _shadowAtlasResolution;
 	};
 
 	struct alignas(16) PerCamera

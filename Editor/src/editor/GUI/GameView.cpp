@@ -17,6 +17,7 @@
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\resource\CameraBuffer.h>
+#include <graphics_module\Texture.h>
 
 #include <log\log.h>
 
@@ -26,6 +27,10 @@ namespace editor
 		: View("Game View")
 	{
 		CreateGameViewCamera();
+
+		CreateGameViewWidget();
+
+		CachingTexture();
 	}
 
 	GameView::~GameView()
@@ -50,7 +55,9 @@ namespace editor
 
 		m_viewportSize = { _viportPanelSize.x, _viportPanelSize.y };
 
-		ImGui::Image(m_pGameViewCameraBuffer->GetTextureID(), ImVec2{ m_viewportSize.x, m_viewportSize.y }, ImVec2{ 0, 0 }, ImVec2{ 1, 1 });
+		ImTextureID _textureID = m_textureList[static_cast<int>(m_currentViewMode)]->GetTextureID();
+
+		ImGui::Image(_textureID, ImVec2{m_viewportSize.x, m_viewportSize.y}, ImVec2{0, 0}, ImVec2{1, 1});
 
 #pragma region IMGUIZMO
 		auto* _object = EventManager::GetInstance()->GetFocusObject();
@@ -158,6 +165,45 @@ namespace editor
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("PostProcess Pass")));
 		
 		m_pGameViewCameraBuffer->PushRenderPass(graphics::ResourceManager::GetInstance()->GetRenderPass(TEXT("Final Pass")));
+	}
+
+	void GameView::CreateGameViewWidget()
+	{
+		auto _comboBox = AddWidget<ComboBox>("GBuffer");
+		
+		vector<string> _items 
+		{
+			"Default",
+			"Depth",
+			"Albedo",
+			"Normal",
+			"World",
+			"Emissive",
+			"Flag"
+		};
+
+		_comboBox->SetComboItems(_items);
+
+		_comboBox->RegisterGetter([&]()
+			{
+				return static_cast<int>(m_currentViewMode);
+			});
+
+		_comboBox->RegisterSetter([&](int& mode)
+			{
+				m_currentViewMode = static_cast<ViewMode>(mode);
+			});
+	}
+
+	void GameView::CachingTexture()
+	{
+		m_textureList[0] = m_pGameViewCameraBuffer->GetColorTexture();
+		m_textureList[1] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("Depth"));
+		m_textureList[2] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("Albedo"));
+		m_textureList[3] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("Normal"));
+		m_textureList[4] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("World"));
+		m_textureList[5] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("Emissive"));
+		m_textureList[6] = graphics::ResourceManager::GetInstance()->GetTexture(TEXT("Flag"));
 	}
 
 	void GameView::GameViewCameraControl()
@@ -296,5 +342,10 @@ namespace editor
 				EventManager::GetInstance()->SetFocusObject(_go.get());
 			}
 		}
+	}
+
+	void GameView::SetCurrentView(int val)
+	{
+	
 	}
 }

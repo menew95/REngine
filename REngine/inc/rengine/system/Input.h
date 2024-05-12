@@ -354,6 +354,13 @@ namespace rengine
 
         void PreTick();
 
+        void TickAllKeyState();
+
+        inline bool GetKeyStateRight(EVirtualKey keyCode, EKeyState keyState) const
+        {
+            return m_KeyInfos[static_cast<int>(keyCode)].state == keyState;
+        }
+
         /**
          * @brief 현재 키의 상태를 반환합니다.
          */
@@ -400,6 +407,10 @@ namespace rengine
          * 그렇지 않다면 이 키의 상태는 이번 프레임에서 이미 추적된 것이므로, 이 배열의 값은 갱신되지 않습니다.
          */
         KeyInfo m_KeyInfos[VKEY_COUNT];
+
+        unsigned char _prevKeyboardBuffer[VKEY_COUNT];
+
+        unsigned char _currKeyboardBuffer[VKEY_COUNT];
 
         /**
          * @brief 가상 키에 대응하는 가장 최근에 받은 키 입력 윈도우 메세지가 무엇인지 저장하는 배열입니다.

@@ -421,9 +421,11 @@ namespace editor
 
 					auto _scene = rengine::SceneManager::GetInstance()->CreateScene(TEXT("New Scene"));
 
-					_scene->SetPath(_path);
+					auto _absolutePath = fs::absolute(_path);
 
-					AssetManager::GetInstance()->CreateAsset(_scene.get(), _path);
+					_scene->SetPath(_absolutePath);
+
+					AssetManager::GetInstance()->CreateAsset(_scene.get(), _absolutePath);
 				});
 
 			_menuItem = _menu->AddWidget<MenuItem>("Material", "", false, false, true, 0);
@@ -433,13 +435,15 @@ namespace editor
 
 					auto _material = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
 
-					_material->SetPath(_path);
+					auto _absolutePath = fs::absolute(_path);
+
+					_material->SetPath(_absolutePath);
 
 					_material->SetRenderPassID(TEXT("Deferred Pass"));
 
 					_material->SetPipelineID(TEXT("Standard"));
 
-					AssetManager::GetInstance()->CreateAsset(_material.get(), _path);
+					AssetManager::GetInstance()->CreateAsset(_material.get(), _absolutePath);
 				});
 		}
 

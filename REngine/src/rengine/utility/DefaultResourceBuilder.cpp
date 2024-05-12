@@ -107,14 +107,14 @@ namespace rengine
 				//  |		/
 				//  [y+1, x]
 				_indices[0].push_back(1 + (y)*ringVertexCount + (x));
-				_indices[0].push_back(1 + (y)*ringVertexCount + (x + 1));
 				_indices[0].push_back(1 + (y + 1) * ringVertexCount + (x));
+				_indices[0].push_back(1 + (y)*ringVertexCount + (x + 1));
 				//		 [y, x+1]
 				//		 /	  |
 				//  [y+1, x]-[y+1, x+1]
 				_indices[0].push_back(1 + (y + 1) * ringVertexCount + (x));
-				_indices[0].push_back(1 + (y)*ringVertexCount + (x + 1));
 				_indices[0].push_back(1 + (y + 1) * ringVertexCount + (x + 1));
+				_indices[0].push_back(1 + (y)*ringVertexCount + (x + 1));
 			}
 		}
 
@@ -154,15 +154,15 @@ namespace rengine
 	{
 		vector<VertexAttribute> _vertices(4);
 
-		_vertices[0] = { { -0.5, -0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
-		_vertices[1] = { { -0.5, +0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
-		_vertices[2] = { { +0.5, +0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
-		_vertices[3] = { { +0.5, -0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
+		_vertices[0] = { { -0.5, -0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		_vertices[1] = { { -0.5, +0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		_vertices[2] = { { +0.5, +0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		_vertices[3] = { { +0.5, -0.5, +0.0 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 
 		vector<vector<uint32>> _indices(1, vector<uint32>(6));
 
-		_indices[0][0] = 0, _indices[0][1] = 3, _indices[0][2] = 1;
-		_indices[0][3] = 1, _indices[0][4] = 3, _indices[0][5] = 2;
+		_indices[0][0] = 0, _indices[0][1] = 2, _indices[0][2] = 1;
+		_indices[0][3] = 0, _indices[0][4] = 3, _indices[0][5] = 2;
 
 
 		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>(TEXT("00000000-0000-0000-0000-000000000002"));
@@ -191,26 +191,37 @@ namespace rengine
 
 		vector<VertexAttribute> _vertices(24);
 
+		// front
 		_vertices[0]  = { { -w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[1]  = { { -w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[2]  = { { +w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[3]  = { { +w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +0.0f, +0.0f, -1.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		
+		// back
 		_vertices[4]  = { { -w2, -h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +0.0f, +0.0f, +1.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[5]  = { { +w2, -h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +0.0f, +0.0f, +1.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[6]  = { { +w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +0.0f, +0.0f, +1.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[7]  = { { -w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +0.0f, +0.0f, +1.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		
+		// top
 		_vertices[8]  = { { -w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +0.0f, +1.0f, +0.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[9]  = { { -w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +0.0f, +1.0f, +0.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[10] = { { +w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +0.0f, +1.0f, +0.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[11] = { { +w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +0.0f, +1.0f, +0.0f } , { +1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		
+		// bottom
 		_vertices[12] = { { -w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { +0.0f, -1.0f, +0.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[13] = { { +w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +0.0f, -1.0f, +0.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[14] = { { +w2, -h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +0.0f, -1.0f, +0.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
 		_vertices[15] = { { -w2, -h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +0.0f, -1.0f, +0.0f } , { -1.0f, +0.0f, +0.0f } /*, { } , { }*/ };
+		
+		//left
 		_vertices[16] = { { -w2, -h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { -1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, -1.0f } /*, { } , { }*/ };
 		_vertices[17] = { { -w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { -1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, -1.0f } /*, { } , { }*/ };
 		_vertices[18] = { { -w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { -1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, -1.0f } /*, { } , { }*/ };
 		_vertices[19] = { { -w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 1.0f } , { -1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, -1.0f } /*, { } , { }*/ };
+		
+		//right
 		_vertices[20] = { { +w2, -h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 1.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
 		_vertices[21] = { { +w2, +h2, -d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 0.0f, 0.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
 		_vertices[22] = { { +w2, +h2, +d2 }, { 1.0f, 1.0f, 1.0f, 1.0f } , { 1.0f, 0.0f } , { +1.0f, +0.0f, +0.0f } , { +0.0f, +0.0f, +1.0f } /*, { } , { }*/ };
@@ -219,23 +230,23 @@ namespace rengine
 		vector<vector<uint32>> _indices(1, vector<uint32>(36));
 
 		// 앞면
-		_indices[0][0] = 0; _indices[0][1] = 1; _indices[0][2] = 2;
-		_indices[0][3] = 0; _indices[0][4] = 2; _indices[0][5] = 3;
+		_indices[0][0] = 0; _indices[0][1] = 2; _indices[0][2] = 1;
+		_indices[0][3] = 0; _indices[0][4] = 3; _indices[0][5] = 2;
 		// 뒷면
-		_indices[0][6] = 4; _indices[0][7] = 5; _indices[0][8] = 6;
-		_indices[0][9] = 4; _indices[0][10] = 6; _indices[0][11] = 7;
+		_indices[0][6] = 4; _indices[0][7] = 6; _indices[0][8] = 5;
+		_indices[0][9] = 4; _indices[0][10] = 7; _indices[0][11] = 6;
 		// 윗면
-		_indices[0][12] = 8; _indices[0][13] = 9; _indices[0][14] = 10;
-		_indices[0][15] = 8; _indices[0][16] = 10; _indices[0][17] = 11;
+		_indices[0][12] = 8; _indices[0][13] = 10; _indices[0][14] = 9;
+		_indices[0][15] = 8; _indices[0][16] = 11; _indices[0][17] = 10;
 		// 아랫면
-		_indices[0][18] = 12; _indices[0][19] = 13; _indices[0][20] = 14;
-		_indices[0][21] = 12; _indices[0][22] = 14; _indices[0][23] = 15;
+		_indices[0][18] = 12; _indices[0][19] = 14; _indices[0][20] = 13;
+		_indices[0][21] = 12; _indices[0][22] = 15; _indices[0][23] = 14;
 		// 왼쪽면
-		_indices[0][24] = 16; _indices[0][25] = 17; _indices[0][26] = 18;
-		_indices[0][27] = 16; _indices[0][28] = 18; _indices[0][29] = 19;
+		_indices[0][24] = 16; _indices[0][25] = 18; _indices[0][26] = 17;
+		_indices[0][27] = 16; _indices[0][28] = 19; _indices[0][29] = 18;
 		// 오른쪽면
-		_indices[0][30] = 20; _indices[0][31] = 21; _indices[0][32] = 22;
-		_indices[0][33] = 20; _indices[0][34] = 22; _indices[0][35] = 23;
+		_indices[0][30] = 20; _indices[0][31] = 22; _indices[0][32] = 21;
+		_indices[0][33] = 20; _indices[0][34] = 23; _indices[0][35] = 22;
 
 		auto _mesh = Resources::GetInstance()->CreateResource<Mesh>(TEXT("00000000-0000-0000-0000-000000000001"));
 

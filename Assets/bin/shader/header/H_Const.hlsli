@@ -12,6 +12,8 @@ cbuffer PerFrame : register(b0)
     // direction light;
     float4 _WorldSpaceLightPos0;
     float4 _LightColor0;
+
+    float2 _shadowAtlasResolution;
 }
 
 cbuffer PerCamera : register(b1)

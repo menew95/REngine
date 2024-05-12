@@ -17,7 +17,6 @@
 
 namespace graphics
 {
-    // Must match the logic in `ColorRGBA32 PickingEncodeIndex(UInt32 index)` in picking.cpp
     static math::Vector2 EncodeSelectionId(uint64 pickingIndex)
     {
         Vector2 _ret;
@@ -31,7 +30,6 @@ namespace graphics
             (float)(pickingIndex >> 32 & 0xFFFF));
     }
 
-    // Must match the inverse logic in `ColorRGBA32 PickingEncodeIndex(UInt32 index)` in picking.cpp
     static uint64 DecodeSelectionId(math::Vector2 selectionId)
     {
         uint64 _ret;
@@ -39,9 +37,6 @@ namespace graphics
         memcpy(&_ret, &selectionId, sizeof(math::Vector2));
 
         return _ret;
-
-        return (uint64)(selectionId.x) +
-            ((uint64)(selectionId.y) << 32);
     }
 
     enum class RenderType
@@ -99,7 +94,7 @@ namespace graphics
         GRAPHICS_API inline void SetWorld(math::Matrix val) 
         {
             m_perObject._world = val;
-            m_perObject._worldInv = val.Invert();
+            m_perObject._worldInv = val.Invert().Transpose();
         }
 
         GRAPHICS_API virtual void SetBoundinBoxMin(const math::Vector3& min) { m_boundingBoxMin = min; }

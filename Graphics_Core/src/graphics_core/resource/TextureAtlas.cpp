@@ -35,17 +35,4 @@ namespace graphics
 	{
 		return m_rootNode->releaseTexture(texture_id);
 	}
-
-	/*void TextureAtlas::CreateTexture()
-	{
-		TextureDesc _pointShadowMapDesc;
-
-		_pointShadowMapDesc._extend = { (uint32)m_resolution.x, (uint32)m_resolution.y, 0 };
-		_pointShadowMapDesc._bindFlags = BindFlags::ShaderResource | BindFlags::DepthStencil;
-		_pointShadowMapDesc._format = Format::R32_TYPELESS;
-
-		_pointShadowMapDesc._textureType = TextureType::Texture2D;
-
-		m_texture = ResourceManager::GetInstance()->CreateTexture(TEXT("Shadow Map Texture"), _pointShadowMapDesc);
-	}*/
 }

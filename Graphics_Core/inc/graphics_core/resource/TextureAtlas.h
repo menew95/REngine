@@ -157,11 +157,6 @@ namespace graphics
 
             Vector2 _childSize = _nodeSize / 2;
 
-            //children[0] = new QuadTreeNode({_nodeStartPoint.x, _nodeStartPoint.y}, _childSize);
-            //children[1] = new QuadTreeNode({_nodeStartPoint.x + _childSize.x, _nodeStartPoint.y}, _childSize);
-            //children[2] = new QuadTreeNode({_nodeStartPoint.x, _nodeStartPoint.y + _childSize .y}, _childSize);
-            //children[3] = new QuadTreeNode({_nodeStartPoint.x + _childSize.x, _nodeStartPoint.y + _childSize .y}, _childSize);
-            
             children[0] = make_shared<QuadTreeNode>(Vector2{_nodeStartPoint.x, _nodeStartPoint.y}, _childSize);
             children[1] = make_shared<QuadTreeNode>(Vector2{_nodeStartPoint.x + _childSize.x, _nodeStartPoint.y}, _childSize);
             children[2] = make_shared<QuadTreeNode>(Vector2{_nodeStartPoint.x, _nodeStartPoint.y + _childSize .y}, _childSize);
@@ -193,10 +188,6 @@ namespace graphics
         bool ReturnTextureSpace(uuid texture_id);
 
     private:
-        /**
-            @brief 텍스처를 생성함
-        **/
-        //void CreateTexture();
 
         uuid m_uuid;
 

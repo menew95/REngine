@@ -1,0 +1,34 @@
+{
+    "guid": "f7153d6d-832c-4fbb-9d10-94b96d5fc86c",
+    "serializable type": "1",
+    "MaterialImporter": {
+        "m_renderPassID": "Deferred Pass",
+        "m_pipelineID": "Standard",
+        "m_Colors": {
+            "_albedoColor": {
+                "r": "1",
+                "g": "1",
+                "b": "1",
+                "a": "1"
+            },
+            "_emissionColor": {
+                "r": "0",
+                "g": "0",
+                "b": "0",
+                "a": "1"
+            }
+        },
+        "m_Floats": {
+            "_roughness": "0.5",
+            "_metallic": "0",
+            "_bumpScale": "1"
+        },
+        "m_TexEnvs": {
+            "AlbedoMap": "",
+            "NormalMap": "",
+            "MetallicRougnessMap": "",
+            "EmissiveMap": "",
+            "AmbientOcclusionMap": ""
+        }
+    }
+}

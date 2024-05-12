@@ -59,6 +59,9 @@ namespace rengine
 		// 'void' 타입에 대한 SceneLighting event register.
 		RegisterEvent<void>(TEXT("SceneLighting"));
 
+		// 'void' 타입에 대한 SceneDebug event register.
+		RegisterEvent<void>(TEXT("SceneDebug"));
+
 		// 'void' 타입에 대한 SceneChanging event register.
 		RegisterEvent<void>(TEXT("SceneChanging"));
 
@@ -69,6 +72,7 @@ namespace rengine
 
 		// 'void' 타입에 대한 NavMeshChanging event register.
 		RegisterEvent<void>(TEXT("NavMeshChanging"));
+
 	}
 
 	void EventManager::UnInitialize()

@@ -22,6 +22,8 @@ namespace rengine
 
 	void Input::PreTick()
 	{
+		TickAllKeyState();
+
 		BOOL _bSuccess;
 
 		POINT _currentMousePoint;
@@ -56,6 +58,32 @@ namespace rengine
 			_wheelDelta += _info.wheelDelta;
 		}
 		m_MouseWheelDelta = _wheelDelta;
+	}
+
+	void Input::TickAllKeyState()
+	{
+		memcpy(_prevKeyboardBuffer, _currKeyboardBuffer, sizeof(unsigned char) * VKEY_COUNT);
+
+		if (GetKeyboardState(_currKeyboardBuffer) == 0)
+		{
+			// TODO
+			// Keyboard의 상태를 불러오지 못 했습니다.
+		}
+
+		/// <summary>
+		/// 0x8000 : 이전에 누른 적이 없고 호출 시점에 키가 눌린 상태
+		/// </summary>
+		for (int i = 0; i < VKEY_COUNT; i++)
+		{
+			const bool isPrevKeyDown = _prevKeyboardBuffer[i] & 0b10000000;
+
+			const bool isCurrKeyDown = _currKeyboardBuffer[i] & 0b10000000;
+
+			if (isPrevKeyDown)
+				isCurrKeyDown ? (m_KeyInfos[i].state = EKeyState::Hold) : (m_KeyInfos[i].state = EKeyState::Up);
+			else
+				isCurrKeyDown ? (m_KeyInfos[i].state = EKeyState::Down) : (m_KeyInfos[i].state = EKeyState::None);
+		}
 	}
 
 	EKeyState Input::GetKeyState(EVirtualKey _vKey)
@@ -99,6 +127,10 @@ namespace rengine
 			static_cast<int>(_keyInfo.state)
 			& 0x0001;
 
+		if (_currentKeyState & 0x8000) {
+			int a = 0;
+		}
+
 		if (_currentKeyState == 0x0000)
 		{
 			// 키를 누르지 않았을 때, 지난번 GetAsyncKeyState를 호출한 값과 대조하여
@@ -138,18 +170,24 @@ namespace rengine
 
 	bool Input::GetKeyPress(EVirtualKey _vKey)
 	{
+		return Instance.GetKeyStateRight(_vKey, EKeyState::Hold);
+
 		const auto _keyState = GetKeyState(_vKey);
 		return _keyState & EKeyStateBit::Bit_Current;
 	}
 
 	bool Input::GetKeyDown(EVirtualKey _vKey)
 	{
+		return Instance.GetKeyStateRight(_vKey, EKeyState::Down);
+
 		const auto _keyState = GetKeyState(_vKey);
 		return _keyState & EKeyStateBit::Bit_Down;
 	}
 
 	bool Input::GetKeyUp(EVirtualKey _vKey)
 	{
+		return Instance.GetKeyStateRight(_vKey, EKeyState::Up);
+
 		const auto _keyState = GetKeyState(_vKey);
 		return _keyState & EKeyStateBit::Bit_Up;
 	}

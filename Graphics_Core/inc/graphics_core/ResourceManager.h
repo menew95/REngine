@@ -73,14 +73,14 @@ namespace graphics
         class PipelineState*  CreatePipelineState(uuid uuid, struct ComputePipelineDesc& desc);
         class PipelineLayout* CreatePipelineLayout(uuid uuid, struct PipelineLayoutDesc& desc);
 
-        class Buffer*           GetBuffer(uuid uuid);
-        class Shader*           GetShader(uuid uuid);
-        class Sampler*          GetSampler(uuid uuid);
-        class Texture*          GetTexture(uuid uuid);
-        class ResourceView*     GetResourceView(uuid uuid);
-        class RenderTarget*     GetRenderTarget(uuid uuid);
-        class PipelineState*    GetPipelineState(uuid uuid);
-        class PipelineLayout*   GetPipelineLayout(uuid uuid);
+        GRAPHICS_API class Buffer*           GetBuffer(uuid uuid);
+        GRAPHICS_API class Shader*           GetShader(uuid uuid);
+        GRAPHICS_API class Sampler*          GetSampler(uuid uuid);
+        GRAPHICS_API class Texture*          GetTexture(uuid uuid);
+        GRAPHICS_API class ResourceView*     GetResourceView(uuid uuid);
+        GRAPHICS_API class RenderTarget*     GetRenderTarget(uuid uuid);
+        GRAPHICS_API class PipelineState*    GetPipelineState(uuid uuid);
+        GRAPHICS_API class PipelineLayout*   GetPipelineLayout(uuid uuid);
 
         bool ReleaseBuffer(class Buffer* buffer);
         bool ReleaseShader(class Shader* shader);

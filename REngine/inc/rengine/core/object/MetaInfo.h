@@ -15,7 +15,6 @@ namespace rengine
     enum class MetaData
     {
         Serializable,
-        ObjectType,
         Editor,
     };
 

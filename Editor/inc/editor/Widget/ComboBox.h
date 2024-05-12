@@ -17,9 +17,14 @@ namespace editor
     class ComboBox : public WidgetData<int>
     {
     public:
-        ComboBox(const string& lable, const rttr::property& prop, uint32 flags = 0);
+        ComboBox(const string& lable, uint32 flags = 0);
 
         ~ComboBox();
+
+        void SetComboItems(const vector<string>& items)
+        {
+            m_items = items;
+        }
 
     private:
         void Draw() override;

@@ -165,10 +165,11 @@ namespace graphics
 
 		void DX11PipelineState::PipelineReflect(const vector<DX11Shader*>& shaders)
 		{
+#pragma region Stage Flags
 			long _bufferStageFlags[D3D11_COMMONSHADER_CONSTANT_BUFFER_API_SLOT_COUNT] = {};
 			long _resourceStageFlags[D3D11_COMMONSHADER_INPUT_RESOURCE_SLOT_COUNT] = {};
 			long _samplerStageFlags[D3D11_COMMONSHADER_SAMPLER_REGISTER_COUNT] = {};
-
+#pragma endregion
 			// 모든 쉐이더로 부터 프로퍼티 블록을 얻어옴
 			for (auto* _shader : shaders)
 			{
@@ -224,13 +225,6 @@ namespace graphics
 
 					_resourceStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
 				}
-
-				/*_propertyDesc._bindSamplers.reserve(_propertyDesc._bindResources.size() + _curPropertyDesc->_bindResources.size());
-				for (const auto& _curBindRes : _curPropertyDesc->_bindResources)
-				{
-					_propertyDesc._bindResources.push_back(_curBindRes);
-					_bufferStageFlags[_curBindRes._boundSlot] |= GetStageFlags(_shader->GetShaderType());
-				}*/
 			}
 		}
 

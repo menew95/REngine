@@ -181,6 +181,9 @@ namespace rengine
 		// 2. SceneLighting Event Invoke
 		EventManager::GetInstance()->InvokeEvent(TEXT("SceneLighting"));
 
+		// 2. SceneLighting Event Invoke
+		EventManager::GetInstance()->InvokeEvent(TEXT("SceneDebug"));
+
 		m_pGraphicsEngine->Excute(_currentSceneInfo);
 	}
 

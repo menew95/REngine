@@ -42,14 +42,14 @@ namespace graphics
 
 	void LightBuffer::SetLightType(uint32 value)
 	{
+		if(m_lightInfo._type == value)
+			return; 
+
 		if (m_isSetShadowMapSpace)
 		{
 			assert(LightManager::GetInstance()->ReleaseShadowMapSpace(this));
 			m_isSetShadowMapSpace = false;
 		}
-
-		if(m_lightInfo._type == value)
-			return; 
 
 		m_lightInfo._type = value;
 
@@ -62,13 +62,16 @@ namespace graphics
 
 	void LightBuffer::SetResolution(uint32 value)
 	{
-		m_shadowInfo._resolution = value;
+		if (m_shadowInfo._resolution == value)
+			return;
 
 		if (m_isSetShadowMapSpace)
 		{
 			assert(LightManager::GetInstance()->ReleaseShadowMapSpace(this));
 			m_isSetShadowMapSpace = false;
 		}
+
+		m_shadowInfo._resolution = value;
 
 		m_isSetShadowMapSpace = LightManager::GetInstance()->SetShadowMapSpace(this);
 		

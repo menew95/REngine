@@ -402,7 +402,32 @@ namespace editor
 
 						root->AddWidget(_widget);*/
 
-						_widget = root->AddWidget<ComboBox>(_propName, _prop, _flags);
+						_widget = root->AddWidget<ComboBox>(_propName, _flags);
+
+						/*
+							enumeration enum_align = enum_type.get_enumeration();
+							std::string name = enum_align.value_to_name(E_Alignment::AlignHCenter);
+							std::cout << name; // prints "AlignHCenter"
+							variant var = enum_align.name_to_value(name);
+							E_Alignment value = var.get_value<E_Alignment>(); // stores value 'AlignHCenter'
+						*/
+
+
+						// char*를 캐싱 해두어야 하기때문에 string list를 미리 생성할 필요가 있다.
+						rttr::type _enumType = rttr::type::get_by_name(_prop.get_name());
+
+						rttr::enumeration _enums = _enumType.get_enumeration();
+
+						auto _names = _enums.get_names();
+
+						vector<string> _items;
+
+						for (auto& _name : _names)
+						{
+							_items.push_back(_name.to_string());
+						}
+
+						_widget->SetComboItems(_items);
 					}
 
 					_widget->RegisterGetter([_prop, obj]()

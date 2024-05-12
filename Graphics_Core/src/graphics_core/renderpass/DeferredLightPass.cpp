@@ -53,6 +53,7 @@ namespace graphics
 		m_pMatBuffer->SetTexture(TEXT("gIntegrateBRDFMap"), ResourceManager::GetInstance()->GetTexture(TEXT("BRDFLookUpTable")));
 		
 		m_pMatBuffer->SetResource(TEXT("gLightTexture"), LightManager::GetInstance()->m_lightBuffer);
+		m_pMatBuffer->SetResource(TEXT("gShadowAtlas"), LightManager::GetInstance()->m_shadowMapAtlasTexture);
 
 		m_pRenderTarget = ResourceManager::GetInstance()->GetRenderTarget(TEXT("MainFrame"));
 	}

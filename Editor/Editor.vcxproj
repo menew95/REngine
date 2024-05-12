@@ -113,7 +113,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;Graphics_Module_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -140,7 +140,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;Graphics_Module_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -164,7 +164,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;Graphics_Module_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"
@@ -191,7 +191,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependency\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Log_$(PlatformTarget)_$(Configuration).lib;DirectXTex_$(PlatformTarget)_$(Configuration).lib;Graphics_Core_$(PlatformTarget)_$(Configuration).lib;Graphics_Module_$(PlatformTarget)_$(Configuration).lib;rttr_core_$(PlatformTarget)_$(Configuration).lib;Serialize_$(PlatformTarget)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /E /S /Y /R "$(OutputPath)*.dll" "$(OutputPath)..\Client\*"

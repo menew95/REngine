@@ -112,14 +112,16 @@ namespace editor
 				return gameObj->GetUUID() == iter->GetUUID();
 			});
 
+#pragma region push style
 		/// 특정 객체를 선택하면 그 객체만 아닌 자식 객체도 모두 색칠되어 일단 주석처리
-		if (_iter == m_controlList.end())
+		if (_iter != m_controlList.end())
 		{
 			ImGui::PushStyleColor(ImGuiCol_Header, EditorStyle::GetColor(ImGuiCol_Header));          // 기본 색상
 			ImGui::PushStyleColor(ImGuiCol_Text, EditorStyle::GetColor(ImGuiCol_Text));
 		}
 
 		ImGui::PushStyleColor(ImGuiCol_HeaderHovered, EditorStyle::GetColor(ImGuiCol_HeaderHovered));
+#pragma endregion
 
 		bool open;
 		if (gameObj->GetName().empty() == true)
@@ -131,15 +133,20 @@ namespace editor
 			open = ImGui::TreeNodeEx(gameObj, nodeFlag, gameObj->GetNameStr().c_str());
 		}
 
+#pragma region pop style
+
 		ImGui::PopStyleColor(1);
 
-		if (_iter == m_controlList.end())
+		if (_iter != m_controlList.end())
 		{
 			ImGui::PopStyleColor(2);
 		}
 
-		//m_ObjectList.push_back(root);
+#pragma endregion
+
 		ImGui::Spacing();
+
+#pragma region Input Event
 
 		if (ImGui::IsItemClicked())
 		{
@@ -178,6 +185,8 @@ namespace editor
 
 			ImGui::EndDragDropTarget();
 		}
+
+#pragma endregion
 
 		if (open)
 		{

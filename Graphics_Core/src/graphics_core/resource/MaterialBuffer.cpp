@@ -120,7 +120,7 @@ namespace graphics
 				{
 					_prop._name = _field._name;
 					_prop._type = GetPropertyType(_field);
-					_prop._defaultValue = _field._defaultValue;
+					_prop._defaultValue = &_field._default;
 				}
 
 				m_properties.push_back(_prop);
