@@ -135,6 +135,9 @@
     <ClInclude Include="inc\rengine\core\MonoBehaviours.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="inc\rengine\core\resource\Model.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\rengine\core\object\object.cpp">
@@ -240,6 +243,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="src\rengine\core\MonoBehaviours.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\Prefab.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rengine\core\resource\Model.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

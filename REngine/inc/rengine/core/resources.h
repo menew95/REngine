@@ -26,6 +26,7 @@ namespace rengine
     class AnimationClip;
     class AnimationController;
     class AudioClip;
+    class Model;
 
     class Resources
     {
@@ -54,6 +55,9 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<AnimationClip> Load(tstring path);
 
+        template<>
+        RENGINE_API shared_ptr<Model> Load(tstring path);
+
         template<class T>
         shared_ptr<T> GetResource(uuid uuid)
         {
@@ -73,6 +77,9 @@ namespace rengine
 
         template<>
         RENGINE_API shared_ptr<AnimationClip> GetResource(uuid uuid);
+
+        template<>
+        RENGINE_API shared_ptr<Model> GetResource(uuid uuid);
 
         template<class T>
         shared_ptr<T> CreateResource()
@@ -94,6 +101,8 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<AnimationClip> CreateResource();
 
+        template<>
+        RENGINE_API shared_ptr<Model> CreateResource();
         /**
             @brief  새로운 비어있는 리소스를 생성후 uuid를 부여 후 생성된 리소스 반환
             @tparam T    - 생성할 리소스 타입
@@ -119,6 +128,9 @@ namespace rengine
 
         template<>
         RENGINE_API shared_ptr<AnimationClip> CreateResource(uuid uuid);
+
+        template<>
+        RENGINE_API shared_ptr<Model> CreateResource(uuid uuid);
 
         /**
             @brief  path에 있는 에셋을 이용하여 리소스를 생성 하고 uuid를 부여 후 반환
@@ -147,6 +159,9 @@ namespace rengine
         template<>
         RENGINE_API shared_ptr<AnimationClip> CreateResource(uuid uuid, const tstring& path);
 
+        template<>
+        RENGINE_API shared_ptr<Model> CreateResource(uuid uuid, const tstring& path);
+
         RENGINE_API bool DeleteResource(const shared_ptr<Resource>& res);
 
     private:
@@ -163,5 +178,7 @@ namespace rengine
         map<uuid, shared_ptr<Material>> m_materialMap;
 
         map<uuid, shared_ptr<AnimationClip>> m_animationClipMap;
+
+        map<uuid, shared_ptr<Model>> m_modelMap;
     };
 }

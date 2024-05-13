@@ -200,6 +200,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="inc\serialize\binary\AnimBin.h" />
+    <ClInclude Include="inc\Serialize\binary\Model.h" />
     <ClInclude Include="inc\serialize\binary\MaterialBin.h" />
     <ClInclude Include="inc\serialize\binary\MeshBin.h" />
     <ClInclude Include="inc\serialize\ComponentSerializer.h" />

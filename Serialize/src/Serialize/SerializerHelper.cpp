@@ -8,7 +8,7 @@
 namespace utility
 {
 	template<>
-	void serializeConfig(math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt)
+	void serializeConfig(const math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _vec;
 
@@ -19,7 +19,7 @@ namespace utility
 	}
 
 	template<>
-	void serializeConfig(math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt)
+	void serializeConfig(const math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _vec;
 
@@ -31,7 +31,7 @@ namespace utility
 	}
 
 	template<>
-	void serializeConfig(math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt)
+	void serializeConfig(const math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _vec;
 
@@ -44,7 +44,7 @@ namespace utility
 	}
 
 	template<>
-	void serializeConfig(math::Color& v, std::string& valueName, boost::property_tree::ptree& pt)
+	void serializeConfig(const math::Color& v, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _vec;
 
@@ -57,7 +57,7 @@ namespace utility
 	}
 
 	template<>
-	void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt)
+	void serializeConfig(const math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt)
 	{
 		boost::property_tree::ptree _matrix;
 

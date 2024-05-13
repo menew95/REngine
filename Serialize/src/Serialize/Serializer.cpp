@@ -124,47 +124,69 @@ namespace utility
 		return true;
 	}
 
-	SERIALIZE_API bool Serializer::CreateMetaInfoModel(const tstring& path, vector<rengine::Object*>& assets)
-	{
-		// 마땅히 방법이 없어서 일단 만든다.
-		boost::property_tree::ptree _pt;
+	//SERIALIZE_API bool Serializer::CreateMetaInfoModel(const tstring& path, rengine::Model* model)
+	//{
+	//	// 마땅히 방법이 없어서 일단 만든다.
+	//	boost::property_tree::ptree _pt;
 
-		fs::path _path(path);
+	//	fs::path _path(path);
 
-		_pt.put("guid", "");
+	//	_pt.put("guid", "");
 
-		_pt.put("serializable type", (uint32)rengine::SerializableType::RESOURCE);
+	//	_pt.put("serializable type", (uint32)rengine::SerializableType::RESOURCE);
 
-		boost::property_tree::ptree _mesh_pt;
-		boost::property_tree::ptree _material_pt;
-		boost::property_tree::ptree _anim_pt;
+	//	boost::property_tree::ptree _node_pt;
+	//	boost::property_tree::ptree _mesh_pt;
+	//	boost::property_tree::ptree _material_pt;
+	//	boost::property_tree::ptree _anim_pt;
 
-		for (auto* _obj : assets)
-		{
-			boost::property_tree::ptree _child;
+	//	for (auto* _obj : assets)
+	//	{
+	//		boost::property_tree::ptree _child;
 
-			_child.put("", _obj->GetUUIDStr());
+	//		_child.put("", _obj->GetUUIDStr());
 
-			if (_obj->GetType() == TEXT("Mesh")) _mesh_pt.push_back(std::make_pair("", _child));
-			else if (_obj->GetType() == TEXT("Material")) _material_pt.push_back(std::make_pair("", _child));
-			else if (_obj->GetType() == TEXT("AnimationClip")) _anim_pt.push_back(std::make_pair("", _child));
-		}
+	//		if (_obj->GetType() == TEXT("Mesh")) _mesh_pt.push_back(std::make_pair("", _child));
+	//		else if (_obj->GetType() == TEXT("Material")) _material_pt.push_back(std::make_pair("", _child));
+	//		else if (_obj->GetType() == TEXT("AnimationClip")) _anim_pt.push_back(std::make_pair("", _child));
+	//	}
 
-		_pt.add_child("mesh", _mesh_pt);
-		_pt.add_child("material", _material_pt);
-		_pt.add_child("animation", _anim_pt);
+	//	for (auto& _node : model._nodes)
+	//	{
+	//		boost::property_tree::ptree _child;
 
-		std::ofstream _file(StringHelper::WStringToString(path + TEXT(".meta")));
+	//		//_child.put("name", _node._name);
 
-		if (!_file.is_open())
-			return false;
+	//		string _world = "world";
 
-		boost::property_tree::write_json(_file, _pt);
+	//		serializeConfig<Matrix>(_node._world, _world, _child);
 
-		_file.close();
+	//		_child.put("hasParent", _node._hasParent);
+	//		_child.put("parent", _node._parent);
 
-		return true;
-	}
+	//		_child.put("hasMesh", _node._hasMesh);
+	//		_child.put("isSkinned", _node._isBone);
+	//		_child.put("mesh", _node._mesh);
+
+	//		_node_pt.push_back(std::make_pair(_node._name, _child));
+	//	}
+
+	//	_pt.add_child("node", _node_pt);
+	//	_pt.add_child("mesh", _mesh_pt);
+	//	_pt.add_child("material", _material_pt);
+	//	_pt.add_child("animation", _anim_pt);
+
+	//	std::ofstream _file(StringHelper::WStringToString(path + TEXT(".meta")));
+
+	//	if (!_file.is_open())
+	//		return false;
+
+	//	boost::property_tree::write_json(_file, _pt);
+
+	//	_file.close();
+
+	//	return true;
+	//}
 
 	SERIALIZE_API rengine::MetaInfo Serializer::SerializeMetaInfo(const tstring& path)
 	{

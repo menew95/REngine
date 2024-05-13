@@ -66,12 +66,6 @@ namespace editor
         **/
         void ObjectPicking(const Vector2& imageSize, const Vector2& mousePosition);
 
-        /**
-            @brief 현재 view에 렌더링 될 이미지를 교체함(GBuffer Debug 용)
-            @param val - 인덱스
-        **/
-        void SetCurrentView(int val);
-
         float m_fSpeed = 5.0f;
 
         graphics::CameraBuffer* m_pGameViewCameraBuffer = nullptr;

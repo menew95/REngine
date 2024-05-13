@@ -22,25 +22,25 @@
 namespace utility
 {
 	template<typename T>
-	void serializeConfig(T&, std::string&, boost::property_tree::ptree& pt)
+	void serializeConfig(const T&, std::string&, boost::property_tree::ptree& pt)
 	{
 		//static_assert(false, "need template specialization for T");
 	}
 	
 	template<>
-	void serializeConfig(math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt);
+	void serializeConfig(const math::Vector2& v, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<>
-	void serializeConfig(math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt);
+	void serializeConfig(const math::Vector3& v, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<>
-	void serializeConfig(math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt);
+	void serializeConfig(const math::Vector4& v, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<>
-	void serializeConfig(math::Color& m, std::string& valueName, boost::property_tree::ptree& pt);
+	void serializeConfig(const math::Color& m, std::string& valueName, boost::property_tree::ptree& pt);
 	
 	template<>
-	void serializeConfig(math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt);
+	void serializeConfig(const math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<typename T>
 	T parseConfig(boost::property_tree::ptree& pt)

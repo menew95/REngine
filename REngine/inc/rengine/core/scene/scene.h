@@ -59,6 +59,18 @@ namespace rengine
         RENGINE_API GraphicsSetting& GetGraphicsSetting() { return m_graphicsSetting; }
         RENGINE_API void SetGraphicsSetting(GraphicsSetting& val) { m_graphicsSetting = val; }
 
+        /**
+            @brief mesh 파일로부터 게임 오브젝트 하나를 생성 후 씬에 추가
+            @param uuid - mesh uuid
+        **/
+        RENGINE_API void CreateFromMesh(const uuid& uuid);
+
+        /**
+            @brief model(fbx) 파일로부터 게임 오브젝트들을 생성 후 씬에 추가
+            @param uuid - model uuid
+        **/
+        RENGINE_API void CreateFromModel(const uuid& uuid);
+
     private:
         bool m_bIsDirty = false;
 

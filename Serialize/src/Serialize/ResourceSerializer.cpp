@@ -8,6 +8,7 @@
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Material.h>
+#include <rengine\core\resource\Model.h>
 
 #include <serialize\binary\AnimBin.h>
 #include <serialize\binary\MaterialBin.h>
@@ -190,6 +191,98 @@ namespace utility
 		pt.push_back(make_pair("MaterialImporter", _obj_pt));
 	}
 
+	void ModelSerialize(rengine::Resource* res, boost::property_tree::ptree& pt)
+	{
+		if (res == nullptr && res->GetResourceType() != rengine::ResourceType::MODEL)
+			return;
+
+		rengine::Model* _model = reinterpret_cast<rengine::Model*>(res);
+
+		boost::property_tree::ptree _node_pt;
+		boost::property_tree::ptree _mesh_pt;
+		boost::property_tree::ptree _bone_pt;
+		boost::property_tree::ptree _material_pt;
+		boost::property_tree::ptree _anim_pt;
+
+		for (auto& _node : _model->GetObjectNodes())
+		{
+			boost::property_tree::ptree _child;
+
+			string _world = "world";
+
+			serializeConfig<Matrix>(_node._world, _world, _child);
+
+			_child.put("hasParent", _node._hasParent);
+			_child.put("parent", StringHelper::WStringToString(_node._parent));
+
+			_child.put("hasMesh", _node._hasMesh);
+			_child.put("isSkinned", _node._hasBone);
+			_child.put("mesh", StringHelper::WStringToString(_node._mesh));
+
+
+			boost::property_tree::ptree _materials;
+
+			for (auto& _material : _node._materials)
+			{
+				boost::property_tree::ptree _matpt;
+
+				_matpt.put("", StringHelper::WStringToString(_material));
+
+				_materials.push_back(std::make_pair("", _matpt));
+			}
+
+			_child.add_child("materials", _materials);
+
+			_node_pt.push_back(std::make_pair(StringHelper::WStringToString(_node._name), _child));
+		}
+
+		pt.add_child("node", _node_pt);
+
+		for (auto& _uuid : _model->GetMeshUUIDs())
+		{
+			boost::property_tree::ptree _child;
+
+			_child.put("", StringHelper::WStringToString(_uuid));
+
+			_mesh_pt.push_back(std::make_pair("", _child));
+		}
+
+		pt.add_child("mesh", _mesh_pt);
+
+		for (auto& _uuid : _model->GetBoneUUIDs())
+		{
+			boost::property_tree::ptree _child;
+
+			_child.put("", StringHelper::WStringToString(_uuid));
+
+			_bone_pt.push_back(std::make_pair("", _child));
+		}
+
+		pt.add_child("bone", _bone_pt);
+
+		for (auto& _uuid : _model->GetMaterialUUIDs())
+		{
+			boost::property_tree::ptree _child;
+
+			_child.put("", StringHelper::WStringToString(_uuid));
+
+			_material_pt.push_back(std::make_pair("", _child));
+		}
+
+		pt.add_child("material", _material_pt);
+
+		for (auto& _uuid : _model->GetClipUUIDs())
+		{
+			boost::property_tree::ptree _child;
+
+			_child.put("", StringHelper::WStringToString(_uuid));
+
+			_anim_pt.push_back(std::make_pair("", _child));
+		}
+
+		pt.add_child("animation", _anim_pt);
+	}
+
 	void ResourceSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
 		shared_ptr<rengine::Resource> _object;
@@ -268,6 +361,19 @@ namespace utility
 			}
 			case rengine::ResourceType::AUDIO_CLIP:
 			{
+				break;
+			}
+			case rengine::ResourceType::MODEL:
+			{
+				ModelSerialize(_resource, pt);
+
+				std::ofstream file(_resource->GetPath() + TEXT(".meta"));
+
+				assert(file.is_open());
+
+				boost::property_tree::write_json(file, pt);
+
+				file.close();
 				break;
 			}
 			case rengine::ResourceType::UNKNOWN:
@@ -420,6 +526,82 @@ namespace utility
 		return _resource;
 	}
 
+	std::shared_ptr<rengine::Model> ModelDeserialize(const rengine::MetaInfo& info, const boost::property_tree::ptree& pt)
+	{
+		shared_ptr<rengine::Model> _resource;
+
+		_resource = rengine::Resources::GetInstance()->CreateResource<rengine::Model>(info._guid);
+
+		auto _iter = pt.find("node");
+
+		bool _isSkinned = false;
+
+		for (auto& _pair : _iter->second)
+		{
+			rengine::ObjectNode _objectNode;
+
+			_objectNode._name = StringHelper::StringToWString(_pair.first);
+
+			_objectNode._hasParent = _pair.second.get<bool>("hasParent");
+
+			if (_objectNode._hasParent)
+				_objectNode._parent = StringHelper::StringToWString(_pair.second.get<string>("parent"));
+
+			_objectNode._hasMesh = _pair.second.get<bool>("hasMesh");
+
+			if (_objectNode._hasMesh)
+			{
+				_objectNode._mesh = StringHelper::StringToWString(_pair.second.get<string>("mesh"));
+
+				_objectNode._hasBone = _pair.second.get<bool>("isSkinned");
+
+				if (_objectNode._hasBone) _isSkinned = true;
+
+				for (auto& _matPair : _pair.second.get_child("materials"))
+				{
+					_objectNode._materials.emplace_back(StringHelper::StringToWString(_matPair.second.get<string>("")));
+				}
+			}
+
+			_resource->AddNode(_objectNode);
+		}
+
+		_iter = pt.find("mesh");
+
+		for (auto& _pair : _iter->second)
+		{
+			_resource->AddMeshUUID(StringHelper::StringToWString(_pair.second.get<string>("")));
+		}
+
+		if(_isSkinned)
+		{
+			_resource->SetIsSkinnedModel(_isSkinned);
+
+			_iter = pt.find("bone");
+
+			for (auto& _pair : _iter->second)
+			{
+				_resource->AddBoneUUID(StringHelper::StringToWString(_pair.second.get<string>("")));
+			}
+		}
+
+		_iter = pt.find("material");
+
+		for (auto& _pair : _iter->second)
+		{
+			_resource->AddMaterialUUID(StringHelper::StringToWString(_pair.second.get<string>("")));
+		}
+
+		_iter = pt.find("animation");
+
+		for (auto& _pair : _iter->second)
+		{
+			_resource->AddClipUUID(StringHelper::StringToWString(_pair.second.get<string>("")));
+		}
+
+		return _resource;
+	}
+
 	std::shared_ptr<rengine::Object> ResourceSerializer::DeSerialize(const tstring& path, const rengine::MetaInfo& metaInfo, const boost::property_tree::ptree& pt)
 	{
 		std::ifstream file(path);
@@ -463,7 +645,7 @@ namespace utility
 		{
 			boost::property_tree::ptree _pt;
 
-			std::ifstream file(path);
+			std::ifstream file(path + TEXT(".meta"));
 
 			assert(file.good());
 
@@ -478,6 +660,7 @@ namespace utility
 				auto error = e.what();
 			}
 
+			_object = ModelDeserialize(metaInfo, _pt);
 		}
 		else if (_extension == ".mesh")
 		{

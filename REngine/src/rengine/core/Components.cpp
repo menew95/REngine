@@ -26,6 +26,8 @@ namespace rengine
 
 	void Components::DeleteComponent(const std::shared_ptr<Component>& deleteComponent)
 	{
+		if(deleteComponent->GetEnable()) deleteComponent->OnDisable();
+
 		deleteComponent->OnDestroy();
 
 		auto _updateiter = std::ranges::find_if(std::begin(m_updateComponents), std::end(m_updateComponents), 

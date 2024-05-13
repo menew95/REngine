@@ -2,6 +2,7 @@
 
 #include <rengine\core\Resources.h>
 #include <rengine\core\resource\Mesh.h>
+#include <rengine\core\resource\Material.h>
 
 #include <Serialize\Serializer.h>
 #include <common\AssetPath.h>
@@ -284,5 +285,22 @@ namespace rengine
 		if (!_cube) DefaultCubeBuild();
 		if (!_quard) DefaultQuardBuild();
 		if (!_sphere) DefaultSphereBuild();
+	}
+
+	void DefaultResourceBuilder::DefaultMaterialBuild()
+	{
+		auto _defaultMaterial = Resources::GetInstance()->CreateResource<Material>(TEXT("00000000-0000-0000-0000-000000000004"));
+
+		_defaultMaterial->SetRenderPassID(TEXT("Deferred Pass"));
+
+		_defaultMaterial->SetPipelineID(TEXT("Standard"));
+
+		auto _defaultSkyBoxProceduralMaterial = Resources::GetInstance()->CreateResource<Material>(TEXT("00000000-0000-0000-0000-000000000005"));
+
+		_defaultSkyBoxProceduralMaterial->SetName(TEXT("Default"));
+
+		_defaultSkyBoxProceduralMaterial->SetRenderPassID(TEXT("SkyBox Pass"));
+
+		_defaultSkyBoxProceduralMaterial->SetPipelineID(TEXT("Skybox-Procedural"));
 	}
 }

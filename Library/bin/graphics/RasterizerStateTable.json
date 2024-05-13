@@ -26,5 +26,19 @@
     "MultiSampleEnabled": false,
     "AntiAliasedLineEnabled": false,
     "ConservativeRasterization": false
+  },
+  {
+    "UUID": "Shadow",
+    "FillMode": "Solid",
+    "CullMode": "Back",
+    "ConstantFactor": 100000.0,
+    "SlopeFactor": 1.0,
+    "Clamp": 0.0,
+    "FrontCCW": true,
+    "DepthClampEnabled": true,
+    "ScissorTestEnabled": false,
+    "MultiSampleEnabled": false,
+    "AntiAliasedLineEnabled": false,
+    "ConservativeRasterization": false
   }
 ]

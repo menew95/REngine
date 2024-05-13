@@ -239,6 +239,7 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClInclude Include="inc\rengine\core\resource\AnimationClip.h" />
     <ClInclude Include="inc\rengine\core\resource\Material.h" />
     <ClInclude Include="inc\rengine\core\resource\Mesh.h" />
+    <ClInclude Include="inc\rengine\core\resource\Model.h" />
     <ClInclude Include="inc\rengine\core\resource\Prefab.h" />
     <ClInclude Include="inc\rengine\core\resource\Resource.h" />
     <ClInclude Include="inc\rengine\core\resource\Texture.h" />
@@ -300,6 +301,8 @@ xcopy /E /S /Y /R "$(OutputPath)*.lib" "$(SolutionDir)Dependency\lib\*"</Command
     <ClCompile Include="src\rengine\core\component\Transform.cpp" />
     <ClCompile Include="src\rengine\core\object\GameObject.cpp" />
     <ClCompile Include="src\rengine\core\resource\Mesh.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Model.cpp" />
+    <ClCompile Include="src\rengine\core\resource\Prefab.cpp" />
     <ClCompile Include="src\rengine\core\resource\Resource.cpp" />
     <ClCompile Include="src\rengine\core\resource\Texture.cpp" />
     <ClCompile Include="src\rengine\core\SceneManager.cpp" />

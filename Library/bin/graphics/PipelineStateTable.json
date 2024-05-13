@@ -122,7 +122,7 @@
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "Standard",
     "StencilDesc": "Standard",
-    "RasterizerDesc": "Default",
+    "RasterizerDesc": "Shadow",
     "BlendDesc": "Default"
   },
   {
@@ -131,7 +131,7 @@
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "Standard",
     "StencilDesc": "Standard",
-    "RasterizerDesc": "Default",
+    "RasterizerDesc": "Shadow",
     "BlendDesc": "Default"
   },
   {
@@ -140,7 +140,7 @@
     "PrimitiveTopology": "TriangleList",
     "DepthDesc": "Standard",
     "StencilDesc": "Standard",
-    "RasterizerDesc": "Default",
+    "RasterizerDesc": "Shadow",
     "BlendDesc": "Default"
   },
   {

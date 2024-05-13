@@ -1,6 +1,7 @@
 ﻿#include <Editor_pch.h>
 
 #include <editor\GUI\GameView.h>
+#include <editor\Core\AssetManager.h>
 
 #include <rengine\core\component\Camera.h>
 #include <rengine\core\Resources.h>
@@ -20,6 +21,10 @@
 #include <graphics_module\Texture.h>
 
 #include <log\log.h>
+
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace editor
 {
@@ -138,6 +143,36 @@ namespace editor
 		}
 #pragma endregion
 
+#pragma region asset item drag
+		if (ImGui::BeginDragDropTarget())
+		{
+			auto payload = ImGui::AcceptDragDropPayload("CONTENT_BROWSER_ITEM", ImGuiDragDropFlags_AcceptBeforeDelivery);
+
+			// Content_Browser_Item 받음.
+			if (payload != nullptr && payload->IsDelivery())
+			{
+				const wchar_t* _wstr = static_cast<const wchar_t*>(payload->Data);
+
+				fs::path _payloadPath(_wstr);
+
+				fs::path _absolutePath = fs::absolute(_payloadPath);
+
+				tstring _extension = _payloadPath.extension().c_str();
+
+				std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+				auto _uuid = AssetManager::GetInstance()->UUIDFromAssetPath(_absolutePath);
+
+				// .DUOL File
+				if (_extension == TEXT(".mesh"))
+					rengine::SceneManager::GetInstance()->GetCurrentScene()->CreateFromMesh(_uuid);
+				else if (_extension == TEXT(".fbx"))
+					rengine::SceneManager::GetInstance()->GetCurrentScene()->CreateFromModel(_uuid);
+			}
+
+			ImGui::EndDragDropTarget();
+		}
+#pragma endregion
 	}
 	void EDITOR_API GameView::End()
 	{
@@ -342,10 +377,5 @@ namespace editor
 				EventManager::GetInstance()->SetFocusObject(_go.get());
 			}
 		}
-	}
-
-	void GameView::SetCurrentView(int val)
-	{
-	
 	}
 }

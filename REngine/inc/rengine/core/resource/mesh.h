@@ -51,6 +51,7 @@ namespace rengine
 
         auto& GetVertices() { return m_vertices; }
         auto& Getindices() { return m_indices; }
+        size_t GetSubMeshCount() const { return m_indices.size(); }
         auto& GetBoundingBoxMin() { return m_boundingBoxMin; }
         auto& GetBoundingBoxMax() { return m_boundingBoxMax; }
         auto& GetIsSkinned() { return m_bIsSkinned; }

@@ -25,6 +25,9 @@ namespace rengine
         ANIMATION_CLIP = 6,
 
         AUDIO_CLIP = 7,
+
+        PREFAB = 8,
+        MODEL = 9,
     };
 
     class RENGINE_API Resource : public Object

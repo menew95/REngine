@@ -15,6 +15,11 @@ namespace rengine
 
 namespace utility
 {
+	struct Model;
+}
+
+namespace utility
+{
 	class Serializer
 	{
 	public:
@@ -33,10 +38,11 @@ namespace utility
 		/**
 		    @brief  fbx와 같은 모델 파일의 meta info들을 생성
 		    @param  path   - 파일 위치
+		    @param  model  - model
 		    @param  assets - 해당 파일에 해당하는 객체
 		    @retval        - .meta 파일 생성 여부
 		**/
-		SERIALIZE_API static bool CreateMetaInfoModel(const tstring& path, vector<rengine::Object*>& assets);
+		SERIALIZE_API static bool CreateMetaInfoModel(const tstring& path, struct Model& model, vector<rengine::Object*>& assets);
 
 		SERIALIZE_API static rengine::MetaInfo SerializeMetaInfo(const tstring& path);
 

@@ -4,6 +4,7 @@
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\Material.h>
 #include <rengine\core\resource\AnimationClip.h>
+#include <rengine\core\resource\Model.h>
 
 #include <rengine\system\ObjectFactory.h>
 
@@ -40,6 +41,8 @@ namespace rengine
 		LoadAllAsset();
 
 		DefaultResourceBuilder::DefaultMeshBuild();
+
+		DefaultResourceBuilder::DefaultMaterialBuild();
 
 		return true;
 	}
@@ -165,6 +168,10 @@ namespace rengine
 			{
 				Load<Texture>(_path.wstring());
 			}
+			else if (_extension == ".fbx")
+			{
+				Load<Model>(_path.wstring());
+			}
 		}
 	}
 
@@ -265,6 +272,30 @@ namespace rengine
 	}
 
 	template<>
+	shared_ptr<Model> Resources::Load(tstring path)
+	{
+		if (!CheckPathExist(path))
+			return nullptr;
+
+		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
+
+		if (m_modelMap.find(_metaInfo._guid) != m_modelMap.end())
+			return m_modelMap[_metaInfo._guid];
+
+		auto _obj = utility::Serializer::DeSerialize(path);
+		shared_ptr<Model> _res;
+
+		if (_obj == nullptr || (_res = dynamic_pointer_cast<Model>(_obj)) == nullptr || _res->GetResourceType() != ResourceType::MODEL)
+			return nullptr;
+
+		_res->LoadMemory();
+
+		m_modelMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		return _res;
+	}
+
+	template<>
 	shared_ptr<Mesh> Resources::GetResource(uuid uuid)
 	{
 		auto _iter = m_meshMap.find(uuid);
@@ -303,6 +334,17 @@ namespace rengine
 		auto _iter = m_animationClipMap.find(uuid);
 
 		if (_iter == m_animationClipMap.end())
+			return nullptr;
+
+		return _iter->second;
+	}
+
+	template<>
+	shared_ptr<Model> Resources::GetResource(uuid uuid)
+	{
+		auto _iter = m_modelMap.find(uuid);
+
+		if (_iter == m_modelMap.end())
 			return nullptr;
 
 		return _iter->second;
@@ -357,6 +399,18 @@ namespace rengine
 	}
 
 	template<>
+	shared_ptr<Model> Resources::CreateResource()
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Model>();
+
+		assert(_ret != nullptr);
+
+		m_modelMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
 	shared_ptr<Mesh> Resources::CreateResource(uuid uuid)
 	{
 		auto _ret = ObjectFactory::GetInstance()->CreateObject<Mesh>(uuid);
@@ -400,6 +454,18 @@ namespace rengine
 		assert(_ret != nullptr);
 
 		m_animationClipMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Model> Resources::CreateResource(uuid uuid)
+	{
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Model>(uuid);
+
+		assert(_ret != nullptr);
+
+		m_modelMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}
@@ -476,6 +542,25 @@ namespace rengine
 		_ret->LoadMemory();
 
 		m_animationClipMap.insert(make_pair(_ret->GetUUID(), _ret));
+
+		return _ret;
+	}
+
+	template<>
+	shared_ptr<Model> Resources::CreateResource(uuid uuid, const tstring& path)
+	{
+		if (!CheckPathExist(path))
+			return nullptr;
+
+		auto _ret = ObjectFactory::GetInstance()->CreateObject<Model>(uuid);
+
+		assert(_ret != nullptr);
+
+		_ret->SetPath(path);
+
+		_ret->LoadMemory();
+
+		m_modelMap.insert(make_pair(_ret->GetUUID(), _ret));
 
 		return _ret;
 	}

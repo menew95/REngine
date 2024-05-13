@@ -32,18 +32,19 @@ namespace utility
         bool _hasMesh = false;
 
         std::string _mesh;
+        vector<std::string> _materials;
 
         bool _isBone = false;
     };
     
-    struct FBXModel
+    struct Model
     {
         string _filePath;
         string _name;
 
         //GameObjectData _rootObject;
         //GameObjectData _amatureObject;
-
+        
         std::vector<Node> _nodes;
 
         std::vector<BoneBin> _bones;

@@ -16,5 +16,7 @@ namespace rengine
     {
     public:
         static void DefaultMeshBuild();
+
+        static void DefaultMaterialBuild();
     };
 }

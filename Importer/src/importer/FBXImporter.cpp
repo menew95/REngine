@@ -1,6 +1,5 @@
 ﻿#include <Importer_pch.h>
 #include <importer\FBXImporter.h>
-#include <importer\FBXModel.h>
 
 #include <common\AssetPath.h>
 
@@ -9,8 +8,10 @@
 #include <rengine\core\resource\Mesh.h>
 #include <rengine\core\resource\Texture.h>
 #include <rengine\core\resource\AnimationClip.h>
+#include <rengine\core\resource\Model.h>
 
 #include <serialize\Serializer.h>
+#include <serialize\binary\Model.h>
 
 #include <filesystem>
 
@@ -296,7 +297,7 @@ namespace utility
 	}
 
 
-	void FindAnimationData(FBXModel& model)
+	void FindAnimationData(Model& model)
 	{
 		FbxArray<FbxString*> _animNames;
 		g_pFbxScene->FillAnimStackNameArray(OUT _animNames);
@@ -335,7 +336,7 @@ namespace utility
 	}
 
 	// fbx 노드를 이용하여 animation clip의 snap 데이터 생성
-	void LoadAnimationData(fbxsdk::FbxNode* node, FBXModel& model)
+	void LoadAnimationData(fbxsdk::FbxNode* node, Model& model)
 	{
 		const int animCount = static_cast<const int>(model._animationClips.size());
 
@@ -414,7 +415,7 @@ namespace utility
 		}
 	}
 
-	int32 FindBoneIndex(std::string boneName, FBXModel& model)
+	int32 FindBoneIndex(std::string boneName, Model& model)
 	{
 		auto _iter = std::find_if(std::begin(model._bones), std::end(model._bones),
 			[&boneName](auto& v)
@@ -495,7 +496,7 @@ namespace utility
 		meshBin._boundingMaxBox.z = meshBin._boundingMaxBox.z > _maxBox.z ? meshBin._boundingMaxBox.z : _maxBox.z;
 	}
 
-	void GetBone(fbxsdk::FbxSkin* fbxSkin, fbxsdk::FbxMesh* fbxMesh, std::vector<VertexAttribute>& vertexList, FBXModel& model)
+	void GetBone(fbxsdk::FbxSkin* fbxSkin, fbxsdk::FbxMesh* fbxMesh, std::vector<VertexAttribute>& vertexList, Model& model)
 	{
 		fbxsdk::FbxSkin::EType _type = fbxSkin->GetSkinningType();
 
@@ -692,7 +693,7 @@ namespace utility
 		return _uv;
 	}
 
-	void LoadMesh(fbxsdk::FbxMesh* meshNode, FBXModel& model, MeshBin& mesh, uint32 subMeshCnt)
+	void LoadMesh(fbxsdk::FbxMesh* meshNode, Model& model, MeshBin& mesh, uint32 subMeshCnt)
 	{
 		GetBoundingBox(mesh, meshNode);
 
@@ -870,7 +871,7 @@ namespace utility
 		return _path.filename().string();
 	}
 
-	void LoadMaterial(fbxsdk::FbxSurfaceMaterial* surfaceMaterial, FBXModel& model, MeshBin& mesh)
+	void LoadMaterial(fbxsdk::FbxSurfaceMaterial* surfaceMaterial, Model& model, MeshBin& mesh)
 	{
 		string _matName = surfaceMaterial->GetName();
 
@@ -968,7 +969,7 @@ namespace utility
 		model._materialMap.insert(std::make_pair(_matName, _material));
 	}
 
-	void TraversalNode(fbxsdk::FbxNode* node, FBXModel& model)
+	void TraversalNode(fbxsdk::FbxNode* node, Model& model)
 	{
 		fbxsdk::FbxNodeAttribute* _nodeAttribute = node->GetNodeAttribute();
 
@@ -976,8 +977,6 @@ namespace utility
 		auto _nodeName = node->GetName();
 
 		auto _scale = node->LclScaling.Get();
-
-
 
 		if (_nodeAttribute && _nodeAttribute->GetAttributeType() == fbxsdk::FbxNodeAttribute::eSkeleton)
 		{
@@ -1047,6 +1046,8 @@ namespace utility
 					fbxsdk::FbxSurfaceMaterial* surfaceMaterial = _meshNode->GetNode()->GetSrcObject<fbxsdk::FbxSurfaceMaterial>(index);
 
 					LoadMaterial(surfaceMaterial, model, _meshBin);
+
+					_node._materials.push_back(surfaceMaterial->GetName());
 				}
 			}
 
@@ -1071,16 +1072,44 @@ namespace utility
 
 		LoadFile(path);
 
-		FBXModel _model;
+		Model _model;
 
 		FindAnimationData(_model);
 
 		fbxsdk::FbxNode* _rootNode = g_pFbxScene->GetRootNode();
 
 		TraversalNode(_rootNode, _model);
-
-		vector<rengine::Object*> _assets;
 		
+		auto _modelResource = rengine::Resources::GetInstance()->CreateResource<rengine::Model>();
+
+		_modelResource->SetNameStr(_model._name);
+
+		_modelResource->SetPath(path);
+
+		for (auto& _node : _model._nodes)
+		{
+			rengine::ObjectNode _objectNode;
+
+			_objectNode._name = StringHelper::StringToWString(_node._name);
+
+			_objectNode._world = _node._world;
+
+			_objectNode._hasParent = _node._hasParent;
+			_objectNode._parent = StringHelper::StringToWString(_node._parent);
+
+			_objectNode._hasMesh = _node._hasMesh;
+			_objectNode._mesh = StringHelper::StringToWString(_node._mesh);
+
+			for (const auto& _mat : _node._materials)
+			{
+				_objectNode._materials.emplace_back(StringHelper::StringToWString(_mat));
+			}
+
+			_objectNode._hasBone = _node._isBone;
+
+			_modelResource->AddNode(_objectNode);
+		}
+
 		for (auto& _iter : _model._meshMap)
 		{
 			auto _bin = _iter.second;
@@ -1105,8 +1134,7 @@ namespace utility
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 
-			_assets.push_back(_resource.get());
-			//_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
+			_modelResource->AddMeshUUID(_resource->GetUUID());
 		}
 
 		for (auto& _bin : _model._animationClips)
@@ -1140,8 +1168,7 @@ namespace utility
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 
-			_assets.push_back(_resource.get());
-			//_assets.push_back(make_pair(_resource->GetUUID(), _resource->GetPath()));
+			_modelResource->AddClipUUID(_resource->GetUUID());
 		}
 
 		for (auto& _bin : _model._materialMap)
@@ -1227,10 +1254,11 @@ namespace utility
 
 			utility::Serializer::Serialize(_resource->GetPath(), _resource.get());
 
-			_assets.push_back(_resource.get());
+			_modelResource->AddMaterialUUID(_resource->GetUUID());
 		}
 
-		utility::Serializer::CreateMetaInfoModel(path, _assets);
+		utility::Serializer::CreateMetaInfo(_modelResource->GetPath(), _modelResource.get());
 
+		utility::Serializer::Serialize(_modelResource->GetPath(), _modelResource.get());
 	}
 }

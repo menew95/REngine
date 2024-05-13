@@ -1,8 +1,14 @@
 Assets:
+  -	UUID: 2059e072-a203-4d1e-b4b6-4c8a6b31ecda
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\metal_door.mat
+  -	UUID: 7e3cc3e3-1807-432f-bd52-4fbe62ad07b7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\arch_stone_wall_01_BaseColor.png
   -	UUID: 4e466e14-9544-4087-b817-7535002ea784
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Head_Geo.mesh
   -	UUID: 4b8c1e6f-cb30-46a2-ae57-838e8dce89ff
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Scarf_MAT.mat
+  -	UUID: ee31a4df-4c6f-4010-a73a-66a8feeae8f6
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_02_Roughness.png
   -	UUID: 1379b34e-0e53-40f3-b69a-0cb9f940469c
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Scarf_Geo.mesh
   -	UUID: 91583b6d-d937-429f-bdbf-980b9ebc9127
@@ -11,10 +17,20 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Hair_diffuse.png
   -	UUID: b3a585d8-97a6-4c3e-ab9d-834f2f6eee8a
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_Hair_MAT.mat
-  -	UUID: 41b1ea6e-acf4-42fb-8105-885a2dce7f36
-	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Habib_House_Med.dds
+  -	UUID: f4c71d37-76a8-4dcd-bf08-e2d17cfc9487
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\stones_2ndfloor.mat
+  -	UUID: 411a879c-8c09-4888-9562-aa6d678bea84
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_02_Roughness.png
+  -	UUID: d04a1a3f-e088-4a92-be13-0083759d6740
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_1stfloor_Normal.png
+  -	UUID: 9da199d4-3bce-4e2c-86a3-51cd206654e1
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_brickwall_01_Roughness.png
   -	UUID: 885eb7f8-16e9-454d-be68-06ff0008cb46
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_LowerBody_MAT.mat
+  -	UUID: 41b1ea6e-acf4-42fb-8105-885a2dce7f36
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Habib_House_Med.dds
+  -	UUID: 4f4c900a-91e7-47a9-adfc-eb9661c8bf96
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\lamps_2ndflloor_01.mesh
   -	UUID: 5d18939b-4d09-4ec8-b7fd-9838cb1c4fda
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Hands_diffuse.png
   -	UUID: e2c6bf0a-abc9-4728-ba76-68447b5aa1aa
@@ -33,6 +49,8 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Scarf_diffuse.png
   -	UUID: 926183b0-037d-4ee1-aa38-8a5ec9a2497b
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\Boy01_UpperBody_MAT.mat
+  -	UUID: d9a4e43b-14f3-482a-8854-e9946a08274c
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_1stfloor_Roughness.png
   -	UUID: ac0d0692-c0e2-4367-bb49-f1a7ca1a14a1
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Hair_Geo.mesh
   -	UUID: 7b2dad39-6279-420d-be48-13797b1d0f07
@@ -41,23 +59,249 @@ Assets:
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_Hands_Geo.mesh
   -	UUID: 41bd8593-dd26-47b4-98e5-6ad87a0d8c9b
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Boy01_LowerBody_Geo.mesh
+  -	UUID: 830d04ef-8de5-4c8c-a1cb-bd9e2e1145ff
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_1stfloor_BaseColor.png
   -	UUID: 00000000-0000-0000-0000-000000000001
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Cube.mesh
+  -	UUID: a8ebd0d1-4897-405d-8882-8921a25c3d2b
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\metal_door_01_Roughness.png
   -	UUID: 00000000-0000-0000-0000-000000000003
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Sphere.mesh
+  -	UUID: ddb42a7e-1991-4254-b8c8-d79d62a849bd
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\dirt_decal_01.png
   -	UUID: 6d1f5217-65b5-4016-8bdd-91ea64570d8f
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Shoes_diffuse.png
+  -	UUID: 5de1b947-9b57-435a-8a7c-be92cb5e6ace
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\arch_stone_wall_01_Roughness.png
   -	UUID: 1410ae65-4084-42f5-9657-2e045703c2be
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_Head_diffuse.png
   -	UUID: ceabbf67-ac46-480d-ad03-4862b53724f7
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Boy_UpperBody_diffuse.png
+  -	UUID: cda766a3-43c5-4910-8de5-749f3557df0f
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_1stfloor_BaseColor.png
   -	UUID: f7153d6d-832c-4fbb-9d10-94b96d5fc86c
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\New Material.mat
   -	UUID: fe6f153f-d693-4675-9b0e-65b8be91f35b
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\SkyBox.dds
+  -	UUID: 056050eb-0095-4a7d-a49e-f148c5a39d95
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_02_Normal.png
   -	UUID: 491bdb39-3a7e-4554-b37a-c81add3326b4
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\grace-new.hdr
-  -	UUID: 
+  -	UUID: f0932ffa-09e5-4281-b252-4bafcb1e9503
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_02_Normal.png
+  -	UUID: 5a60c3f9-5eee-44b2-a739-272ba2acb2aa
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_brickwall_01_Normal.png
+  -	UUID: fdba816e-d9e6-427a-b9da-57336f3b0f36
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Joy.fbx
+  -	UUID: 42bbde97-339a-4648-93ac-9a89bc77506d
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\lionhead_01_Roughness.png
+  -	UUID: 980b7250-87af-40a8-acd5-bea16e86d0c7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\arch_stone_wall_01_Normal.png
+  -	UUID: b22483de-8dc0-48df-a0ae-65b79745b915
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_01_BaseColor.png
+  -	UUID: 9d5ea201-4d72-4055-abd1-b62494794588
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_03_Normal.png
+  -	UUID: cedb2c60-555c-4e9b-bd09-8958798012af
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_tile_01_Roughness.png
+  -	UUID: ea4076c3-7ef4-4c64-b400-79b93a7577b3
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_01_Normal.png
+  -	UUID: bad744e5-a25c-4ff2-9485-cc4244546342
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_01_Roughness.png
+  -	UUID: 4e788ca8-7753-47de-a7be-11cbae58e8e9
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\brickwall_02_BaseColor.png
+  -	UUID: e9b67d71-06c2-4196-81e0-1267b5139344
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ceiling_plaster_01_BaseColor.png
+  -	UUID: 3d879d82-3514-44ad-80b8-c67e2005a1e8
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ceiling_plaster_01_Normal.png
+  -	UUID: f79e3da2-c4f8-49cc-b5a4-8da4bb8d8be8
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\window_frame_01_Normal.png
+  -	UUID: 3863897d-41dc-41cf-be6c-0d4886f21343
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ceiling_plaster_01_Roughness.png
+  -	UUID: 227ceeb7-10e3-414d-b356-fe34eb048f2d
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_02_BaseColor.png
+  -	UUID: cabaa817-488e-4b6c-b285-bd1a20731f9c
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_1stfloor_Roughness.png
+  -	UUID: e784ffed-777a-4802-ae6a-1ffbdab723db
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_02_BaseColor.png
+  -	UUID: a2bad387-7af2-432e-99e9-96d7810683be
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_brickwall_01_BaseColor.png
+  -	UUID: e6c1132d-8f1e-4521-b6a0-d55df76923ab
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_02_Normal.png
+  -	UUID: 93710e73-aaa7-4bc6-8303-6eb6fb170952
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_1stfloor_Normal.png
+  -	UUID: 408896f7-646d-475b-8401-9369c2c0d4ba
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_02_Roughness.png
+  -	UUID: 8b2dd3b2-129f-4f3b-b902-3e3ccb4204e8
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_02_BaseColor.png
+  -	UUID: 9330d2bb-94ad-408f-95e0-641779dc329e
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_03_BaseColor.png
+  -	UUID: 05ebbc47-2977-4397-a97f-92077ddeeee2
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\column_head_2ndfloor_03_Roughness.png
+  -	UUID: fc7ab0fc-b048-4acd-b938-2874e8c87f93
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_01_BaseColor.png
+  -	UUID: 5b355f91-0b0f-4759-86dc-88d26526ab35
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\dirt_decal_01_alpha.png
+  -	UUID: 3bce9734-dcd4-47bb-8530-ccfdda88ceed
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_01_Normal.png
+  -	UUID: 10f93695-f4f2-425c-8a11-ec9edf122942
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\column_2ndfloor_19.mesh
+  -	UUID: a6f1a8e4-fac5-4def-a7f7-d4ceeedf7037
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_01_Roughness.png
+  -	UUID: ac643621-6d8e-4f82-9d46-abf03cb22c58
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_02_Normal.png
+  -	UUID: c533b00e-6f5b-4109-9d5a-34a63527a2ad
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\door_stoneframe_02_Roughness.png
+  -	UUID: 47ae20da-5f91-4ed6-a246-dfe387dd2ecc
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\floor_tiles_01_BaseColor.png
+  -	UUID: e6a057c4-8165-4f5d-b214-b1c6ff619724
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\floor_tiles_01_Normal.png
+  -	UUID: 8e9df76a-9ec6-4980-8100-9ff21653302d
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\floor_tiles_01_Roughness.png
+  -	UUID: 6ac00912-f780-4919-8a78-9266c94a4454
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\lionhead_01_BaseColor.png
+  -	UUID: 095d0ae9-1485-484c-a1f4-e3081549a0a5
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\lionhead_01_Normal.png
+  -	UUID: 4aff47d0-0a7d-4515-afbd-4588e09c46d7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\metal_door_01_BaseColor.png
+  -	UUID: 84e69fe7-846a-45b0-a0ee-edb14c94f7f4
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\metal_door_01_Normal.png
+  -	UUID: 0ee9baff-bbe8-44a3-973a-3f01a31d18cf
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ornament_01_BaseColor.png
+  -	UUID: c3a3ff83-b4ec-4d94-b52e-684c34c5259e
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ornament_01_Normal.png
+  -	UUID: 15bd51a9-86e8-4ebb-baa1-586fba69fbaf
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\ornament_01_Roughness.png
+  -	UUID: feb44c14-70f7-42e7-820a-5aaf40fa909b
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\roof_tiles_01_BaseColor.png
+  -	UUID: 31f591ca-5dfb-4d7d-99bd-631a9bbca076
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\roof_tiles_01_Normal.png
+  -	UUID: 550beacc-b92e-4c4c-a380-6f9d54943008
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\roof_tiles_01_Roughness.png
+  -	UUID: c048accc-2570-4571-af2d-8e98eb3a1609
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\door_stoneframe_02.mat
+  -	UUID: 6ee02b0d-ae0e-4209-9c95-ece1b87aa8a7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stones_2ndfloor_01_BaseColor.png
+  -	UUID: 61cfc382-9147-487d-be60-c3faa95b3b33
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stones_2ndfloor_01_Normal.png
+  -	UUID: d39b1ca1-b32c-427b-a52b-54e5e64c90ca
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stones_2ndfloor_01_Roughness.png
+  -	UUID: 8c3b3977-dde0-40e3-9e9e-f548a3293f03
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_01_tile_BaseColor.png
+  -	UUID: acb888a7-b5d4-49bf-82f9-5b5b2584cde9
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\sponza_ornament.mesh
+  -	UUID: 7b8fa90d-0f1a-455d-bd27-56c6ea7f00de
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_01_tile_Normal.png
+  -	UUID: 855c1701-fae9-415b-94dd-af334e24c85a
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_01_tile_Roughness.png
+  -	UUID: a86b78be-b880-45c5-b7b9-aa9d2715e15a
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_01_BaseColor.png
+  -	UUID: 72863958-25f2-47a3-ad88-59d495dfb0ab
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\arch_stone_wall_01.mat
+  -	UUID: 279b4689-6768-4cb7-bc8e-3804bed02c2a
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_01_Normal.png
+  -	UUID: 61bfed56-76f0-48aa-b581-9e885d2a5c54
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\stone_trims_01_Roughness.png
+  -	UUID: 1f6b4b0e-9b17-455b-99ef-c15abac351f1
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\window_frame_01_BaseColor.png
+  -	UUID: 1d2382dd-d7e0-4fea-8504-55062342acc3
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\window_frame_01_Roughness.png
+  -	UUID: 387c955c-d709-4335-b709-22aeb482b94c
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_door_01_BaseColor.png
+  -	UUID: 04f7fa98-9895-4c39-a360-f94bf8406282
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_door_01_Normal.png
+  -	UUID: 713d6974-238c-4a7f-839b-22cd6f982a59
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_door_01_Roughness.png
+  -	UUID: f7741397-778a-4196-90e6-92d15caad5d4
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_tile_01_BaseColor.png
+  -	UUID: 488b6b79-57bd-43ea-9b27-f00b724938fd
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\walls_floor_03.mesh
+  -	UUID: e6ee31e3-96df-4312-8266-b4802512d694
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Textures\wood_tile_01_Normal.png
+  -	UUID: 7f69b5e7-2ab9-462a-aa40-b529bf5eda6c
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\brickwall_01.mat
+  -	UUID: 78ce3057-4f80-485e-992a-5223efa40d47
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\brickwall_02.mat
+  -	UUID: 4b9775f4-d4b6-4047-abd4-b06d22c99586
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\ceiling_plaster_01.mat
+  -	UUID: f4727d01-eb77-4f21-a676-6829b0aaa901
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\ceiling_plaster_02.mat
+  -	UUID: ae3b5b20-7936-4419-bb37-43ea1a344644
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\column_1stfloor.mat
+  -	UUID: dfbc293f-a373-45ea-90d4-4a85b21b075a
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\column_brickwall_01.mat
+  -	UUID: 57708388-c20b-4799-87d6-9879fafd1bed
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\column_head_1stfloor.mat
+  -	UUID: e518d5ea-d1b6-4a1e-8be2-079e3d11c917
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\column_head_2ndfloor_02.mat
+  -	UUID: 9e80c193-9d83-4d2d-a537-13dc965414a1
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\column_head_2ndfloor_03.mat
+  -	UUID: 1301d7a9-a765-4631-b2e1-96404634fb1f
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\dirt_decal.mat
+  -	UUID: 935ad011-5445-4b13-b8f7-e75e43816d11
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\door_stoneframe_01.mat
+  -	UUID: 93e21016-a5af-4bc1-a2fd-4e9122bb1887
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\floor_01.mat
+  -	UUID: b2073472-467a-4702-aaa3-ba87b38238a7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\glass.mat
+  -	UUID: 6f104576-d754-4141-8e68-94c1bfab150b
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\lamp_glass_01.mat
+  -	UUID: 6d26087c-7270-4236-9f29-dcef9b2559fe
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\Materials.mesh
+  -	UUID: 1ceeb71a-3f5f-4593-812d-3b8003115e67
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\light_bulb.mat
+  -	UUID: f43f144b-335b-43f2-9e1a-a21680397072
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\ornament_01.mat
+  -	UUID: 00afd2dc-98b0-4a76-af27-49444bc54a98
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\stone_trims_01.mat
+  -	UUID: 4ecf45d3-e073-487c-9490-6fceeb7d82c7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\ornament_lion.mat
+  -	UUID: c67f47ce-dc89-4577-ab46-e4962de9bfac
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\roof_tiles_01.mat
+  -	UUID: ae14ba9b-93c6-40fc-9471-cb75c45cdd87
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\stones_01_tile.mat
+  -	UUID: 52a706e1-e685-4eb2-b254-85d060d809d3
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\stone_trims_02.mat
+  -	UUID: 4d25aa40-b516-4669-8757-cd42c211f324
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\window_frame_01.mat
+  -	UUID: 5bdf1296-791a-4658-8695-f3d302ace231
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\wood_01.mat
+  -	UUID: ba1c9d2a-f4a3-4424-87a6-98b8d54c9d89
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mat\wood_door_01.mat
+  -	UUID: 7e954613-8f75-4663-8fda-255029527f87
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\arch_stones_01.mesh
+  -	UUID: 09e4d200-a895-40d9-8645-10f7c38b77d1
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\arch_wall_2ndfloor.mesh
+  -	UUID: 92413da1-3d44-49c8-88ce-bcbcba8a68a7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ceiling_2ndfloor.mesh
+  -	UUID: c503e952-cb33-46be-8a2f-7ca63a105ece
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\decals_1st_floor1.mesh
+  -	UUID: ea6f90ef-8e2f-4d13-84e2-70b2564e45e7
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\wood_door.mesh
+  -	UUID: 4be4a20e-881c-4d52-8c75-1e76c952b1ac
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\exterior.mesh
+  -	UUID: 05bc6ceb-95d8-4d52-8646-30217eee1de2
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\lionhead.mesh
+  -	UUID: e000d47e-a984-4a5f-8932-c1bc849c8f42
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_doors_09.mesh
+  -	UUID: a2b04210-c72f-4de6-9aec-e25399b0429d
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_door_2ndfloor_15.mesh
+  -	UUID: e95df210-6e43-4fd4-a868-e52b851236f4
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_roof.mesh
+  -	UUID: 50f40e61-a0db-4a0e-9ec7-b5305b607e0a
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_stones_01.mesh
+  -	UUID: f679b51c-dbb2-4a40-8950-bf10e19c13f4
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_stones_2ndfloor.mesh
+  -	UUID: a38f97d3-8182-4ff2-b110-3d6c6d8d942b
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\ornament_windows.mesh
+  -	UUID: 1f310e91-8c65-4e7f-8fe3-961c907513ea
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\roof_floor_03_01.mesh
+  -	UUID: 998897c5-51e0-41b6-9437-21e4c7da4273
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\stone_walls_2ndfloor.mesh
+  -	UUID: 8bfb10d0-335e-40ce-b795-0ea637d65194
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\walls_1stfloor_01.mesh
+  -	UUID: 1f3ce76b-4db8-4460-a7e6-ccc39f752f23
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\bin\mesh\wooden_parts.mesh
   -	UUID: 66780df0-a99c-4359-97ed-43b420f80815
 	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Main Scene.scene
+  -	UUID: dca4c72b-c5a1-4d0f-8a06-b7eec4a56415
+	Path: C:\Users\menew\Documents\GitHub\REngine\Assets\Sponza.fbx
