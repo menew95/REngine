@@ -104,14 +104,21 @@ namespace rengine
 
 	void Transform::OnDestroy()
 	{
+		vector<shared_ptr<Transform>> _childs;
+
 		for (auto& child : m_childs)
 		{
 			auto _childTrans = child.lock();
 			
 			// 자식 포인터가 연결이 끊겼다면 이상한거임
 			assert(_childTrans != nullptr);
+			
+			_childs.emplace_back(_childTrans);
+		}
 
-			auto _gameObject = _childTrans->GetGameObject().lock();
+		for (auto& child : _childs)
+		{
+			auto _gameObject = child->GetGameObject().lock();
 
 			// 게임 오브젝트 연결이 끊겼다면 이상한거임
 			assert(_gameObject != nullptr);
@@ -339,6 +346,17 @@ namespace rengine
 			assert(false);
 
 		m_local = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
+	}
+
+	math::Quaternion Transform::GetWorldRotation()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _r;
 	}
 
 	void Transform::PreDestroy()

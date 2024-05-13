@@ -209,6 +209,8 @@ namespace rengine
 
 				AddGameObject(_newGo);
 
+				_newGo->SetName(_objectNode._name);
+
 				_gameObjects.emplace_back(make_pair(_objectNode, _newGo));
 			}
 
@@ -247,9 +249,26 @@ namespace rengine
 							return mesh->GetName() == _objectNode._mesh;
 						});
 
-					assert(_meshIter == std::end(_meshList));
+					assert(_meshIter != std::end(_meshList));
 
 					_meshComponent->SetMesh(*_meshIter);
+					
+					vector<shared_ptr<Material>> _materials;
+
+					for (auto& _mat : _objectNode._materials)
+					{
+						auto _matIter = std::ranges::find_if(std::begin(_materialList), std::end(_materialList),
+							[&](auto& mateiral)
+							{
+								return mateiral->GetName() == _mat;
+							});
+
+						assert(_matIter != std::end(_materialList));
+
+						_materials.emplace_back(*_matIter);
+					}
+
+					_meshComponent->SetMaterials(_materials);
 				}
 			}
 		}

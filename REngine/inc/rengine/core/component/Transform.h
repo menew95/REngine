@@ -16,7 +16,13 @@
 namespace rengine
 {
     class GameObject;
-    
+ 
+    enum class Space
+    {
+        World = 0,
+        Self = 1,
+    };
+
     class Transform : public Component, public enable_shared_from_this<Transform>
     {
     public:
@@ -80,7 +86,12 @@ namespace rengine
         RENGINE_API math::Vector3 GetLocalScale();
         RENGINE_API void SetLocalScale(math::Vector3 val);
 
+        RENGINE_API math::Quaternion GetWorldRotation();
+        //RENGINE_API void SetWorldRotation(math::Quaternion val);
+
+
     protected:
+
         /**
             @brief
         **/

@@ -268,6 +268,8 @@ namespace rengine
 		_iter->SetColor(value);
 
 		m_pMaterialBuffer->SetColor(name, value);
+
+		m_bIsDirty = true;
 	}
 	
 	void Material::SetVector4(const tstring& name, const Vector4& value)
@@ -285,6 +287,8 @@ namespace rengine
 		_iter->SetVector4(value);
 
 		m_pMaterialBuffer->SetVector4(name, value);
+
+		m_bIsDirty = true;
 	}
 	
 	void Material::SetFloat(const tstring& name, float value)
@@ -302,6 +306,8 @@ namespace rengine
 		_iter->SetFloat(value);
 
 		m_pMaterialBuffer->SetFloat(name, value);
+
+		m_bIsDirty = true;
 	}
 	
 	void Material::SetTexture(const tstring& name, const shared_ptr<Texture>& texture)
@@ -319,6 +325,8 @@ namespace rengine
 		_iter->SetTexture(texture);
 
 		m_pMaterialBuffer->SetTexture(name, texture != nullptr ? texture->GetTextureBuffer() : nullptr);
+
+		m_bIsDirty = true;
 	}
 	
 	void Material::SetInteger(const tstring& name, int value)
@@ -336,5 +344,7 @@ namespace rengine
 		_iter->SetInt(value);
 
 		m_pMaterialBuffer->SetInteger(name, value);
+
+		m_bIsDirty = true;
 	}
 }

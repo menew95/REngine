@@ -63,6 +63,8 @@ namespace rengine
         **/
         virtual bool UnLoadMemory() { return true; }
 
+        bool IsDirty() { return m_bIsDirty; }
+        void SetIsDirty(bool val) { m_bIsDirty = val; }
     protected:
 
         // 이 리소스가 가리키는 파일 위치

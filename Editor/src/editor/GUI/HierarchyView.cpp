@@ -237,6 +237,8 @@ namespace editor
 					EventManager::GetInstance()->SetFocusObject(nullptr);
 
 					m_bPopUpMenu = false;
+
+					m_controlList.clear();
 				}
 
 				ImGui::EndPopup();

@@ -169,6 +169,15 @@ namespace rengine
 
         void UnloadAllResource();
 
+        /**
+            @brief 머티리얼의 경우 텍스처로드가 먼저 되어있어야 로드가 되기때문에 로드 순서가 필요함
+            @param path   - 
+            @param gather - 
+        **/
+        void GatherAsset(const tstring& path, map<tstring, vector<tstring>>& gather);
+
+        void LoadAssets(map<tstring, vector<tstring>>& gather);
+
         void LoadAsset(const tstring& path);
 
         map<uuid, shared_ptr<Mesh>>     m_meshMap;

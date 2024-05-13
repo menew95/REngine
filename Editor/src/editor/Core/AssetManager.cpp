@@ -41,6 +41,7 @@ namespace editor
 		m_componentList.push_back("Transform");
 		m_componentList.push_back("Light");
 		m_componentList.push_back("TestComponent");
+		m_componentList.push_back("LightMove");
 
 		LoadAssetData();
 
@@ -58,6 +59,16 @@ namespace editor
 		m_assetList.insert(make_pair(path, object->GetUUID()));
 
 		SaveAssetData();
+	}
+
+	void AssetManager::SaveAsset(rengine::Resource* object)
+	{
+		if(!object->IsDirty())
+			return;
+
+		utility::Serializer::Serialize(object->GetPath(), object);
+
+		object->SetIsDirty(false);
 	}
 	
 	void AssetManager::ImportAsset(const tstring& path)

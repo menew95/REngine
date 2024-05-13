@@ -100,7 +100,13 @@ namespace rengine
 	{
 		tstring _assetPath = TEXT("..\\..\\..\\..\\Assets");
 
-		LoadAsset(_assetPath);
+		map<tstring, vector<tstring>> _gather;
+
+		GatherAsset(_assetPath, _gather);
+
+		LoadAssets(_gather);
+
+		//LoadAsset(_assetPath);
 	}
 
 	void rengine::Resources::UnloadAllResource()
@@ -132,6 +138,75 @@ namespace rengine
 		}
 
 		m_animationClipMap.clear();
+	}
+
+	void rengine::Resources::GatherAsset(const tstring& path, map<tstring, vector<tstring>>& gather)
+	{
+		fs::path _path(path);
+
+		if (fs::is_directory(_path))
+		{
+			for (auto& _p : fs::directory_iterator(_path, fs::directory_options::skip_permission_denied))
+			{
+				GatherAsset(_p.path().wstring(), gather);
+			}
+		}
+		else if (_path.has_extension())
+		{
+			std::string _extension = _path.extension().string();
+
+			std::transform(_extension.begin(), _extension.end(), _extension.begin(), ::tolower);
+
+			if (_extension == ".mat")
+			{
+				gather[TEXT("material")].push_back(_path.wstring());
+			}
+			else if (_extension == ".mesh")
+			{
+				gather[TEXT("mesh")].push_back(_path.wstring());
+			}
+			else if (_extension == ".anim")
+			{
+				gather[TEXT("anim")].push_back(_path.wstring());
+			}
+			else if (_extension == ".png" || _extension == ".bmp" || _extension == ".jpeg" || _extension == ".jpg"
+				|| _extension == ".dds" || _extension == ".tga" || _extension == ".hdr")
+			{
+				gather[TEXT("texture")].push_back(_path.wstring());
+			}
+			else if (_extension == ".fbx")
+			{
+				gather[TEXT("model")].push_back(_path.wstring());
+			}
+		}
+	}
+
+	void rengine::Resources::LoadAssets(map<tstring, vector<tstring>>& gather)
+	{
+		for (const auto& _path : gather[TEXT("mesh")])
+		{
+			Load<Mesh>(_path);
+		}
+
+		for (const auto& _path : gather[TEXT("anim")])
+		{
+			Load<AnimationClip>(_path);
+		}
+
+		for (const auto& _path : gather[TEXT("texture")])
+		{
+			Load<Texture>(_path);
+		}
+
+		for (const auto& _path : gather[TEXT("material")])
+		{
+			Load<Material>(_path);
+		}
+
+		for (const auto& _path : gather[TEXT("model")])
+		{
+			Load<Model>(_path);
+		}
 	}
 
 	void Resources::LoadAsset(const tstring& path)

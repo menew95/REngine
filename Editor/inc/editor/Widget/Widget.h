@@ -45,8 +45,12 @@ namespace editor
     protected:
         bool m_isEnable = true;
 
+        bool m_isReservedDestroy = false;
+
         string m_lable;
 
         uint32 m_flags = 0;
+
+        friend class WidgetContainer;
     };
 }

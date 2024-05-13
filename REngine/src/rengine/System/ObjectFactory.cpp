@@ -103,6 +103,10 @@ namespace rengine
 
 		assert(_object != nullptr);
 
+		auto _iter = m_objectsMap[_object->GetType()].find(_object->GetUUID());
+
+		assert(_iter == m_objectsMap[_object->GetType()].end());
+
  		m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
 
 		// 생성한 오브젝트가 컴포넌트 일 경우에는 컴포넌트 매니저에 등록

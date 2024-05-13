@@ -46,6 +46,10 @@ namespace rengine
 
             shared_ptr<T> _object = make_shared<T>(_uuid);
 
+            auto _iter = m_objectsMap[_object->GetType()].find(_object->GetUUID());
+
+            assert(_iter == m_objectsMap[_object->GetType()].end());
+
             m_objectsMap[_object->GetType()].insert(make_pair(_uuid, _object));
 
             if (std::is_base_of<Component, T>::value && _object) ReserveComponent(_object);
@@ -59,6 +63,10 @@ namespace rengine
             static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
 
             shared_ptr<T> _object = make_shared<T>(uuid);
+
+            auto _iter = m_objectsMap[_object->GetType()].find(_object->GetUUID());
+
+            assert(_iter == m_objectsMap[_object->GetType()].end());
 
             m_objectsMap[_object->GetType()].insert(make_pair(_object->GetUUID(), _object));
 

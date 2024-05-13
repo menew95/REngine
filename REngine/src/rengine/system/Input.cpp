@@ -24,6 +24,9 @@ namespace rengine
 	{
 		TickAllKeyState();
 
+		// 마우스 Set Visible
+		static bool isMouseOn = true;
+
 		BOOL _bSuccess;
 
 		POINT _currentMousePoint;

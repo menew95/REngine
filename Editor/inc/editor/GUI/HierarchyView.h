@@ -48,7 +48,5 @@ namespace editor
         rengine::GameObject* test;
 
         vector<rengine::GameObject*> m_controlList;
-
-        //rengine::GameObject* m_pFocusGameObject = nullptr;
     };
 }

@@ -63,6 +63,8 @@ namespace editor
 		**/
 		void DrawMaterialProperty();
 
+		void SetGameObject(rengine::GameObject* go);
+
 		tstring m_propName;
 
 		class Container* m_gamObjectWidget;

@@ -121,9 +121,9 @@ namespace graphics
 	{
 		__super::Excute(command);
 
-		m_pSkyBox_PanoramicMatBuffer->BindPipelineState(command);
+		m_pSkyBox_CubedMatBuffer->BindPipelineState(command);
 
-		m_pSkyBox_PanoramicMatBuffer->BindResource(command);
+		m_pSkyBox_CubedMatBuffer->BindResource(command);
 
 		Renderer::GetInstance()->RenderMesh(m_pSkySphereMesh, 0);
 	}

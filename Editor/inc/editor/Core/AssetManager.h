@@ -17,6 +17,7 @@
 namespace rengine
 {
     class Object;
+    class Resource;
 }
 
 namespace editor
@@ -36,6 +37,8 @@ namespace editor
             @param path  - 
         **/
         void CreateAsset(rengine::Object* object, const tstring& path);
+
+        void SaveAsset(rengine::Resource* object);
 
         /**
             @brief 

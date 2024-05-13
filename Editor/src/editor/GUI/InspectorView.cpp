@@ -49,7 +49,6 @@ namespace editor
 
 		m_gamObjectWidget->SetEnable(EventManager::GetInstance()->GetFocusObject()->GetType() == TEXT("GameObject"));
 
-        __super::Render();
 
 		rengine::Object* _object = reinterpret_cast<rengine::Object*>(EventManager::GetInstance()->GetFocusObject());
 
@@ -59,6 +58,8 @@ namespace editor
             auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
 
 			DrawGameObject(_go);
+
+			__super::Render();
 
             for (auto& _comp : _go->GetComponents())
             {
@@ -944,5 +945,15 @@ namespace editor
 					break;
 			}
 		}
+
+		if (_material->IsDirty())
+		{
+			AssetManager::GetInstance()->SaveAsset(_material);
+		}
+	}
+		
+	void InspectorView::SetGameObject(rengine::GameObject* go)
+	{
+
 	}
 }

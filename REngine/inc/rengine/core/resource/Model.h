@@ -84,7 +84,7 @@ namespace rengine
         }
 
     private:
-        bool m_isSkinned;
+        bool m_isSkinned = false;
 
         vector<ObjectNode> m_objectNodeList;
 

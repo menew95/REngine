@@ -119,6 +119,7 @@ namespace graphics
 			default:
 			{
 				_hr = LoadFromWICFile(path.c_str(), WIC_FLAGS_NONE, nullptr, image);
+
 				break;
 			}
 		}
@@ -126,14 +127,17 @@ namespace graphics
 		assert(_hr == S_OK);
 
 		TextureDesc _texDesc;
-		_texDesc._extend = { 
-			static_cast<uint32>(image.GetMetadata().width), 
+
+		_texDesc._extend = {
+			static_cast<uint32>(image.GetMetadata().width),
 			static_cast<uint32>(image.GetMetadata().height),
 			static_cast<uint32>(image.GetMetadata().depth)
 		};
 		_texDesc._arrayLayers = static_cast<uint32>(image.GetMetadata().arraySize);
 		_texDesc._mipLevels = static_cast<uint32>(image.GetMetadata().mipLevels);
-		
+		_texDesc._bindFlags = BindFlags::ShaderResource;
+		_texDesc._miscFlags = 0;
+
 		_texDesc._format = (graphics::Format)image.GetMetadata().format;
 
 		if (image.GetMetadata().IsCubemap())
@@ -161,9 +165,6 @@ namespace graphics
 				}
 			}
 		}
-
-		image.GetImage(0, 0, 0)->rowPitch;
-		image.GetImage(0, 0, 0)->slicePitch;
 
 		AssertMessageBox(image.GetImageCount() != 0, "D3D11Texture LoadFaile Error");
 

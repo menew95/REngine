@@ -172,8 +172,8 @@ namespace rengine
 	{
 		graphics::SceneInfo _currentSceneInfo;
 
-		_currentSceneInfo._deltaTime = Time::GetDeltaTime();
-		_currentSceneInfo._timeStep = Time::GetGameTime();
+		_currentSceneInfo._deltaTime = (float)Time::GetDeltaTime();
+		_currentSceneInfo._timeStep = (float)Time::GetGameTime();
 
 		// 1. SceneRender Event Invoke
 		EventManager::GetInstance()->InvokeEvent(TEXT("SceneRendering"));

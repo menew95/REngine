@@ -39,21 +39,29 @@ namespace editor
         template <typename TWidget>
         TWidget* GetWidgetByLable(const string& lable) requires std::derived_from<TWidget, Widget>;
 
+        void AddReservedWidgets();
+
+        void DestroyReservedWidgets();
+
         void RemoveWidget(Widget* widget);
 
         void RemoveAllWidget();
 
+        void RemoveAllWidgetReserved();
+
     protected:
         vector<shared_ptr<Widget>> m_childs;
+
+        std::list<shared_ptr<Widget>> m_addReservedWidgets;
     };
 
     template<typename TWidget, typename ...Args>
     inline TWidget* WidgetContainer::AddWidget(Args && ...args)
         requires std::derived_from<TWidget, Widget>
     {
-        m_childs.emplace_back(make_shared<TWidget>(std::forward<Args>(args)...));
+        m_addReservedWidgets.emplace_back(new TWidget(std::forward<Args>(args)...));
 
-        return static_cast<TWidget*>(m_childs.back().get());
+        return static_cast<TWidget*>(m_addReservedWidgets.back().get());
     }
 
     template<typename TWidget>
@@ -61,6 +69,12 @@ namespace editor
         requires std::derived_from<TWidget, Widget>   
     {
         for (auto& widget : m_childs)
+        {
+            if (widget != nullptr && widget->GetLable() == lable)
+                return static_cast<TWidget*>(widget.get());
+        }
+
+        for (auto& widget : m_addReservedWidgets)
         {
             if (widget != nullptr && widget->GetLable() == lable)
                 return static_cast<TWidget*>(widget.get());

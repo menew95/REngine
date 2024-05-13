@@ -93,8 +93,16 @@ namespace graphics
         GRAPHICS_API inline void SetCulling(bool val) { m_bIsCull = val; }
         GRAPHICS_API inline void SetWorld(math::Matrix val) 
         {
+            if (m_perObject._world == val)
+            {
+                m_bIsMove = false;
+                return;
+            }
+
             m_perObject._world = val;
             m_perObject._worldInv = val.Invert().Transpose();
+
+            m_bIsMove= true;
         }
 
         GRAPHICS_API virtual void SetBoundinBoxMin(const math::Vector3& min) { m_boundingBoxMin = min; }
@@ -113,6 +121,8 @@ namespace graphics
         bool m_bIsStatic = false;
 
         bool m_bIsCull = false;
+
+        bool m_bIsMove = false;
 
         PerObject m_perObject;
 
