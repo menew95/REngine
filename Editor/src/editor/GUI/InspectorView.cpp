@@ -29,6 +29,11 @@ namespace editor
     : View("Inspector View")
     {
 		CreateInspectorWidget();
+
+		EventManager::GetInstance()->m_unselectGameObjectEvent += [&]()
+			{
+				m_gamObjectWidget->SetEnable(false);
+			};
     }
 
     InspectorView::~InspectorView()
@@ -47,15 +52,14 @@ namespace editor
         if (EventManager::GetInstance()->GetFocusObject() == nullptr)
 			return;
 
-		m_gamObjectWidget->SetEnable(EventManager::GetInstance()->GetFocusObject()->GetType() == TEXT("GameObject"));
-
-
 		rengine::Object* _object = reinterpret_cast<rengine::Object*>(EventManager::GetInstance()->GetFocusObject());
 
 		if(_object->GetType() == TEXT("GameObject"))
 		{
 			// 오브젝트가 게임 오브젝트일 경우 게임오브젝트 인스펙터창을 렌더
             auto* _go = reinterpret_cast<rengine::GameObject*>(EventManager::GetInstance()->GetFocusObject());
+
+			m_gamObjectWidget->SetEnable(true);
 
 			DrawGameObject(_go);
 
@@ -68,8 +72,6 @@ namespace editor
 
 			DrawAddComponent();
 
-			/*if(ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
-				EventManager::GetInstance()->SetFocusObject(nullptr);*/
         }
 		else if (_object->GetType() == TEXT("Material"))
 		{
@@ -223,11 +225,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
-
-					container.AddWidget(_widget);*/
-
-					_widget = container.AddWidget<DragScalar<float, 2>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = container.AddWidget<DragScalar<float, 2>>(_propName, _min, _max, 0.1f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -254,11 +252,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
-
-					container.AddWidget(_widget);*/
-
-					_widget = container.AddWidget<DragScalar<float, 3>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = container.AddWidget<DragScalar<float, 3>>(_propName, _min, _max, 0.1f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -285,11 +279,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
-
-					container.AddWidget(_widget);*/
-
-					_widget = container.AddWidget<DragScalar<float, 4>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = container.AddWidget<DragScalar<float, 4>>(_propName, _min, _max, 0.1f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -317,10 +307,6 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<ObjectButton>(_propName);
-
-					container.AddWidget(_widget);*/
-
 					_widget = container.AddWidget<ObjectButton>(_propName);
 				}
 
@@ -344,10 +330,6 @@ namespace editor
 
 				if (_widget == nullptr)
 				{
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<CheckBox>(_propName);
-
-					container.AddWidget(_widget);*/
-
 					_widget = container.AddWidget<CheckBox>(_propName);
 				}
 
@@ -374,10 +356,6 @@ namespace editor
 					uint32 _flags = ImGuiSliderFlags_None;
 
 					uint32 _min = numeric_limits<uint32>::lowest(), _max = numeric_limits<uint32>::max();
-
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
-
-					container.AddWidget(_widget);*/
 
 					_widget = container.AddWidget<DragScalar<uint32, 1>>(_propName, _min, _max, 1.0f, "%u", _flags);
 				}
@@ -406,10 +384,6 @@ namespace editor
 
 					int32 _min = numeric_limits<int32>::lowest(), _max = numeric_limits<int32>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
-
-					container.AddWidget(_widget);*/
-
 					_widget = container.AddWidget<DragScalar<int32, 1>>(_propName, _min, _max, 1.0f, "%d", _flags);
 				}
 
@@ -437,11 +411,7 @@ namespace editor
 
 					float _min = numeric_limits<float>::lowest(), _max = numeric_limits<float>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
-
-					container.AddWidget(_widget);*/
-
-					_widget = container.AddWidget<DragScalar<float, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = container.AddWidget<DragScalar<float, 1>>(_propName, _min, _max, 0.1f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -468,11 +438,7 @@ namespace editor
 
 					double _min = numeric_limits<double>::lowest(), _max = numeric_limits<double>::max();
 
-					/*_widget = WidgetManager::GetInstance()->CreateWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
-
-					container.AddWidget(_widget);*/
-
-					_widget = container.AddWidget<DragScalar<double, 1>>(_propName, _min, _max, 1.0f, "%.3f", _flags);
+					_widget = container.AddWidget<DragScalar<double, 1>>(_propName, _min, _max, 0.1f, "%.3f", _flags);
 				}
 
 				_widget->RegisterGetter([prop, obj]()
@@ -650,7 +616,7 @@ namespace editor
 		{
 			rttr::property _prop = gameobject_type.get_property("Tag");
 
-			if (ImGui::BeginCombo("Tag", "Tag Test", ImGuiComboFlags_PopupAlignLeft))
+			if (ImGui::BeginCombo("Tag", "Tag", ImGuiComboFlags_PopupAlignLeft))
 			{
 
 				ImGui::EndCombo();
@@ -664,7 +630,7 @@ namespace editor
 		{
 			rttr::property _prop = gameobject_type.get_property("Layer");
 
-			if (ImGui::BeginCombo("Layer", "Layer Test", ImGuiComboFlags_PopupAlignLeft))
+			if (ImGui::BeginCombo("Layer", "Layer", ImGuiComboFlags_PopupAlignLeft))
 			{
 
 				ImGui::EndCombo();
@@ -706,7 +672,7 @@ namespace editor
 					{
 						if (_comp.lock()->GetTypeStr() == _componentWidget->GetLable())
 						{
-							rengine::ObjectFactory::GetInstance()->ReserveDestroyObject(_comp.lock());
+							rengine::ObjectFactory::GetInstance()->ReserveDestroyObject(_comp.lock().get());
 						}
 					}
 				}
@@ -718,10 +684,6 @@ namespace editor
 		
 		if (_columns == nullptr)
 		{
-			/*_columns = WidgetManager::GetInstance()->CreateWidget<Columns<2>>(comp->GetTypeStr() + "_Columes");
-
-			_componentWidget->AddWidget(_columns);*/
-
 			_columns = _componentWidget->AddWidget<Columns<2>>(comp->GetTypeStr() + "_Columes");
 		}
 
@@ -736,17 +698,6 @@ namespace editor
 
             rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
 
-            //if (_value.is_sequential_container())
-            //{
-            //    auto _seq = _value.create_sequential_view();
-
-            //    for (const auto& item : _seq)
-            //    {
-            //        auto _extractVar = item.extract_wrapped_value();
-            //        //GetProperty(*_componentWidget, _metaDataType, comp, _value, _prop);
-            //    }
-            //}
-            //else
             {
 				rttr::instance _instance = comp;
 
@@ -833,13 +784,6 @@ namespace editor
 				{
 					for (auto& _prop : _pair.second)
 					{
-						/*ImVec4 _color = ImVec4(_prop.GetColor().x, _prop.GetColor().y, _prop.GetColor().z, _prop.GetColor().w);
-						
-						if (ImGui::ColorButton(_prop.GetNameStr().c_str(), _color))
-						{
-							_material->SetColor(_prop.GetName(), { _color.x, _color.y, _color.z, _color.w });
-						}*/
-
 						float _cor[4] = { _prop.GetColor().x, _prop.GetColor().y, _prop.GetColor().z, _prop.GetColor().w };
 
 						if (ImGui::ColorEdit4(_prop.GetNameStr().c_str(), _cor))
@@ -868,7 +812,9 @@ namespace editor
 					{
 						float _val = _prop.GetFloat();
 
-						if (ImGui::InputFloat(_prop.GetNameStr().c_str(), &_val))
+						float _min = 0.0f, _max = 1.0f;
+
+						if (ImGui::DragScalar(_prop.GetNameStr().c_str(), ImGuiDataType_Float, &_val, 0.1f, &_min, &_max, "%.3f"))
 						{
 							_material->SetFloat(_prop.GetName(), _val);
 						}
@@ -884,7 +830,6 @@ namespace editor
 						if (ImGui::InputFloat4(_prop.GetNameStr().c_str(), _val))
 						{
 							assert(false);
-							//_material->SetR(_prop.GetName(), { _val[0], _val[1], _val[2], _val[3] });
 						}
 					}
 					break;

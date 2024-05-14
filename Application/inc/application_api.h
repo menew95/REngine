@@ -34,6 +34,6 @@ namespace app
 
 		using ApplicationConstructor = Application * (*)();
 
-		using ApplicationDestructor = bool (*)();
+		using ApplicationDestructor = void (*)();
 	}
 }

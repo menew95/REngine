@@ -23,13 +23,13 @@ namespace editor
 {
 	DEFINE_SINGLETON_CLASS(AssetManager,
 		{
-
+			
 		}, 
 		{
 
 		}, 
 		{
-
+			Instance.UnInitialze();
 		});
 
 
@@ -46,6 +46,12 @@ namespace editor
 		LoadAssetData();
 
 		Refresh();
+	}
+
+	void AssetManager::UnInitialze()
+	{
+		// 종료전에 에디터의 에셋 목록 저장
+		SaveAssetData();
 	}
 	
 	void AssetManager::CreateAsset(rengine::Object* object, const tstring& path)
@@ -118,13 +124,30 @@ namespace editor
 	
 	void AssetManager::MoveAsset(const tstring& oldPath, const tstring& newPath)
 	{
+		auto _uuid = UUIDFromAssetPath(oldPath);
+
+		// asset data base의 파일 위치를 재기록
+		m_assetList.erase(oldPath);
+
+		m_assetList.insert(make_pair(newPath, _uuid));
+
 		m_bIsDirty = true;
 
+		// 파일 위치를 옮겨준다.
 		fs::path _oldPath(oldPath);
 
 		fs::path _newPath(newPath);
 
 		fs::rename(_oldPath, _newPath);
+
+		// meta file 위치도 같이 옮겨준다.
+		fs::path _metaOldPath(oldPath + TEXT(".meta"));
+
+		fs::path _metaNewPath(newPath + TEXT(".meta"));
+
+		fs::rename(_metaOldPath, _metaNewPath);
+
+		// 해당 에셋에 기록된 path 또한 바꿔준다.
 	}
 	
 	void AssetManager::FindAsset(const tstring& filter)

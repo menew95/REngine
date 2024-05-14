@@ -62,7 +62,7 @@ namespace graphics
 		},
 		{
 			// release
-			ResourceManager::GetInstance()->ReleaseAll();
+			Instance.UnInitalize();
 		});
 	
 	void LoadGraphicsTable()
@@ -87,8 +87,28 @@ namespace graphics
 	void ResourceManager::Initialze(RenderSystem* renderSystem)
 	{
 		m_pRenderSystem = renderSystem;
+	}
 
-		LightManager::GetInstance()->Initialize();
+	void ResourceManager::UnInitalize()
+	{
+		// 렌더 타깃이 텍스처를 물고있는 경우가 있어서 먼제 해제해야함
+		ClearFromUnorderedMap(m_renderTargetMap);
+
+		ClearFromUnorderedMap(m_meshBuffers);
+		ClearFromUnorderedMap(m_lightBuffers);
+		ClearFromUnorderedMap(m_cameraBuffers);
+		ClearFromUnorderedMap(m_textureBuffers);
+		ClearFromUnorderedMap(m_materialBuffers);
+
+		//ClearFromUnorderedMap(m_renderPassMap);
+
+		ClearFromUnorderedMap(m_shaderMap);
+		ClearFromUnorderedMap(m_bufferMap);
+		ClearFromUnorderedMap(m_samplerMap);
+		ClearFromUnorderedMap(m_textureMap);
+		ClearFromUnorderedMap(m_resourceViewMap);
+		ClearFromUnorderedMap(m_pipelineStateMap);
+		ClearFromUnorderedMap(m_pipelineLayoutMap);
 	}
 
 	void ResourceManager::LoadGraphicsResource()
@@ -540,25 +560,5 @@ namespace graphics
 			if constexpr (is_base_of<graphics::RenderSystemObject, T>::value)  m_pRenderSystem->Release(*p.second);
 			else SAFE_DELETE(p.second);
 		}
-	}
-
-	void ResourceManager::ReleaseAll()
-	{
-		ClearFromUnorderedMap(m_meshBuffers);
-		ClearFromUnorderedMap(m_lightBuffers);
-		ClearFromUnorderedMap(m_cameraBuffers);
-		ClearFromUnorderedMap(m_textureBuffers);
-		ClearFromUnorderedMap(m_materialBuffers);
-
-		//ClearFromUnorderedMap(m_renderPassMap);
-
-		ClearFromUnorderedMap(m_shaderMap);
-		ClearFromUnorderedMap(m_bufferMap);
-		ClearFromUnorderedMap(m_samplerMap);
-		ClearFromUnorderedMap(m_textureMap);
-		ClearFromUnorderedMap(m_resourceViewMap);
-		ClearFromUnorderedMap(m_renderTargetMap);
-		ClearFromUnorderedMap(m_pipelineStateMap);
-		ClearFromUnorderedMap(m_pipelineLayoutMap);
 	}
 }

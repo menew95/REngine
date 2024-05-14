@@ -122,10 +122,10 @@ namespace rengine
 		// 등록된 컴포넌트들을 삭제
 		for (auto& _comp : m_Components)
 		{
-			DestroyImmediate(_comp.lock());
-
-			_comp.reset();
+			DestroyImmediate(_comp.lock().get());
 		}
+
+		m_Components.clear();
 
 		m_pTransform.reset();
 
@@ -180,14 +180,14 @@ namespace rengine
 		// 자식 게임오브젝트 먼저 삭제 예약을 한다음 소유하고있는 컴포넌트를 삭제 예약
 		for (auto& _ptr : m_pTransform.lock()->GetChilds())
 		{
-			auto _childs = _ptr.lock();
+			auto _childs = _ptr.lock().get();
 
-			Destroy(_childs->GetGameObject().lock());
+			Destroy(_childs->GetGameObject().lock().get());
 		}
 
 		for (auto& _ptr : m_Components)
 		{
-			auto _comp = _ptr.lock();
+			auto _comp = _ptr.lock().get();
 			if (_comp == nullptr)
 				continue;
 

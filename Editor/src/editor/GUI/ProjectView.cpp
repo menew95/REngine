@@ -96,8 +96,8 @@ namespace editor
 			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("file_icon"), g_editorLibraryPath + TEXT("bin\\editor\\file_icon.png")).get()
 		));
 		g_iconTextureMap.insert(make_pair(
-			TEXT("material_icon"),
-			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("material_icon"), g_editorLibraryPath + TEXT("bin\\editor\\file_icon.png")).get()
+			TEXT(".mat"),
+			rengine::Resources::GetInstance()->CreateResource<rengine::Texture>(TEXT("material_icon"), g_editorLibraryPath + TEXT("bin\\editor\\material_icon.png")).get()
 		));
 
 		CheckMetaFile(m_currPath);
@@ -168,7 +168,6 @@ namespace editor
 			ImGui::PopStyleColor(2);
 		}
 
-		//m_ObjectList.push_back(root);
 		ImGui::Spacing();
 
 		if (ImGui::IsItemClicked() && fs::is_directory(_path))
@@ -436,6 +435,8 @@ namespace editor
 					auto _material = rengine::Resources::GetInstance()->CreateResource<rengine::Material>();
 
 					auto _absolutePath = fs::absolute(_path);
+
+					_material->SetName(_absolutePath.stem().wstring());
 
 					_material->SetPath(_absolutePath);
 

@@ -29,7 +29,18 @@ namespace editor
         DECLARE_SINGLETON_CLASS(EnginePlugin)
 
     public:
+        /**
+            @brief 엔진 모듈 생성
+            @param winInfo - 윈도우 정보
+        **/
         void Initialize(WindowInfo& winInfo);
+
+        /**
+            @brief REngine 모듈 해제
+        **/
+        void UnInitialize();
+
+        void UpdateFrame();
 
         inline AppBase* GetEngine()
         {

@@ -24,8 +24,13 @@ namespace graphics
     class RenderQueue
     {
         DECLARE_SINGLETON_CLASS_EXPORT(GRAPHICS_API, RenderQueue)
+
     public:
             
+        void Initialize();
+
+        void UnInitialize();
+
         /**
             @brief render object를 추가
             @param type - 렌더 오브젝트의 타입

@@ -1,6 +1,7 @@
 ﻿#include <Editor_pch.h>
 #include <ImGui\imgui_internal.h>
 
+#include <editor\Core\EventManager.h>
 #include <editor\GUI\HierarchyView.h>
 #include <editor\GUI\EditorStyle.h>
 
@@ -17,7 +18,17 @@ namespace editor
 	HierarchyView::HierarchyView()
 		: View("Hierarchy View")
 	{
+		EventManager::GetInstance()->m_selectGameObjectEvent += [&](rengine::Object* obj)
+			{
+				m_controlList.clear();
 
+				m_controlList.emplace_back((rengine::GameObject*)obj);
+			};
+
+		EventManager::GetInstance()->m_unselectGameObjectEvent += [&]()
+			{
+				m_controlList.clear();
+			};
 	}
 
 	HierarchyView::~HierarchyView()
@@ -232,7 +243,7 @@ namespace editor
 
 				if (ImGui::MenuItem("Delete Object"))
 				{
-					rengine::Object::Destroy(m_controlList.at(0)->GetShared());
+					rengine::Object::Destroy(m_controlList.at(0));
 
 					EventManager::GetInstance()->SetFocusObject(nullptr);
 

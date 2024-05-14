@@ -34,6 +34,6 @@ extern "C"
 
     GRAPHICS_DLL_DECLSPEC void RenderSystem_Free(void* renderSystem)
     {
-
+        g_DX11RenderSystem.reset();
     }
 }

@@ -70,7 +70,6 @@ float4 ComputePBRDirectionalLight
     float LdotH = saturate(dot(light, halfVec));
     
     float3 retColor = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
-    //float3 retColor = CookTorrance_GGX(roughness, metallic, specularColor, albedoColor, NdotV, NdotL, LdotH, NdotH);
        
     float3 radiance = DL._intensity * DL._color * NdotL;
   

@@ -12,6 +12,8 @@
 
 #include <common\common.h>
 
+#include <common\Event.h>
+
 #include <common\singleton.h>
 
 namespace rengine
@@ -41,11 +43,17 @@ namespace editor
         DECLARE_SINGLETON_CLASS(EventManager);
 
     public:
-        
-        inline void SetFocusObject(rengine::Object* obj)
-        {
-            m_curFocusObject = obj;
-        }
+        /**
+            @brief 에디터 이벤트 매니저 초기화
+        **/
+        void Initailze();
+
+        /**
+            @brief 에디터 이벤트 매니저 릴리즈
+        **/
+        void UnInitailze();
+
+        void SetFocusObject(rengine::Object* obj);
 
         inline auto* GetFocusObject() 
         {
@@ -72,6 +80,10 @@ namespace editor
 
         const EditorMode& GetEditorMode() const { return m_editorMode; }
         void SetEditorMode(const auto& val) { m_editorMode = val; }
+
+        common::Event<void, rengine::Object*> m_selectGameObjectEvent;
+
+        common::Event<void> m_unselectGameObjectEvent;
 
     private:
         EditorMode m_editorMode;

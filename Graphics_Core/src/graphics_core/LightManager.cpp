@@ -23,7 +23,7 @@ namespace graphics
 
 		},
 		{
-			Instance.ReleaseAllResource();
+			Instance.UnInitialize();
  		});
 
 	void graphics::LightManager::Initialize()
@@ -206,42 +206,9 @@ namespace graphics
 		_desc._miscFlags = MiscFlags::DynamicUsage;
 
 		m_lightBuffer = ResourceManager::GetInstance()->CreateBuffer(TEXT("Light Buffer View"), _desc);
-
-		/*TextureDesc _spotShadowMapDesc;
-
-		_spotShadowMapDesc._extend = { 512, 512, 0 };
-		_spotShadowMapDesc._bindFlags = BindFlags::ShaderResource | BindFlags::DepthStencil;
-		_spotShadowMapDesc._format = Format::R32_TYPELESS;
-
-		_spotShadowMapDesc._textureType = TextureType::Texture2DArray;
-		_spotShadowMapDesc._arrayLayers = NUM_SPOTLIGHT;
-
-		m_spotLightShadowMap = ResourceManager::GetInstance()->CreateTexture(TEXT("Shadow Map Texture"), _spotShadowMapDesc);
-
-		TextureDesc _pointShadowMapDesc;
-
-		_pointShadowMapDesc._extend = { 512, 512, 0 };
-		_pointShadowMapDesc._bindFlags = BindFlags::ShaderResource | BindFlags::DepthStencil;
-		_pointShadowMapDesc._format = Format::R32_TYPELESS;
-
-		_pointShadowMapDesc._textureType = TextureType::Texture2DArray;
-		_pointShadowMapDesc._arrayLayers = NUM_POINTLIGHT * 6;
-
-		m_pointLightShadowMap = ResourceManager::GetInstance()->CreateTexture(TEXT("Shadow Map Texture"), _pointShadowMapDesc);
-
-		TextureDesc _cascadedShadowMapDesc;
-
-		_cascadedShadowMapDesc._extend = { 1024, 1024, 0 };
-		_cascadedShadowMapDesc._bindFlags = BindFlags::ShaderResource | BindFlags::DepthStencil;
-		_cascadedShadowMapDesc._format = Format::R32_TYPELESS;
-
-		_cascadedShadowMapDesc._textureType = TextureType::Texture2DArray;
-		_cascadedShadowMapDesc._arrayLayers = NUM_CASCADES;
-
-		m_cascadedShadowMap = ResourceManager::GetInstance()->CreateTexture(TEXT("Shadow Map Texture"), _cascadedShadowMapDesc);*/
 	}
 
-	void LightManager::ReleaseAllResource()
+	void LightManager::UnInitialize()
 	{
 		for (auto& [_uuid, _buffer] : m_lightBufferMap)
 		{
@@ -252,8 +219,9 @@ namespace graphics
 
 		m_lightBufferMap.clear();
 
-		ResourceManager::GetInstance()->ReleaseTexture(m_shadowMapAtlasTexture);
 		ResourceManager::GetInstance()->ReleaseRenderTarget(m_shadowMapAtlasRT);
+
+		ResourceManager::GetInstance()->ReleaseTexture(m_shadowMapAtlasTexture);
 	}
 
 	void graphics::LightManager::UpdateLightBuffer(CommandBuffer* command)
@@ -314,11 +282,5 @@ namespace graphics
 		}
 
 		command->UpdateBuffer(*m_lightBuffer, 0, _data, _dataSize);
-
-		//offsetof(PerFrame, _lightCnt);
-		//
-		//auto* buffer = ResourceManager::GetInstance()->GetBuffer(TEXT("PerFrame"));
-		//
-		//command->UpdateBuffer(*buffer, offsetof(PerFrame, _lightCnt), &m_curLightCnt, sizeof(m_curLightCnt));
 	}
 }

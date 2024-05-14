@@ -43,7 +43,16 @@ namespace graphics
         DECLARE_SINGLETON_CLASS_EXPORT(GRAPHICS_API, LightManager);
 
     public:
+        /**
+            @brief light manager에서 필요한 리소스 생성
+        **/
         void Initialize();
+
+        /**
+            @brief light manager에서 생성한 리소스 해제
+        **/
+        void UnInitialize();
+
         /**
             @brief  light buffer를 하나 생성
             @param  uuid - light buffer에 적용될 uuid
@@ -100,11 +109,6 @@ namespace graphics
             @brief light관련 리소스들을 생성
         **/
         void CreateResource();
-
-        /**
-            @brief 모든 리소스를 해제
-        **/
-        void ReleaseAllResource();
 
         /**
             @brief 모든 라이트 정보를 텍스처에 기록

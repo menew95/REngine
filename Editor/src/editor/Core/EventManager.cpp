@@ -20,15 +20,41 @@ namespace editor
 {
 	DEFINE_SINGLETON_CLASS(EventManager,
 		{
-
+			Initailze();
 		}, 
 		{
 
 		}, 
 		{
-
+			Instance.UnInitailze();
 		});
 
+
+	void EventManager::Initailze()
+	{
+	}
+
+	void EventManager::UnInitailze()
+	{
+		m_curFocusObject = nullptr;
+
+		m_editor = nullptr;
+	}
+
+	void editor::EventManager::SetFocusObject(rengine::Object* obj)
+	{
+		m_curFocusObject = obj;
+
+		if(obj == nullptr)
+			m_unselectGameObjectEvent.Invoke();
+		else
+		{
+			if (obj->GetType() == TEXT("GameObject"))
+				m_selectGameObjectEvent.Invoke(obj);
+			else
+				m_unselectGameObjectEvent.Invoke();
+		}
+	}
 
 	void EventManager::SaveScene()
 	{
@@ -44,10 +70,10 @@ namespace editor
 	{
 		m_editorMode = editorMode;
 
-		if(m_editorMode == EditorMode::Edit)
-			EnginePlugin::GetInstance()->SetEngineUpdate(false);
-		else
+		if(m_editorMode == EditorMode::Play)
 			EnginePlugin::GetInstance()->SetEngineUpdate(true);
+		else
+			EnginePlugin::GetInstance()->SetEngineUpdate(false);
 	}
 
 	View* EventManager::GetView(const string& viewName)
@@ -85,7 +111,15 @@ namespace editor
 
 	void EventManager::PauseGame()
 	{
-		SetEditorMode(EditorMode::Pause);
+		// 플레이 모드일 경우 pause
+		if (m_editorMode == EditorMode::Play)
+		{
+			SetEditorMode(EditorMode::Pause);
+		}
+		else if (m_editorMode == EditorMode::Pause)
+		{
+			SetEditorMode(EditorMode::Play);
+		}
 	}
 
 	void EventManager::StopGame()
@@ -100,6 +134,8 @@ namespace editor
 			const tstring& _currentScenePath = _currentScene->GetPath();
 
 			rengine::SceneManager::GetInstance()->LoadScene(_currentScenePath);
+
+			m_unselectGameObjectEvent.Invoke();
 		}
 
 		SetEditorMode(EditorMode::Edit);
@@ -107,8 +143,11 @@ namespace editor
 
 	void EventManager::NextFrame()
 	{
-		if (m_editorMode == EditorMode::Play || m_editorMode == EditorMode::Pause)
-			SetEditorMode(EditorMode::FRAME_BY_FRAME);
+		// pause 모드일 경우 한 프레임 업데이트 합니다.
+		if (m_editorMode == EditorMode::Pause)
+		{
+			EnginePlugin::GetInstance()->UpdateFrame();
+		}
 	}
 
 	void EventManager::ExitEditor()

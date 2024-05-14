@@ -32,7 +32,32 @@ namespace graphics
 
 		DX11RenderSystem::~DX11RenderSystem()
 		{
+			m_CommandBufferContainer.clear();
+			m_BufferContainer.clear();
+			m_RenderTargetContainer.clear();
+			m_SamplerContainer.clear();
+			m_ShaderContainer.clear();
+			m_PipelineLayoutContainer.clear();
+			m_PipelineStateContainer.clear();
 
+			m_StateManager.reset();
+
+			m_Context->ClearState();
+			m_Context->Flush();
+			m_Context.Reset();
+
+#if defined(DEBUG) || defined(_DEBUG)
+			ComPtr<ID3D11Debug> Debug;
+			m_Device->QueryInterface(Debug.GetAddressOf());
+
+			OutputDebugStringA("-------누수 오브젝트 목록입니다--------\r\n");
+			Debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			OutputDebugStringA("-------------------------------------\r\n");
+			Debug.Reset();
+#endif
+
+			m_Adapter.Reset();
+			m_Factory.Reset();
 		}
 
 		void* DX11RenderSystem::GetDevice()

@@ -25,6 +25,8 @@ namespace graphics
     public:
         void Initialze(class RenderSystem* renderSystem);
 
+        void UnInitalize();
+
         void LoadGraphicsResource();
 
         void InitRenderPass();
@@ -97,7 +99,6 @@ namespace graphics
 
         class RenderSystem* m_pRenderSystem = nullptr;
 
-        void ReleaseAll();
 
         // graphics core resource
         unordered_map<uuid, class MeshBuffer*>      m_meshBuffers;

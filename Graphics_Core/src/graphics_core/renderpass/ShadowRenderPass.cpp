@@ -94,6 +94,8 @@ namespace graphics
 			RenderDepth(command, _projectedShadowInfo);
 
 			CopyToShadowAtlas(command, _projectedShadowInfo);
+
+			_projectedShadowInfo._lightBuffer->m_isDirty = false;
 		}
 	}
 	
@@ -155,10 +157,16 @@ namespace graphics
 			// 비활성화 상태이거나 매쉬가 설정이 안되어 있을 경우 넘어감
 			if(!_meshObj->GetEnable() || _meshObj->GetMeshBuffer() == nullptr) continue;
 
+			// 빛의 속성이 바뀌지 않았고 렌더 오브젝트가 움직이지 않았으면 이번 프레임에 다시 그릴 필요가 없음
+			// 현재로썬 이게 최선이다.
+			if(!shadowInfo->_lightBuffer->m_isDirty && !_meshObj->IsDirty())
+				continue;
+
 			switch ((LightType)shadowInfo->_lightBuffer->m_lightInfo._type)
 			{
 				case LightType::Spot:
 				{
+
 					if (CullingHelper::ViewFrustumCullingBoundingBox(
 						_frustum[0],
 						_meshObj->GetWorld(),

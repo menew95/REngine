@@ -32,6 +32,8 @@ namespace rengine
         **/
         bool Initialize();
 
+        void UnInitialize();
+
         RENGINE_API std::shared_ptr<Scene>& GetCurrentScene();
 
         RENGINE_API size_t GetSceneCount();

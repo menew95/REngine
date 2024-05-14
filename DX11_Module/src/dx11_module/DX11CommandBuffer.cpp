@@ -48,7 +48,11 @@ namespace graphics
 
 		DX11CommandBuffer::~DX11CommandBuffer()
 		{
+			m_StateManager.reset();
 
+			m_CommandList.Reset();
+
+			m_User.Reset();
 		}
 
 		void DX11CommandBuffer::Begin()

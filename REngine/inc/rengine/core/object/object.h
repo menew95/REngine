@@ -41,9 +41,9 @@ namespace rengine
 		void SetType(tstring val);
 		void SetTypeStr(string val);
 		
-		static void Destroy(const shared_ptr<Object>& obj, float t = 0.f);
+		static void Destroy(Object* obj, float t = 0.f);
 
-		static void DestroyImmediate(const shared_ptr<Object>& obj);
+		static void DestroyImmediate(Object* obj);
 
 
 	protected:

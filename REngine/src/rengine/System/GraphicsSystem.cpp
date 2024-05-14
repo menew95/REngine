@@ -21,10 +21,7 @@ namespace rengine
 
 	},
 	{
-		if (g_pGraphicsCoreModule != nullptr)
-		{
-			g_pGraphicsCoreModule.reset();
-		}
+		Instance.UnInitialize();
 	});
 
 	void GraphicsSystem::Initialize(const WindowInfo& wininfo)
@@ -43,7 +40,16 @@ namespace rengine
 
 		m_screenSize = { (float)wininfo._width, (float)wininfo._height };
 
-		m_pGraphicsEngine->Init(_desc);
+		m_pGraphicsEngine->Initalize(_desc);
+	}
+
+	void rengine::GraphicsSystem::UnInitialize()
+	{
+		auto _graphicsDestructor = (GraphicsDestructor)g_pGraphicsCoreModule->LoadProcedure("ReleaseGraphicsEngine");
+
+		_graphicsDestructor(m_pGraphicsEngine);
+
+		g_pGraphicsCoreModule.reset();
 	}
 
 	void GraphicsSystem::LoadGraphicsResource()

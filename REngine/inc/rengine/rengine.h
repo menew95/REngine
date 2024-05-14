@@ -27,6 +27,8 @@ namespace rengine
 
         RENGINE_API bool Update() override;
 
+        RENGINE_API bool UpdateFrame();
+
         RENGINE_API bool WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) override;
 
         RENGINE_API bool GetEngineUpdate() { return m_isEngineUpdate; }

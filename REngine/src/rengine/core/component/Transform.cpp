@@ -104,7 +104,7 @@ namespace rengine
 
 	void Transform::OnDestroy()
 	{
-		vector<shared_ptr<Transform>> _childs;
+		vector<Transform*> _childs;
 
 		for (auto& child : m_childs)
 		{
@@ -113,7 +113,7 @@ namespace rengine
 			// 자식 포인터가 연결이 끊겼다면 이상한거임
 			assert(_childTrans != nullptr);
 			
-			_childs.emplace_back(_childTrans);
+			_childs.emplace_back(_childTrans.get());
 		}
 
 		for (auto& child : _childs)
@@ -123,8 +123,12 @@ namespace rengine
 			// 게임 오브젝트 연결이 끊겼다면 이상한거임
 			assert(_gameObject != nullptr);
 
+			Object* _object = _gameObject.get();
+
+			_gameObject.reset();
+
 			// 자식 게임오브젝트 또한 삭제함
-			DestroyImmediate(_gameObject);
+			DestroyImmediate(_object);
 		}
 
 		// 모두 삭제 등록을 하고 자식들의 부모를 해제
@@ -335,6 +339,7 @@ namespace rengine
 
 		return _s;
 	}
+
 	RENGINE_API void Transform::SetLocalScale(math::Vector3 val)
 	{
 		m_bIsDirty = true;
@@ -348,6 +353,39 @@ namespace rengine
 		m_local = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
 	}
 
+	math::Vector3 Transform::GetWorldPosition()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _t;
+	}
+
+	void Transform::SetWorldPosition(math::Vector3 val)
+	{
+		m_bIsDirty = true;
+
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_world = Matrix::CreateScale(_s) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(val);
+
+		if (m_parent.lock() != nullptr)
+		{
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+		}
+		else
+		{
+			m_local = m_world;
+		}
+	}
+
 	math::Quaternion Transform::GetWorldRotation()
 	{
 		Vector3 _s, _t;
@@ -359,18 +397,106 @@ namespace rengine
 		return _r;
 	}
 
+	void Transform::SetWorldRotation(math::Quaternion val)
+	{
+		m_bIsDirty = true;
+
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_world = Matrix::CreateScale(_s) * Matrix::CreateFromQuaternion(val) * Matrix::CreateTranslation(_t);
+
+		if (m_parent.lock() != nullptr)
+		{
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+		}
+		else
+		{
+			m_local = m_world;
+		}
+	}
+
+	math::Vector3 Transform::GetWorldEulerAngle()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _r.ToEuler() * math::Rad2Deg;
+	}
+
+	void Transform::SetWorldEulerAngle(math::Vector3 val)
+	{
+		m_bIsDirty = true;
+
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_world = Matrix::CreateScale(_s) * Matrix::CreateFromQuaternion(Quaternion::CreateFromYawPitchRoll(val * math::Deg2Rad)) * Matrix::CreateTranslation(_t);
+
+		if (m_parent.lock() != nullptr)
+		{
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+		}
+		else
+		{
+			m_local = m_world;
+		}
+	}
+
+	math::Vector3 Transform::GetWorldScale()
+	{
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		return _s;
+	}
+
+	void Transform::SetWorldScale(math::Vector3 val)
+	{
+		m_bIsDirty = true;
+
+		Vector3 _s, _t;
+		Quaternion _r;
+
+		if (!m_world.Decompose(_s, _r, _t))
+			assert(false);
+
+		m_world = Matrix::CreateScale(val) * Matrix::CreateFromQuaternion(_r) * Matrix::CreateTranslation(_t);
+
+		if (m_parent.lock() != nullptr)
+		{
+			m_local = m_world * m_parent.lock()->GetWorld().Invert();
+		}
+		else
+		{
+			m_local = m_world;
+		}
+	}
+
 	void Transform::PreDestroy()
 	{
 		__super::PreDestroy();
 
 		for (auto& child : m_childs)
 		{
-			auto _childTrans = child.lock();
+			auto _childTrans = child.lock().get();
 
 			// 자식 포인터가 연결이 끊겼다면 이상한거임
 			assert(_childTrans != nullptr);
 
-			auto _gameObject = _childTrans->GetGameObject().lock();
+			auto _gameObject = _childTrans->GetGameObject().lock().get();
 
 			// 게임 오브젝트 연결이 끊겼다면 이상한거임
 			assert(_gameObject != nullptr);

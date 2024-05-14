@@ -118,7 +118,7 @@ namespace rengine
 		return _object;
 	}
 
-	void ObjectFactory::ReserveDestroyObject(const shared_ptr<Object>& deleteObject, float t)
+	void ObjectFactory::ReserveDestroyObject(Object* deleteObject, float t)
 	{
 		if(deleteObject == nullptr)
 			return;
@@ -152,10 +152,10 @@ namespace rengine
 		assert(_objIter != _mapIter->second.end());
 #endif // _DEBUG
 
-		m_reserveDestroyObjectsQueue.emplace_back(make_pair(t, deleteObject.get()));
+		m_reserveDestroyObjectsQueue.emplace_back(make_pair(t, deleteObject));
 	}
 
-	void rengine::ObjectFactory::DestroyImmediate(const shared_ptr<Object>& deleteObject)
+	void rengine::ObjectFactory::DestroyImmediate(Object* deleteObject)
 	{
 		if(deleteObject == nullptr)
 			return;

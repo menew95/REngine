@@ -25,7 +25,7 @@ namespace graphics
 			@brief 렌더링 모듈을 로드하고 초기화
 			@param desc - graphics engine description
 		**/
-		GRAPHICS_API void Init(const GraphicsEngineDesc& desc);
+		GRAPHICS_API void Initalize(const GraphicsEngineDesc& desc);
 
 		/**
 			@brief graphics resource load
@@ -37,7 +37,7 @@ namespace graphics
 		/**
 		    @brief graphics engine 종료
 		**/
-		GRAPHICS_API void ReleaseEngine();
+		GRAPHICS_API void UnInitalize();
 
 		/**
 		    @brief  device를 반환

@@ -24,7 +24,7 @@ namespace rengine
 
         },
         {
-
+            Instance.UnInitialize();
         })
 
     bool SceneManager::Initialize()
@@ -46,6 +46,20 @@ namespace rengine
         LoadScene(0);
 
         return _hr;
+    }
+
+    void SceneManager::UnInitialize()
+    {
+        m_pCurrentScene.reset();
+
+        for (auto& _scene : m_scenes)
+        {
+            Object* _object = _scene.get();
+
+            _scene.reset();
+
+            Object::DestroyImmediate(_object);
+        }
     }
 
     std::shared_ptr<Scene>& SceneManager::GetCurrentScene()
@@ -102,11 +116,14 @@ namespace rengine
             if (m_pCurrentScene->GetPath() == path)
                 m_pCurrentScene.reset();
 
-            // 해당 씬을 바로 파괴함
-            Object::DestroyImmediate(*_iter);
+            Object* _object = (*_iter).get();
 
-            // 씬을 초기화
+            // 씬 shared ptr 레퍼런스 카운트 관리
             _iter->reset();
+
+            // 해당 씬을 바로 파괴함
+            Object::DestroyImmediate(_object);
+
         }
 
         auto _scene = utility::Serializer::DeSerialize(g_assetPath + TEXT("Main Scene.scene"));
@@ -153,9 +170,15 @@ namespace rengine
 
     void SceneManager::ReloadCurrentScene()
     {
+        assert(false);
+
         auto _path = m_pCurrentScene->GetPath();
 
-        ObjectFactory::GetInstance()->ReserveDestroyObject(m_pCurrentScene);
+        auto* _object = m_pCurrentScene.get();
+
+        m_pCurrentScene.reset();
+
+        ObjectFactory::GetInstance()->ReserveDestroyObject(_object);
 
         auto _scene = utility::Serializer::DeSerialize(_path);
 

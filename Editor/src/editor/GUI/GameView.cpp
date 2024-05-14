@@ -168,6 +168,8 @@ namespace editor
 					rengine::SceneManager::GetInstance()->GetCurrentScene()->CreateFromMesh(_uuid);
 				else if (_extension == TEXT(".fbx"))
 					rengine::SceneManager::GetInstance()->GetCurrentScene()->CreateFromModel(_uuid);
+				else if (_extension == TEXT(".scene"))
+					EventManager::GetInstance()->OpenScene(_absolutePath);
 			}
 
 			ImGui::EndDragDropTarget();

@@ -32,6 +32,11 @@ namespace editor
         void Initialze();
 
         /**
+            @brief 에셋 매니저 릴리즈
+        **/
+        void UnInitialze();
+
+        /**
             @brief 
             @param objec - 
             @param path  - 

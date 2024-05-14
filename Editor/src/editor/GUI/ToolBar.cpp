@@ -71,6 +71,8 @@ namespace editor
 				{
 					m_playStopButton->SetTextureID(m_playTexture->GetTextureID());
 
+					m_pauseButton->SetTextureID(m_pauseTexture->GetTextureID());
+
 					EventManager::GetInstance()->StopGame();
 				}
 			}
@@ -85,7 +87,19 @@ namespace editor
 		);
 
 		m_pauseButton->SetClickEvent(
-			std::bind(&EventManager::PauseGame, EventManager::GetInstance())
+			[this]()
+			{
+				if (EventManager::GetInstance()->GetEditorMode() == EditorMode::Play)
+				{
+					m_pauseButton->SetTextureID(m_playTexture->GetTextureID());
+				}
+				else if(EventManager::GetInstance()->GetEditorMode() == EditorMode::Pause)
+				{
+					m_pauseButton->SetTextureID(m_pauseTexture->GetTextureID());
+				}
+
+				EventManager::GetInstance()->PauseGame();
+			}
 		);
 
 		AddWidget<SameLine>();

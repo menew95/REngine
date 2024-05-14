@@ -85,6 +85,8 @@ namespace graphics
 	{
 		bool _ret = ResourceManager::GetInstance()->ReleaseBuffer(m_pVertexBuffer);
 
+		if(_ret) m_pVertexBuffer = nullptr;
+
 		for (auto& _subMesh : m_subMeshBuffers)
 		{
 			_ret = ResourceManager::GetInstance()->ReleaseBuffer(_subMesh.GetBuffer());

@@ -30,6 +30,8 @@ namespace rengine
 		**/
 		void Initialize(const WindowInfo& wininfo);
 
+		void UnInitialize();
+
 		/**
 			@brief 그래픽스 파이프라인에서 사용될 그래픽스 리소스들을 로드
 		**/

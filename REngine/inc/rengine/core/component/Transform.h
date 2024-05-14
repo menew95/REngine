@@ -86,8 +86,17 @@ namespace rengine
         RENGINE_API math::Vector3 GetLocalScale();
         RENGINE_API void SetLocalScale(math::Vector3 val);
 
+        RENGINE_API math::Vector3 GetWorldPosition();
+        RENGINE_API void SetWorldPosition(math::Vector3 val);
+
         RENGINE_API math::Quaternion GetWorldRotation();
-        //RENGINE_API void SetWorldRotation(math::Quaternion val);
+        RENGINE_API void SetWorldRotation(math::Quaternion val);
+
+        RENGINE_API math::Vector3 GetWorldEulerAngle();
+        RENGINE_API void SetWorldEulerAngle(math::Vector3 val);
+
+        RENGINE_API math::Vector3 GetWorldScale();
+        RENGINE_API void SetWorldScale(math::Vector3 val);
 
 
     protected:

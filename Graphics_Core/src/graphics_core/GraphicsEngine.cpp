@@ -4,6 +4,7 @@
 #include <graphics_core\GraphicsEngine.h>
 #include <graphics_core\ResourceManager.h>
 #include <graphics_core\LightManager.h>
+#include <graphics_core\RenderQueue.h>
 #include <graphics_core\renderer\Renderer.h>
 #include <graphics_core\resource\CameraBuffer.h>
 #include <graphics_core\renderpass\SkyBoxRenderPass.h>
@@ -27,15 +28,15 @@ namespace graphics
 
 		},
 		{
+			Instance.UnInitalize();
+
 			if (m_pGraphicsModule != nullptr)
 			{
 				m_pGraphicsModule.reset();
-
-				GraphicsEngine::GetInstance()->ReleaseEngine();
 			}
 		});
 
-	void GraphicsEngine::Init(const GraphicsEngineDesc& desc)
+	void GraphicsEngine::Initalize(const GraphicsEngineDesc& desc)
 	{
 		LoadModule(desc);
 
@@ -44,6 +45,8 @@ namespace graphics
 		m_windowInfo = desc._info;
 
 		ResourceManager::GetInstance()->Initialze(m_pRenderSystem);
+
+		LightManager::GetInstance()->Initialize();
 	}
 
 	void GraphicsEngine::LoadGraphicsResource()
@@ -58,9 +61,23 @@ namespace graphics
 		ResourceManager::GetInstance()->InitRenderPass();
 	}
 
-	void GraphicsEngine::ReleaseEngine()
+	void GraphicsEngine::UnInitalize()
 	{
 		delete m_pRenderer;
+
+		RenderQueue::Release();
+
+		LightManager::Release();
+
+		ResourceManager::Release();
+
+		m_pRenderSystem->Release(*m_pCommandBuffer);
+
+		m_pRenderSystem->Release(*m_pSwapChain);
+
+		auto _renderSystemFree = (RenderSystemFree)m_pGraphicsModule->LoadProcedure("RenderSystem_Free");
+
+		_renderSystemFree(m_pRenderSystem);
 	}
 
 	void* GraphicsEngine::GetDevice()
@@ -180,8 +197,6 @@ namespace graphics
 		}
 
 		auto _renderSystemAlloc = (RenderSystemAlloc)m_pGraphicsModule->LoadProcedure("RenderSystem_Alloc");
-
-		auto _renderSystemFree = (RenderSystemFree)m_pGraphicsModule->LoadProcedure("RenderSystem_Free");
 
 		RenderSystemDesc _renderSystemDesc;
 		{

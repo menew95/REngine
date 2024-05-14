@@ -63,14 +63,19 @@ namespace editor
 
 		if (ImGui::InputTextEx("Object Name", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject, &m_userData))
 		{
-			int a = 0;
+
 		}
 
 		ImGui::PushID("Find Object");
 		ImGui::PushStyleVar(ImGuiStyleVar_ButtonTextAlign, ImVec2(0.0f, 0.5f));
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-		//ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.5f, 0.5f, 1.0f, 1.0f));
+
+		if (ImGui::ButtonEx("None##0", ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
+		{
+			m_pBtnEvent(m_pHandler, nullptr);
+			m_bOpen = false;
+		}
 
 		for (auto& _obj : m_userData._objectList)
 		{

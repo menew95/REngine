@@ -6,14 +6,25 @@ namespace graphics
 {
 	DEFINE_SINGLETON_CLASS(RenderQueue,
 		{
-
+			Initialize();
 		},
 		{
 
 		}, 
 		{
-
+			Instance.UnInitialize();
 		});
+
+	void graphics::RenderQueue::Initialize()
+	{
+	}
+
+	void graphics::RenderQueue::UnInitialize()
+	{
+		m_meshObjectList.clear();
+
+		m_particleObjectList.clear();
+	}
 
 	RenderObject* RenderQueue::CreateRenderObject(const RenderType type, uuid uuid)
 	{

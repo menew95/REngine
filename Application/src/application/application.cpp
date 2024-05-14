@@ -24,7 +24,6 @@ namespace app
 
 		{
 		},
-
 		{
 			/*if (m_IsCmdOn)
 			{
@@ -41,7 +40,11 @@ namespace app
 
 	bool Application::Quit()
 	{
-		return m_pApp->Quit();
+		m_pApp->Quit();
+
+		g_pModule.reset();
+
+		return true;
 	}
 
 	bool Application::Initallize(bool showCmd, HINSTANCE hInstance, const tstring& windowClassName, const tstring& windowName, UINT width, UINT height)

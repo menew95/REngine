@@ -20,6 +20,11 @@ namespace graphics
 	{
 		m_propertyDesc = desc;
 
+		m_constantBlock.clear();
+		m_constBuffers.clear();
+		m_resourceBlock.clear();
+		m_samplerBlock.clear();
+
 		if (m_propertyDesc._bindBuffers.size() != 0)
 		{
 			assert(m_propertyDesc._bindBuffers[0]._name == TEXT("PerMaterial"));

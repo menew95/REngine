@@ -72,7 +72,11 @@ namespace editor
 		ImGui_ImplWin32_Shutdown();
 		ImGui::DestroyContext();
 
-		assert(EnginePlugin::GetInstance()->GetEngine()->Quit());
+		EventManager::Release();
+
+		AssetManager::Release();
+
+		EnginePlugin::Release();
 
 		return true;
 	}

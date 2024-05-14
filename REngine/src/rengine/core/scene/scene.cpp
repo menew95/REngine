@@ -46,9 +46,11 @@ namespace rengine
 		// 씬에 등록된 게임 루트 오브젝트들을 삭제
 		for (auto& _go : m_rootGameObjects)
 		{
-			DestroyImmediate(_go);
+			Object* _object = _go.get();
 
 			_go.reset();
+
+			DestroyImmediate(_object);
 		}
 
 		m_rootGameObjects.clear();

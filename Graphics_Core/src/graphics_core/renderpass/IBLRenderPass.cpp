@@ -68,21 +68,6 @@ namespace graphics
 		CreateIrradianceMap(Renderer::GetInstance()->GetCommandBuffer(), _texture);
 	}
 
-	//void IBLRenderPass::BeginExcute(CommandBuffer* command, CameraBuffer* camBuffer)
-	//{
-	//	__super::BeginExcute(command, camBuffer);
-	//}
-
-	//void IBLRenderPass::Excute(CommandBuffer* command)
-	//{
-
-	//}
-
-	//void IBLRenderPass::EndExcute(CommandBuffer* command)
-	//{
-	//	__super::EndExcute(command);
-	//}
-	
 	void IBLRenderPass::CreateIntegrateBRDFMap(CommandBuffer* command)
 	{
 		command->BeginEvent(TEXT("Intergrate BRDF Map"));

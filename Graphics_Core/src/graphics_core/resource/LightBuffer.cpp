@@ -25,6 +25,7 @@ namespace graphics
 			assert(LightManager::GetInstance()->ReleaseShadowMapSpace(this));
 			m_isSetShadowMapSpace = false;
 		}
+
 		ReleaseShadowMap();
 	}
 
@@ -55,9 +56,121 @@ namespace graphics
 
 		m_isSetShadowMapSpace = LightManager::GetInstance()->SetShadowMapSpace(this);
 
+		m_isDirty = true;
+
 		ReleaseShadowMap();
 
 		CreateShadowMap();
+	}
+
+	void LightBuffer::SetDirection(const Vector3& value)
+	{
+		if(m_lightInfo._direction == value)
+			return;
+
+		m_lightInfo._direction = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetPosition(const Vector3& value)
+	{
+		if (m_lightInfo._position == value)
+			return;
+
+		m_lightInfo._position = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetRange(float value)
+	{
+		if (m_lightInfo._attenuationRadius == value)
+			return;
+
+		m_lightInfo._attenuationRadius = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetLightColor(const math::Vector3& value)
+	{
+		if (m_lightInfo._color == value)
+			return;
+
+		m_lightInfo._color = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetIntensity(float value)
+	{
+		if (m_lightInfo._intensity == value)
+			return;
+
+		m_lightInfo._intensity = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetSpotAnlge(float value)
+	{
+		if (m_lightInfo._angle == value)
+			return;
+
+		m_lightInfo._angle = value;
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetInnerSpotAngle(float value)
+	{
+		if (m_lightInfo._innerAngle == value)
+			return;
+
+		m_lightInfo._innerAngle = value; 
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetFallOffExponential(float value)
+	{
+		if(m_lightInfo._fallOffExponential ==  value)
+			return;
+
+		m_lightInfo._fallOffExponential = value; 
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetWidth(float value)
+	{
+		if (m_lightInfo._width == value)
+			return;
+
+		m_lightInfo._width = value; 
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetUp(const Vector3& value)
+	{
+		if (m_lightInfo._up == value)
+			return;
+
+		m_lightInfo._up = value; 
+		
+		m_isDirty = true;
+	}
+
+	void LightBuffer::SetHeight(float value)
+	{
+		if (m_lightInfo._height == value)
+			return;
+
+		m_lightInfo._height = value;
+		
+		m_isDirty = true;
 	}
 
 	void LightBuffer::SetResolution(uint32 value)
@@ -74,7 +187,9 @@ namespace graphics
 		m_shadowInfo._resolution = value;
 
 		m_isSetShadowMapSpace = LightManager::GetInstance()->SetShadowMapSpace(this);
-		
+
+		m_isDirty = true;
+
 		ReleaseShadowMap();
 
 		CreateShadowMap();
@@ -93,6 +208,8 @@ namespace graphics
 		m_lightInfo._direction = world.Forward();
 
 		m_lightInfo._up = world.Up();
+
+		m_isDirty = true;
 	}
 
 	math::Vector2 CalcResolution(LightType type, uint32 resolution)

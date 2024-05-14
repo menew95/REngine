@@ -73,10 +73,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	auto _applicationConstructor = (app::ApplicationConstructor)_rengineModule->LoadProcedure("CreateApplication");
 
-	auto _applicationDestructor = (app::ApplicationDestructor)_rengineModule->LoadProcedure("QuitApplication");
+	//auto _applicationDestructor = (app::ApplicationDestructor)_rengineModule->LoadProcedure("QuitApplication");
 
 	auto* _application = _applicationConstructor();
-
 
 	{
 		if (_application->Initallize(true, hInstance, TEXT("ClientWindow"), TEXT("Client"), 1280, 720) == false)
@@ -105,8 +104,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 		_application->Quit();
 	}
-
-	//_applicationDestructor();
 
 	_rengineModule.reset();
 

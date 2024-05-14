@@ -95,20 +95,22 @@ namespace graphics
         {
             if (m_perObject._world == val)
             {
-                m_bIsMove = false;
+                m_isDirty = false;
                 return;
             }
 
             m_perObject._world = val;
             m_perObject._worldInv = val.Invert().Transpose();
 
-            m_bIsMove= true;
+            m_isDirty = true;
         }
 
         GRAPHICS_API virtual void SetBoundinBoxMin(const math::Vector3& min) { m_boundingBoxMin = min; }
         GRAPHICS_API virtual void SetBoundinBoxMax(const math::Vector3& max) { m_boundingBoxMax = max; }
 
         virtual RenderType GetRenderType() abstract;
+
+        bool IsDirty() { return m_isDirty;}
 
     protected:
         uuid m_uuid;
@@ -122,7 +124,7 @@ namespace graphics
 
         bool m_bIsCull = false;
 
-        bool m_bIsMove = false;
+        bool m_isDirty = false;
 
         PerObject m_perObject;
 

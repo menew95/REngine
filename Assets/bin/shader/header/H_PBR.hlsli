@@ -45,14 +45,15 @@ float3 CookTorrance_GGX(in float roughness2
 	, in float metallic
 	, in float3 specColor
 	, in float3 diffColor
-	, in float NoH
-	, in float NoV
-	, in float NoL
-	, in float HoV)
+	, in float NdotV
+	, in float NdotL
+	, in float LdotH
+	, in float NdotH
+)
 {
-    float3 F = FresnelSchlick(HoV, specColor);
-	float G = Vis_SmithJoint(roughness2, NoV, NoL);
-	float D = GGX_Distribution(NoH, roughness2);
+    float3 F = FresnelSchlick(LdotH, specColor);
+	float G = Vis_SmithJoint(roughness2, NdotV, NdotL);
+	float D = GGX_Distribution(NdotH, roughness2);
 
 	float3 specK = F * G * D;
 
@@ -61,23 +62,7 @@ float3 CookTorrance_GGX(in float roughness2
 
 	float3 diffK = Diffuse_Lambert(kD * diffColor);
 
-	return (diffK + specK) * NoL;
-}
-
-///////////////////////////////////unreal//////////////////////////////////////////////////
-
-// Single term for separable Schlick-GGX below.
-float gaSchlickG1(float cosTheta, float k)
-{
-	return cosTheta / (cosTheta * (1.0f - k) + k);
-}
-
-// Schlick-GGX approximation of geometric attenuation function using Smith's method.
-float gaSchlickGGX(float cosLi, float cosLo, float roughness)
-{
-	float r = roughness + 1.0f;
-	float k = (r * r) / 8.0f; // EPBR_PIc suggests using this roughness remapPBR_PIng for analytic lights.
-	return gaSchlickG1(cosLi, k) * gaSchlickG1(cosLo, k);
+	return (diffK + specK) * NdotL;
 }
 
 // Shlick's approximation of the Fresnel factor.
@@ -98,6 +83,20 @@ float ndfGGX(float cosLh, float roughness)
 	return alphaSq / max(PI * denom * denom, EPSILON);
 }
 
+// Single term for separable Schlick-GGX below.
+float gaSchlickG1(float cosTheta, float k)
+{
+	return cosTheta / (cosTheta * (1.0f - k) + k);
+}
+
+// Schlick-GGX approximation of geometric attenuation function using Smith's method.
+float gaSchlickGGX(float cosLi, float cosLo, float roughness)
+{
+	float r = roughness + 1.0f;
+	float k = (r * r) / 8.0f; // EPBR_PIc suggests using this roughness remapPBR_PIng for analytic lights.
+	return gaSchlickG1(cosLi, k) * gaSchlickG1(cosLo, k);
+}
+
 
 float3 Unreal_PBR(
     in float roughness
@@ -114,12 +113,10 @@ float3 Unreal_PBR(
     float D = ndfGGX(NdotH, roughness);
     float G = gaSchlickGGX(NdotL, NdotV, roughness);
 
-    //Epsilon을 넣어도 제대로 max값이 들어오지 않는것같다.. why..
     float3 specK = (F * D * G) / max(0.0000001f, 4.0 * NdotL * NdotV);
-    //float3 specK = (F) / max(Epsilon, 4.0 * NdotL * NdotV);
-    
+
     float3 diffK = albedoColor / PI;
-   
+
     return diffK + specK;
 }
 #endif

@@ -98,12 +98,12 @@ namespace rengine
 		m_pImpl->SetType(StringHelper::StringToWString(val));
 	}
 
-	void Object::DestroyImmediate(const shared_ptr<Object>& obj)
+	void Object::DestroyImmediate(Object* obj)
 	{
 		ObjectFactory::GetInstance()->DestroyImmediate(obj);
 	}
 
-	void Object::Destroy(const shared_ptr<Object>& obj, float t)
+	void Object::Destroy(Object* obj, float t)
 	{
 		ObjectFactory::GetInstance()->ReserveDestroyObject(obj, t);
 	}

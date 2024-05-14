@@ -60,6 +60,8 @@ namespace rengine
 	{
 		EventManager::Release();
 
+		SceneManager::Release();
+
 		Resources::Release();
 
 		ObjectFactory::Release();
@@ -113,6 +115,26 @@ namespace rengine
 			m_dTickTime -= 1000;
 			m_dTickCnt = 0;
 		}
+
+		return true;
+	}
+
+	bool REngine::UpdateFrame()
+	{
+		Time::GetInstance()->PreTick();
+		Input::GetInstance()->PreTick();
+
+		Timer _timer;
+
+		_timer.Lap();
+		{
+			ComponentManager::GetInstance()->UpdateComponent();
+		}
+
+		EventManager::GetInstance()->Update();
+
+		// rendering 전에 오브젝트들을 삭제
+		ObjectFactory::GetInstance()->Update();
 
 		return true;
 	}
