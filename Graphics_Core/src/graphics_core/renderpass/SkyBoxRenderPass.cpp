@@ -96,7 +96,8 @@ namespace graphics
 
 		auto& _camInfo = camBuffer->GetCameraInfo();
 
-		math::Matrix _camWorld = math::Matrix::CreateTranslation(_camInfo._cameraWorldPos);
+		math::Matrix _camWorld = math::Matrix::CreateScale(10000, 10000, 10000) *
+		math::Matrix::CreateTranslation(_camInfo._cameraWorldPos);
 
 		m_pSkyBoxMesh->SetWorld(_camWorld);
 		
@@ -121,9 +122,9 @@ namespace graphics
 	{
 		__super::Excute(command);
 
-		m_pSkyBox_CubedMatBuffer->BindPipelineState(command);
+		m_pSkyBox_ProceduralMatBuffer->BindPipelineState(command);
 
-		m_pSkyBox_CubedMatBuffer->BindResource(command);
+		m_pSkyBox_ProceduralMatBuffer->BindResource(command);
 
 		Renderer::GetInstance()->RenderMesh(m_pSkySphereMesh, 0);
 	}

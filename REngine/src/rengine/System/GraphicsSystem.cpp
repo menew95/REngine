@@ -4,6 +4,8 @@
 #include <rengine\system\Time.h>
 
 #include <rengine\core\EventManager.h>
+#include <rengine\core\resources.h>
+#include <rengine\core\resource\Material.h>
 
 #include <graphics_core\GraphicsEngine_api.h>
 
@@ -87,6 +89,12 @@ namespace rengine
 	void rengine::GraphicsSystem::SetGraphicsSetting(const GraphicsSetting& setting)
 	{
 		graphics::GraphicsSetting _setting;
+
+#pragma region SkyBox
+		_setting._skyBox._material = setting._skyBox._material != nullptr ? 
+			setting._skyBox._material->GetMaterialBuffer() :
+			Resources::GetInstance()->GetResource<Material>(TEXT("00000000-0000-0000-0000-000000000005"))->GetMaterialBuffer();
+#pragma endregion
 
 #pragma region ScreenSpaceReflectionSetting
 

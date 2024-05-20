@@ -847,17 +847,6 @@ namespace editor
 							tstring _propName;
 						};
 
-						auto _event = [](void* userData, const shared_ptr<rengine::Object>& obj)
-							{
-								tstring* _propName = reinterpret_cast<tstring*>(userData);
-
-								auto _texture = static_pointer_cast<rengine::Texture>(obj);
-
-								auto* _material = reinterpret_cast<rengine::Material*>(EventManager::GetInstance()->GetFocusObject());
-
-								_material->SetTexture(*_propName, _texture);
-							};
-
 						ImGui::Columns(2);
 						ImGui::Text(_prop.GetNameStr().c_str());
 						ImGui::NextColumn();
@@ -866,7 +855,20 @@ namespace editor
 						{
 							m_propName = _prop.GetName();
 
-							SearchView::OpenSeachView("Texture", &m_propName, _event);
+							auto _itemClickEvent = [&](tstring propName, const shared_ptr<rengine::Object>& obj)
+								{
+									auto _texture = static_pointer_cast<rengine::Texture>(obj);
+
+									auto* _material = reinterpret_cast<rengine::Material*>(EventManager::GetInstance()->GetFocusObject());
+
+									_material->SetTexture(propName, _texture);
+								};
+
+
+							SearchView::OpenSeachView("Texture"
+								, std::bind(_itemClickEvent, m_propName, std::placeholders::_1)
+								, std::bind(&rengine::ObjectFactory::FindObjectsOfType, rengine::ObjectFactory::GetInstance(), TEXT("Texture"))
+							);
 						}
 						ImGui::EndColumns();
 					}

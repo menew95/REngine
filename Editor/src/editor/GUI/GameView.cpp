@@ -360,6 +360,12 @@ namespace editor
 		);
 		_info._worldViewProj = math::Matrix::CreateTranslation(_info._cameraWorldPos) * _info._view * _info._proj;
 
+		_info._viewProj = _info._view * _info._proj;
+
+		_info._viewProjInv = _info._viewProj.Invert();
+
+		_info._viewProjInvTranspose = _info._viewProjInv.Transpose();
+
 		m_pGameViewCameraBuffer->Update(_info);
 	}
 

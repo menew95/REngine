@@ -9,6 +9,14 @@
 
 namespace utility
 {
+	void SeializeGraphicsSetting(rttr::instance& instance, boost::property_tree::ptree& pt)
+	{
+		for(auto& prop : instance.get_type().get_properties())
+		{
+			GetProperty(pt, prop, instance);
+		}
+	}
+
 	void SceneSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
 	{
 		pt.clear();
@@ -18,9 +26,30 @@ namespace utility
 
 		rengine::Scene* _scene = reinterpret_cast<rengine::Scene*>(object);
 
+		boost::property_tree::ptree _graphicsSetting;
+
+		rttr::instance _instance = _scene->GetGraphicsSetting();
+
+		SeializeGraphicsSetting(_instance, _graphicsSetting);
+
+		pt.push_back(make_pair("GraphicsSettings", _graphicsSetting));
+
 		for (auto _go : _scene->GetRootGameObjects())
 		{
 			GameObjectSerializer::Serialize(_go.get(), pt);
+		}
+	}
+
+	void DeSeializeGraphicsSetting(rttr::variant& variant, boost::property_tree::ptree& pt)
+	{
+		auto _variant_type = variant.get_type();
+
+		for (auto& prop : _variant_type.get_properties())
+		{
+			auto _iter = pt.find(prop.get_name().to_string());
+
+			SetProperty((*_iter).second, prop, variant);
+
 		}
 	}
 
@@ -50,13 +79,24 @@ namespace utility
 
 		_scene->SetPath(path);
 
+		rengine::GraphicsSetting _setting;
+
+		rttr::variant _instance = _setting;
+
+		auto _iter = pt.find("GraphicsSettings");
+
+		DeSeializeGraphicsSetting(_instance, (*_iter).second);
+
+		_setting = _instance.convert<rengine::GraphicsSetting>();
+
+
 		assert(_scene != nullptr);
 
 		vector<shared_ptr<rengine::Object>> _list;
 
-		for (auto& _node : pt)
+		for (auto& _node : pt)//(*_iter).second)
 		{
-			if(_node.first == "uuid")
+			if(_node.first == "GraphicsSettings")
 				continue;
 
 			auto _typeIter = _node.second.get_child("m_typeName");
@@ -72,7 +112,7 @@ namespace utility
 
 		for (auto& _node : pt)
 		{
-			if (_node.first == "uuid")
+			if (_node.first == "GraphicsSettings")
 				continue;
 
 			auto _typeIter = _node.second.get_child("m_typeName");

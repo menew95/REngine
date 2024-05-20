@@ -136,6 +136,18 @@ namespace graphics
     };
 #pragma endregion
 
+    enum class SkyBoxType
+    {
+        Cubed = 0,
+        Panoramic = 1,
+        Procedural = 2,
+    };
+
+    struct SkyBox
+    {
+        class MaterialBuffer* _material;
+    };
+
     struct alignas(16) PostProcessingSetting
     {
         PostProcessingSetting() = default;
@@ -159,6 +171,8 @@ namespace graphics
         GraphicsSetting() = default;
 
         ~GraphicsSetting() = default;
+
+        SkyBox _skyBox;
 
         PostProcessingSetting _postProcessingSetting;
     };

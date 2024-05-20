@@ -105,7 +105,7 @@ namespace editor
 
 						// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
 						if (_asset != nullptr)
-							SetProperty(this, _asset);
+							SetProperty(_asset);
 					}
 
 					ImGui::EndDragDropTarget();
@@ -143,7 +143,7 @@ namespace editor
 
 							// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
 							if (_asset != nullptr)
-								SetProperty(this, _asset);
+								SetProperty(_asset);
 						}
 
 						ImGui::EndDragDropTarget();
@@ -180,7 +180,7 @@ namespace editor
 
 					// 만약 에셋이 다른 타입일 경우를 처리하기 위해 일단 이렇게 처리
 					if (_asset != nullptr)
-						SetProperty(this, _asset);
+						SetProperty(_asset);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -189,20 +189,29 @@ namespace editor
 
 		if (_openSeachView)
 		{
-			SearchView::OpenSeachView(_objName, this, &ObjectButton::SetProperty);
+			auto _functor = [](tstring filter)
+				{
+					return rengine::ObjectFactory::GetInstance()->FindObjectsOfType(filter);
+				};
+
+			tstring _filter = StringHelper::StringToWString(_objName);
+
+			SearchView::OpenSeachView(_objName
+			, std::bind(&ObjectButton::SetProperty, this, std::placeholders::_1)
+			//, std::bind(_functor, StringHelper::StringToWString(_objName))
+			, std::bind(_functor, _filter)
+			);
 		}
 
 		ImGui::PopStyleColor();
 
 	}
 
-	void ObjectButton::SetProperty(void* thisClass, const shared_ptr<rengine::Object>& obj)
+	void ObjectButton::SetProperty(const shared_ptr<rengine::Object>& obj)
 	{
-		ObjectButton* _this = reinterpret_cast<ObjectButton*>(thisClass);
-
-		if (_this->m_bIsArray)
+		if (m_bIsArray)
 		{
-			auto _seq = _this->m_data.create_sequential_view();
+			auto _seq = m_data.create_sequential_view();
 
 			// shared_ptr<object> => shared_ptr<해당클래스>
 			rttr::variant _var = obj;
@@ -215,15 +224,17 @@ namespace editor
 				_seq.set_value(0, _var);
 			}
 			else
-				_seq.set_value(_this->m_arrayIndex, _var);
+				_seq.set_value(m_arrayIndex, _var);
 
-			_this->m_setter(_this->m_data);
+			//m_setter(m_data);
 		}
 		else
 		{
-			_this->m_data = obj;
+			m_data = obj;
 
-			_this->m_setter(_this->m_data);
+			//m_setter(m_data);
 		}
+
+		m_isValChange = true;
 	}
 }

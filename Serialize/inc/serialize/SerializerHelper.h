@@ -43,27 +43,27 @@ namespace utility
 	void serializeConfig(const math::Matrix& m, std::string& valueName, boost::property_tree::ptree& pt);
 
 	template<typename T>
-	T parseConfig(boost::property_tree::ptree& pt)
+	T parseConfig(const boost::property_tree::ptree& pt)
 	{
 		//static_assert(false, "need template specialization for T");
 	}
 
 	template<>
-	math::Vector2 parseConfig(boost::property_tree::ptree& pt);
+	math::Vector2 parseConfig(const boost::property_tree::ptree& pt);
 
 	template<>
-	math::Vector3 parseConfig(boost::property_tree::ptree& pt);
+	math::Vector3 parseConfig(const boost::property_tree::ptree& pt);
 
 	template<>
-	math::Vector4 parseConfig(boost::property_tree::ptree& pt);
+	math::Vector4 parseConfig(const boost::property_tree::ptree& pt);
 
 	template<>
-	math::Color parseConfig(boost::property_tree::ptree& pt);
+	math::Color parseConfig(const boost::property_tree::ptree& pt);
 
 	template<>
-	math::Matrix parseConfig(boost::property_tree::ptree& pt);
+	math::Matrix parseConfig(const boost::property_tree::ptree& pt);
 
-	void GetProperty(boost::property_tree::ptree& pt, rttr::property& property, rengine::Object* object);
+	void GetProperty(boost::property_tree::ptree& pt, const rttr::property& property, const rttr::instance& object);
 
-	void SetProperty(boost::property_tree::ptree& pt, rttr::property& property, shared_ptr<rengine::Object> object);
+	void SetProperty(const boost::property_tree::ptree& pt, const rttr::property& property, rttr::variant& object);
 }

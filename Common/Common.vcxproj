@@ -169,6 +169,7 @@
     <ClInclude Include="inc\common\prefix.h" />
     <ClInclude Include="inc\common\singleton.h" />
     <ClInclude Include="inc\common\string_helper.h" />
+    <ClInclude Include="inc\common\ThreadPool.h" />
     <ClInclude Include="inc\common\types.h" />
     <ClInclude Include="inc\common\uuid.h" />
     <ClInclude Include="inc\common\vertex_attribute.h" />

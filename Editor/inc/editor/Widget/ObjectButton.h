@@ -25,7 +25,7 @@ namespace editor
         void Draw() override;
 
     protected:
-        static void SetProperty(void* _this, const shared_ptr<rengine::Object>& obj);
+        void SetProperty(const shared_ptr<rengine::Object>& obj);
 
         bool m_bIsArray = false;
         size_t m_arrayIndex = false;

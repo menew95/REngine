@@ -297,7 +297,7 @@ namespace rengine
 
 		auto _defaultSkyBoxProceduralMaterial = Resources::GetInstance()->CreateResource<Material>(TEXT("00000000-0000-0000-0000-000000000005"));
 
-		_defaultSkyBoxProceduralMaterial->SetName(TEXT("Default"));
+		_defaultSkyBoxProceduralMaterial->SetName(TEXT("Default Skybox-Procedural"));
 
 		_defaultSkyBoxProceduralMaterial->SetRenderPassID(TEXT("SkyBox Pass"));
 

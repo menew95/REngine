@@ -251,14 +251,34 @@ namespace rengine
         RTTR_ENABLE()
     };
 
+    struct RENGINE_API SkyBox
+    {
+        SkyBox() = default;
+        ~SkyBox() = default;
+
+        class Material* GetMaterial() { return _material; }
+        void SetMaterial(class Material* val) { _material = val; }
+
+        class Material* _material;
+
+        RTTR_REGISTRATION_FRIEND
+
+        RTTR_ENABLE()
+    };
+
     struct RENGINE_API GraphicsSetting
     {
         GraphicsSetting() = default;
 
         ~GraphicsSetting() = default;
 
+        SkyBox* GetSkyBox() { return &_skyBox; }
+        void SetSkyBox(SkyBox* setting) { _skyBox = *setting; }
+
         PostProcessingSetting* GetPostProcessingSetting() { return &_postProcessingSetting; }
         void SetPostProcessingSetting(PostProcessingSetting* setting) { _postProcessingSetting = *setting; }
+
+        SkyBox _skyBox;
 
         PostProcessingSetting _postProcessingSetting;
 

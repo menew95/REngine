@@ -12,6 +12,8 @@
 
 #include <editor\GUI\View.h>
 
+#include <common\Event.h>
+
 namespace rengine
 {
     class Object;
@@ -34,14 +36,36 @@ namespace editor
         
         void EDITOR_API End() override;
 
-        static void OpenSeachView(string searchType, void* hander = nullptr, ButtonEvent buttonEvent = nullptr);
+        static void OpenSeachView(string searchType
+        , const std::function<void(const shared_ptr<rengine::Object>&)>& itemClickEvent
+        , const std::function<map<uuid, std::shared_ptr<rengine::Object>>()>& objectFilterFunc
+        );
         //static void OpenSeachView(string searchType,  void (*ButtonEvent)(const shared_ptr<rengine::Object>& obj) = nullptr);
+
+        void SetFindObjectListFunc(const auto& functor)
+        {
+            m_findObjectListEvent = functor;
+
+            m_isAllFunctorSet = true;
+        }
+
+        void SetObjectMap(const auto& list)
+        {
+            m_userData._objectMap = list;
+
+            m_userData._objectList.clear();
+
+            for (auto _pair : m_userData._objectMap)
+            {
+                m_userData._objectList.push_back(_pair.second);
+            }
+        }
 
     private:
         string m_searchType;
 
-        void* m_pHandler = nullptr;
-        ButtonEvent m_pBtnEvent = nullptr;
+        // input text buffer
+        char m_searchTextBuf[256];
 
         // 람다식에서 캡처를 쓰면 함수 포인터로 사용이 불가능하기에 일단 이렇게 사용한다.
         struct ImGUiUserData
@@ -51,5 +75,11 @@ namespace editor
         };
 
         ImGUiUserData m_userData;
+
+        bool m_isAllFunctorSet = false;
+
+        std::function<map<uuid, std::shared_ptr<rengine::Object>>()> m_findObjectListEvent;
+
+        std::function<void(const shared_ptr<rengine::Object>&)> m_clickItemEvent;
     };
 }

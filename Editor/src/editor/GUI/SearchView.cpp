@@ -32,19 +32,14 @@ namespace editor
 	{
 		__super::Render();
 
-		struct UserData
-		{
-			map<uuid, std::shared_ptr<rengine::Object>> _objectMap;
-			vector<shared_ptr<rengine::Object>> _objectList;
-		};
+		//auto _objectMap = m_findObjectListEvent();
 
-		auto _objectMap = rengine::ObjectFactory::GetInstance()->FindObjectsOfType(StringHelper::StringToWString(m_searchType));
-
-		static char _buf[256];
 		int (*FindObject)(ImGuiInputTextCallbackData*)
 			= [](ImGuiInputTextCallbackData* data)
 			{
 				tstring _searchName = StringHelper::ToWString(data->Buf);
+
+				std::transform(_searchName.begin(), _searchName.end(), _searchName.begin(), ::tolower);
 
 				ImGUiUserData* _userData = reinterpret_cast<ImGUiUserData*>(data->UserData);
 
@@ -52,7 +47,11 @@ namespace editor
 
 				for (auto& _pair : _userData->_objectMap)
 				{
-					if (_pair.second->GetName().find(_searchName) != tstring::npos)
+					auto _objectName = _pair.second->GetName();
+
+					std::transform(_objectName.begin(), _objectName.end(), _objectName.begin(), ::tolower);
+
+					if (_objectName.find(_searchName) != tstring::npos)
 					{
 						_userData->_objectList.push_back(_pair.second);
 					}
@@ -61,9 +60,9 @@ namespace editor
 				return 0;
 			};
 
-		if (ImGui::InputTextEx("Object Name", "", _buf, IM_ARRAYSIZE(_buf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject, &m_userData))
+		if (ImGui::InputTextEx("Object Name", "", m_searchTextBuf, IM_ARRAYSIZE(m_searchTextBuf), ImVec2(.0f, 0.f), ImGuiInputTextFlags_CallbackEdit, FindObject, &m_userData))
 		{
-
+			// 텍스트 비교로 오브젝트를 필터링 따로 이벤트 매니저에서 처리할 방법은 없나?
 		}
 
 		ImGui::PushID("Find Object");
@@ -71,17 +70,17 @@ namespace editor
 
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
 
-		if (ImGui::ButtonEx("None##0", ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
+		if (ImGui::ButtonEx("None##0", ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick))
 		{
-			m_pBtnEvent(m_pHandler, nullptr);
+			m_clickItemEvent(nullptr);
 			m_bOpen = false;
 		}
 
 		for (auto& _obj : m_userData._objectList)
 		{
-			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick) && m_pBtnEvent != nullptr && m_pHandler != nullptr)
+			if (ImGui::ButtonEx(_obj->GetNameStr().c_str(), ImVec2(ImGui::GetWindowWidth() * 0.9f, 0.f), ImGuiButtonFlags_PressedOnDoubleClick))
 			{
-				m_pBtnEvent(m_pHandler, _obj);
+				m_clickItemEvent(_obj);
 				m_bOpen = false;
 			}
 		}
@@ -97,15 +96,19 @@ namespace editor
 
 	}
 
-	void SearchView::OpenSeachView(string searchType, void* handler, ButtonEvent buttonEvent)
+	void SearchView::OpenSeachView(string searchType
+	, const std::function<void(const shared_ptr<rengine::Object>&)>& itemClickEvent
+	, const std::function< map<uuid, std::shared_ptr<rengine::Object>>()>& objectFilterFunc)
 	{
 		g_pSearchView->m_bOpen = true;
 		g_pSearchView->m_searchType = searchType;
 
-		g_pSearchView->m_pHandler = handler;
-		g_pSearchView->m_pBtnEvent = buttonEvent;
+		g_pSearchView->m_clickItemEvent = itemClickEvent;
+		g_pSearchView->m_findObjectListEvent = objectFilterFunc;
 
-		g_pSearchView->m_userData._objectMap = rengine::ObjectFactory::GetInstance()->FindObjectsOfType(StringHelper::StringToWString(searchType));
+		memset(g_pSearchView->m_searchTextBuf, 0, sizeof(m_searchTextBuf));
+
+		g_pSearchView->m_userData._objectMap = objectFilterFunc();//rengine::ObjectFactory::GetInstance()->FindObjectsOfType(StringHelper::StringToWString(searchType));
 
 		g_pSearchView->m_userData._objectList.clear();
 

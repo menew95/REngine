@@ -3,6 +3,8 @@
 
 #include <rengine\system\ObjectFactory.h>
 
+using namespace rttr;
+
 namespace utility
 {
 	void ObjectSerializer::Serialize(rengine::Object* object, boost::property_tree::ptree& pt)
@@ -54,7 +56,9 @@ namespace utility
 			if(!_prop.is_valid())
 				continue;
 
-			SetProperty(_property_node.second, _prop, _object);
+			rttr::variant _variant = _object;
+
+			SetProperty(_property_node.second, _prop, _variant);
 		}
 
 		return _object;

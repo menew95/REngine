@@ -1,5 +1,7 @@
 ﻿#include <rengine\System\GraphicsSetting.h>
 
+#include <rengine\core\resource\Material.h>
+
 #include <rttr\registration.h>
 
 using namespace rttr;
@@ -176,8 +178,24 @@ RTTR_PLUGIN_REGISTRATION
 	)
 	;
 
+	registration::class_<rengine::SkyBox>("SkyBox")
+	.constructor<>()
+	.property("Material", &rengine::SkyBox::GetMaterial, &rengine::SkyBox::SetMaterial)
+	(
+		metadata(rengine::MetaData::Serializable, rengine::MetaDataType::UUID),
+		metadata(rengine::MetaData::Editor, rengine::MetaDataType::UUID),
+		metadata("Columns Size", columns_size[1])
+	)
+	;
+
 	registration::class_<rengine::GraphicsSetting>("GraphicsSetting")
 	.constructor<>()
+	.property("SkyBox", &rengine::GraphicsSetting::GetSkyBox, &rengine::GraphicsSetting::SetSkyBox)
+	(
+		metadata(rengine::MetaData::Serializable, rengine::MetaDataType::Structure),
+		metadata(rengine::MetaData::Editor, rengine::MetaDataType::Structure),
+		metadata("Columns Size", columns_size[0])
+	)
 	.property("PostProcessingSetting", &rengine::GraphicsSetting::GetPostProcessingSetting, &rengine::GraphicsSetting::SetPostProcessingSetting)
 	(
 		metadata(rengine::MetaData::Serializable, rengine::MetaDataType::Structure),

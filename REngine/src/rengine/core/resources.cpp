@@ -14,6 +14,8 @@
 
 #include <rengine\utility\DefaultResourceBuilder.h>
 
+#include <common\ThreadPool.h>
+
 namespace fs = std::filesystem;
 
 inline bool CheckPathExist(const tstring& path)
@@ -183,19 +185,36 @@ namespace rengine
 
 	void rengine::Resources::LoadAssets(map<tstring, vector<tstring>>& gather)
 	{
+		static ThreadPool g_threadPool(8);
+
+		g_threadPool.init();
+
 		for (const auto& _path : gather[TEXT("mesh")])
 		{
-			Load<Mesh>(_path);
-		}
+			auto task = [&](const tstring& path){
+				Resources::GetInstance()->Load<Mesh>(path);
+			};
 
-		for (const auto& _path : gather[TEXT("anim")])
-		{
-			Load<AnimationClip>(_path);
+			g_threadPool.submit(task, _path);
 		}
 
 		for (const auto& _path : gather[TEXT("texture")])
 		{
 			Load<Texture>(_path);
+
+			g_threadPool.submit(std::bind(&Resources::Load<Texture>, Resources::GetInstance(), _path));
+		}
+
+		while (g_threadPool.GetJobCount())
+		{
+			int a = 0;
+		}
+
+		g_threadPool.shutdown();
+
+		for (const auto& _path : gather[TEXT("anim")])
+		{
+			Load<AnimationClip>(_path);
 		}
 
 		for (const auto& _path : gather[TEXT("material")])

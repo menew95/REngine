@@ -70,7 +70,7 @@ namespace utility
 	}
 
 	template<>
-	math::Vector2 parseConfig(boost::property_tree::ptree& pt)
+	math::Vector2 parseConfig(const boost::property_tree::ptree& pt)
 	{
 		math::Vector2 _data;
 
@@ -81,7 +81,7 @@ namespace utility
 	}
 
 	template<>
-	math::Vector3 parseConfig(boost::property_tree::ptree& pt)
+	math::Vector3 parseConfig(const boost::property_tree::ptree& pt)
 	{
 		math::Vector3 _data;
 
@@ -93,7 +93,7 @@ namespace utility
 	}
 
 	template<>
-	math::Vector4 parseConfig(boost::property_tree::ptree& pt)
+	math::Vector4 parseConfig(const boost::property_tree::ptree& pt)
 	{
 		math::Vector4 _data;
 
@@ -106,7 +106,7 @@ namespace utility
 	}
 
 	template<>
-	math::Color parseConfig(boost::property_tree::ptree& pt)
+	math::Color parseConfig(const boost::property_tree::ptree& pt)
 	{
 		math::Color _data;
 
@@ -119,7 +119,7 @@ namespace utility
 	}
 
 	template<>
-	math::Matrix parseConfig(boost::property_tree::ptree& pt)
+	math::Matrix parseConfig(const boost::property_tree::ptree& pt)
 	{
 		math::Matrix _data;
 
@@ -419,15 +419,20 @@ namespace utility
 			}
 			case rengine::MetaDataType::UUID:
 			{
-				auto _obj_type = value.get_type();
-				
-				auto _uuid_prop = _obj_type.get_wrapped_type().get_property("m_uuid");
-				
-				assert(_uuid_prop.is_valid());
+				string _str_uuid = "";
 
-				auto _uuid = _uuid_prop.get_value(value).convert<uuid>();
+				if (value != nullptr)
+				{
+					auto _obj_type = value.get_type();
 
-				auto _str_uuid = StringHelper::WStringToString(_uuid);
+					auto _uuid_prop = _obj_type.get_wrapped_type().get_property("m_uuid");
+
+					assert(_uuid_prop.is_valid());
+
+					auto _uuid = _uuid_prop.get_value(value).convert<uuid>();
+
+					_str_uuid = StringHelper::WStringToString(_uuid);
+				}
 
 				pt.put(name, _str_uuid);
 
@@ -482,6 +487,23 @@ namespace utility
 
 				break;
 			}
+			case rengine::MetaDataType::Structure:
+			{
+				auto childProps = value.get_type().get_properties();
+
+				boost::property_tree::ptree _struct_pt;
+
+				rttr::instance _instance = value;
+				
+				for (auto& childProp : childProps)
+				{
+					GetProperty(_struct_pt, childProp, _instance);
+				}
+
+				pt.push_back(make_pair(name, _struct_pt));
+
+				break;
+			}
 			default:
 			{
 				assert(false);
@@ -490,7 +512,7 @@ namespace utility
 		}
 	}
 
-	void GetProperty(boost::property_tree::ptree& pt, rttr::property& property, rengine::Object* object)
+	void GetProperty(boost::property_tree::ptree& pt, const rttr::property& property, const rttr::instance& object)
 	{
 		rttr::variant _metaVariant = property.get_metadata(rengine::MetaData::Serializable);
 
@@ -519,7 +541,7 @@ namespace utility
 		}
 	}
 
-	void SetPropertyArray(boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
+	void SetPropertyArray(const boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
 	{
 		switch (metaDataType)
 		{
@@ -776,7 +798,7 @@ namespace utility
 		}
 	}
 
-	void SetPropertySingle(boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
+	void SetPropertySingle(const boost::property_tree::ptree& pt, const rttr::property& prop, rttr::variant& object, rengine::MetaDataType metaDataType)
 	{
 		switch (metaDataType)
 		{
@@ -879,6 +901,8 @@ namespace utility
 			{
 				auto _data = pt.get<float>("");
 
+				auto _t = object.get_type();
+
 				assert(prop.set_value(object, _data));
 
 				break;
@@ -891,6 +915,24 @@ namespace utility
 
 				break;
 			}
+			case rengine::MetaDataType::Structure:
+			{
+				auto _childVariant = prop.get_value(object);
+
+				auto _childVariantType = _childVariant.get_type();
+
+				for (auto& childProp : _childVariantType.get_properties())
+				{
+					auto _iter = pt.find(childProp.get_name().to_string());
+
+					SetProperty((*_iter).second, childProp, _childVariant);
+
+				}
+
+				prop.set_value(object, _childVariant);
+
+				break;
+			}
 			case rengine::MetaDataType::ENUM:
 			default:
 				assert(false);
@@ -898,9 +940,9 @@ namespace utility
 		}
 	}
 
-	void SetProperty(boost::property_tree::ptree& pt, rttr::property& prop, shared_ptr<rengine::Object> object)
+	void SetProperty(const boost::property_tree::ptree& pt, const rttr::property& property, rttr::variant& object)
 	{
-		rttr::variant _metaVariant = prop.get_metadata(rengine::MetaData::Serializable);
+		rttr::variant _metaVariant = property.get_metadata(rengine::MetaData::Serializable);
 
 		if (!_metaVariant.is_valid())
 			return;
@@ -910,20 +952,20 @@ namespace utility
 
 		rengine::MetaDataType _metaDataType = _metaVariant.get_value<rengine::MetaDataType>();
 
-		rttr::variant _value(object.get());
+		//rttr::variant _value = object;
 
-		if (!_value.is_valid())
+		if (!object.is_valid())
 			return;
 
-		string _propName = prop.get_name().to_string();
+		string _propName = property.get_name().to_string();
 
-		if (prop.get_type().is_sequential_container())
+		if (property.get_type().is_sequential_container())
 		{
-			SetPropertyArray(pt, prop, _value, _metaDataType);
+			SetPropertyArray(pt, property, object, _metaDataType);
 		}
 		else
 		{
-			SetPropertySingle(pt, prop, _value, _metaDataType);
+			SetPropertySingle(pt, property, object, _metaDataType);
 		}
 	}
 }
