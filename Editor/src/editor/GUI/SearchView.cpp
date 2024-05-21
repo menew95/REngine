@@ -9,6 +9,8 @@ namespace editor
 
 	SearchView::SearchView()
 		: View("Search")
+		, m_findObjectListEvent(nullptr)
+		, m_clickItemEvent(nullptr)
 	{
 		assert(g_pSearchView == nullptr);
 
@@ -96,14 +98,21 @@ namespace editor
 
 	}
 
+	SearchView& SearchView::GetInstance()
+	{
+		return *g_pSearchView;
+	}
+
 	void SearchView::OpenSeachView(string searchType
 	, const std::function<void(const shared_ptr<rengine::Object>&)>& itemClickEvent
-	, const std::function< map<uuid, std::shared_ptr<rengine::Object>>()>& objectFilterFunc)
+	, const std::function< map<uuid, std::shared_ptr<rengine::Object>>()>& objectFilterFunc
+	)
 	{
 		g_pSearchView->m_bOpen = true;
 		g_pSearchView->m_searchType = searchType;
 
 		g_pSearchView->m_clickItemEvent = itemClickEvent;
+		
 		g_pSearchView->m_findObjectListEvent = objectFilterFunc;
 
 		memset(g_pSearchView->m_searchTextBuf, 0, sizeof(m_searchTextBuf));

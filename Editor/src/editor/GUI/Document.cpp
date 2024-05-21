@@ -15,7 +15,7 @@ namespace editor
 
 	Document::~Document()
 	{
-		
+		m_childs.clear();
 	}
 
 	void Document::Begin()

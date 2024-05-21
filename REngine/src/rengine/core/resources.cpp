@@ -191,16 +191,14 @@ namespace rengine
 
 		for (const auto& _path : gather[TEXT("mesh")])
 		{
-			auto task = [&](const tstring& path){
-				Resources::GetInstance()->Load<Mesh>(path);
-			};
+			//Load<Mesh>(_path);
 
-			g_threadPool.submit(task, _path);
+			g_threadPool.submit(std::bind(&Resources::Load<Mesh>, Resources::GetInstance(), _path));
 		}
 
 		for (const auto& _path : gather[TEXT("texture")])
 		{
-			Load<Texture>(_path);
+			//Load<Texture>(_path);
 
 			g_threadPool.submit(std::bind(&Resources::Load<Texture>, Resources::GetInstance(), _path));
 		}
@@ -277,8 +275,17 @@ namespace rengine
 
 		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
 
+		static mutex _mutex;
+
+		_mutex.lock();
+
 		if (m_meshMap.find(_metaInfo._guid) != m_meshMap.end())
+		{
+			_mutex.unlock();
 			return m_meshMap[_metaInfo._guid];
+		}
+
+		_mutex.unlock();
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Mesh> _res;
@@ -301,8 +308,16 @@ namespace rengine
 
 		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
 
+		static mutex _mutex;
+
+		_mutex.lock();
+
 		if (m_materialMap.find(_metaInfo._guid) != m_materialMap.end())
+		{
+			_mutex.unlock();
 			return m_materialMap[_metaInfo._guid];
+		}
+		_mutex.unlock();
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Material> _res;
@@ -312,7 +327,11 @@ namespace rengine
 
 		_res->LoadMemory();
 
+		_mutex.lock();
+
 		m_materialMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		_mutex.unlock();
 
 		return _res;
 	}
@@ -325,8 +344,17 @@ namespace rengine
 
 		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
 
+		static mutex _mutex;
+
+		_mutex.lock();
+
 		if (m_textureMap.find(_metaInfo._guid) != m_textureMap.end())
+		{
+			_mutex.unlock();
 			return m_textureMap[_metaInfo._guid];
+		}
+
+		_mutex.unlock();
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Texture> _res;
@@ -336,7 +364,11 @@ namespace rengine
 
 		_res->LoadMemory();
 
+		_mutex.lock();
+
 		m_textureMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		_mutex.unlock();
 
 		return _res;
 	}
@@ -349,8 +381,16 @@ namespace rengine
 
 		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
 
+		static mutex _mutex;
+
+		_mutex.lock();
+
 		if(m_animationClipMap.find(_metaInfo._guid) != m_animationClipMap.end())
+		{
+			_mutex.unlock();
 			return m_animationClipMap[_metaInfo._guid];
+		}
+		_mutex.unlock();
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<AnimationClip> _res;
@@ -360,7 +400,11 @@ namespace rengine
 
 		_res->LoadMemory();
 
+		_mutex.lock();
+
 		m_animationClipMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		_mutex.unlock();
 
 		return _res;
 	}
@@ -373,8 +417,17 @@ namespace rengine
 
 		auto _metaInfo = utility::Serializer::SerializeMetaInfo(path);
 
+		static mutex _mutex;
+
+		_mutex.lock();
+
 		if (m_modelMap.find(_metaInfo._guid) != m_modelMap.end())
+		{
+			_mutex.unlock();
 			return m_modelMap[_metaInfo._guid];
+		}
+
+		_mutex.unlock();
 
 		auto _obj = utility::Serializer::DeSerialize(path);
 		shared_ptr<Model> _res;
@@ -384,7 +437,11 @@ namespace rengine
 
 		_res->LoadMemory();
 
+		_mutex.lock();
+
 		m_modelMap.insert(make_pair(_obj->GetUUID(), _res));
+
+		_mutex.unlock();
 
 		return _res;
 	}

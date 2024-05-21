@@ -40,6 +40,8 @@ namespace rengine
         template<typename T>
         shared_ptr<T> CreateObject()
         {
+            std::lock_guard _quard(m_objectFactoryMutex);
+
             static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
 
             uuid _uuid = UUIDGenerator::Generate();
@@ -60,6 +62,8 @@ namespace rengine
         template<typename T>
         shared_ptr<T> CreateObject(uuid uuid)
         {
+            std::lock_guard _quard(m_objectFactoryMutex);
+
             static_assert(std::is_base_of<Object, T>::value, "class doesn't derive from the base");
 
             shared_ptr<T> _object = make_shared<T>(uuid);
@@ -131,5 +135,7 @@ namespace rengine
         //vector<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
         //list<pair<float, shared_ptr<Object>>> m_reserveDestroyObjectsQueue;
         list<pair<float, Object*>> m_reserveDestroyObjectsQueue;
+
+        mutex m_objectFactoryMutex;
     };
 }

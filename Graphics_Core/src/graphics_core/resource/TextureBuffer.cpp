@@ -97,6 +97,19 @@ namespace graphics
 
 		HRESULT _hr = S_FALSE;
 
+		static bool _isInitThread = false;
+
+		static mutex _mutex;
+
+		_mutex.lock();
+		if (!_isInitThread)
+		{
+			HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+
+			_isInitThread = hr == S_OK;
+		}
+		_mutex.unlock();
+
 		switch (CheckFileFormat(path))
 		{
 			case FileFormat::DDS:
@@ -185,9 +198,13 @@ namespace graphics
 			}
 		}
 
+		_mutex.lock();
+
 		m_pTexture = ResourceManager::GetInstance()->CreateTexture(uuid, _texDesc, _imageDescs.data());
 
 		//m_pSampler = ResourceManager::GetInstance()->GetSampler(TEXT("WrapLinear"));
+
+		_mutex.unlock();
 	}
 
 	void TextureBuffer::LoadTexture(uuid uuid, TextureDesc& texDesc, const ImageDesc& imageDesc)

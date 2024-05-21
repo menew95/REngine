@@ -189,18 +189,26 @@ namespace editor
 
 		if (_openSeachView)
 		{
-			auto _functor = [](tstring filter)
+			static auto _functor = [](tstring filter)
 				{
 					return rengine::ObjectFactory::GetInstance()->FindObjectsOfType(filter);
 				};
 
 			tstring _filter = StringHelper::StringToWString(_objName);
 
+			auto _itemClick = std::bind(&ObjectButton::SetProperty, this, std::placeholders::_1);
+			auto _objectFilterFunc = std::bind(_functor, _filter);
+
+			auto _itemList = rengine::ObjectFactory::GetInstance()->FindObjectsOfType(_filter);
+
 			SearchView::OpenSeachView(_objName
+			//, _itemClick
+			//, _objectFilterFunc
 			, std::bind(&ObjectButton::SetProperty, this, std::placeholders::_1)
-			//, std::bind(_functor, StringHelper::StringToWString(_objName))
-			, std::bind(_functor, _filter)
+			, std::bind(&rengine::ObjectFactory::FindObjectsOfType, rengine::ObjectFactory::GetInstance(), _filter)
 			);
+
+			//SearchView::GetInstance().SetObjectMap(_itemList);
 		}
 
 		ImGui::PopStyleColor();
@@ -226,13 +234,13 @@ namespace editor
 			else
 				_seq.set_value(m_arrayIndex, _var);
 
-			//m_setter(m_data);
+			m_setter(m_data);
 		}
 		else
 		{
 			m_data = obj;
 
-			//m_setter(m_data);
+			m_setter(m_data);
 		}
 
 		m_isValChange = true;

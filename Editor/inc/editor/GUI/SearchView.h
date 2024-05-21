@@ -36,6 +36,8 @@ namespace editor
         
         void EDITOR_API End() override;
 
+        static SearchView& GetInstance();
+
         static void OpenSeachView(string searchType
         , const std::function<void(const shared_ptr<rengine::Object>&)>& itemClickEvent
         , const std::function<map<uuid, std::shared_ptr<rengine::Object>>()>& objectFilterFunc

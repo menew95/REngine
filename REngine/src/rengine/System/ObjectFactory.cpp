@@ -84,6 +84,8 @@ namespace rengine
 
 	shared_ptr<Object> ObjectFactory::CreateObject(string type, uuid _uuid)
 	{
+		std::lock_guard _quard(m_objectFactoryMutex);
+
 		rttr::type _objType = rttr::type::get_by_name(type);
 
 		if (!_objType.is_valid())

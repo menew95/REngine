@@ -252,9 +252,13 @@ namespace graphics
 		{
 			/* Make respective buffer type */
 			if (DXBindFlagsNeedBufferWithRV(desc._bindFlags))
+			{
 				return MakeUnique<DX11BufferRV>(device, desc, initialData);
+			}
 			else
+			{
 				return MakeUnique<DX11Buffer>(device, desc, initialData);
+			}
 		}
 
 		Buffer* DX11RenderSystem::CreateBuffer(uuid uuid, const BufferDesc& desc, const void* initData /*= nullptr*/)
