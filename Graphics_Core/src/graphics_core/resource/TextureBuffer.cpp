@@ -97,6 +97,7 @@ namespace graphics
 
 		HRESULT _hr = S_FALSE;
 
+		// directxtex를 thread를 사용하기 위해서는 따로 초기화가 필요함
 		static bool _isInitThread = false;
 
 		static mutex _mutex;
