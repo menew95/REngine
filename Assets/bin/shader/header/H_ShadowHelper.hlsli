@@ -11,6 +11,16 @@ float2 LightSpacePosToUV(float4 lightSpacePos)
     return uv;
 }
 
+float2 ConvertTexCoord(float2 vec)
+{
+    float2 uv = vec.xy + 1.f;
+
+    uv /= 2.0f;
+    uv.y = 1.f - uv.y;
+
+    return uv;
+}
+
 void GetAtlasUV(
     in float2 lightUV
     , in float2 resolution

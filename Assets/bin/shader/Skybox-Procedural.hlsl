@@ -1,5 +1,6 @@
 #include "header\H_Const.hlsli"
 #include "header\H_Color.hlsli"
+#include "header\H_Input.hlsli"
 
 cbuffer PerMaterial: register(b3)
 {
@@ -69,7 +70,7 @@ cbuffer PerMaterial: register(b3)
     #define SKYBOX_SUNDISK_HQ 2
 
     // uncomment this line and change SKYBOX_SUNDISK_SIMPLE to override material settings
-    // #define SKYBOX_SUNDISK SKYBOX_SUNDISK_SIMPLE
+    #define SKYBOX_SUNDISK SKYBOX_SUNDISK_SIMPLE
 
 #ifndef SKYBOX_SUNDISK
     #if defined(_SUNDISK_NONE)
@@ -90,12 +91,16 @@ cbuffer PerMaterial: register(b3)
 #endif
 
 // Calculates the Rayleigh phase function
+
+//레일리 산란
 float getRayleighPhase(float eyeCos2)
 {
-    return 0.75 + 0.75*eyeCos2;
+    return 0.75 + 0.75 * eyeCos2;
 }
+ 
 float getRayleighPhase(float3 light, float3 ray)
-{
+{   
+    // directional 빛의 방향과 -eye를 내적
     float eyeCos = dot(light, ray);
     return getRayleighPhase(eyeCos * eyeCos);
 }
@@ -130,32 +135,19 @@ struct v2f
 };
 
 
-float scale(float inCos)
+inline float scale(float inCos)
 {
     float x = 1.0 - inCos;
     return 0.25 * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));
 }
 
-// Tranforms position from object to homogenous space
-inline float4 UnityObjectToClipPos(in float3 pos)
-{
-    // More efficient than computing M*VP matrix product
-    return mul(mul(float4(pos, 1.0), _world), _camera._viewProj);
-}
-
-inline float4 UnityObjectToClipPos(float4 pos) // overload for float4; avoids "implicit truncation" warning for existing shaders
-{
-    return UnityObjectToClipPos(pos.xyz);
-}
-
-v2f vert (appdata_t v)
+v2f vert (VSInput input)
 {
     v2f OUT;
-    //UNITY_SETUP_INSTANCE_ID(v);
-    //UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(OUT);
-    OUT.pos = mul(float4(v.vertex.xyz, 1.0f), _camera._worldViewProj);
 
-    float3 kSkyTintInGammaSpace = COLOR_2_GAMMA(_SkyTint); // convert tint from Linear back to Gamma
+    OUT.pos = mul(mul(float4(input.posL.xyz, 1.0f), _world), _camera._viewProj);
+
+    float3 kSkyTintInGammaSpace = COLOR_2_GAMMA(_SkyTint); // tint color를 감마 영역으로 변환
     float3 kScatteringWavelength = lerp (
         kDefaultScatteringWavelength-kVariableRangeForScatteringWavelength,
         kDefaultScatteringWavelength+kVariableRangeForScatteringWavelength,
@@ -168,13 +160,15 @@ v2f vert (appdata_t v)
     float3 cameraPos = float3(0,kInnerRadius + kCameraHeight,0);    // The camera's current position
 
     // Get the ray from the camera to the vertex and its length (which is the far point of the ray passing through the atmosphere)
-    float3 eyeRay = normalize(mul(v.vertex.xyz, (float3x3)_world));
+    // eye vector는 그냥 posL를 사용해도 무방해 보이긴 한다. 어차피 _world는 Identity 값일테니
+    float3 eyeRay = normalize(mul(input.posL.xyz, (float3x3)_world));
 
     float far = 0.0;
     float3 cIn, cOut;
 
     if(eyeRay.y >= 0.0)
     {
+        // 반구 위라면 하늘이기에 대기를 계산한다.
         // Sky
         // Calculate the length of the "atmosphere"
         far = sqrt(kOuterRadius2 + kInnerRadius2 * eyeRay.y * eyeRay.y - kInnerRadius2) - kInnerRadius * eyeRay.y;
@@ -203,7 +197,7 @@ v2f vert (appdata_t v)
         {
             float height = length(samplePoint);
             float depth = exp(kScaleOverScaleDepth * (kInnerRadius - height));
-            float lightAngle = dot(_WorldSpaceLightPos0.xyz, samplePoint) / height;
+            float lightAngle = dot(-_WorldSpaceLightPos0.xyz, samplePoint) / height;
             float cameraAngle = dot(eyeRay, samplePoint) / height;
             float scatter = (startOffset + depth*(scale(lightAngle) - scale(cameraAngle)));
             float3 attenuate = exp(-clamp(scatter, 0.0, kMAX_SCATTER) * (kInvWavelength * kKr4PI + kKm4PI));
@@ -214,7 +208,7 @@ v2f vert (appdata_t v)
         {
             float height = length(samplePoint);
             float depth = exp(kScaleOverScaleDepth * (kInnerRadius - height));
-            float lightAngle = dot(_WorldSpaceLightPos0.xyz, samplePoint) / height;
+            float lightAngle = dot(-_WorldSpaceLightPos0.xyz, samplePoint) / height;
             float cameraAngle = dot(eyeRay, samplePoint) / height;
             float scatter = (startOffset + depth*(scale(lightAngle) - scale(cameraAngle)));
             float3 attenuate = exp(-clamp(scatter, 0.0, kMAX_SCATTER) * (kInvWavelength * kKr4PI + kKm4PI));
@@ -231,6 +225,7 @@ v2f vert (appdata_t v)
     }
     else
     {
+        // 반구아래라면 지면이다.
         // Ground
         far = (-kCameraHeight) / (min(-0.001, eyeRay.y));
 
@@ -239,7 +234,7 @@ v2f vert (appdata_t v)
         // Calculate the ray's starting position, then calculate its scattering offset
         float depth = exp((-kCameraHeight) * (1.0/kScaleDepth));
         float cameraAngle = dot(-eyeRay, pos);
-        float lightAngle = dot(_WorldSpaceLightPos0.xyz, pos);
+        float lightAngle = dot(-_WorldSpaceLightPos0.xyz, pos);
         float cameraScale = scale(cameraAngle);
         float lightScale = scale(lightAngle);
         float cameraOffset = depth*cameraScale;
@@ -254,7 +249,8 @@ v2f vert (appdata_t v)
         // Now loop through the sample rays
         float3 frontColor = float3(0.0, 0.0, 0.0);
         float3 attenuate;
-//              for(int i=0; i<int(kSamples); i++) // Loop removed because we kept hitting SM2.0 temp variable limits. Doesn't affect the image too much.
+
+        //for(int i=0; i<int(kSamples); i++) // Loop removed because we kept hitting SM2.0 temp variable limits. Doesn't affect the image too much.
         {
             float height = length(samplePoint);
             float depth = exp(kScaleOverScaleDepth * (kInnerRadius - height));
@@ -280,6 +276,7 @@ v2f vert (appdata_t v)
     // 1. in case of linear: multiply by _Exposure in here (even in case of lerp it will be common multiplier, so we can skip mul in fshader)
     // 2. in case of gamma and SKYBOX_COLOR_IN_TARGET_COLOR_SPACE: do sqrt right away instead of doing that in fshader
 
+    // 하늘과 지면 색깔을 구함
     OUT.groundColor = _Exposure * (cIn + COLOR_2_LINEAR(_GroundColor) * cOut);
     OUT.skyColor    = _Exposure * (cIn * getRayleighPhase(_WorldSpaceLightPos0.xyz, -eyeRay));
 
@@ -358,7 +355,7 @@ float4 frag (v2f IN) : SV_Target
 #if SKYBOX_SUNDISK != SKYBOX_SUNDISK_NONE
     if(y < 0.0)
     {
-        col += IN.sunColor * calcSunAttenuation(_WorldSpaceLightPos0.xyz, -ray);
+        col += IN.sunColor * calcSunAttenuation(-_WorldSpaceLightPos0.xyz, -ray);
     }
 #endif
 

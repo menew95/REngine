@@ -64,7 +64,7 @@ float CalcCascadedShadowFactor(
     , light._uv0[cascadeSlice]
     , light._uv1[cascadeSlice]
     , _shadowAtlasResolution
-    , light._shadowMatrix[cascadeSlice]
+    , _shadow._shadowTransform[cascadeSlice]//light._shadowMatrix[cascadeSlice]
     , worldPosition
     );
 
@@ -93,52 +93,55 @@ float SpotShadowFactor(
     return shadowFactor;
 }
 
-//vec3 doesn’t have to be normalized,
-//Translates from world space vector to a coordinate inside our 6xsize shadow map
 void GetSampleCoordinate(in float3 dir, out float2 uv, out int faceIdx)
 {
+    // 가장 긴 벡터의 요소를 구하고 해당 요소의 절대 값으로 나눠줌
     // X => right left
     if (abs(dir.x) >= abs(dir.y) && abs(dir.x) >= abs(dir.z))
     {
-        if (dir.x > 0) //Positive X
+        dir /= abs(dir.x);
+        if (dir.x > 0) //Positive X right : -z up y
         {
             faceIdx = 0;
             dir.z = -dir.z;
-            uv = normalize(dir.zy);
+            uv = ConvertTexCoord(dir.zy);
         }
         else
         {
-            faceIdx = 1; //Negative X
+            faceIdx = 1; //Negative X right : z up y
+            uv = ConvertTexCoord(dir.zy);
         }
     }
     // y => top bottom
     else if(abs(dir.y) >= abs(dir.x) && abs(dir.y) >= abs(dir.z))
     {
-        if (dir.x > 0) //Positive Y
+        dir /= abs(dir.y);
+        if (dir.y > 0) //Positive Y right : x up -z
         {
             faceIdx = 2;
             dir.z = -dir.z;
-            uv = normalize(dir.xz);
+            uv = ConvertTexCoord(dir.xz);
         }
         else
         {
-            faceIdx = 3; //Negative Y
-            uv = normalize(dir.xz);
+            faceIdx = 3; //Negative Y right : x up z
+            uv = ConvertTexCoord(dir.xz);
         }
     }
     // z => front back
     else if(abs(dir.z) >= abs(dir.x) && abs(dir.z) >= abs(dir.y))
     {
-        if (dir.x > 0) //Positive Z
+        dir /= abs(dir.z);
+        if (dir.z > 0) //Positive Z right : x up y
         {
             faceIdx = 4;
-            uv = normalize(dir.xy);
+            uv = ConvertTexCoord(dir.xy);
         }
         else
         {
-            faceIdx = 5; //Negative Z
+            faceIdx = 5; //Negative Z right : -x up y
             dir.x = -dir.x;
-            uv = normalize(dir.xy);
+            uv = ConvertTexCoord(dir.xy);
         }
     }
 }
@@ -148,30 +151,68 @@ float PointShadowFactor(
     , in Texture2D shadowMapAtlas
     , Light light
     , float3 worldPosition
+    , float3 normal
     )
 {
     float2 shadowResolution = light._uv1[0] - light._uv0[0];
 
     float3 dir = worldPosition - light._position;
-    
+
+    // point light의 face idx와 uv 좌표 값을 구함
     int faceIdx = 0;
     float2 uv = float2(0, 0);
 
     GetSampleCoordinate(dir, uv, faceIdx);
 
-    //GetSampleCoordinate(dir);
+        // light space proj 값을 구함
+    float4 lightSpacePos = mul(float4(worldPosition.xyz, 1.f), light._shadowMatrix[faceIdx]);
+        
+    float3 projCoords = float3(0.0f, 0.0f, 0.0f);
 
-    float shadowFactor = CalcShadowFactorFromShadowAtlas(samShadow
-    , shadowMapAtlas
-    , shadowResolution
-    , light._uv0[faceIdx]
-    , light._uv1[faceIdx]
-    , _shadowAtlasResolution
-    , light._shadowMatrix[faceIdx]
-    , worldPosition
-    );
+    projCoords = lightSpacePos.xyz / lightSpacePos.w;
+    projCoords.xy = ConvertTexCoord(projCoords.xy);
 
-    return shadowFactor;
+    // 아틀라스 텍스처에서의 uv 값을 구함
+    float2 _atlasUV = float2(0, 0);
+    GetAtlasUV(projCoords.xy, shadowResolution, light._uv0[faceIdx], _shadowAtlasResolution, _atlasUV);
+    
+    float bias = max(0.05 * (1.0 - dot(normal, dir)), 0.005);  
+    
+    float percentLit = 0.0f;
+    float percentLit_blend = 0.0f;
+
+    // offset 값을 할당된 그림자맵의 해상도로부터 구함
+    // Variance 해보자
+    const float dx = 1.f / (_shadowAtlasResolution.x);
+    const float dy = 1.f / (_shadowAtlasResolution.y);
+
+    const float2 offsets[9] =
+    {
+        float2(-dx, -dy), float2(0.f, -dy), float2(+dx, -dy),
+        float2(-dx, 0.f), float2(0.f, 0.f), float2(+dx, 0.f),
+        float2(-dx, +dy), float2(0.f, +dy), float2(+dx, +dy)
+    };
+
+    const int2 _offset[9] = 
+    {
+        int2(-1, -1), int2(0, -1), int2(1, -1),
+        int2(-1, 0), int2(0, 0), int2(1, 0),
+        int2(-1, 1), int2(0, 1), int2(1, 1)
+    };
+    
+    percentLit += shadowMapAtlas.SampleCmpLevelZero(samShadow, _atlasUV, projCoords.z).r;
+    // for (int i = 0; i < 9; i++)
+    // {
+    //     //percentLit += shadowMapAtlas.SampleCmpLevelZero(samShadow, float2(_atlasUV + offsets[i]), projCoords.z).r;
+    //     percentLit += shadowMapAtlas.SampleCmpLevelZero(samShadow, _atlasUV, projCoords.z, _offset[i]).r;
+    // }
+    // percentLit /= 9.0f;
+
+    // for light bleeding
+    //static const float magicNumber = 2.f;
+    //percentLit = pow(percentLit, magicNumber);
+
+    return percentLit;
 }
 
 float3 FresnelSchlickRoughness(float cosTheta, float3 F0, float roughness)
@@ -242,14 +283,30 @@ float4 main(VSOutput input) : SV_TARGET
 
     // blend base Color Width Metallic
     // 메탈릭 수치에 따라
-    float specular = kSpecularCoefficient * data._metallicRoughness.r;
+    //float specular = kSpecularCoefficient * data._metallicRoughness.r;
 
     const float3 c_diff = lerp(data._diffuseColor.xyz, float3(0, 0, 0), data._metallicRoughness.r);
-    const float3 c_spec = lerp((float3)specular, data._diffuseColor.xyz, data._metallicRoughness.r);
+    const float3 c_spec = lerp((float3)kSpecularCoefficient, data._diffuseColor.xyz, data._metallicRoughness.r);
 
 	float3 eyeVec = normalize(_camera._world.xyz - data._worldPosition.xyz);
 
 	float4 color = float4(0.f, 0.f, 0.f, 1.f);
+
+    // Light light = GetLight(0);
+
+    // float3 lightDir = normalize(-light._direction);
+    // float NdotL = saturate(dot(data._normalWorld, lightDir));
+
+    // float3 halfVec = normalize(eyeVec + lightDir);
+    
+    // float NdotH = saturate(dot(data._normalWorld, halfVec));
+    // float NdotV = saturate(dot(data._normalWorld, eyeVec));
+
+    // float LdotH = saturate(dot(lightDir, halfVec));
+
+    // color = Unreal_PBR(data._metallicRoughness.g, data._metallicRoughness.r, c_spec, c_diff, NdotV, NdotL, LdotH, NdotH);
+
+    // return color;
 
 	//[unroll(MAX_LIGHT_CNT)]
     for (uint lightIdx = 0; lightIdx < _lightCnt; lightIdx++)
@@ -260,38 +317,21 @@ float4 main(VSOutput input) : SV_TARGET
         {
             float shadows = 1.0f;
 
-            float clipSpaceDepth = 1.0f;
+            shadows *= CalcCascadedShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition, _camera._view, _camera._near, _camera._far);
 
-            //shadows *= CalcCascadedShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition, _camera._view, _camera._near, _camera._far);
-
-            color += shadows * ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
-            // Output += CalcShadowColor(ComputePBRDirectionalLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic) * shadows, shadows);
-			//color += ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);
+            color += ComputePBRDirectionalLight(light, data, c_spec, c_diff, eyeVec);// * shadows;
         }
         else if (light._type == Point)
         {
-            //float shadows = 1.0f;
+            float shadows = 1.0f;
 
-            //int idx = asint(lightIdx);
-
-            //shadows *= CalcShadowFactorFromPointShadowMap(g_samShadow, g_PointShadowMap, posW.xyz, 1024.f, idx);
-
-            //Output +=  CalcShadowColor(ComputePBRPointLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows);
-            // shadows = 1.0f;
+            shadows *= PointShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition, data._normalWorld);
 			
-			color += ComputePBRPointLight(light, data, c_spec, c_diff, eyeVec);
+			color += ComputePBRPointLight(light, data, c_spec, c_diff, eyeVec);// * shadows;
         }
         else if (light._type  == Spot)
         {
-            //float shadows = 1.0f;
-            //int idx = asint(lightIdx);
-            // shadow
-            // 2048 -> hard code shader map size
-            //shadows *= CalcShadowFactorFromSpotShadowMap(g_samShadow, g_SpotShadowMap, posW.xyz, 1024.f, idx);
-            //Output +=  CalcShadowColor(ComputePBRSpotLight(g_Light[lightIdx], c_spec, c_diff, normal.xyz, eyeVec, roughness, metallic, posW.xyz) * shadows, shadows) ;
 			float shadows = 1.0f;
-
-            float clipSpaceDepth = 1.0f;
 
             shadows *= SpotShadowFactor(gSamCompShadow, gShadowAtlas, light, data._worldPosition);
             

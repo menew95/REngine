@@ -45,7 +45,6 @@ struct GSOutput
     uint RTIndex : SV_RenderTargetArrayIndex;
 };
 
-
 //--------------------------------------------------------------------------------------
 // Vertex Shader
 //--------------------------------------------------------------------------------------
@@ -99,22 +98,57 @@ void CascadeGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutp
 {
     for (int cascade = 0; cascade < 4; ++cascade)
     {
-        //Generate cascade slice
-        GSOutput output;
-        output.RTIndex = cascade;
+        float4 ClipSpacePositions[3];
 
-        for (int i = 0; i < 3; ++i)
+		[unroll]
+		for (int VertexIndex = 0; VertexIndex < 3; VertexIndex++)
+		{
+			// Calculate the clip space position for each cube face
+			ClipSpacePositions[VertexIndex] = mul(input[VertexIndex].posW, _shadow._shadowTransform[cascade]);
+		}
+
+		float4 FrustumTests0 = saturate(ClipSpacePositions[0].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[0].w);		
+		float4 FrustumTests1 = saturate(ClipSpacePositions[1].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[1].w);		
+		float4 FrustumTests2 = saturate(ClipSpacePositions[2].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[2].w);		
+		float4 FrustumTests = FrustumTests0 * FrustumTests1 * FrustumTests2;
+
+        [branch]	
+		// Frustum culling, saves GPU time with high poly meshes
+		if (!any(FrustumTests != 0))
         {
-            output.posH = mul(input[i].posW, _shadow._shadowTransform[cascade]);
-            output.uv = input[i].uv;
+            GSOutput output;
 
-            stream.Append(output);
+            output.RTIndex = cascade;
+
+			[unroll]
+			for (int VertexIndex = 0; VertexIndex < 3; VertexIndex++)
+			{
+				output.posH = ClipSpacePositions[VertexIndex];
+                output.uv = input[VertexIndex].uv;
+
+				stream.Append(output);
+			}
+
+			stream.RestartStrip();
         }
 
-        stream.RestartStrip();
+        // //Generate cascade slice
+        // GSOutput output;
+        // output.RTIndex = cascade;
+
+        // for (int i = 0; i < 3; ++i)
+        // {
+        //     output.posH = mul(input[i].posW, _shadow._shadowTransform[cascade]);
+        //     output.uv = input[i].uv;
+
+        //     stream.Append(output);
+        // }
+
+        // stream.RestartStrip();
     }
 }
 
+// 사용하지 않음
 [maxvertexcount(3)] // 1(shadow slice) * 3
 void SpotGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutput> stream)
 {
@@ -136,20 +170,39 @@ void SpotGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutput>
 [maxvertexcount(18)] // 6(shadow slice) * 3
 void PointGSMain(triangle VSShadowOutput input[3], inout TriangleStream<GSOutput> stream)
 {
-    for (int directionIdx = 0; directionIdx < 6 ;directionIdx++)
+    for (int faceIdx = 0; faceIdx < 6 ;faceIdx++)
     {
-        GSOutput output;
+        float4 ClipSpacePositions[3];
+		[unroll]
+		for (int VertexIndex = 0; VertexIndex < 3; VertexIndex++)
+		{
+			// Calculate the clip space position for each cube face
+			ClipSpacePositions[VertexIndex] = mul(input[VertexIndex].posW, _shadowMatrix[faceIdx]);
+		}
 
-        output.RTIndex = directionIdx;
+		float4 FrustumTests0 = saturate(ClipSpacePositions[0].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[0].w);		
+		float4 FrustumTests1 = saturate(ClipSpacePositions[1].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[1].w);		
+		float4 FrustumTests2 = saturate(ClipSpacePositions[2].xyxy * float4(-1, -1, 1, 1) - ClipSpacePositions[2].w);		
+		float4 FrustumTests = FrustumTests0 * FrustumTests1 * FrustumTests2;
 
-        for (int i = 0; i < 3; ++i)
-        {
-            output.posH = mul(input[i].posW, _shadowMatrix[directionIdx]);
-            output.uv = input[i].uv;
+        [branch]	
+		// Frustum culling, saves GPU time with high poly meshes
+		if (!any(FrustumTests != 0))		
+		{				
+            GSOutput output;
 
-            stream.Append(output);
-        }
+            output.RTIndex = faceIdx;
 
-        stream.RestartStrip();
+			[unroll]
+			for (int VertexIndex = 0; VertexIndex < 3; VertexIndex++)
+			{
+				output.posH = ClipSpacePositions[VertexIndex];
+                output.uv = input[VertexIndex].uv;
+
+				stream.Append(output);
+			}
+
+			stream.RestartStrip();
+		}
     }
 }

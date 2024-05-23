@@ -6,7 +6,7 @@ VSOutput main(VSInput input)
     VSOutput output;
 
     // 입력된 정점 위치를 변환하여 출력
-    output.posW = float4(input.posL.x, 0.0f, input.posL.y, 0.f) * 100.0f + float4(_camera._world.x, 0.0f, _camera._world.z, 1.0f);
+    output.posW = float4(input.posL.x, 0.0f, input.posL.y, 0.f) * _camera._far + float4(_camera._world.x, 0.0f, _camera._world.z, 1.0f);
     output.posV = mul(output.posW, _camera._view);
     output.posH = mul(output.posV, _camera._proj);
 
